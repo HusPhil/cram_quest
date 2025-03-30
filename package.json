@@ -9,7 +9,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "predeploy": "npm run build",
+    "clean-dist": "rmdir /s /q dist || echo 'No dist folder to remove'",
+    "predeploy": "npm run clean-dist && npm run build",
     "deploy": "gh-pages -d dist",
     "gh-pages-clean": "gh-pages-clean"
   },
