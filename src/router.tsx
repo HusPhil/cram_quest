@@ -8,7 +8,7 @@ import About from "./pages/About";
 // Lazy load Home page
 // const HomeLayout = lazy(() => import('./layouts/HomeLayout'));
 const Home = lazy(() => import("./pages/Home"));
-const CheckIn = lazy(() => import("./features/Home/tabs/CheckIn"));
+const CheckIn = lazy(() => import("./features/Home/tabs/CheckIn.tsx"));
 const Quests = lazy(() => import("./features/Home/tabs/Quests"));
 const Battle = lazy(() => import("./features/Home/tabs/Battle"));
 const Subjects = lazy(() => import("./features/Home/tabs/Subjects"));
