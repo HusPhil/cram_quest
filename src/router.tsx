@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { HashRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Loading from "./components/Loading";
 import MainLayout from "./layouts/MainLayout";
 import About from "./pages/About";
@@ -13,16 +13,15 @@ const SessionLogs = lazy(() => import("./features/Home/tabs/SessionLogs"));
 
 const AppRouter = () => {
   return (
-    <Router basename="/cramquest">
+    <Router>
       <MainLayout>
         <Routes>
-          {/* 🔥 FIXED: Redirect at the root level */}
+          {/* Redirect root to home */}
           <Route path="/" element={<Navigate to="/home" replace />} />
-          {/* <Route path="/" element={<Navigate to="/home/check-in" replace />} /> */}
 
-          {/* 🔥 FIXED: Home is now a parent with an <Outlet /> inside */}
+          {/* Home page as a parent route */}
           <Route path="home" element={<Home />}>
-            <Route path="/home" element={<Navigate to="/check-in" replace />} />
+            <Route index element={<Navigate to="check-in" replace />} />
             <Route path="check-in" element={<Suspense fallback={<Loading />}><CheckIn /></Suspense>} />
             <Route path="quests" element={<Suspense fallback={<Loading />}><Quests /></Suspense>} />
             <Route path="battle" element={<Suspense fallback={<Loading />}><Battle /></Suspense>} />
@@ -30,7 +29,7 @@ const AppRouter = () => {
             <Route path="logs" element={<Suspense fallback={<Loading />}><SessionLogs /></Suspense>} />
           </Route>
 
-          {/* About Route */}
+          {/* About page */}
           <Route
             path="about"
             element={
@@ -40,7 +39,7 @@ const AppRouter = () => {
             }
           />
 
-          {/* 🔥 FIXED: Catch-all route for 404 */}
+          {/* Catch-all route for 404 */}
           <Route path="*" element={<Navigate to="/home/check-in" replace />} />
         </Routes>
       </MainLayout>
