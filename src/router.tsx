@@ -22,7 +22,7 @@ const AppRouter = () => {
 
           {/* 🔥 FIXED: Home is now a parent with an <Outlet /> inside */}
           <Route path="home" element={<Home />}>
-            <Route path={parent.name} element={<Navigate to="/check-in" replace />} />
+            <Route path="/home" element={<Navigate to="/check-in" replace />} />
             <Route path="check-in" element={<Suspense fallback={<Loading />}><CheckIn /></Suspense>} />
             <Route path="quests" element={<Suspense fallback={<Loading />}><Quests /></Suspense>} />
             <Route path="battle" element={<Suspense fallback={<Loading />}><Battle /></Suspense>} />
