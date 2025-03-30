@@ -17,10 +17,12 @@ const AppRouter = () => {
       <MainLayout>
         <Routes>
           {/* 🔥 FIXED: Redirect at the root level */}
-          <Route path="/" element={<Navigate to="/home/check-in" replace />} />
+          <Route path="/" element={<Navigate to="/home" replace />} />
+          {/* <Route path="/" element={<Navigate to="/home/check-in" replace />} /> */}
 
           {/* 🔥 FIXED: Home is now a parent with an <Outlet /> inside */}
           <Route path="home" element={<Home />}>
+            <Route path={parent.name} element={<Navigate to="/check-in" replace />} />
             <Route path="check-in" element={<Suspense fallback={<Loading />}><CheckIn /></Suspense>} />
             <Route path="quests" element={<Suspense fallback={<Loading />}><Quests /></Suspense>} />
             <Route path="battle" element={<Suspense fallback={<Loading />}><Battle /></Suspense>} />
