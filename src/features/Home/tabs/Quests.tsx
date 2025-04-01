@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 
+
 export default function Quests() {
 
   useEffect(() => {
@@ -7,6 +8,8 @@ export default function Quests() {
   }, [])
 
   return (
-    <div>Quests</div>
+    <div>
+      <img src="src\assets\Skeleton_Big.png" alt="" />  
+    </div>
   )
 }
