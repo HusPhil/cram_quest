@@ -18,7 +18,7 @@ export default function CheckIn() {
   const {getAnimationParams: getPlayerAnimationParams, animationConfig: PlayerAnimationConfig, setCurrentAction: setPlayerAnimationAction} = useCharacterAnimation("player", 'default', "default_1")
 
   
-  const currentState = "attack"
+  const currentState = "walk"
 
   useEffect(() => {
     setEvilShogunAction(currentState)
@@ -31,109 +31,13 @@ export default function CheckIn() {
     setSkeletonAction(currentState)
     setOrcAction(currentState)
 
-    setPlayerAnimationAction("attack")
+    setPlayerAnimationAction("hurt")
 
   })
   
   return (
     <div>
-      <div className='flex'>
-        <SpriteSheet
-          src={getEvilShogunParams().characterAsset}
-          frameCount={getEvilShogunParams().frameCount}
-          frameRow={getEvilShogunParams().row}
-          fps={getEvilShogunParams().fps}
-          frameWidth={64}
-          frameHeight={48}
-          scale={2.5}
-          loop={true}
-        />
-        <SpriteSheet
-          src={getOrcLordParams().characterAsset}
-          frameCount={getOrcLordParams().frameCount}
-          frameRow={getOrcLordParams().row}
-          fps={getOrcLordParams().fps}
-          frameWidth={64}
-          frameHeight={48}
-          scale={2.5}
-          loop={true}
-        />
-        <SpriteSheet
-          src={getSkeletonLordParams().characterAsset}
-          frameCount={getSkeletonLordParams().frameCount}
-          frameRow={getSkeletonLordParams().row}
-          fps={getSkeletonLordParams().fps}
-          frameWidth={64}
-          frameHeight={48}
-          scale={2.5}
-          loop={true}
-        />
-        <SpriteSheet
-          src={getDarkKnightParams().characterAsset}
-          frameCount={getDarkKnightParams().frameCount}
-          frameRow={getDarkKnightParams().row}
-          fps={getDarkKnightParams().fps}
-          frameWidth={64}
-          frameHeight={48}
-          scale={2.5}
-          loop={true}
-        />
-        <SpriteSheet
-          src={getPigLordParams().characterAsset}
-          frameCount={getPigLordParams().frameCount}
-          frameRow={getPigLordParams().row}
-          fps={getPigLordParams().fps}
-          frameWidth={64}
-          frameHeight={48}
-          scale={2.5}
-          loop={true}
-        />
-      </div>
-      <div className='flex'>
-        <SpriteSheet
-            src={getPigParams().characterAsset}
-            frameCount={getPigParams().frameCount}
-            frameRow={getPigParams().row}
-            fps={getPigParams().fps}
-            frameWidth={64}
-            frameHeight={48}
-            scale={2.5}
-            loop={true}
-          />
-        <SpriteSheet
-          src={getOrcParams().characterAsset}
-          frameCount={getOrcParams().frameCount}
-          frameRow={getOrcParams().row}
-          fps={getOrcParams().fps}
-          frameWidth={64}
-          frameHeight={48}
-          scale={2.5}
-          loop={true}
-        />
-        
-        <SpriteSheet
-          src={getSkeletonParams().characterAsset}
-          frameCount={getSkeletonParams().frameCount}
-          frameRow={getSkeletonParams().row}
-          fps={getSkeletonParams().fps}
-          frameWidth={64}
-          frameHeight={48}
-          scale={2.5}
-          loop={true}
-        />
-
-        <SpriteSheet
-          src={getPlayerAnimationParams().characterAsset}
-          frameCount={getPlayerAnimationParams().frameCount}
-          frameRow={getPlayerAnimationParams().row}
-          fps={getPlayerAnimationParams().fps}
-          frameWidth={48}
-          frameHeight={48}
-          offsetY={16}
-          scale={2.5}
-          loop={true}
-        />
-      </div>
+      
     </div>
   )
 }
