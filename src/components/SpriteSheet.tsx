@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { AnimationConfig } from '../features/Battle/configs/animationConfig';
+import { AnimationConfig } from '../features/Battle/configs/animations/animationConfig';
 
 interface SpriteSheetProps {
   src: string;
@@ -12,6 +12,8 @@ interface SpriteSheetProps {
   loop?: boolean;
   frameRow?: number;
   className?: string;
+  offsetX?: number;
+  offsetY?: number;
   animationConfig?: AnimationConfig;
   onComplete?: () => void;
 }
@@ -27,6 +29,8 @@ const SpriteSheet: React.FC<SpriteSheetProps> = ({
   loop = true,
   frameRow = 0,
   className = '',
+  offsetX = 0,
+  offsetY = 0,
   onComplete
 }) => {
   const [currentFrame, setCurrentFrame] = useState(0);
@@ -60,7 +64,7 @@ const SpriteSheet: React.FC<SpriteSheetProps> = ({
     return () => clearInterval(interval);
   }, [playing, fps, frameCount, loop, onComplete]);
 
-  // Calculate the correct position
+  // Calculate the correct position, now including offsets
   const posX = -(currentFrame * frameWidth);
   const posY = -(frameRow * frameHeight);
 
@@ -82,8 +86,8 @@ const SpriteSheet: React.FC<SpriteSheetProps> = ({
         alt="Sprite"
         style={{
           position: 'absolute',
-          left: posX * scale,
-          top: posY * scale,
+          left: (posX * scale) + (offsetX * scale),
+          top: (posY * scale) + (offsetY * scale),
           width: 'auto',
           height: 'auto',
           maxWidth: 'none',

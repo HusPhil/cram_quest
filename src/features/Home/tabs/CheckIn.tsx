@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import SpriteSheet from '../../../components/SpriteSheet'
 import useFightAnimation from '../../../hooks/useFightAnimation'
 import useCharacterAnimation from '../../Battle/hooks/useCharacterAnimation'
-import { characterAssets } from '../../Battle/configs/animationConfig'
+import { enemyAssets } from '../../Battle/configs/animations/animationConfig'
 
 export default function CheckIn() {
   const {getAnimationParams: getEvilShogunParams, animationConfig: evilShogunConfig, setCurrentAction: setEvilShogunAction} = useCharacterAnimation("evil_shogun")
@@ -14,6 +14,8 @@ export default function CheckIn() {
   const {getAnimationParams: getPigParams, animationConfig: pigConfig, setCurrentAction: setPigAction} = useCharacterAnimation("pig")
   const {getAnimationParams: getSkeletonParams, animationConfig: SkeletonConfig, setCurrentAction: setSkeletonAction} = useCharacterAnimation("skeleton")
   const {getAnimationParams: getOrcParams, animationConfig: OrcConfig, setCurrentAction: setOrcAction} = useCharacterAnimation("orc")
+  
+  const {getAnimationParams: getPlayerAnimationParams, animationConfig: PlayerAnimationConfig, setCurrentAction: setPlayerAnimationAction} = useCharacterAnimation("player", 'default', "default_1")
 
   
   const currentState = "attack"
@@ -28,6 +30,9 @@ export default function CheckIn() {
     setPigAction(currentState)
     setSkeletonAction(currentState)
     setOrcAction(currentState)
+
+    setPlayerAnimationAction("attack")
+
   })
   
   return (
@@ -86,6 +91,16 @@ export default function CheckIn() {
       </div>
       <div className='flex'>
         <SpriteSheet
+            src={getPigParams().characterAsset}
+            frameCount={getPigParams().frameCount}
+            frameRow={getPigParams().row}
+            fps={getPigParams().fps}
+            frameWidth={64}
+            frameHeight={48}
+            scale={2.5}
+            loop={true}
+          />
+        <SpriteSheet
           src={getOrcParams().characterAsset}
           frameCount={getOrcParams().frameCount}
           frameRow={getOrcParams().row}
@@ -95,16 +110,7 @@ export default function CheckIn() {
           scale={2.5}
           loop={true}
         />
-        <SpriteSheet
-          src={getPigParams().characterAsset}
-          frameCount={getPigParams().frameCount}
-          frameRow={getPigParams().row}
-          fps={getPigParams().fps}
-          frameWidth={64}
-          frameHeight={48}
-          scale={2.5}
-          loop={true}
-        />
+        
         <SpriteSheet
           src={getSkeletonParams().characterAsset}
           frameCount={getSkeletonParams().frameCount}
@@ -112,6 +118,18 @@ export default function CheckIn() {
           fps={getSkeletonParams().fps}
           frameWidth={64}
           frameHeight={48}
+          scale={2.5}
+          loop={true}
+        />
+
+        <SpriteSheet
+          src={getPlayerAnimationParams().characterAsset}
+          frameCount={getPlayerAnimationParams().frameCount}
+          frameRow={getPlayerAnimationParams().row}
+          fps={getPlayerAnimationParams().fps}
+          frameWidth={48}
+          frameHeight={48}
+          offsetY={16}
           scale={2.5}
           loop={true}
         />

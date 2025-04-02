@@ -1,39 +1,56 @@
 import { useMemo, useState } from "react";
-import { baseAnimationConfig, CharacterType, AnimationConfig, AnimationState, characterOverrides, characterAssets } from "../configs/animationConfig";
+import { 
+  AnimationState, 
+  CharacterType,
+  PlayerClass,
+  PlayerSkin,
+  enemyAssets,
+  playerAssets
+} from "../configs/animations/animationConfig";
+import { mergeAnimationConfig } from "../utils/mergeAnimation";
 
-export function useCharacterAnimation(characterType: CharacterType) {
-    // Track the current animation state (idle, attack, etc.)
-    const [currentAction, setCurrentAction] = useState<AnimationState>('idle');
 
-    const animationConfig = useMemo(() => {
-        return Object.keys(baseAnimationConfig).reduce((config, state) => {
-            const animState = state as AnimationState;
-            config[animState] = {
-                ...baseAnimationConfig[animState as keyof typeof baseAnimationConfig],
-                ...((characterOverrides[characterType] as Record<string, Partial<AnimationConfig>>)?.[animState] || {})
-            };
-            return config;
-        }, {} as Record<AnimationState, AnimationConfig>);
-    }, [characterType]);
+export function useCharacterAnimation(
+  characterType: CharacterType,
+  playerClass?: PlayerClass,
+  playerSkin?: PlayerSkin
+) {
+  // Track the current animation state (idle, attack, etc.)
+  const [currentAction, setCurrentAction] = useState<AnimationState>('idle');
 
-    // Modified to return current animation by default or specific state if provided
-    const getAnimationParams = (state?: AnimationState) => {
-        // If no state is provided, use currentAction
-        const animState = state || currentAction;
-        const otherAnimationParams = animationConfig[animState] || animationConfig.idle
-        const animationParams = {
-            ...otherAnimationParams,
-            characterAsset: characterAssets[characterType]
-        }
-        return animationParams;
+  // Use the mergeAnimationConfig utility to get a complete animation config
+  const animationConfig = useMemo(() => {
+    return mergeAnimationConfig(characterType, playerClass, playerSkin);
+  }, [characterType, playerClass, playerSkin]);
+
+  // Get the appropriate asset based on character type
+  const characterAsset = useMemo(() => {
+    if (characterType === 'player' && playerClass && playerSkin) {
+      return playerAssets[playerClass][playerSkin];
+    } else {
+      const enemyType = characterType as Exclude<CharacterType, 'player'>;
+      return enemyAssets[enemyType];
+    }
+  }, [characterType, playerClass, playerSkin]);
+
+  // Get animation parameters for a specific state or current action
+  const getAnimationParams = (state?: AnimationState) => {
+    // If no state is provided, use currentAction
+    const animState = state || currentAction;
+    const animConfig = animationConfig[animState] || animationConfig.idle;
+    
+    return {
+      ...animConfig,
+      characterAsset
     };
+  };
 
-    return { 
-        currentAction,
-        setCurrentAction,
-        getAnimationParams,   // Now returns current animation by default
-        animationConfig
-    };
+  return { 
+    currentAction,
+    setCurrentAction,
+    getAnimationParams,
+    animationConfig
+  };
 }
 
 export default useCharacterAnimation;
