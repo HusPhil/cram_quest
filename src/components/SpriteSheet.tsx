@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { AnimationConfig } from '../features/Battle/configs/animationConfig';
 
 interface SpriteSheetProps {
   src: string;
@@ -11,6 +12,7 @@ interface SpriteSheetProps {
   loop?: boolean;
   frameRow?: number;
   className?: string;
+  animationConfig?: AnimationConfig;
   onComplete?: () => void;
 }
 
