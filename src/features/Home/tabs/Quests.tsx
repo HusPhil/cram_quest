@@ -21,7 +21,8 @@ export default function Quests() {
         loop={true}
         frameWidth={48}
         frameHeight={48}
-        scale={2.5}
+        offsetX={1}
+        scale={3.5}
       />
 
     </div>

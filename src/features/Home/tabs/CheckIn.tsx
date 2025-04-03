@@ -1,43 +1,31 @@
-import React, { useEffect } from 'react'
-import SpriteSheet from '../../../components/SpriteSheet'
-import useFightAnimation from '../../../hooks/useFightAnimation'
+import { useEffect } from 'react'
 import useCharacterAnimation from '../../Battle/hooks/useCharacterAnimation'
-import { enemyAssets } from '../../Battle/configs/animations/animationConfig'
+import useScreenResize from '../../../hooks/useScreenResize';
+import SpriteSheet from '../../../components/SpriteSheet';
+
 
 export default function CheckIn() {
-  const {getAnimationParams: getEvilShogunParams, animationConfig: evilShogunConfig, setCurrentAction: setEvilShogunAction} = useCharacterAnimation("evil_shogun")
-  const {getAnimationParams: getSkeletonLordParams, animationConfig: skeletonLordConfig, setCurrentAction: setSkeletonLordAction} = useCharacterAnimation("skeleton_lord")
-  const {getAnimationParams: getOrcLordParams, animationConfig: orcLordConfig, setCurrentAction: setOrcLordAction} = useCharacterAnimation("orc_lord")
-  const {getAnimationParams: getDarkKnightParams, animationConfig: darkKnightConfig, setCurrentAction: setDarkKnightAction} = useCharacterAnimation("dark_knight")
-  const {getAnimationParams: getPigLordParams, animationConfig: pigLordConfig, setCurrentAction: setPigLordAction} = useCharacterAnimation("pig_lord")
-  
-  const {getAnimationParams: getPigParams, animationConfig: pigConfig, setCurrentAction: setPigAction} = useCharacterAnimation("pig")
-  const {getAnimationParams: getSkeletonParams, animationConfig: SkeletonConfig, setCurrentAction: setSkeletonAction} = useCharacterAnimation("skeleton")
-  const {getAnimationParams: getOrcParams, animationConfig: OrcConfig, setCurrentAction: setOrcAction} = useCharacterAnimation("orc")
-  
-  const {getAnimationParams: getPlayerAnimationParams, animationConfig: PlayerAnimationConfig, setCurrentAction: setPlayerAnimationAction} = useCharacterAnimation("player", 'default', "default_1")
+    const currentScreenSize = useScreenResize();
+    const {getAnimationParams: getPlayerAnimationParams, animationConfig: PlayerAnimationConfig, setCurrentAction: setPlayerAnimationAction} = useCharacterAnimation("player", 'knight', "knight_1")
 
   
-  const currentState = "walk"
-
-  useEffect(() => {
-    setEvilShogunAction(currentState)
-    setOrcLordAction(currentState)
-    setSkeletonLordAction(currentState)
-    setDarkKnightAction(currentState)
-    setPigLordAction(currentState)
-
-    setPigAction(currentState)
-    setSkeletonAction(currentState)
-    setOrcAction(currentState)
-
-    setPlayerAnimationAction("hurt")
-
-  })
+    useEffect(() => {
+      console.log("Quests re rendered")
+    }, [])
   
-  return (
-    <div>
-      
-    </div>
-  )
+    return (
+      <div>
+        <SpriteSheet
+          src={getPlayerAnimationParams().characterAsset}
+          frameRow={getPlayerAnimationParams().row}
+          fps={getPlayerAnimationParams().fps}
+          frameCount={getPlayerAnimationParams().frameCount}
+          loop={true}
+          frameWidth={48}
+          frameHeight={48}
+          scale={currentScreenSize == "SMALL" ? 3 : 3.5}
+        />
+  
+      </div>
+    )
 }

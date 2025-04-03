@@ -7,6 +7,6 @@
 @tailwind utilities;
 
 body {
-  @apply bg-background text-text;
+  @apply bg-secondary text-text;
   font-family: 'Pixelify Sans', 'MedievalSharp', 'Almendra SC', 'Press Start 2P', cursive;
 }

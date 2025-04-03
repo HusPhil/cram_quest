@@ -3,9 +3,9 @@ import BottomNav from "../features/Home/components/BottomNav/BottomNav";
 
 const Home = () => {
   return (
-    <div className="flex flex-col flex-1">
+    <div className="flex flex-col h-full">
       {/* Main Display Area */}
-      <div className="flex-1 flex items-center justify-center p-6 mb-24">
+      <div className="flex-1 flex items-center justify-center">
         <Outlet />
       </div>
 

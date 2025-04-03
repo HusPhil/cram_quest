@@ -8,7 +8,7 @@ interface MainLayoutProps {
 
 const MainLayout = ({ children }: MainLayoutProps) => {
   return (
-    <div className="flex min-h-screen bg-background text-text">
+    <div className="flex h-full bg-background text-text">
       {/* Sidebar */}
       <Sidebar />
 

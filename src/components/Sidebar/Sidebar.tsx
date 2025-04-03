@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useState, useEffect} from "react";
-import { GiArchiveRegister, GiSpellBook, GiHamburgerMenu } from "react-icons/gi";
+import { GiArchiveRegister, GiSpellBook, GiHamburgerMenu, GiCharacter, GiPlayerBase, GiKing, GiKnightBanner, GiBlackKnightHelm, GiCloak, GiClothes } from "react-icons/gi";
 import NavItem from "./NavItem";
 import NavFooter from "./NavFooter";
 import NavHeader from "./NavHeader";
@@ -17,6 +17,11 @@ const navItems = [
     path: '/about',
     label: 'About',
     icon: <GiSpellBook className="w-6 h-6" />
+  },
+  {
+    path: '/home/skins',
+    label: 'Skins',
+    icon: <GiClothes className="w-6 h-6" />
   }
 ];
 
