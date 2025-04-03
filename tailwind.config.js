@@ -11,7 +11,7 @@ export default {
         text: "#D0D0D0",
       },
       fontFamily: {
-        rpg: ["'MedievalSharp'", "'Press Start 2P'", "sans-serif"],
+        rpg: ["'Pixelify Sans'", "'MedievalSharp'", "'Press Start 2P'", "sans-serif"],
       },
     },
   },

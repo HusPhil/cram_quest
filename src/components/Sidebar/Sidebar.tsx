@@ -47,14 +47,16 @@ export default function Sidebar() {
       )}
 
       {/* Mobile Menu Toggle */}
-      <button
-        onClick={() => setIsMobileOpen(!isMobileOpen)}
-        className="md:hidden fixed top-4 left-4 z-50 p-2.5 rounded-xl
-                  bg-gray-900/95 backdrop-blur-sm border border-amber-500/20
-                  active:scale-95 transition-all duration-200"
-      >
-        <GiHamburgerMenu className="w-5 h-5 text-amber-400" />
-      </button>
+      <div className="relative">
+  <button
+    onClick={() => setIsMobileOpen(!isMobileOpen)}
+    className="md:hidden absolute top-4 left-4 z-50 p-2.5 rounded-xl
+               bg-gray-900/95 backdrop-blur-sm border border-amber-500/20
+               active:scale-95 transition-all duration-200"
+  >
+    <GiHamburgerMenu className="w-5 h-5 text-amber-400" />
+  </button>
+</div>
 
       {/* Sidebar */}
       <aside className={`

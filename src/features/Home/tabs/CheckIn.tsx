@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import useCharacterAnimation from '../../Battle/hooks/useCharacterAnimation'
 import useScreenResize from '../../../hooks/useScreenResize';
-import SpriteSheet from '../../../components/SpriteSheet';
 import PlayerCard from '../components/PlayerCard/PlayerCard';
 import WeeklyRecord from '../components/WeeklyRecord.tsx/WeeklyRecord';
+import RpgCard from '../../../components/RpgCard';
 
 const mockWeeklyCheckInRecord = [
   {
@@ -14,7 +14,7 @@ const mockWeeklyCheckInRecord = [
   {
     day: "Tuesday",
     date: "2025-04-02",
-    checkIn: true
+    checkIn: true,
   },
   {
     day: "Wednesday",
@@ -45,27 +45,38 @@ const mockWeeklyCheckInRecord = [
 
 export default function CheckIn() {
     const currentScreenSize = useScreenResize();
-    const { getAnimationParams: getPlayerAnimationParams } = useCharacterAnimation("player", 'knight', "knight_1")
+    const { getAnimationParams: getPlayerAnimationParams } = useCharacterAnimation("player", 'default', "default_2")
   
     useEffect(() => {
       console.log("Quests re rendered")
     }, [])
   
     return (
-      <div className='min-h-screen p-4 bg-gradient-to-b from-gray-900 to-gray-800'>
-        <div className='max-w-4xl mx-auto space-y-8'>
+      <div className='flex flex-col items-center flex-1 px-4'>
           {/* Character Card */}
-          <PlayerCard
-            characterAsset={getPlayerAnimationParams().characterAsset}
-            row={getPlayerAnimationParams().row}
-            fps={getPlayerAnimationParams().fps}
-            frameCount={getPlayerAnimationParams().frameCount}
-            currentScreenSize={currentScreenSize}
-            />
+          <RpgCard hoverable={false} className='w-full md:max-w-[50%] '>
+            <PlayerCard
+              characterAsset={getPlayerAnimationParams().characterAsset}
+              row={getPlayerAnimationParams().row}
+              fps={getPlayerAnimationParams().fps}
+              frameCount={getPlayerAnimationParams().frameCount}
+              currentScreenSize={currentScreenSize} 
+              currentExp={213}
+              nextLvlExp={3192}
+              playerTitle={"MONARCH"}
+              playerName={"HashWarrior"}
+              currentLevel={100}
+              />
+          </RpgCard>
 
-          {/* Weekly Check-in Calendar */}
+          <div className='mt-10 overflow-auto'>
             <WeeklyRecord weeklyCheckInRecord={mockWeeklyCheckInRecord} />
-        </div>
+          </div>
+
+          <p className="mt-4 text-text text-center text-xs">
+            Check in every day to earn weekly rewards!
+          </p>
+
       </div>
     )
 }

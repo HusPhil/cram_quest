@@ -1,5 +1,6 @@
 
 import SpriteSheet from '../../../../components/SpriteSheet'
+import RpgCard from '../../../../components/RpgCard'
 
 interface PlayerCardProps {
     characterAsset: string;
@@ -7,6 +8,11 @@ interface PlayerCardProps {
     fps: number;
     frameCount: number;
     currentScreenSize: string;
+    playerTitle: String;
+    playerName: String;
+    currentExp: number;
+    nextLvlExp: number;
+    currentLevel: number;
 }
 
 export default function PlayerCard({
@@ -14,49 +20,56 @@ export default function PlayerCard({
     row,
     fps,
     frameCount,
-    currentScreenSize
+    currentScreenSize,
+    playerTitle,
+    playerName,
+    currentExp,
+    nextLvlExp,
+    currentLevel
 }: PlayerCardProps) {
   return (
-    <div className="relative p-6 rounded-lg bg-gray-800/50 border border-amber-500/20 backdrop-blur-sm shadow-lg">
-    <div className="absolute inset-0 bg-gradient-to-b from-amber-500/5 to-transparent rounded-lg"></div>
-        <div className="relative flex flex-col md:flex-row items-center gap-6">
+        <>
+        <div className="flex flex-col lg:flex-row items-center">
             {/* Character Sprite */}
-            <div className="relative">
-            <div className="absolute inset-0 bg-amber-400/10 blur-xl"></div>
-            <div className="relative">
-                <SpriteSheet
-                src={characterAsset}
-                frameRow={row}
-                fps={fps}
-                frameCount={frameCount}
-                loop={true}
-                frameWidth={48}
-                frameHeight={48}
-                scale={currentScreenSize === "SMALL" ? 3 : 3.5}
-                />
-            </div>
+            <div>
+                    <div className='flex flex-col justify-center items-center'>
+                        <h1 className="text-2xl font-bold text-text tracking-wide">{playerTitle}</h1>
+                        <div className='relative'>
+                        <div className="absolute inset-3 bg-accent/10 blur-xl"></div>
+                            <SpriteSheet
+                                src={characterAsset}
+                                frameRow={row}
+                                fps={fps}
+                                frameCount={frameCount}
+                                loop={true}
+                                frameWidth={48}
+                                frameHeight={48}
+                                scale={currentScreenSize === "SMALL" ? 3 : 3.5}
+                            />
+                        </div>
+                    </div>
             </div>
 
             {/* Character Stats */}
-            <div className="flex flex-col items-center md:items-start space-y-3">
-            <h1 className="text-2xl font-bold text-amber-400 tracking-wide">NOOBIE</h1>
+            <div className="flex flex-col items-center lg:items-start space-y-3">
+            <h2 className="font-bold text-text tracking-wide">{playerName}</h2>
             <div className="flex items-center gap-2">
-                <span className="px-3 py-1 text-sm font-medium bg-amber-400/10 text-amber-400 rounded-full">
-                Lv. 10
+                <span className="px-3 py-1 text-sm font-medium bg-amber-400/10 text-text rounded-full">
+                {`Lvl. ${currentLevel}`}
                 </span>
             </div>
             {/* XP Bar */}
             <div className="w-full max-w-[200px]">
-                <div className="text-xs text-amber-400/80 mb-1">XP: 213/312</div>
+                <div className="text-xs text-text/80 mb-1 text-center lg:text-start">{`XP: ${currentExp}/${nextLvlExp}`}</div>
                 <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
                 <div 
                     className="h-full bg-gradient-to-r from-amber-400 to-amber-500 rounded-full"
-                    style={{ width: `${(213/312) * 100}%` }}
+                    style={{ width: `${(currentExp/nextLvlExp) * 100}%` }}
                 ></div>
                 </div>
             </div>
             </div>
         </div>
-    </div>
+        </>
   )
 }
