@@ -1,7 +1,7 @@
 import { GiArena, GiBookCover, GiCheckMark, GiHamburgerMenu, GiHillConquest, GiScrollUnfurled, GiSpellBook, GiSwordAltar, GiSwordClash } from 'react-icons/gi';
 import { NavLink } from 'react-router-dom'
 import useScreenResize from '../../../../hooks/useScreenResize';
-import { SCREEN_SIZES } from '../../../../assets/screen/screen';
+import { SCREEN_SIZES } from '../../../../data/screen';
 import { useEffect } from 'react';
 
 const tabs = [

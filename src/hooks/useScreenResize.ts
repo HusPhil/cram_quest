@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ScreenSize, SCREEN_SIZES } from "../assets/screen/screen";
+import { ScreenSize, SCREEN_SIZES } from "../data/screen";
 
 export const useScreenResize = () => {
     const getScreenSize = (): ScreenSize => {

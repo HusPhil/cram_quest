@@ -101,12 +101,12 @@ export default function PlayerCard({
                 {/* Additional Stats */}
                 <div className="grid grid-cols-2 gap-3 w-full mt-2">
                     <div className="text-center px-3 py-2 rounded-lg bg-gray-800/30 border border-accent/10">
-                        <div className="text-[10px] text-text/60">Daily Streak</div>
-                        <div className="text-accent font-medium">3 Days</div>
+                        <div className="text-[10px] text-text/60">Current Streak</div>
+                        <div className="text-accent font-medium">3</div>
                     </div>
                     <div className="text-center px-3 py-2 rounded-lg bg-gray-800/30 border border-accent/10">
-                        <div className="text-[10px] text-text/60">Missed Days</div>
-                        <div className="text-accent font-medium">2/7</div>
+                        <div className="text-[10px] text-text/60">Longest Streak</div>
+                        <div className="text-accent font-medium">7</div>
                     </div>
                 </div>
             </div>
