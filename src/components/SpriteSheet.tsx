@@ -16,6 +16,7 @@ interface SpriteSheetProps {
   offsetY?: number;
   animationConfig?: AnimationConfig;
   onComplete?: () => void;
+  onAnimationCycleComplete?: () => void;
 }
 
 const SpriteSheet: React.FC<SpriteSheetProps> = ({
@@ -31,7 +32,8 @@ const SpriteSheet: React.FC<SpriteSheetProps> = ({
   className = '',
   offsetX = 0,
   offsetY = 0,
-  onComplete
+  onComplete,
+  onAnimationCycleComplete,
 }) => {
   const [currentFrame, setCurrentFrame] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -48,6 +50,9 @@ const SpriteSheet: React.FC<SpriteSheetProps> = ({
     
     const interval = setInterval(() => {
       setCurrentFrame(prev => {
+        if(prev === frameCount - 2) {
+          onAnimationCycleComplete?.()
+        }
         if (prev >= frameCount - 1) {
           if (loop) {
             return 0;

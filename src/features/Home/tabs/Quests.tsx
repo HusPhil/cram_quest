@@ -1,9 +1,11 @@
 import { useEffect } from 'react'
 import SpriteSheet from '../../../components/SpriteSheet'
 import useCharacterAnimation from '../../Battle/hooks/useCharacterAnimation'
+import useScreenResize from '../../../hooks/useScreenResize'
 
 
 export default function Quests() {
+  const currentScreenSize = useScreenResize()
   const {getAnimationParams: getPlayerAnimationParams, animationConfig: PlayerAnimationConfig, setCurrentAction: setPlayerAnimationAction} = useCharacterAnimation("player", 'armored_knight', "armored_knight_gold")
 
   
@@ -13,6 +15,7 @@ export default function Quests() {
 
   return (
     <div>
+      <p>{currentScreenSize}</p>
       <SpriteSheet
         src={getPlayerAnimationParams().characterAsset}
         frameRow={getPlayerAnimationParams().row}

@@ -36,15 +36,15 @@ export default function BottomNav() {
   const currentScreenSize = useScreenResize();
 
   useEffect(() => {
-    console.log(currentScreenSize)
+    (currentScreenSize)
   }, [currentScreenSize])
 
   return (
     <div className="bg-secondary/95 backdrop-blur-md border-t border-amber-500/20 
-                      md:bg-transparent md:border-none md:mb-5">
+                      md:bg-transparent md:border-none md:mb-5 md:mx-2">
       {/* Bottom Navigation Tabs */}
       <div className="max-w-2xl mx-auto p-4 flex justify-between 
-                      md:justify-around md:gap-10 md:bg-secondary md:rounded-xl">
+                      md:justify-around md:gap-8 md:bg-secondary md:rounded-xl">
         {tabs.map(({path, label, icon}) => (
           <NavLink
           key={path}
@@ -63,11 +63,11 @@ export default function BottomNav() {
               </span>
         
               {currentScreenSize != "SMALL" ? (
-                <span className="mt-1 text-xs font-medium tracking-wide">
+                <span className="line-clamp-1 mt-1 text-xs font-medium tracking-wide">
                   {label}
                 </span>
               ) : (isActive && (
-                <span className="mt-1 text-xs font-medium tracking-wide">
+                <span className=" mt-1 text-xs font-medium tracking-wide">
                   {label}
                 </span>
               ))}

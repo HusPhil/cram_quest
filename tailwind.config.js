@@ -9,6 +9,12 @@ export default {
         accent: "#E6B800",
         background: "#1E1E2E",
         text: "#D0D0D0",
+        crystal: {
+          light: "#5BE7FF", // Bright Cyan Crystal
+          medium: "#B388EB", // Amethyst Purple
+          glow: "#A2F3C6", // Emerald Glow
+          border: "#87CEEB", // Sky Blue
+        },
       },
       fontFamily: {
         rpg: ["'Pixelify Sans'", "'MedievalSharp'", "'Press Start 2P'", "sans-serif"],

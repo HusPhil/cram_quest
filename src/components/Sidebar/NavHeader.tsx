@@ -10,7 +10,7 @@ interface NavHeaderProps {
 
 export default function NavHeader({ isCollapsed, setIsCollapsed, setIsMobileOpen }: NavHeaderProps) {
   return (
-    <header className={`h-16 flex items-center ${isCollapsed ? 'justify-center' : 'justify-between px-7'} bg-gradient-to-r from-amber-500/10 to-transparent`}>
+    <header className={`h-16 flex items-center ${isCollapsed ? 'justify-center' : 'justify-between px-7 bg-gradient-to-r from-amber-500/10 to-transparent'} `}>
         {/* Desktop Collapse Toggle */}
         
         

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import useCharacterAnimation from '../../Battle/hooks/useCharacterAnimation'
 import useScreenResize from '../../../hooks/useScreenResize';
 import PlayerCard from '../components/PlayerCard/PlayerCard';
@@ -45,16 +45,22 @@ const mockWeeklyCheckInRecord = [
 
 export default function CheckIn() {
     const currentScreenSize = useScreenResize();
-    const { getAnimationParams: getPlayerAnimationParams } = useCharacterAnimation("player", 'default', "default_2")
+    const { getAnimationParams: getPlayerAnimationParams, setCurrentAction, currentAction } = useCharacterAnimation("player", 'default', "default_3")
   
-    useEffect(() => {
-      console.log("Quests re rendered")
-    }, [])
+    const handlePlayerClick = useCallback(() => {
+      if(currentAction == "hurt") return
+      setCurrentAction("hurt")
+    }, [currentAction, setCurrentAction])
+  
+    const handleAnimationComplete = useCallback(() => {
+      if(currentAction == "idle") return
+      setCurrentAction("idle")
+    }, [currentAction, setCurrentAction])
   
     return (
-      <div className='flex flex-col items-center flex-1 px-4'>
+      <div className='flex flex-col items-center justify-between flex-1'>
           {/* Character Card */}
-          <RpgCard hoverable={false} className='w-full md:max-w-[50%] '>
+          <RpgCard hoverable={false} className='w-[90%] md:max-w-2xl'>
             <PlayerCard
               characterAsset={getPlayerAnimationParams().characterAsset}
               row={getPlayerAnimationParams().row}
@@ -62,20 +68,19 @@ export default function CheckIn() {
               frameCount={getPlayerAnimationParams().frameCount}
               currentScreenSize={currentScreenSize} 
               currentExp={213}
-              nextLvlExp={3192}
-              playerTitle={"MONARCH"}
+              nextLvlExp={392}
+              playerTitle={"Noobie"}
               playerName={"HashWarrior"}
-              currentLevel={100}
+              currentLevel={1}
+              onClick={handlePlayerClick}
+              onAnimationComplete={handleAnimationComplete}
               />
           </RpgCard>
 
-          <div className='mt-10 overflow-auto'>
+          <div className='mt-8 mx-3'>
             <WeeklyRecord weeklyCheckInRecord={mockWeeklyCheckInRecord} />
           </div>
 
-          <p className="mt-4 text-text text-center text-xs">
-            Check in every day to earn weekly rewards!
-          </p>
 
       </div>
     )
