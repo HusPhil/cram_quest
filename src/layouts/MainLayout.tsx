@@ -14,7 +14,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
 
       {/* Main content */}
       <main className="flex-1 flex flex-col min-h-screen relative
-                      md:ml-[240px] transition-all duration-300">
+                      transition-all duration-300">
         {children}
       </main>
     </div>
