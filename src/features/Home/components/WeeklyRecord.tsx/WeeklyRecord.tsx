@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, use, useMemo } from 'react';
 
 type CheckInRecord = {
   day: string;
@@ -42,4 +42,5 @@ const WeeklyRecord: React.FC<WeeklyRecordProps> = ({ weeklyCheckInRecord }) => {
   );
 };
 
-export default WeeklyRecord;
+// export default useMemo(() => WeeklyRecord, []);
+export default memo(WeeklyRecord);

@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { memo, ReactNode } from 'react';
 
 interface RpgCardProps {
   children: ReactNode;
@@ -70,4 +70,4 @@ const RpgCard: React.FC<RpgCardProps> = ({
   );
 };
 
-export default RpgCard;
+export default memo(RpgCard);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
 import { AnimationConfig } from '../features/Battle/configs/animations/animationConfig';
 
 interface SpriteSheetProps {
@@ -44,39 +44,40 @@ const SpriteSheet: React.FC<SpriteSheetProps> = ({
     setCurrentFrame(0);
   }, [src, frameRow]);
 
+  // Handle frame updates
+  const updateFrame = useCallback(() => {
+    setCurrentFrame(prev => {
+      if (prev === frameCount - 2) {
+        onAnimationCycleComplete?.();
+      }
+      if (prev >= frameCount - 1) {
+        if (loop) {
+          return 0;
+        } else {
+          onComplete?.();
+          return prev;
+        }
+      }
+      return prev + 1;
+    });
+  }, [frameCount, loop, onComplete, onAnimationCycleComplete]);
+
   // Handle animation
   useEffect(() => {
     if (!playing) return;
-    
-    const interval = setInterval(() => {
-      setCurrentFrame(prev => {
-        if(prev === frameCount - 2) {
-          onAnimationCycleComplete?.()
-        }
-        if (prev >= frameCount - 1) {
-          if (loop) {
-            return 0;
-          } else {
-            clearInterval(interval);
-            onComplete?.();
-            return prev;
-          }
-        }
-        return prev + 1;
-      });
-    }, 1000 / fps);
-    
+
+    const interval = setInterval(updateFrame, 1000 / fps);
     return () => clearInterval(interval);
-  }, [playing, fps, frameCount, loop, onComplete]);
+  }, [playing, fps, updateFrame]);
 
   // Calculate the correct position, now including offsets
   const posX = -(currentFrame * frameWidth);
   const posY = -(frameRow * frameHeight);
 
   return (
-    <div 
+    <div
       ref={containerRef}
-      className={className} 
+      className={className}
       style={{
         width: frameWidth * scale,
         height: frameHeight * scale,
@@ -104,4 +105,4 @@ const SpriteSheet: React.FC<SpriteSheetProps> = ({
   );
 };
 
-export default SpriteSheet;
+export default memo(SpriteSheet);

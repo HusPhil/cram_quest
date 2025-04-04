@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import SpriteSheet from '../../../../components/SpriteSheet'
 
 interface PlayerCardProps {
@@ -16,7 +17,7 @@ interface PlayerCardProps {
 
 }
 
-export default function PlayerCard({
+export function PlayerCard({
     characterAsset,
     row,
     fps,
@@ -47,7 +48,6 @@ export default function PlayerCard({
                             frameRow={row}
                             fps={fps}
                             frameCount={frameCount}
-                            // loop={!true}
                             frameWidth={48}
                             frameHeight={48}
                             onAnimationCycleComplete={onAnimationComplete}
@@ -61,7 +61,7 @@ export default function PlayerCard({
             <div className="flex flex-col items-center lg:items-end space-y-2">
                 {/* Level Badge */}
                 <div className="flex items-center gap-2 flex-col ">
-                    <div className="relative lg:mb-2">
+                    <div className="relative lg:mb-2 ">
                         <div className="absolute inset-0 bg-accent/20 blur-sm rounded-full"></div>
                         <span className="relative px-4 py-1.5 text-sm font-medium bg-accent/10 text-text rounded-full border border-accent/20">
                             Lvl. {currentLevel}
@@ -114,3 +114,6 @@ export default function PlayerCard({
         </>
   )
 }
+
+
+export default memo(PlayerCard);

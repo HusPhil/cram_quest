@@ -4,6 +4,7 @@ import useScreenResize from '../../../hooks/useScreenResize';
 import PlayerCard from '../components/PlayerCard/PlayerCard';
 import WeeklyRecord from '../components/WeeklyRecord.tsx/WeeklyRecord';
 import RpgCard from '../../../components/RpgCard';
+import RankParticles from '../../../components/RankParticle';
 
 const mockWeeklyCheckInRecord = [
   {
@@ -60,7 +61,7 @@ export default function CheckIn() {
     return (
       <div className='flex flex-col items-center justify-between flex-1'>
           {/* Character Card */}
-          <RpgCard hoverable={false} className='w-[90%] md:max-w-2xl'>
+          <RpgCard hoverable={false} className='w-[90%] md:max-w-2xl lg:max-w-3xl xl:max-w-4xl'>
             <PlayerCard
               characterAsset={getPlayerAnimationParams().characterAsset}
               row={getPlayerAnimationParams().row}
