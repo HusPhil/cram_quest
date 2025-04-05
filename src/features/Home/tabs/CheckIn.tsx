@@ -61,7 +61,7 @@ export default function CheckIn() {
     return (
       <div className='flex flex-col items-center justify-end flex-1'>
           {/* Character Card */}
-          <RpgCard hoverable={false} className='w-[90%] py-5 md:max-w-2xl lg:max-w-2xl lg:mb-5'>
+          <RpgCard hoverable={false} className='w-[90%] mb-2 py-5 md:max-w-2xl lg:max-w-2xl lg:mb-5'>
             <PlayerCard
               characterAsset={getPlayerAnimationParams().characterAsset}
               row={getPlayerAnimationParams().row}

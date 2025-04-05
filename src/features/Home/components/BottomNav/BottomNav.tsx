@@ -40,7 +40,7 @@ export default function BottomNav() {
   }, [currentScreenSize])
 
   return (
-    <div className="bg-secondary/95 backdrop-blur-md border-t border-amber-500/20 
+    <div className="bg-secondary/95 backdrop-blur-md border-t border-amber-500/20  
                       md:bg-transparent md:border-none md:mb-5 md:mx-2">
       {/* Bottom Navigation Tabs */}
       <div className="max-w-2xl mx-auto p-4 flex justify-between 
