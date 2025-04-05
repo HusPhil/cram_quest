@@ -59,9 +59,9 @@ export default function CheckIn() {
     }, [currentAction, setCurrentAction])
   
     return (
-      <div className='flex flex-col items-center justify-between flex-1'>
+      <div className='flex flex-col items-center justify-between'>
           {/* Character Card */}
-          <RpgCard hoverable={false} className='w-[90%] md:max-w-2xl lg:max-w-3xl xl:max-w-4xl'>
+          <RpgCard hoverable={false} className='w-[90%] md:max-w-2xl lg:max-w-3xl'>
             <PlayerCard
               characterAsset={getPlayerAnimationParams().characterAsset}
               row={getPlayerAnimationParams().row}

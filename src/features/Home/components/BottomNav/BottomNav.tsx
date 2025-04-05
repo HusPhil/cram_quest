@@ -11,9 +11,9 @@ const tabs = [
     icon: <GiCheckMark className="w-6 h-6" /> 
   },
   { 
-    path: '/home/quests', 
-    label: 'Quests',
-    icon: <GiHillConquest className="w-6 h-6" />
+    path: '/home/subjects', 
+    label: 'Subjects',
+    icon: <GiBookCover className="w-6 h-6" /> 
   },
   { 
     path: '/home/battle', 
@@ -21,9 +21,9 @@ const tabs = [
     icon: <GiSwordClash className="w-6 h-6" />
   },
   { 
-    path: '/home/subjects', 
-    label: 'Subjects',
-    icon: <GiBookCover className="w-6 h-6" /> 
+    path: '/home/quests', 
+    label: 'Quests',
+    icon: <GiHillConquest className="w-6 h-6" />
   },
   { 
     path: '/home/logs', 

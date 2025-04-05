@@ -1,13 +1,12 @@
-import { useEffect } from 'react'
+import React from 'react'
+import RpgCard from '../../../components/RpgCard'
 
 export default function Subjects() {
-
-  useEffect(() => {
-    console.log("Subjects re rendered")
-  }, [])
-
   return (
-    <div>Subjects</div>
+    <>
+      <RpgCard className='h-full'>
+        Subject
+      </RpgCard>
+    </>
   )
 }
-    

@@ -1,18 +1,15 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query"
+import getSubjects from "../utils/api/crud/players/getSubjects"
 
-async function getQuests() {
-    const response = await fetch("/api/quest");
+
+export const useFetchQuest = (player_id: number) => {
+    const questQuery = useQuery({
+        queryKey: ["quests"],
+        queryFn: () => getSubjects(player_id),
+    })
+
+    console.log("questQuery", questQuery)
+
+    return questQuery
     
-    if (!response.ok) {
-        throw new Error("Network response was not ok");
-    }
-
-    return response.json();
-}
-
-export const useFetchQuest = () => {
-  const questQuery = useQuery({
-    queryKey: ["quests"],
-    queryFn: getQuests,
-  });
 }

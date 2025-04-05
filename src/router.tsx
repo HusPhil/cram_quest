@@ -22,10 +22,10 @@ const AppRouter = () => {
           {/* Home page as a parent route */}
           <Route path="home" element={<Home />}>
             <Route index element={<Navigate to="check-in" replace />} />
-            <Route path="check-in" element={<Suspense fallback={<Loading />}><CheckIn /></Suspense>} />
+            <Route path="subjects" element={<Suspense fallback={<Loading />}><Subjects /></Suspense>} />
             <Route path="quests" element={<Suspense fallback={<Loading />}><Quests /></Suspense>} />
             <Route path="battle" element={<Suspense fallback={<Loading />}><Battle /></Suspense>} />
-            <Route path="subjects" element={<Suspense fallback={<Loading />}><Subjects /></Suspense>} />
+            <Route path="check-in" element={<Suspense fallback={<Loading />}><CheckIn /></Suspense>} />
             <Route path="logs" element={<Suspense fallback={<Loading />}><SessionLogs /></Suspense>} />
           </Route>
 

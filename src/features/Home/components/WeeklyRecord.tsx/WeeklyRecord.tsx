@@ -17,13 +17,13 @@ const WeeklyRecord: React.FC<WeeklyRecordProps> = ({ weeklyCheckInRecord }) => {
       <p className="my-5 text-text text-xs hidden lg:block">
         Check in every day to earn weekly rewards!
       </p>
-      <div className="grid grid-cols-7 gap-2 md:gap-4">
+      <div className="grid grid-cols-7 gap-0 md:gap-4 md:mx-0">
         {weeklyCheckInRecord.map(({ date, day, checkIn }) => (
           <div
             key={date}
-            className={`relative group cursor-pointer transition-all duration-200
+            className={`relative group cursor-pointer transition-all duration-200 
               ${checkIn ? 'bg-green-800/10 border-green-500/50' : 'bg-primary/5 border-primary/50 animate-pulse'} 
-              border rounded-lg p-3 md:p-4 hover:bg-accent/10 hover:border-accent/50`}
+              md:border md:rounded-lg p-3 md:p-4 hover:bg-accent/10 hover:border-accent/50`}
             >
                 <div className={`flex flex-col items-center justify-center space-y-2 lg:space-y-0 lg:space-x-2 lg:flex-row`}>
                     <span className="text-xs md:text-sm font-medium text-text/80">

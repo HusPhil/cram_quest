@@ -10,7 +10,7 @@ import NavHeader from "./NavHeader";
 const navItems = [
   { 
     path: '/home',
-    label: 'Check In',
+    label: 'Home',
     icon: <GiArchiveRegister className="w-6 h-6" />
   },
   { 
