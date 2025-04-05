@@ -46,17 +46,24 @@ export default function Sidebar() {
         />
       )}
 
-      {/* Mobile Menu Toggle */}
-      <div className="relative">
-  <button
-    onClick={() => setIsMobileOpen(!isMobileOpen)}
-    className="md:hidden absolute top-4 left-4 z-50 p-2.5 rounded-xl
-               bg-gray-900/95 backdrop-blur-sm border border-amber-500/20
-               active:scale-95 transition-all duration-200"
-  >
-    <GiHamburgerMenu className="w-5 h-5 text-amber-400" />
-  </button>
-</div>
+      {/* Mobile Menu Toggle with Current Tab */}
+      <div className="relative md:hidden flex items-center gap-3 p-2 bg-gray-900/95">
+        <button
+          onClick={() => setIsMobileOpen(!isMobileOpen)}
+          className="p-2.5 rounded-xl self-end
+                    bg-gray-900/95 backdrop-blur-sm border border-amber-500/20
+                    active:scale-95 transition-all duration-200"
+        >
+          <GiHamburgerMenu className="w-5 h-5 text-amber-400" />
+        </button>
+        
+        {/* Current Tab Info */}
+        <div className="flex items-center gap-2">
+          <span className="font-medium text-amber-400">
+            {navItems.find(item => item.path === location.pathname)?.label || 'Home'}
+          </span>
+        </div>
+      </div>
 
       {/* Sidebar */}
       <aside className={`

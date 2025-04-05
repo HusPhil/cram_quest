@@ -3,16 +3,14 @@ import BottomNav from "../features/Home/components/BottomNav/BottomNav";
 
 const Home = () => {
   return (
-    <div className="flex flex-col flex-1 justify-between">
+    <div className="flex flex-col flex-1">
       {/* Main Display Area */}
-      <div className="flex-1 flex items-center justify-center max-h-[85dvh] overflow-hidden my-4">
+      <div className="flex-1 flex items-start justify-center max-h-[85dvh] mx-4 mt-4 md:items-center">
         <Outlet />
       </div>
 
       {/* Bottom Navigation Container */}
-      <div className="min-h-[10dvh]">
-        <BottomNav />
-      </div>
+      <BottomNav />
       
     </div>
   );

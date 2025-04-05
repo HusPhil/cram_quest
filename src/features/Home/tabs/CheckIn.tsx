@@ -45,7 +45,7 @@ const mockWeeklyCheckInRecord = [
 ];
 
 export default function CheckIn() {
-    const currentScreenSize = useScreenResize();
+    const {currentScreenSize, currentHeightSize} = useScreenResize();
     const { getAnimationParams: getPlayerAnimationParams, setCurrentAction, currentAction } = useCharacterAnimation("player", 'default', "default_3")
   
     const handlePlayerClick = useCallback(() => {
@@ -61,22 +61,26 @@ export default function CheckIn() {
     return (
       <div className='flex flex-col items-center justify-end flex-1'>
           {/* Character Card */}
-          <RpgCard hoverable={false} className='w-[90%] mb-2 py-5 md:max-w-2xl lg:max-w-2xl lg:mb-5'>
-            <PlayerCard
-              characterAsset={getPlayerAnimationParams().characterAsset}
-              row={getPlayerAnimationParams().row}
-              fps={getPlayerAnimationParams().fps}
-              frameCount={getPlayerAnimationParams().frameCount}
-              currentScreenSize={currentScreenSize} 
-              currentExp={213}
-              nextLvlExp={392}
-              playerTitle={"Noobie"}
-              playerName={"HashWarrior"}
-              currentLevel={1}
-              onClick={handlePlayerClick}
-              onAnimationComplete={handleAnimationComplete}
-              />
-          </RpgCard>
+          {true ? (
+            <RpgCard hoverable={false} className='w-full mb-2 py-5 max-w-sm md:max-w-xl lg:max-w-2xl lg:mb-5'>
+              <PlayerCard
+                characterAsset={getPlayerAnimationParams().characterAsset}
+                row={getPlayerAnimationParams().row}
+                fps={getPlayerAnimationParams().fps}
+                frameCount={getPlayerAnimationParams().frameCount}
+                currentScreenSize={currentScreenSize} 
+                currentExp={213}
+                nextLvlExp={392}
+                playerTitle={"Noobie"}
+                playerName={"HashWarrior"}
+                currentLevel={1}
+                onClick={handlePlayerClick}
+                onAnimationComplete={handleAnimationComplete}
+                />
+            </RpgCard>
+          ) : (
+            <div>maliit screen height saka na ayusin</div>
+          )}
 
           <div className='mx-3'>
             <WeeklyRecord weeklyCheckInRecord={mockWeeklyCheckInRecord} />

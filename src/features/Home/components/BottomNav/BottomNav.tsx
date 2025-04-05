@@ -33,17 +33,17 @@ const tabs = [
 ];
 
 export default function BottomNav() {
-  const currentScreenSize = useScreenResize();
+  const {currentScreenSize, currentHeightSize} = useScreenResize();
 
   useEffect(() => {
     (currentScreenSize)
   }, [currentScreenSize])
 
   return (
-    <div className="bg-secondary/95 backdrop-blur-md border-t border-amber-500/20  
-                      md:bg-transparent md:border-none md:mb-5 md:mx-2">
+    <div className={`fixed bottom-0 left-0 right-0 bg-secondary/95 backdrop-blur-md border-t border-amber-500/20  
+                      md:bg-transparent md:border-none md:mb-5 md:mx-2 md:static`}>
       {/* Bottom Navigation Tabs */}
-      <div className="max-w-2xl mx-auto p-4 flex justify-between 
+      <div className="flex-shrink-0 h-full max-w-2xl mx-auto p-4 flex justify-around 
                       md:justify-around md:gap-8 md:bg-secondary md:rounded-xl">
         {tabs.map(({path, label, icon}) => (
           <NavLink
@@ -58,7 +58,7 @@ export default function BottomNav() {
         >
           {({ isActive }) => (
             <>
-              <span className="transition-transform duration-200 group-hover:scale-110 group-active:scale-95">
+              <span className={`transition-transform duration-200 group-hover:scale-110 group-active:scale-95`}>
                 {icon}
               </span>
         

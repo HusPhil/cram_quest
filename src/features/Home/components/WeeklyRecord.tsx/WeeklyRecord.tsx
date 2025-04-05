@@ -17,7 +17,7 @@ const WeeklyRecord: React.FC<WeeklyRecordProps> = ({ weeklyCheckInRecord }) => {
       <p className="text-text text-xs hidden my-3 lg:block ">
         Check in every day to earn weekly rewards!
       </p>
-      <div className="grid grid-cols-7 gap-0 md:gap-4 md:mx-0">
+      <div className="grid grid-cols-7 gap-0 border border-accent/20 rounded-lg overflow-hidden md:gap-4 md:mx-0 md:rounded-none md:overflow-visible md:border-none">
         {weeklyCheckInRecord.map(({ date, day, checkIn }) => (
           <div
             key={date}
@@ -25,7 +25,7 @@ const WeeklyRecord: React.FC<WeeklyRecordProps> = ({ weeklyCheckInRecord }) => {
               ${checkIn ? 'bg-green-800/10 border-green-500/50' : 'bg-primary/5 border-primary/50 animate-pulse'} 
               md:border md:rounded-lg p-3 md:p-4 hover:bg-accent/10 hover:border-accent/50`}
             >
-                <div className={`flex flex-col items-center justify-center space-y-2 md:space-y-0 md:space-x-2 md:flex-row`}>
+                <div className={`flex flex-col items-center justify-center space-y-2 md:space-y-1 lg:space-y-[0.5] lg:space-x-2 lg:flex-row`}>
                     <span className="text-xs md:text-sm font-medium text-text/80">
                     {day.slice(0, 3)}
                     </span>
