@@ -36,7 +36,7 @@ export function PlayerCard({
         <div className="flex flex-col items-center lg:flex-row lg:justify-around">
             {/* Character Sprite Container */}
             <div className='flex flex-col items-center lg:items-start'>
-                <h2 className="text-2xl text-center font-bold text-text tracking-wide lg:text-start">{playerName}</h2>
+                <h2 className="lg:text-2xl text-center font-bold text-text tracking-wide lg:text-start">{playerName}</h2>
                 <div className="text-center hidden lg:block lg:text-start">
                     <span className="text-sm text-accent/80">{playerTitle}</span>
                 </div>
@@ -51,14 +51,14 @@ export function PlayerCard({
                             frameWidth={48}
                             frameHeight={48}
                             onAnimationCycleComplete={onAnimationComplete}
-                            scale={3}
+                            scale={currentScreenSize !== "LARGE" ? 2.3 : 3}
                         />
                     </div>
                 </div>
             </div>
 
             {/* Character Stats */}
-            <div className="flex flex-col items-center lg:items-end space-y-2">
+            <div className="flex flex-col items-center lg:items-end space-y-1">
                 {/* Level Badge */}
                 <div className="flex items-center gap-2 flex-col ">
                     <div className="relative lg:mb-2 ">
@@ -67,7 +67,7 @@ export function PlayerCard({
                             Lvl. {currentLevel}
                         </span>
                     </div>
-                    <div className="mb-2 text-center lg:hidden">
+                    <div className=" text-center lg:hidden">
                         <span className="text-sm text-accent/80">{playerTitle}</span>
                     </div>
                 </div>

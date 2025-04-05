@@ -34,7 +34,7 @@ const RpgCard: React.FC<RpgCardProps> = ({
   return (
     <div
       className={`
-        relative p-6 rounded-lg backdrop-blur-sm shadow-lg
+        relative rounded-lg backdrop-blur-sm shadow-lg
         ${getVariantStyles()}
         ${bordered ? 'border' : ''}
         ${hoverable ? 'transition-transform duration-200 hover:scale-[1.02]' : ''}

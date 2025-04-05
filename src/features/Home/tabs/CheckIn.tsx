@@ -59,9 +59,9 @@ export default function CheckIn() {
     }, [currentAction, setCurrentAction])
   
     return (
-      <div className='flex flex-col items-center justify-between'>
+      <div className='flex flex-col items-center justify-end flex-1'>
           {/* Character Card */}
-          <RpgCard hoverable={false} className='w-[90%] md:max-w-2xl lg:max-w-3xl'>
+          <RpgCard hoverable={false} className='w-[90%] py-5 md:max-w-2xl lg:max-w-2xl lg:mb-5'>
             <PlayerCard
               characterAsset={getPlayerAnimationParams().characterAsset}
               row={getPlayerAnimationParams().row}
@@ -78,7 +78,7 @@ export default function CheckIn() {
               />
           </RpgCard>
 
-          <div className='mt-8 mx-3'>
+          <div className='mx-3'>
             <WeeklyRecord weeklyCheckInRecord={mockWeeklyCheckInRecord} />
           </div>
 
