@@ -1,24 +1,24 @@
 import { memo } from "react";
 
-interface RibbonProps {
+interface RankTitleProps {
     text: String;
     color?: 'gold' | 'silver' | 'bronze';
     className?: String;
   }
   
-  const RankRibbonRpg: React.FC<RibbonProps> = ({ 
+  const RankTitle: React.FC<RankTitleProps> = ({ 
     text, 
     color = 'gold',
     className = ''
   }) => {
     const colorStyles = {
-      gold: 'bg-yellow-500/20 border-yellow-400/40 text-yellow-300 before:border-yellow-500 after:border-yellow-500',
-      silver: 'bg-gray-600/20 border-gray-400/40 text-gray-200 before:border-gray-600 after:border-gray-600',
-      bronze: 'bg-orange-700/20 border-orange-500/40 text-orange-300 before:border-accent after:border-accent'
+      gold: 'bg-yellow-500/20 border-yellow-400/40 text-yellow-300 before:border-yellow-500/20 after:border-yellow-500/20',
+      silver: 'bg-gray-600/20 border-gray-400/40 text-gray-200 before:border-gray-600/20 after:border-gray-600/20',
+      bronze: 'bg-orange-700/20 border-orange-500/40 text-orange-300 before:border-orange-700/20 after:border-orange-700/20'
     };
 
     return (
-      <div className={`relative ${className} group font-medium px-10`}>
+      <div className={`relative ${className} group font-medium px-3`}>
         <div className={`relative px-6 py-1 ${colorStyles[color]} 
           border-2 backdrop-blur-sm text-center
           before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2
@@ -56,4 +56,4 @@ interface RibbonProps {
   }
   `;
 
-  export default memo(RankRibbonRpg)
+  export default memo(RankTitle)

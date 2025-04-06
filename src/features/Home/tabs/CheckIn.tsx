@@ -59,7 +59,7 @@ export default function CheckIn() {
     }, [currentAction, setCurrentAction])
   
     return (
-      <div className='flex flex-col items-center justify-end flex-1'>
+      <div className='flex flex-col items-center justify-end flex-1 mx-4'>
           {/* Character Card */}
           {true ? (
             <RpgCard hoverable={false} className='w-full mb-2 py-5 max-w-sm md:max-w-xl lg:max-w-2xl lg:mb-5'>
@@ -69,11 +69,11 @@ export default function CheckIn() {
                 fps={getPlayerAnimationParams().fps}
                 frameCount={getPlayerAnimationParams().frameCount}
                 currentScreenSize={currentScreenSize} 
-                currentExp={213}
-                nextLvlExp={392}
+                currentExp={20913}
+                nextLvlExp={39792}
                 playerTitle={"Noobie"}
                 playerName={"CacheWarrior"}
-                currentLevel={1}
+                currentLevel={100}
                 onClick={handlePlayerClick}
                 onAnimationComplete={handleAnimationComplete}
                 />

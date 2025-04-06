@@ -1,9 +1,7 @@
 import { memo } from 'react';
-import SpriteSheet from '../../../../components/SpriteSheet'
-import { PlayerAvatar } from './PlayerAvatar';
-import LevelBadge from './LevelBadge';
-import ExperienceBar from './ExperienceBar';
-import { Gi3dGlasses, Gi3dMeeple } from 'react-icons/gi';
+import RankTitle from '../../../../components/RankTitle';
+import PlayerSummary from './PlayerSummary';
+import PlayerStats from './PlayerStats';
 
 interface PlayerCardProps {
     characterAsset: string;
@@ -37,49 +35,31 @@ export function PlayerCard({
 }: PlayerCardProps) {
   return (
         <>
-        <div className="flex items-center lg:flex-row lg:justify-around px-3 bg-accent/0 rounded-lg shadow-md" title='Player Card'>
-            <div className='flex flex-col  items-center flex-1 min-w-1 h-full gap-3 '>
-                <div className='bg-primary/50'>
-                    <Gi3dGlasses className='w-7 h-7' title='Glasses: 34'/>
-                </div>
-                <div>
-                    <div className='bg-primary/50'>
-                        <Gi3dMeeple className='w-5 h-5'/>
-                        <Gi3dMeeple className='w-5 h-5'/>
-                        <Gi3dMeeple className='w-5 h-5'/>
-                    </div>
-                </div>
-                
+        <div className="flex items-center flex-col lg:flex-row lg:justify-around px-3 bg-accent/0 rounded-lg shadow-md" title='Player Card'>
+            
+            <div className='flex-1 w-full'>
+                <RankTitle text={playerTitle} color='bronze'/>
             </div>
-            <div className='flex-2 flex-grow'>
-                <PlayerAvatar
+            <div className='flex-2 flex-grow w-full'>
+                <PlayerSummary
                     characterAsset={characterAsset}
                     row={row}
                     fps={fps}
                     frameCount={frameCount}
                     currentScreenSize={currentScreenSize}
-                    playerTitle={playerTitle}
-                    playerName={playerName}
                     onAnimationComplete={onAnimationComplete}
                     onClick={onClick}
                     />
-                <div className="flex flex-col items-center lg:items-end space-y-1">
-                    <LevelBadge playerTitle={playerName} currentLevel={currentLevel}/>
-                    <ExperienceBar currentExp={currentExp} nextLvlExp={nextLvlExp}/>
-                </div>
             </div>
-            <div className='flex flex-col  items-center flex-1 min-w-1 h-full gap-3'>
-                <div className='bg-primary/50'>
-                    <Gi3dGlasses className='w-7 h-7'/>
-                </div>
-                <div>
-                    <div className='bg-primary/50'>
-                        <Gi3dMeeple className='w-5 h-5'/>
-                        <Gi3dMeeple className='w-5 h-5'/>
-                        <Gi3dMeeple className='w-5 h-5'/>
-                    </div>
-                </div>
+            <div className='flex-1 w-full'>
+                <PlayerStats
+                    currentExp={currentExp}
+                    nextLvlExp={nextLvlExp}
+                    currentLevel={currentLevel}
+                    />
             </div>
+
+            
         </div>
         </>
   )
@@ -87,3 +67,18 @@ export function PlayerCard({
 
 
 export default memo(PlayerCard);
+
+
+// <div className='flex flex-col  items-center flex-1 min-w-1 h-full gap-3 '>
+//                 <div className='bg-primary/50'>
+//                     <Gi3dGlasses className='w-7 h-7' title='Glasses: 34'/>
+//                 </div>
+//                 <div>
+//                     <div className='bg-primary/50'>
+//                         <Gi3dMeeple className='w-5 h-5'/>
+//                         <Gi3dMeeple className='w-5 h-5'/>
+//                         <Gi3dMeeple className='w-5 h-5'/>
+//                     </div>
+//                 </div>
+                
+//             </div>

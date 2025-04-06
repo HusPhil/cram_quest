@@ -40,8 +40,8 @@ export default function BottomNav() {
   }, [currentScreenSize])
 
   return (
-    <div className={`fixed bottom-0 left-0 right-0 bg-secondary/95 backdrop-blur-md border-t border-amber-500/20  
-                      md:bg-transparent md:border-none md:mb-5 md:mx-2 md:static`}>
+    <div className={`w-full bg-secondary/95 backdrop-blur-md border-t border-amber-500/20  
+                      md:bg-transparent md:border-none md:mx-2 md:static`}>
       {/* Bottom Navigation Tabs */}
       <div className="flex-shrink-0 h-full max-w-2xl mx-auto p-3 flex justify-around 
                       md:justify-around md:gap-8 md:bg-secondary md:rounded-xl">

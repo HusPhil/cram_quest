@@ -1,7 +1,7 @@
 
 import { memo } from 'react';
 import SpriteSheet from '../../../../components/SpriteSheet';
-import RankRibbonRpg from '../../../../components/RankRibbonRpg';
+import RankTitle from '../../../../components/RankTitle';
 
 interface PlayerAvatarProps {
     characterAsset: string;
@@ -27,9 +27,7 @@ export function PlayerAvatar({
     onClick,
 }: PlayerAvatarProps) {
   return (
-    <div className='flex flex-col items-center lg:items-start'>
-        <RankRibbonRpg text={playerTitle} />
-        
+    <div className='flex items-center lg:items-start'>
         <div className="relative transform hover:scale-105 transition-transform duration-200">
             <div className="absolute inset-3 bg-accent/10 blur-xl"></div>
             <div onClick={onClick}>
