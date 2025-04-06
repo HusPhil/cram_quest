@@ -14,7 +14,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
 
       {/* Main content */}
       <main className="flex flex-col flex-1 items-center transition-all duration-300
-                       md:my-4">
+                       ">
         {children}
       </main>
     </div>
