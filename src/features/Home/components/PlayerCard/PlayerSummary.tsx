@@ -1,4 +1,4 @@
-import React from 'react'
+import { memo } from 'react';
 import SpriteSheet from '../../../../components/SpriteSheet';
 import StatCard from '../../../../components/StatCard';
 
@@ -12,7 +12,7 @@ interface PlayerSummaryProps {
     onClick?: () => void;
 }
 
-export default function PlayerSummary({
+export function PlayerSummary({
     characterAsset,
     row,
     fps,
@@ -44,3 +44,6 @@ export default function PlayerSummary({
     </div>
   )
 }
+
+
+export default memo(PlayerSummary);

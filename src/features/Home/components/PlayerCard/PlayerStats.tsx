@@ -1,6 +1,6 @@
-import React from 'react'
 import ExperienceBar from './ExperienceBar'
-import { LevelBadge } from './LevelBadge'
+import TagLabel from '../../../../components/TagLabel';
+import { memo } from 'react';
 
 interface PlayerStatsProps {
   currentExp: number;
@@ -8,7 +8,7 @@ interface PlayerStatsProps {
   currentLevel: number;
 }
 
-export default function PlayerStats({
+export function PlayerStats({
   currentExp,
   nextLvlExp,
   currentLevel,
@@ -22,10 +22,12 @@ export default function PlayerStats({
                 <p>{`CacheWarrior`}</p>
                 <LevelBadge currentLevel={1} playerTitle={""}/>    
             </span> */}
-            <LevelBadge currentLevel={currentLevel}/>
+            <TagLabel info={`Lv. ${currentLevel}`}/>
             <p>{`XP: ${currentExp}/${nextLvlExp}`}</p>
         </span>
         <ExperienceBar currentExp={20913} nextLvlExp={39792} /> 
     </div>
   )
 }
+
+export default memo(PlayerStats);

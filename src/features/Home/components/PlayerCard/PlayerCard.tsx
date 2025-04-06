@@ -67,18 +67,3 @@ export function PlayerCard({
 
 
 export default memo(PlayerCard);
-
-
-// <div className='flex flex-col  items-center flex-1 min-w-1 h-full gap-3 '>
-//                 <div className='bg-primary/50'>
-//                     <Gi3dGlasses className='w-7 h-7' title='Glasses: 34'/>
-//                 </div>
-//                 <div>
-//                     <div className='bg-primary/50'>
-//                         <Gi3dMeeple className='w-5 h-5'/>
-//                         <Gi3dMeeple className='w-5 h-5'/>
-//                         <Gi3dMeeple className='w-5 h-5'/>
-//                     </div>
-//                 </div>
-                
-//             </div>

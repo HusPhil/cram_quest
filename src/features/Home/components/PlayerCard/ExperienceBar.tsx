@@ -1,11 +1,11 @@
-import { LevelBadge } from "./LevelBadge"
+import { memo } from "react";
 
 interface ExperienceBarProps {
     currentExp: number,
     nextLvlExp: number,
 }
 
-export default function ExperienceBar({
+export function ExperienceBar({
     currentExp,
     nextLvlExp
 }: ExperienceBarProps) {
@@ -28,3 +28,6 @@ export default function ExperienceBar({
     </div>
   )
 }
+
+
+export default memo(ExperienceBar);
