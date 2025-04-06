@@ -13,8 +13,8 @@ type WeeklyRecordProps = {
 const WeeklyRecord: React.FC<WeeklyRecordProps> = ({ weeklyCheckInRecord }) => {
   return (
     <div>
-      <h2 className="text-xl font-bold text-accent text-center lg:text-start my-5">Weekly Check-in</h2>
-      <p className="text-text text-xs hidden my-3 lg:block ">
+      <h2 className="text-lg my-3 font-bold text-accent text-center md:tes-xl lg:text-start lg:my-5">Weekly Check-in</h2>
+      <p className="text-text text-xs hidden my-3 md:sm lg:block">
         Check in every day to earn weekly rewards!
       </p>
       <div className="grid grid-cols-7 gap-0 border border-accent/20 rounded-lg overflow-hidden md:gap-4 md:mx-0 md:rounded-none md:overflow-visible md:border-none">

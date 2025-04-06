@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <div className="flex flex-col flex-1">
       {/* Main Display Area */}
-      <div className="flex-1 flex items-start justify-center max-h-[85dvh] mx-4 mt-4 md:items-center">
+      <div className="flex-1 flex items-start justify-center h-[100dvh] mx-4 mt-4 md:items-center">
         <Outlet />
       </div>
 

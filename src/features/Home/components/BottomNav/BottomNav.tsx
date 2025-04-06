@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 const tabs = [
   { 
     path: '/home/check-in', 
-    label: 'Check In',
+    label: 'Check-in',
     icon: <GiCheckMark className="w-6 h-6" /> 
   },
   { 
@@ -43,7 +43,7 @@ export default function BottomNav() {
     <div className={`fixed bottom-0 left-0 right-0 bg-secondary/95 backdrop-blur-md border-t border-amber-500/20  
                       md:bg-transparent md:border-none md:mb-5 md:mx-2 md:static`}>
       {/* Bottom Navigation Tabs */}
-      <div className="flex-shrink-0 h-full max-w-2xl mx-auto p-4 flex justify-around 
+      <div className="flex-shrink-0 h-full max-w-2xl mx-auto p-3 flex justify-around 
                       md:justify-around md:gap-8 md:bg-secondary md:rounded-xl">
         {tabs.map(({path, label, icon}) => (
           <NavLink
@@ -67,7 +67,7 @@ export default function BottomNav() {
                   {label}
                 </span>
               ) : (isActive && (
-                <span className=" mt-1 text-xs font-medium tracking-wide">
+                <span className="line-clamp-1 mt-1 text-xs font-medium tracking-wide">
                   {label}
                 </span>
               ))}

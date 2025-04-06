@@ -72,7 +72,7 @@ export default function CheckIn() {
                 currentExp={213}
                 nextLvlExp={392}
                 playerTitle={"Noobie"}
-                playerName={"HashWarrior"}
+                playerName={"CacheWarrior"}
                 currentLevel={1}
                 onClick={handlePlayerClick}
                 onAnimationComplete={handleAnimationComplete}
