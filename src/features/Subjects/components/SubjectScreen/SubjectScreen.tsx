@@ -2,7 +2,6 @@ import { memo, useState } from "react";
 import { SubjectScreenHeader } from "./SubjectScreenHeader";
 import SubjectScreenBody from "./SubjectScreenBody";
 import SubjectScreenFooter from "./SubjectScreenFooter";
-import LearningPage from "../PageTabs/LearningPage";
 
 export const PAGE_TITLES = {
   LEARNING: "LEARNING",
@@ -26,9 +25,7 @@ export function SubjectScreen({
   subjectDifficulty,
 }: SubjectScreenProps) {
   const [activeTab, setActiveTab] = useState<PageTitle>(PAGE_TITLES.LEARNING);
-  const [currentPage, setCurrentPage] = useState<React.ReactNode>(
-    <LearningPage />
-  );
+  const [currentPage, setCurrentPage] = useState<React.ReactNode>(null);
 
   return (
     <div className="flex flex-1 flex-col">

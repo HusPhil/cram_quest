@@ -2,8 +2,10 @@ import { lazy, Suspense } from "react";
 import { HashRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Loading from "./components/Loading";
 import MainLayout from "./layouts/MainLayout";
-import About from "./pages/About";
-import Home from "./pages/Home"; // Keep Home outside of Suspense
+
+
+const About = lazy(() => import("./pages/About"));
+const Home = lazy(() => import("./pages/Home")); 
 
 const CheckIn = lazy(() => import("./features/Home/tabs/CheckIn.tsx"));
 const Quests = lazy(() => import("./features/Home/tabs/Quests"));

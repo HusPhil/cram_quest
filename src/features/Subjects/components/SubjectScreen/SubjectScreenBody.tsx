@@ -1,9 +1,10 @@
-import { memo, useCallback, useMemo, useState } from "react";
+import { lazy, memo, useCallback, useMemo } from "react";
 import PageTabs from "../PageTabs/PageTabs";
 import { PAGE_TITLES, PageTitle } from "./SubjectScreen";
-import LearningPage from "../PageTabs/LearningPage";
-import QuestsPage from "../PageTabs/QuestsPage";
-import EditPage from "../PageTabs/EditPage";
+
+const LearningPage = lazy(() => import("../PageTabs/LearningPage"));
+const QuestsPage = lazy(() => import("../PageTabs/QuestsPage"));
+const EditPage = lazy(() => import("../PageTabs/EditPage"));
 
 interface SubjectScreenBodyProps {
   subjectId: Number;
@@ -18,7 +19,10 @@ export function SubjectScreenBody({
   setActiveTab,
   setCurrentPage,
 }: SubjectScreenBodyProps) {
-  const handlePageChange = useCallback((pageTitle: PageTitle) => {}, []);
+  
+  const handlePageChange = useCallback((pageTitle: PageTitle) => {
+    setActiveTab(pageTitle);
+  }, []);
 
   const CurrentPage = useMemo(() => {
     switch (activeTab) {
