@@ -1,48 +1,58 @@
-import { memo } from 'react'
-import { SubjectScreenHeader } from './SubjectScreenHeader'
-import SubjectScreenBody from './SubjectScreenBody'
-import SubjectScreenFooter from './SubjectScreenFooter'
+import { memo, useState } from "react";
+import { SubjectScreenHeader } from "./SubjectScreenHeader";
+import SubjectScreenBody from "./SubjectScreenBody";
+import SubjectScreenFooter from "./SubjectScreenFooter";
+import LearningPage from "../PageTabs/LearningPage";
 
 export const PAGE_TITLES = {
-    LEARNING: "LEARNING",
-    QUESTS: "QUESTS",
-    EDIT: "EDIT",
+  LEARNING: "LEARNING",
+  QUESTS: "QUESTS",
+  EDIT: "EDIT",
 } as const;
-  
+
 export type PageTitle = keyof typeof PAGE_TITLES;
 
 interface SubjectScreenProps {
-    subjectId: Number,
-    subjectCodeName: String,
-    subjectDescription: String,
-    subjectDifficulty: Number,
+  subjectId: Number;
+  subjectCodeName: String;
+  subjectDescription: String;
+  subjectDifficulty: Number;
 }
 
 export function SubjectScreen({
-    subjectId,
-    subjectCodeName,
-    subjectDescription,
-    subjectDifficulty,
+  subjectId,
+  subjectCodeName,
+  subjectDescription,
+  subjectDifficulty,
 }: SubjectScreenProps) {
+  const [activeTab, setActiveTab] = useState<PageTitle>(PAGE_TITLES.LEARNING);
+  const [currentPage, setCurrentPage] = useState<React.ReactNode>(
+    <LearningPage />
+  );
+
   return (
-    <div className='flex flex-1 flex-col'>
-        
-        <div className=''>
-            <SubjectScreenHeader
-                subjectId={subjectId}
-                subjectCodeName={subjectCodeName}
-                subjectDifficulty={subjectDifficulty}
-                subjectDescription={subjectDescription}
-                />
-        </div>
-        <div className='flex-1'>
-            <SubjectScreenBody subjectId={subjectId}/>
-        </div>
-        <div className=''>
-            <SubjectScreenFooter subjectId={subjectId}/>
-        </div>
+    <div className="flex flex-1 flex-col">
+      <div className="">
+        <SubjectScreenHeader
+          subjectId={subjectId}
+          subjectCodeName={subjectCodeName}
+          subjectDifficulty={subjectDifficulty}
+          subjectDescription={subjectDescription}
+        />
+      </div>
+      <div className="flex-1">
+        <SubjectScreenBody 
+            subjectId={subjectId}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            setCurrentPage={setCurrentPage}
+            />
+      </div>
+      <div className="">
+        <SubjectScreenFooter subjectId={subjectId} />
+      </div>
     </div>
-  )
+  );
 }
 
-export default memo(SubjectScreen)
+export default memo(SubjectScreen);
