@@ -1,8 +1,7 @@
-import React from 'react'
 import { useFloatingScreen } from '../../context/FloatingScreenContext'
 
 export default function FloatingScreen() {
-  const { isScreenOpen, closeScreen, screenContent } = useFloatingScreen()
+  const { isScreenOpen, screenContent } = useFloatingScreen()
 
   return (
     <div
@@ -11,9 +10,6 @@ export default function FloatingScreen() {
       }`}
     >
       <div className="flex flex-col h-full w-full p-4">
-        <button onClick={closeScreen} className="mb-4 px-4 py-2 bg-accent text-white rounded">
-          Close
-        </button>
         {screenContent}
       </div>
     </div>

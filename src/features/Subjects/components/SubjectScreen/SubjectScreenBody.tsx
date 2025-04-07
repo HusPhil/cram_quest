@@ -1,4 +1,3 @@
-import React from 'react'
 
 
 interface SubjectScreenBodyProps {
@@ -9,6 +8,8 @@ export default function SubjectScreenBody({
   subjectId
 }: SubjectScreenBodyProps) {
   return (
-    <div className='h-full w-full bg-primary/30'>SubjectScreenBody {subjectId.toString()}</div>
+    <div className='h-full w-full'>
+        
+    </div>
   )
 }
