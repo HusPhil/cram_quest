@@ -1,4 +1,4 @@
-import { lazy, memo, useCallback, useMemo } from "react";
+import { lazy, memo, useCallback, useMemo, useState } from "react";
 import PageTabs from "../PageTabs/PageTabs";
 import { PAGE_TITLES, PageTitle } from "./SubjectScreen";
 
@@ -19,6 +19,8 @@ export function SubjectScreenBody({
   setActiveTab,
   setCurrentPage,
 }: SubjectScreenBodyProps) {
+  
+
   
   const handlePageChange = useCallback((pageTitle: PageTitle) => {
     setActiveTab(pageTitle);
