@@ -1,9 +1,10 @@
 import { useLocation } from "react-router-dom";
-import { useState, useEffect} from "react";
+import { useState, useEffect, useCallback} from "react";
 import { GiArchiveRegister, GiSpellBook, GiHamburgerMenu, GiCharacter, GiPlayerBase, GiKing, GiKnightBanner, GiBlackKnightHelm, GiCloak, GiClothes } from "react-icons/gi";
 import NavItem from "./NavItem";
 import NavFooter from "./NavFooter";
 import NavHeader from "./NavHeader";
+import { useFloatingScreen } from "../../context/FloatingScreenContext";
 
 
 
@@ -28,12 +29,18 @@ const navItems = [
 export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const { closeScreen } = useFloatingScreen();
   const location = useLocation();
 
   // Close mobile menu on route change
   useEffect(() => {
     setIsMobileOpen(false);
   }, [location.pathname]);
+
+  const handleSetIsMobileOpen = useCallback(() => {
+    setIsMobileOpen(true);
+    closeScreen();
+  }, [])
 
   // Close mobile menu on desktop view
   return (
@@ -49,7 +56,7 @@ export default function Sidebar() {
       {/* Mobile Menu Toggle with Current Tab */}
       <div className="relative md:hidden flex items-center gap-3 p-2 bg-gray-900/95">
         <button
-          onClick={() => setIsMobileOpen(!isMobileOpen)}
+          onClick={() => handleSetIsMobileOpen()}
           className="p-2.5 rounded-xl self-end
                     bg-gray-900/95 backdrop-blur-sm border border-amber-500/20
                     active:scale-95 transition-all duration-200"
@@ -67,7 +74,7 @@ export default function Sidebar() {
 
       {/* Sidebar */}
       <aside className={`
-        fixed md:sticky top-0 h-screen z-50
+        fixed md:sticky top-0 h-screen z-[777]
         bg-gray-900/95 backdrop-blur-md w-64
         transition-all duration-300 ease-out
         ${isMobileOpen ? "left-0" : "-left-64 md:left-0"}

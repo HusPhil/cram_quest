@@ -20,6 +20,13 @@ export default {
         rpg: ["'Pixelify Sans'", "'MedievalSharp'", "'Press Start 2P'", "sans-serif"],
       },
     },
+    screens: {
+      xs: "320px",
+      sm: "590px",
+      md: "600px",
+      lg: "1024px",
+      xl: "1280px",
+    },
   },
   plugins: [],
 };
