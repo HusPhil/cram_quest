@@ -3,6 +3,14 @@ import { SubjectScreenHeader } from './SubjectScreenHeader'
 import SubjectScreenBody from './SubjectScreenBody'
 import SubjectScreenFooter from './SubjectScreenFooter'
 
+export const PAGE_TITLES = {
+    LEARNING: "LEARNING",
+    QUESTS: "QUESTS",
+    EDIT: "EDIT",
+} as const;
+  
+export type PageTitle = keyof typeof PAGE_TITLES;
+
 interface SubjectScreenProps {
     subjectId: Number,
     subjectCodeName: String,
@@ -17,7 +25,7 @@ export function SubjectScreen({
     subjectDifficulty,
 }: SubjectScreenProps) {
   return (
-    <div className='flex flex-1 flex-col    '>
+    <div className='flex flex-1 flex-col'>
         
         <div className=''>
             <SubjectScreenHeader
