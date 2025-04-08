@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, use, useEffect, useState } from "react";
 import { SubjectScreenHeader } from "./SubjectScreenHeader";
 import SubjectScreenBody from "./SubjectScreenBody";
 import SubjectScreenFooter from "./SubjectScreenFooter";
@@ -27,9 +27,11 @@ export function SubjectScreen({
   const [activeTab, setActiveTab] = useState<PageTitle>(PAGE_TITLES.LEARNING);
   const [currentPage, setCurrentPage] = useState<React.ReactNode>(null);
 
+  
+
   return (
     <div className="flex flex-1 flex-col">
-      <div className="">
+      <div>
         <SubjectScreenHeader
           subjectId={subjectId}
           subjectCodeName={subjectCodeName}
@@ -45,7 +47,7 @@ export function SubjectScreen({
             setCurrentPage={setCurrentPage}
             />
       </div>
-      <div className="">
+      <div>
         <SubjectScreenFooter subjectId={subjectId} />
       </div>
     </div>

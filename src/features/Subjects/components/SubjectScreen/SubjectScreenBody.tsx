@@ -1,4 +1,4 @@
-import { lazy, memo, useCallback, useMemo, useState } from "react";
+import { lazy, memo, useCallback, useEffect, useMemo } from "react";
 import PageTabs from "../PageTabs/PageTabs";
 import { PAGE_TITLES, PageTitle } from "./SubjectScreen";
 
@@ -19,9 +19,6 @@ export function SubjectScreenBody({
   setActiveTab,
   setCurrentPage,
 }: SubjectScreenBodyProps) {
-  
-
-  
   const handlePageChange = useCallback((pageTitle: PageTitle) => {
     setActiveTab(pageTitle);
   }, []);
@@ -35,9 +32,13 @@ export function SubjectScreenBody({
       case PAGE_TITLES.EDIT:
         return <EditPage />;
       default:
-        return null;
+        return <p>404 Not Found</p>;
     }
   }, [activeTab]);
+
+  useEffect(() => {
+    setActiveTab(PAGE_TITLES.LEARNING);
+  }, [subjectId]);
 
   return (
     <div className="h-full w-full">
