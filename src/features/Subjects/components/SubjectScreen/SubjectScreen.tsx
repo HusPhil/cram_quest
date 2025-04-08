@@ -24,10 +24,9 @@ export function SubjectScreen({
   subjectDescription,
   subjectDifficulty,
 }: SubjectScreenProps) {
+
   const [activeTab, setActiveTab] = useState<PageTitle>(PAGE_TITLES.LEARNING);
   const [currentPage, setCurrentPage] = useState<React.ReactNode>(null);
-
-  
 
   return (
     <div className="flex flex-1 flex-col">

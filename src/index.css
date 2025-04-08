@@ -102,3 +102,7 @@ body {
 }
 
 
+.field-size-content {
+  field-sizing: content;
+  resize: none;
+}
