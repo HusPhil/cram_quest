@@ -151,12 +151,10 @@ export default function LearningPage({
                 <p className="text-xs">{data.materials.length.toString()}</p>
               </TagLabel>
             </span>
-            <span>
-              <TagLabel>
-              <button className="flex items-center gap-2">
-                Add <FaPlus className="w-4 h-4" />
+            <span className="flex text-sm items-center bg-accent text-white p-1 rounded-md px-3">
+              <button className="flex items-center gap-1">
+                Add <FaPlus className="w-3 h-3" />
               </button>
-              </TagLabel>
             </span>
           </div>
           {data.materials.map((material, index) => (
