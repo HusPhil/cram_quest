@@ -8,6 +8,7 @@ import {
 } from "react-icons/gi";
 import TagLabel from "../../../../components/TagLabel";
 import { FaCirclePlay, FaEllipsisVertical, FaNoteSticky, FaRug } from "react-icons/fa6";
+import { FaPlus } from "react-icons/fa";
 
 interface LearningPageProps {
   subjectId: number;
@@ -143,11 +144,20 @@ export default function LearningPage({
                     focus:border-text focus:outline-none text-sm"
         />
         <div className="mt-4">
-          <div className="flex gap-2">
-            <h1 className="text-md font-bold">Materials</h1>
-            <TagLabel className="flex items-center rounded-full px-2">
-              <p className="text-xs">{data.materials.length.toString()}</p>
-            </TagLabel>
+          <div className="flex items-center justify-between mr-4 my-3">
+            <span className="flex gap-2">
+              <h1 className="text-md font-bold">Materials</h1>
+              <TagLabel className="flex items-center rounded-full px-2">
+                <p className="text-xs">{data.materials.length.toString()}</p>
+              </TagLabel>
+            </span>
+            <span>
+              <TagLabel>
+              <button className="flex items-center gap-2">
+                Add <FaPlus className="w-4 h-4" />
+              </button>
+              </TagLabel>
+            </span>
           </div>
           {data.materials.map((material, index) => (
             <div key={index} title={material.title} className="flex items-center gap-2 py-3 justify-between mr-4">
