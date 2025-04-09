@@ -22,7 +22,7 @@ export function PlayerStats({
                 <p>{`CacheWarrior`}</p>
                 <LevelBadge currentLevel={1} playerTitle={""}/>    
             </span> */}
-            <TagLabel info={`Lv. ${currentLevel}`}/>
+            <TagLabel info={`Lv. ${currentLevel}`} className='px-3 py-0.5 rounded-lg'/>
             <p>{`XP: ${currentExp}/${nextLvlExp}`}</p>
         </span>
         <ExperienceBar currentExp={20913} nextLvlExp={39792} /> 

@@ -17,7 +17,7 @@ export function PageTabs({
 }: PageTabsProps) {
 
   return (
-    <div className="flex justify-between items-center bg-primary/0 py-3">
+    <div className="flex justify-between items-center bg-primary/0 py-3 text-lg">
       {Object.entries(PAGE_TITLES).map(([key, value]) => (
         <PageTab
           key={key}

@@ -5,6 +5,8 @@ import NavItem from "./NavItem";
 import NavFooter from "./NavFooter";
 import NavHeader from "./NavHeader";
 import { useFloatingScreen } from "../../context/FloatingScreenContext";
+import { FaClock, FaHome, FaQuestion } from "react-icons/fa";
+import { FaShirt } from "react-icons/fa6";
 
 
 
@@ -12,17 +14,17 @@ const navItems = [
   { 
     path: '/home',
     label: 'Home',
-    icon: <GiArchiveRegister className="w-6 h-6" />
+    icon: <FaHome className="w-5 h-5" />
   },
   { 
     path: '/about',
     label: 'About',
-    icon: <GiSpellBook className="w-6 h-6" />
+    icon: <FaQuestion className="w-5 h-5" />
   },
   {
     path: '/home/skins',
     label: 'Skins',
-    icon: <GiClothes className="w-6 h-6" />
+    icon: <FaShirt className="w-5 h-5" />
   }
 ];
 

@@ -1,6 +1,11 @@
 import { useFloatingScreen } from '../../context/FloatingScreenContext'
 
-export default function FloatingScreen() {
+interface FloatingScreenProps {
+  children?: React.ReactNode
+  className?: string
+}
+
+export default function FloatingScreen({ children, className }: FloatingScreenProps) {
   const { isScreenOpen, screenContent } = useFloatingScreen()
 
   return (
@@ -9,7 +14,7 @@ export default function FloatingScreen() {
         isScreenOpen ? 'translate-y-0 opacity-100 pointer-events-auto' : 'translate-y-full opacity-0 pointer-events-none'
       }`}
     >
-      <div className="flex flex-col h-full w-full p-4">
+      <div className={`flex flex-col h-full w-full ${className}`}>
         {screenContent}
       </div>
     </div>

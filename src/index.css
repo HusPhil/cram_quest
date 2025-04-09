@@ -106,3 +106,16 @@ body {
   field-sizing: content;
   resize: none;
 }
+
+/* Hide scrollbar for Webkit (Chrome, Safari, iOS Safari, etc.) */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+  -webkit-overflow-scrolling: touch; /* Enable momentum scrolling on iOS */
+  overscroll-behavior: contain; /* Optional: prevents scroll chaining */
+}

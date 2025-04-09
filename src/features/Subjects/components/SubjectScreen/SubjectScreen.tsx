@@ -11,11 +11,11 @@ export const PAGE_TITLES = {
 
 export type PageTitle = keyof typeof PAGE_TITLES;
 
-interface SubjectScreenProps {
-  subjectId: Number;
+interface SubjectScreenProps { 
+  subjectId: number;
   subjectCodeName: String;
   subjectDescription: String;
-  subjectDifficulty: Number;
+  subjectDifficulty: number;
 }
 
 export function SubjectScreen({
@@ -29,7 +29,7 @@ export function SubjectScreen({
   const [currentPage, setCurrentPage] = useState<React.ReactNode>(null);
 
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="flex flex-1 flex-col h-full max-h-full">
       <div>
         <SubjectScreenHeader
           subjectId={subjectId}
@@ -38,13 +38,15 @@ export function SubjectScreen({
           subjectDescription={subjectDescription}
         />
       </div>
-      <div className="flex-1">
-        <SubjectScreenBody 
-            subjectId={subjectId}
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            setCurrentPage={setCurrentPage}
-            />
+      {/* Scrollable Body */}
+      <div className="flex-1 min-h-0">
+        <SubjectScreenBody
+          subjectId={subjectId}
+          subjectDifficulty={subjectDifficulty}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          setCurrentPage={setCurrentPage}
+        />
       </div>
       <div>
         <SubjectScreenFooter subjectId={subjectId} />

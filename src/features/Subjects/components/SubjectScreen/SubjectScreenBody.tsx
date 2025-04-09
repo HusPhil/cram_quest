@@ -7,7 +7,8 @@ const QuestsPage = lazy(() => import("../PageTabs/QuestsPage"));
 const EditPage = lazy(() => import("../PageTabs/EditPage"));
 
 interface SubjectScreenBodyProps {
-  subjectId: Number;
+  subjectId: number;
+  subjectDifficulty: number;
   activeTab: PageTitle;
   setActiveTab: (pageTitle: PageTitle) => void;
   setCurrentPage: (pageComponent: React.ReactNode) => void;
@@ -16,6 +17,7 @@ interface SubjectScreenBodyProps {
 export function SubjectScreenBody({
   subjectId,
   activeTab,
+  subjectDifficulty,
   setActiveTab,
   setCurrentPage,
 }: SubjectScreenBodyProps) {
@@ -26,7 +28,7 @@ export function SubjectScreenBody({
   const CurrentPage = useMemo(() => {
     switch (activeTab) {
       case PAGE_TITLES.LEARNING:
-        return <LearningPage />;
+        return <LearningPage subjectId={subjectId} subjectDifficulty={subjectDifficulty} />;
       case PAGE_TITLES.QUESTS:
         return <QuestsPage />;
       case PAGE_TITLES.EDIT:
@@ -34,23 +36,32 @@ export function SubjectScreenBody({
       default:
         return <p>404 Not Found</p>;
     }
-  }, [activeTab]);
+  }, [activeTab, subjectDifficulty, subjectId]);
 
   useEffect(() => {
     setActiveTab(PAGE_TITLES.LEARNING);
+    // alert(subjectDifficulty)
   }, [subjectId]);
 
   return (
-    <div className="h-full w-full">
-      <PageTabs
-        onPageChange={handlePageChange}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        setCurrentPage={setCurrentPage}
-      />
-      <p>{CurrentPage}</p>
+    <div className="flex flex-col h-full max-h-full">
+      {/* Tabs stay fixed */}
+      <div className="shrink-0">
+        <PageTabs
+          onPageChange={handlePageChange}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          setCurrentPage={setCurrentPage}
+        />
+      </div>
+
+      {/* Scrollable page content */}
+      <div className="flex-1 min-h-0 overflow-auto no-scrollbar">
+        {CurrentPage}
+      </div>
     </div>
   );
 }
+
 
 export default memo(SubjectScreenBody);

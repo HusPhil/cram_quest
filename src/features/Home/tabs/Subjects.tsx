@@ -34,10 +34,10 @@ export default function Subjects() {
 
   const handleOpenScreen = useCallback(
     (
-      subjectId: Number,
+      subjectId: number,
       subjectCodeName: String,
       subjectDescription: String,
-      subjectDifficulty: Number
+      subjectDifficulty: number
     ) => {
       setContent(
         <SubjectScreen

@@ -12,7 +12,7 @@ const Home = () => {
         
         {/* Bottom Navigation Container */}
         <BottomNav />
-        <FloatingScreen/>
+        <FloatingScreen className="px-3 pt-3"/>
       </div>
   );
 };
