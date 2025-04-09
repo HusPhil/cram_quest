@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import TagLabel from "../../../../../components/TagLabel";
-import { FaCirclePlay, FaEllipsis, FaNoteSticky, FaRug } from "react-icons/fa6";
+import { FaCirclePlay, FaEllipsis, FaEllipsisVertical, FaNoteSticky, FaRug } from "react-icons/fa6";
 import { MaterialType, SubjectMaterial } from "./LearningPage";
 
 interface SubjectMaterialCardProps {
@@ -41,7 +41,7 @@ export default function SubjectMaterialCard({
       </div>
       <span className="flex items-center justify-center h-full">
         <button>
-          <FaEllipsis className="w-4 h-4" />
+          <FaEllipsisVertical className="w-4 h-4" />
         </button>
       </span>
     </div>
