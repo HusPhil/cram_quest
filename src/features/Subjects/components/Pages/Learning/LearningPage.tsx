@@ -109,9 +109,10 @@ export default function LearningPage({
     <>
       <div className="flex flex-1 flex-col">
         <SubjectStatus
+          subjectId={subjectId}
           rating={rating}
           setRating={setRating}
-          subject_status={data.subject_status}
+          subjectStatus={data.subject_status}
         />
 
         <div className="mt-4">
