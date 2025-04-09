@@ -1,34 +1,36 @@
-import { memo } from 'react'
-import { useFloatingScreen } from '../../../../context/FloatingScreenContext'
+import { memo } from "react";
+import { useFloatingScreen } from "../../../../context/FloatingScreenContext";
+import { FaArrowLeft, FaBackspace } from "react-icons/fa";
 
 interface SubjectScreenHeaderProps {
-    subjectId: Number,
-    subjectCodeName: String,
-    subjectDescription: String,
-    subjectDifficulty: Number,
+  subjectId: Number;
+  subjectCodeName: String;
+  subjectDescription: String;
+  subjectDifficulty: Number;
 }
 
 export function SubjectScreenHeader({
-    subjectId,
-    subjectCodeName,
-    subjectDescription,
-    subjectDifficulty,
+  subjectId,
+  subjectCodeName,
+  subjectDescription,
+  subjectDifficulty,
 }: SubjectScreenHeaderProps) {
-  const { closeScreen } = useFloatingScreen()
+  const { closeScreen } = useFloatingScreen();
 
   return (
-    <div>
-        <span className='flex gap-5 items-center'>
-          <button onClick={closeScreen} className="mb-4 px-4 py-2 bg-accent text-white rounded">
-              Close
-          </button>
-          <h2 className="text-xl font-bold">{subjectCodeName}</h2>
-        </span>
-        <p className="text-gray-700">{subjectDescription}</p>
-        <p className="text-gray-500">Difficulty: {`${subjectDifficulty}`}</p>
+    <div className="flex justify-start items-center mr-2">
+      <button
+        onClick={closeScreen}
+        className="px-7 py-2 h-full"
+      >
+        <FaArrowLeft />
+      </button>
+      <div>
+        <h2 className="text-xl font-bold">{subjectDescription}</h2>
+        <small className="text-text/40">{`${subjectCodeName}`}</small>      
+      </div>
     </div>
-  )
+  );
 }
 
-
-export default memo(SubjectScreenHeader)
+export default memo(SubjectScreenHeader);

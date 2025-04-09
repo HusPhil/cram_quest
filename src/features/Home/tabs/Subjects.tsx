@@ -5,9 +5,15 @@ import SubjectScreen from "../../Subjects/components/SubjectScreen/SubjectScreen
 const mockDataSubjects = [
   {
     code_name: "Math 101",
-    description: "Mathematics",
+    description: "Mathematics for beginners and advanced users to learn", 
     difficulty: 1,
     id: 0,
+  },
+  {
+    code_name: "CS 401",
+    description: "Design and Analysis of Algorithms", 
+    difficulty: 1,
+    id: 7,
   },
   {
     code_name: "Chemistry 101",

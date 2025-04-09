@@ -7,7 +7,7 @@ import {
   GiVideoCamera,
 } from "react-icons/gi";
 import TagLabel from "../../../../components/TagLabel";
-import { FaCirclePlay, FaEllipsisVertical, FaNoteSticky, FaRug } from "react-icons/fa6";
+import { FaCirclePlay, FaEllipsisVertical, FaFloppyDisk, FaNoteSticky, FaRug } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa";
 
 interface LearningPageProps {
@@ -126,12 +126,13 @@ export default function LearningPage({
             <h1 className="text-md font-bold">Status: </h1>
             <StarRating value={rating} onChange={setRating} />
           </span>
-          <span className="flex items-center justify-end gap-1 py-2">
-            <GiSave className="text-2xl text-amber-400 mr-2 w-5" />
-            <p className="text-xs text-text/40 mt-2">Saved ✓</p>
+          <span className="flex text-sm items-center bg-accent text-white p-1 rounded-md px-3">
+            <button className="flex items-center gap-1">
+              Save <FaFloppyDisk className="w-3 h-3" />
+            </button>
           </span>
         </div>
-        <p className="text-xs text-text/40 mb-1">
+        <p className="text-xs text-text/40 my-2">
           Write how you feel about this subject..
         </p>
         <textarea
@@ -144,7 +145,7 @@ export default function LearningPage({
                     focus:border-text focus:outline-none text-sm"
         />
         <div className="mt-4">
-          <div className="flex items-center justify-between mr-4 my-3">
+          <div className="flex items-center justify-between my-3">
             <span className="flex gap-2">
               <h1 className="text-md font-bold">Materials</h1>
               <TagLabel className="flex items-center rounded-full px-2">

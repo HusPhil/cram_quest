@@ -2,9 +2,9 @@ import { lazy, memo, useCallback, useEffect, useMemo } from "react";
 import PageTabs from "../PageTabs/PageTabs";
 import { PAGE_TITLES, PageTitle } from "./SubjectScreen";
 
-const LearningPage = lazy(() => import("../PageTabs/LearningPage"));
-const QuestsPage = lazy(() => import("../PageTabs/QuestsPage"));
-const EditPage = lazy(() => import("../PageTabs/EditPage"));
+const LearningPage = lazy(() => import("../Pages/LearningPage"));
+const QuestsPage = lazy(() => import("../Pages/QuestsPage"));
+const EditPage = lazy(() => import("../Pages/EditPage"));
 
 interface SubjectScreenBodyProps {
   subjectId: number;
