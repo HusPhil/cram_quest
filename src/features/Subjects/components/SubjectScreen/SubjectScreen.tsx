@@ -13,8 +13,8 @@ export type PageTitle = keyof typeof PAGE_TITLES;
 
 interface SubjectScreenProps { 
   subjectId: number;
-  subjectCodeName: String;
-  subjectDescription: String;
+  subjectCodeName: string;
+  subjectDescription: string;
   subjectDifficulty: number;
 }
 
@@ -42,6 +42,8 @@ export function SubjectScreen({
       <div className="flex-1 min-h-0">
         <SubjectScreenBody
           subjectId={subjectId}
+          subjectCodeName={subjectCodeName}
+          subjectDescription={subjectDescription}
           subjectDifficulty={subjectDifficulty}
           activeTab={activeTab}
           setActiveTab={setActiveTab}

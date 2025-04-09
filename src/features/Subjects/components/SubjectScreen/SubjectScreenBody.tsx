@@ -8,7 +8,9 @@ const EditPage = lazy(() => import("../Pages/EditPage"));
 
 interface SubjectScreenBodyProps {
   subjectId: number;
+  subjectCodeName: string;
   subjectDifficulty: number;
+  subjectDescription: string;
   activeTab: PageTitle;
   setActiveTab: (pageTitle: PageTitle) => void;
   setCurrentPage: (pageComponent: React.ReactNode) => void;
@@ -18,6 +20,8 @@ export function SubjectScreenBody({
   subjectId,
   activeTab,
   subjectDifficulty,
+  subjectCodeName,
+  subjectDescription,
   setActiveTab,
   setCurrentPage,
 }: SubjectScreenBodyProps) {
@@ -28,11 +32,22 @@ export function SubjectScreenBody({
   const CurrentPage = useMemo(() => {
     switch (activeTab) {
       case PAGE_TITLES.LEARNING:
-        return <LearningPage subjectId={subjectId} subjectDifficulty={subjectDifficulty} />;
+        return (
+          <LearningPage
+            subjectId={subjectId}
+            subjectDifficulty={subjectDifficulty}
+          />
+        );
       case PAGE_TITLES.QUESTS:
         return <QuestsPage />;
       case PAGE_TITLES.EDIT:
-        return <EditPage />;
+        return (
+          <EditPage
+            subjectId={subjectId}
+            subjectDescription={subjectDescription}
+            subjectCodeName={subjectCodeName}
+          />
+        );
       default:
         return <p>404 Not Found</p>;
     }
@@ -62,6 +77,5 @@ export function SubjectScreenBody({
     </div>
   );
 }
-
 
 export default memo(SubjectScreenBody);
