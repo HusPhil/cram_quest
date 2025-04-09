@@ -1,0 +1,47 @@
+import StarRating from "../../StarRating";
+import { FaFloppyDisk } from "react-icons/fa6";
+
+interface StatusUpdateProps {
+  rating: number;
+  setRating: (rating: number) => void;
+  subject_status: string;
+}
+
+export default function SubjectStatus({
+  rating,
+  setRating,
+  subject_status,
+}: StatusUpdateProps) {
+  return (
+    <>
+    {/* Header */}
+      <div className="flex items-center justify-between">
+        <span className="flex items-center justify-start gap-3 py-2">
+          <h1 className="text-md font-bold">Status: </h1>
+          <StarRating value={rating} onChange={setRating} />
+        </span>
+        <span className="flex text-sm items-center bg-accent text-white p-1 rounded-md px-3">
+          <button className="flex items-center gap-1">
+            Save <FaFloppyDisk className="w-3 h-3" />
+          </button>
+        </span>
+      </div>
+
+    {/* Description */}
+      <p className="text-xs text-text/40 my-2">
+        Write how you feel about this subject..
+      </p>
+
+    {/* Input */}
+      <textarea
+        id="statusDescription"
+        name="statusDescription"
+        placeholder="Ex. No urgent activities"
+        value={subject_status}
+        className="field-size-content rounded-md
+                    bg-secondary border border-accent p-2 
+                    focus:border-text focus:outline-none text-sm"
+      />
+    </>
+  );
+}
