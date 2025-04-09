@@ -3,7 +3,7 @@ import PageTabs from "../PageTabs/PageTabs";
 import { PAGE_TITLES, PageTitle } from "./SubjectScreen";
 
 const LearningPage = lazy(() => import("../Pages/Learning/LearningPage"));
-const QuestsPage = lazy(() => import("../Pages/QuestsPage"));
+const QuestsPage = lazy(() => import("../Pages/Quest/QuestsPage"));
 const EditPage = lazy(() => import("../Pages/EditPage"));
 
 interface SubjectScreenBodyProps {
