@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import RankTitle from '../../../components/RankTitle';
+import RankTitle from '../../../../components/RankTitle';
 import PlayerSummary from './PlayerSummary';
 import PlayerStats from './PlayerStats';
 

@@ -1,5 +1,5 @@
 import ExperienceBar from './ExperienceBar'
-import TagLabel from '../../../components/TagLabel';
+import TagLabel from '../../../../components/TagLabel';
 import { memo } from 'react';
 
 interface PlayerStatsProps {

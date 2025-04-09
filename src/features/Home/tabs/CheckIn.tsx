@@ -1,8 +1,8 @@
 import { useCallback, useEffect } from 'react'
 import useCharacterAnimation from '../../Battle/hooks/useCharacterAnimation'
 import useScreenResize from '../../../hooks/useScreenResize';
-import PlayerCard from '../../CheckIn/PlayerCard/PlayerCard';
-import WeeklyRecord from '../../CheckIn/WeeklyRecord.tsx/WeeklyRecord';
+import PlayerCard from '../../CheckIn/components/PlayerCard/PlayerCard';
+import WeeklyRecord from '../../CheckIn/components/WeeklyRecord.tsx/WeeklyRecord';
 import RpgCard from '../../../components/RpgCard';
 import RankParticles from '../../../components/RankParticle';
 

@@ -1,6 +1,6 @@
 import { memo } from 'react';
-import SpriteSheet from '../../../components/SpriteSheet';
-import StatCard from '../../../components/StatCard';
+import SpriteSheet from '../../../../components/SpriteSheet';
+import StatCard from '../../../../components/StatCard';
 
 interface PlayerSummaryProps {
     characterAsset: string;
