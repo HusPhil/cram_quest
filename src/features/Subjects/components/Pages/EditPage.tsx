@@ -28,9 +28,6 @@ export default function EditPage({
   return (
     <div className="h-full flex flex-col items-center justify-center px-4">
       <div className="bg-secondary/40 border border-accent/70 rounded-2xl w-full max-w-md p-6 space-y-4">
-        <h1 className="text-2xl font-bold text-center text-accent">
-          Edit Subject
-        </h1>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex flex-col">
@@ -61,7 +58,7 @@ export default function EditPage({
 
           <button
             type="submit"
-            className="w-full py-2 rounded-xl bg-accent text-background font-bold hover:brightness-110 transition-all"
+            className="w-full py-2 rounded-xl bg-accent text-white hover:brightness-110 transition-all"
           >
             Save Changes
           </button>
