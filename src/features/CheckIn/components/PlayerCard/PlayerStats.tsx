@@ -1,4 +1,4 @@
-import ExperienceBar from './ExperienceBar'
+import ProgressBar from './ProgressBar'
 import TagLabel from '../../../../components/TagLabel';
 import { memo } from 'react';
 
@@ -25,7 +25,7 @@ export function PlayerStats({
             <TagLabel info={`Lv. ${currentLevel}`} className='px-3 py-0.5 rounded-lg'/>
             <p>{`XP: ${currentExp}/${nextLvlExp}`}</p>
         </span>
-        <ExperienceBar currentExp={20913} nextLvlExp={39792} /> 
+        <ProgressBar value={20913} max={39792} /> 
     </div>
   )
 }

@@ -23,10 +23,10 @@ export function PlayerSummary({
 }: PlayerSummaryProps) {
   return (
     <div className='flex justify-between items-center flex-1 w-full'>
-        <div className='flex flex-1 w-full items-center justify-end md:justify-center'>
+        {/* <div className='flex flex-2 w-full items-center justify-end md:justify-center'>
             <StatCard label={"Best Streak"} value={0}/>
-        </div>
-        <div className='flex flex-col justify-center items-center mx-3' onClick={onClick}>
+        </div> */}
+        <div className='flex flex-1 flex-col justify-center items-center mx-3' onClick={onClick}>
         <SpriteSheet
             src={characterAsset}
             frameRow={row}
@@ -38,9 +38,9 @@ export function PlayerSummary({
             scale={currentScreenSize !== "LARGE" ? 2 : 2.3}
             />
         </div>
-        <div className='flex flex-1 w-full items-center justify-start md:justify-center'>
+        {/* <div className='flex flex-2 w-full items-center justify-start md:justify-center'>
             <StatCard label={"Battles Won"} value={0}/>
-        </div>
+        </div> */}
     </div>
   )
 }
