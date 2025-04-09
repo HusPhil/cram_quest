@@ -2,6 +2,8 @@ import React from 'react'
 import QuestListHeader from './QuestListHeader'
 import QuestList from './QuestList'
 
+
+
 export default function QuestsPage() {
   return (
     <div className='flex flex-1 h-full flex-col'>
