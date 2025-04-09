@@ -1,7 +1,16 @@
-import React from 'react'
+import QuestCard from "./QuestCard"
+import { Quest } from "./QuestsPage"
 
-export default function QuestList() {
+interface QuestListProps {
+  quests: Quest[]
+}
+
+export default function QuestList({ quests }: QuestListProps) {
   return (
-    <div>QuestList</div>
+    <>
+    {quests.map((quest: Quest) => (
+      <QuestCard key={quest.id} quest={quest}/>
+    ))}
+    </>
   )
 }
