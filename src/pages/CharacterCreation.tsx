@@ -12,6 +12,7 @@ const skinDisplayNames: Record<string, string> = {
 export default function CharacterCreation() {
   const [characterName, setCharacterName] = useState("");
   const [selectedSkin, setSelectedSkin] = useState<string>("default_1");
+  const MAX_USERNAME_LENGTH = 12;
 
   const defaultClassRef = useRef<PlayerClass>("default");
 
@@ -37,14 +38,14 @@ export default function CharacterCreation() {
     if (/\s/.test(trimmed)) {
       return { valid: false, message: "Spaces are not allowed." };
     }
-    if (trimmed.length > 13) {
-      return { valid: false, message: "Name must be 13 characters or fewer." };
+    if (trimmed.length > MAX_USERNAME_LENGTH) {
+      return { valid: false, message: `Name must be ${MAX_USERNAME_LENGTH} characters or fewer.` };
     }
     return { valid: true, message: "" };
   }, [characterName]);
 
   return (
-    <div className="flex flex-col h-screen items-center justify-center">
+    <div className="flex flex-col h-[100dvh] items-center justify-center">
       <div className="relative flex flex-col items-center p-10 lg:p-16">
         {/* Corners */}
         <div className="absolute top-0 left-0 w-12 h-12 border-l-2 border-t-2 border-accent/20" />
