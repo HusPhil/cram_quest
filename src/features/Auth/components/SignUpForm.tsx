@@ -45,6 +45,7 @@ export default function SignUpForm() {
           />
           <button
             type="button"
+            tabIndex={-1}
             onClick={() => setShowPassword((prev) => !prev)}
             className="absolute top-1/2 right-3 -translate-y-1/2 text-text/50 hover:text-accent transition-colors"
           >
@@ -64,8 +65,9 @@ export default function SignUpForm() {
           />
           <button
             type="button"
+            tabIndex={-1}
             onClick={() => setShowConfirmPassword((prev) => !prev)}
-            className="absolute top-1/2 right-3 -translate-y-1/2 text-text/50 hover:text-accent transition-colors"
+            className=" absolute top-1/2 right-3 -translate-y-1/2 text-text/50 hover:text-accent transition-colors"
           >
             {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
           </button>
