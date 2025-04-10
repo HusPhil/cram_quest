@@ -5,6 +5,7 @@ import MainLayout from "./layouts/MainLayout";
 
 // Pages
 const LoginRegisterPage = lazy(() => import("./pages/LoginRegister"));
+const CharacterCreationPage = lazy(() => import("./pages/CharacterCreation"))
 const About = lazy(() => import("./pages/About"));
 const Home = lazy(() => import("./pages/Home"));
 
@@ -22,6 +23,7 @@ const AppRouter = () => {
         <Routes>
           {/* Public auth route without layout */}
           <Route path="/auth" element={<LoginRegisterPage />} />
+          <Route path="/new-player" element={<CharacterCreationPage />} />
 
           {/* All routes under MainLayout */}
           <Route element={<MainLayout />}>
