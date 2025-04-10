@@ -28,3 +28,9 @@ export async function refreshAccessToken() {
 export function setAuthHeader(token: string) {
   axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 }
+
+// This can be used directly in interceptors to set the token from context dynamically.
+export const updateAuthHeaderFromContext = () => {
+  const { accessToken } = useAuth();
+  setAuthHeader(accessToken); // Set the token from context to the axios headers
+};

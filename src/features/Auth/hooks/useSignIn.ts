@@ -2,8 +2,9 @@
 import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "../../../context/AuthContext";
 import { signIn } from "../../../services/api/crud/auth/signIn";
+import { setAuthHeader } from "../../../lib/axios/token";
 
-const useSignIn = () => {
+export const useSignIn = () => {
   const { setAccessToken } = useAuth();  
 
   return useMutation({
@@ -14,7 +15,7 @@ const useSignIn = () => {
       console.log("data: ", data);
       console.log("variables: ", variables);
       console.log("context: ", context);
-
+      setAuthHeader(data.access_token);
       setAccessToken(data.access_token);
     },
     onError(error, variables, context) {
@@ -27,4 +28,3 @@ const useSignIn = () => {
   });
 };
 
-export default useSignIn;

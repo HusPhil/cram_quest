@@ -4,15 +4,9 @@ import { getAuthToken } from "../../lib/axios/token";
 
 // Fetcher function using axiosInstance
 export async function fetcher(url: string) {
-  const token = getAuthToken(); // Get the auth token from context or another source
-
   try {
-    const response = await axiosInstance.get(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data; // Return the response data
+    const response = await axiosInstance.get(url);
+    return response; // Return the response data
   } catch (error: any) {
     console.error("Error fetching data:", error);
     const errorMessage = error?.response?.data?.detail || "Failed to fetch data";

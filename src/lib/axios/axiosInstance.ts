@@ -1,6 +1,7 @@
 // src/lib/axios/api.ts
 import axios from "axios";
 import { BASE_URL } from "../../data/api";
+import("./interceptors");
 
 // Create and export an Axios instance with default settings
 export const axiosInstance = axios.create({

@@ -1,5 +1,5 @@
 import { BASE_URL } from "../../../../data/api";
-import fetcher from "../../fetcher";
+import { fetcher } from "../../fetcher";
 
 
 export const getSubjects = async (player_id: number) => {

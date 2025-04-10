@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { useFloatingScreen } from "../../../context/FloatingScreenContext";
 import SubjectScreen from "../../Subjects/components/SubjectScreen/SubjectScreen";
+import { useGetSubject } from "../../Subjects/hooks/useGetSubjects";
 
 const mockDataSubjects = [
   {
@@ -38,11 +39,13 @@ const mockDataSubjects = [
 export default function Subjects() {
   const { openScreen, setContent } = useFloatingScreen();
 
+  const subjectQuery = useGetSubject(22);
+
   const handleOpenScreen = useCallback(
     (
       subjectId: number,
-      subjectCodeName: String,
-      subjectDescription: String,
+      subjectCodeName: string,
+      subjectDescription: string,
       subjectDifficulty: number
     ) => {
       setContent(
@@ -54,6 +57,7 @@ export default function Subjects() {
         />
       );
       openScreen();
+      console.log(subjectQuery.data);
     },
     []
   );
