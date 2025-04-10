@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getSubjects } from '../../../utils/api/crud/players/getSubjects'
+import { getSubjects } from '../../../services/api/crud/players/getSubjects'
 import { useFetchQuest } from '../../../hooks/useFetchQuest'
 
 export default function Quests() {

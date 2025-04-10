@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import getSubjects from "../utils/api/crud/players/getSubjects"
+import getSubjects from "../services/api/crud/players/getSubjects"
 
 
 export const useFetchQuest = (player_id: number) => {

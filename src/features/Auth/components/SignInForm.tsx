@@ -13,9 +13,6 @@ export default function SignInForm() {
   });
 
   const signInMutate = useSignIn();
-  const signUpMutate = useSignUp();
-
-  const { setAccessToken } = useAuth();
 
   useEffect(() => {
     const trimmedUsername = username.trim();
@@ -32,7 +29,7 @@ export default function SignInForm() {
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
-      signInMutate.mutate({ username, password, setAccessToken});
+      signInMutate.mutate({ username, password});
       e.preventDefault();
       // alert(`Signed in as ${username} with password ${password}`);
     },
@@ -72,8 +69,6 @@ export default function SignInForm() {
         <span className="relative z-10">Begin Quest</span>
         <div className="absolute inset-0 bg-gradient-to-r from-accent via-accent/80 to-accent opacity-0 group-hover:opacity-100 transition-opacity group-disabled:opacity-0" />
       </button>
-
-      
     </form>
   );
 }

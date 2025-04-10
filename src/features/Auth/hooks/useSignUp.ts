@@ -1,6 +1,6 @@
 // src/features/Auth/hooks/useSignIn.ts
 import { useMutation } from "@tanstack/react-query";
-import { signUp } from "../../../utils/api/fetcher";
+import { signUp } from "../../../services/api/crud/auth/signUp";
 
 
 const useSignUp = () => useMutation({

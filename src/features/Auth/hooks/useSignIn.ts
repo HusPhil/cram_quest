@@ -1,7 +1,7 @@
 // src/features/Auth/hooks/useSignIn.ts
 import { useMutation } from "@tanstack/react-query";
-import { signIn } from "../../../utils/api/fetcher";
 import { useAuth } from "../../../context/AuthContext";
+import { signIn } from "../../../services/api/crud/auth/signIn";
 
 const useSignIn = () => {
   const { setAccessToken } = useAuth();  
