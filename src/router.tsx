@@ -4,7 +4,7 @@ import Loading from "./components/Loading";
 import MainLayout from "./layouts/MainLayout";
 
 // Pages
-const LoginRegisterPage = lazy(() => import("./pages/LoginRegister"));
+const Authentication = lazy(() => import("./pages/Authentication"));
 const CharacterCreationPage = lazy(() => import("./pages/CharacterCreation"))
 const About = lazy(() => import("./pages/About"));
 const Home = lazy(() => import("./pages/Home"));
@@ -22,7 +22,7 @@ const AppRouter = () => {
       <Suspense fallback={<Loading />}>
         <Routes>
           {/* Public auth route without layout */}
-          <Route path="/auth" element={<LoginRegisterPage />} />
+          <Route path="/auth" element={<Authentication />} />
           <Route path="/new-player" element={<CharacterCreationPage />} />
 
           {/* All routes under MainLayout */}
