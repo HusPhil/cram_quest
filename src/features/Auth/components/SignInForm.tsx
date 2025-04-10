@@ -1,5 +1,8 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, use } from "react";
 import { FormValidationResult } from "../../../pages/Authentication";
+import useSignIn from "../hooks/useSignIn";
+import useSignUp from "../hooks/useSignUp";
+import { useAuth } from "../../../context/AuthContext";
 
 export default function SignInForm() {
   const [username, setUsername] = useState("");
@@ -8,6 +11,11 @@ export default function SignInForm() {
     valid: false,
     message: "",
   });
+
+  const signInMutate = useSignIn();
+  const signUpMutate = useSignUp();
+
+  const { setAccessToken } = useAuth();
 
   useEffect(() => {
     const trimmedUsername = username.trim();
@@ -24,11 +32,13 @@ export default function SignInForm() {
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
+      signInMutate.mutate({ username, password, setAccessToken});
       e.preventDefault();
-      alert(`Signed in as ${username} with password ${password}`);
+      // alert(`Signed in as ${username} with password ${password}`);
     },
     [username, password]
   );
+
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 mt-5">
@@ -62,6 +72,8 @@ export default function SignInForm() {
         <span className="relative z-10">Begin Quest</span>
         <div className="absolute inset-0 bg-gradient-to-r from-accent via-accent/80 to-accent opacity-0 group-hover:opacity-100 transition-opacity group-disabled:opacity-0" />
       </button>
+
+      
     </form>
   );
 }
