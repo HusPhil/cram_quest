@@ -47,7 +47,6 @@ const mockWeeklyCheckInRecord = [
 export default function CheckIn() {
     const {currentScreenSize, currentHeightSize} = useScreenResize();
     const { getAnimationParams: getPlayerAnimationParams, setCurrentAction, currentAction } = useCharacterAnimation("player", 'default', "default_3")
-  
     const handlePlayerClick = useCallback(() => {
       if(currentAction == "hurt") return
       setCurrentAction("hurt")
@@ -57,7 +56,8 @@ export default function CheckIn() {
       if(currentAction == "idle") return
       setCurrentAction("idle")
     }, [currentAction, setCurrentAction])
-  
+    
+
     return (
       <div className='flex flex-col items-center justify-end flex-1 mx-4'>
           {/* Character Card */}

@@ -57,7 +57,6 @@ export default function Subjects() {
         />
       );
       openScreen();
-      console.log(subjectQuery.data);
     },
     []
   );
