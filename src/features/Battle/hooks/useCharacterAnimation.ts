@@ -21,6 +21,7 @@ export function useCharacterAnimation(
 ) {
   // Track the current animation state with proper type based on character type
   const [currentAction, setCurrentAction] = useState<AnimationStateType>('idle');
+  
 
   // Use the mergeAnimationConfig utility to get a complete animation config
   const animationConfig = useMemo(() => {

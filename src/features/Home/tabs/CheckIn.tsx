@@ -47,6 +47,7 @@ const mockWeeklyCheckInRecord = [
 export default function CheckIn() {
     const {currentScreenSize, currentHeightSize} = useScreenResize();
     const { getAnimationParams: getPlayerAnimationParams, setCurrentAction, currentAction } = useCharacterAnimation("player", 'default', "default_3")
+    
     const handlePlayerClick = useCallback(() => {
       if(currentAction == "hurt") return
       setCurrentAction("hurt")
