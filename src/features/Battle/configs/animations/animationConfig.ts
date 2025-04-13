@@ -41,7 +41,7 @@ export const baseEnemyAnimationConfig: EnemyAnimations = {
     idle: { frameCount: 2, fps: 3, row: 0 },
     walk: { frameCount: 8, fps: 10, row: 1 },
     hurt: { frameCount: 3, fps: 10, row: 2 },
-    attack: { frameCount: 7, fps: 10, row: 3 }  
+    attack: { frameCount: 4, fps: 10, row: 3 }  
 };
 
 export const enemyAnimationOverrides: EnemyAnimationOverridesMap = {
@@ -54,8 +54,8 @@ export const enemyAnimationOverrides: EnemyAnimationOverridesMap = {
     },
     skeleton: {    
       walk: { frameCount: 6, fps: 10, row: 1 },
+      hurt: { frameCount: 3, fps: 10, row: 2 },
       attack: { frameCount: 4, fps: 8, row: 3 },
-      hurt: { frameCount: 3, fps: 10, row: 2 }
     },
     orc: {},
     pig: {},

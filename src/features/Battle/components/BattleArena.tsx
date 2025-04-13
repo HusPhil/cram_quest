@@ -14,27 +14,18 @@ export default function BattleArena() {
 	const {
 		getAnimationParams: getEnemyAnimation,
 		setCurrentAction: setEnemyCurrentAction,
-	} = useCharacterAnimation('skeleton');
+	} = useCharacterAnimation('orc');
 
-	// const {
-	//   sceneStep,
-	//   enemyPosX, playerPosX,
-	//   enemyAnimationLoop, playerAnimationLoop
-	// } = useBattleAnimation(
-	//   setEnemyCurrentAction,
-	//   setPlayerCurrentAction
-	// )
-
-  const onPlayerAnimationCycleComplete = useCallback(() => {
-    // console.log('Player animation cycle complete');
-  }, [])
-
-  const onEnemyAnimationCycleComplete = useCallback(() => {
-    // console.log('Enemy animation cycle complete');
-  }, [])
-
-	const { startBattle, step, enemyPosX, enemyLoop, enemyZValue, playerLoop, playerPosX, playerZValue } =
-		useBattleSequence(setPlayerCurrentAction, setEnemyCurrentAction);
+	const {
+		startBattle,
+		step,
+		enemyPosX,
+		enemyLoop,
+		enemyZValue,
+		playerLoop,
+		playerPosX,
+		playerZValue,
+	} = useBattleSequence(setPlayerCurrentAction, setEnemyCurrentAction);
 
 	useEffect(() => {
 		startBattle();
@@ -47,7 +38,6 @@ export default function BattleArena() {
 			<div className="flex relative w-full h-[200px]  overflow-hidden">
 				{/* Player (fixed on the left) */}
 				<SpriteSheet
-					className={`absolute z-${playerZValue}`}
 					style={{
 						zIndex: playerZValue,
 						right: `${playerPosX}px`,
@@ -60,14 +50,12 @@ export default function BattleArena() {
 					fps={getPlayerAnimation().fps}
 					frameRow={getPlayerAnimation().row}
 					scale={2.5}
-          onAnimationCycleComplete={onPlayerAnimationCycleComplete}
 					loop={playerLoop}
 					offsetY={14}
 				/>
 
 				{/* Enemy (can move horizontally) */}
 				<SpriteSheet
-					className={`absolute z-${enemyZValue}`}
 					style={{
 						zIndex: enemyZValue,
 						left: `${enemyPosX}px`,
@@ -80,7 +68,6 @@ export default function BattleArena() {
 					frameCount={getEnemyAnimation().frameCount}
 					fps={getEnemyAnimation().fps}
 					frameRow={getEnemyAnimation().row}
-          onAnimationCycleComplete={onEnemyAnimationCycleComplete}
 					scale={2.5}
 					loop={enemyLoop}
 				/>
