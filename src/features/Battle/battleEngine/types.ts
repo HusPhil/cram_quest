@@ -1,4 +1,4 @@
-// battleEngine/types.ts
+import { AnimationStateType } from "../hooks/useCharacterAnimation";
 
 export type BattleStepFn = (ctx: BattleContext) => (() => void) | void;
 
@@ -6,8 +6,8 @@ export type BattleContext = {
   next: () => void;
 
   // Animation
-  setPlayerAction: (action: string) => void;
-  setEnemyAction: (action: string) => void;
+  setPlayerAction: (action: AnimationStateType) => void;
+  setEnemyAction: (action: AnimationStateType) => void;
   setPlayerLoop: (loop: boolean) => void;
   setEnemyLoop: (loop: boolean) => void;
 

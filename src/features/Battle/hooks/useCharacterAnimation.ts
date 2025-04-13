@@ -9,7 +9,7 @@ import {
   playerAssets,
   PlayerAnimations,
   EnemyAnimations
-} from "../configs/animations/animationConfig";
+} from "../configs/spritesheetConfig";
 import { mergeAnimationConfig } from "../utils/mergeAnimation";
 
 export type AnimationStateType = EnemyAnimationState | PlayerAnimationState;

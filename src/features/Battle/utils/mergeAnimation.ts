@@ -1,4 +1,4 @@
-import { baseEnemyAnimationConfig, basePlayerAnimationConfig, CharacterType, enemyAnimationOverrides, PlayerClass, playerClassOverrides, PlayerSkin, playerSkinOverrides } from "../configs/animations/animationConfig";
+import { baseEnemyAnimationConfig, basePlayerAnimationConfig, CharacterType, enemyAnimationOverrides, PlayerClass, playerClassOverrides, PlayerSkin, playerSkinOverrides } from "../configs/spritesheetConfig";
 
 export function mergeAnimationConfig(
     characterType: CharacterType,

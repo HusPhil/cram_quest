@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef } from "react";
 import SpriteSheet from "../components/SpriteSheet";
-import { PlayerClass, playerAssets } from "../features/Battle/configs/animations/animationConfig";
+import { PlayerClass, playerAssets } from "../features/Battle/configs/spritesheetConfig";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 
 const skinDisplayNames: Record<string, string> = {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, memo, CSSProperties } from 'react';
-import { AnimationConfig } from '../features/Battle/configs/animations/animationConfig';
+import { AnimationConfig } from '../features/Battle/configs/spritesheetConfig';
 
 interface SpriteSheetProps {
   src: string;
