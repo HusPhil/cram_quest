@@ -54,6 +54,8 @@ export function useCharacterAnimation(
     }
   };
 
+  console.log(getAnimationParams())
+
   return { 
     currentAction,
     setCurrentAction,

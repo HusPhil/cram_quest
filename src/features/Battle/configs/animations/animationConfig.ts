@@ -9,6 +9,7 @@ export type AnimationConfig = {
   frameCount: number;
   fps: number;
   row: number;
+  frameCountStart?: number;
 };
 
 // Type for a complete set of animation states
@@ -37,10 +38,10 @@ export type EnemyAssetMap = Record<EnemyType, string>;
 export type PlayerAssetMap = Record<PlayerClass, Record<PlayerSkin, string>>;
 
 export const baseEnemyAnimationConfig: EnemyAnimations = {
-    idle: { frameCount: 2, fps: 3, row: 1 },
-    walk: { frameCount: 8, fps: 10, row: 0 },
-    hurt: { frameCount: 8, fps: 10, row: 1 },
-    attack: { frameCount: 7, fps: 10, row: 2 }
+    idle: { frameCount: 2, fps: 3, row: 0 },
+    walk: { frameCount: 8, fps: 10, row: 1 },
+    hurt: { frameCount: 3, fps: 10, row: 2 },
+    attack: { frameCount: 7, fps: 10, row: 3 }  
 };
 
 export const enemyAnimationOverrides: EnemyAnimationOverridesMap = {
@@ -52,8 +53,9 @@ export const enemyAnimationOverrides: EnemyAnimationOverridesMap = {
       attack: { frameCount: 6, fps: 9, row: 2 }
     },
     skeleton: {    
-      walk: { frameCount: 6, fps: 10, row: 0 },
-      attack: { frameCount: 5, fps: 9, row: 2 }
+      walk: { frameCount: 6, fps: 10, row: 1 },
+      attack: { frameCount: 4, fps: 8, row: 3 },
+      hurt: { frameCount: 3, fps: 10, row: 2 }
     },
     orc: {},
     pig: {},

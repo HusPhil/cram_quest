@@ -33,7 +33,7 @@ export default function BattleArena() {
     // console.log('Enemy animation cycle complete');
   }, [])
 
-	const { startBattle, step, enemyPosX, enemyLoop, playerLoop, playerPosX } =
+	const { startBattle, step, enemyPosX, enemyLoop, enemyZValue, playerLoop, playerPosX, playerZValue } =
 		useBattleSequence(setPlayerCurrentAction, setEnemyCurrentAction);
 
 	useEffect(() => {
@@ -44,11 +44,12 @@ export default function BattleArena() {
 		<div className="flex flex-col items-center gap-4">
 			<BattleTimer duration={77} />
 
-			<div className="flex relative w-full h-[200px] border bg-black overflow-hidden">
+			<div className="flex relative w-full h-[200px]  overflow-hidden">
 				{/* Player (fixed on the left) */}
 				<SpriteSheet
-					className="absolute z-20"
+					className={`absolute z-${playerZValue}`}
 					style={{
+						zIndex: playerZValue,
 						right: `${playerPosX}px`,
 						bottom: 0,
 					}}
@@ -66,8 +67,9 @@ export default function BattleArena() {
 
 				{/* Enemy (can move horizontally) */}
 				<SpriteSheet
-					className="absolute z-30"
+					className={`absolute z-${enemyZValue}`}
 					style={{
+						zIndex: enemyZValue,
 						left: `${enemyPosX}px`,
 						bottom: 0,
 						transform: 'scaleX(-1)',

@@ -11,6 +11,7 @@ interface BattleTimerProps {
     useEffect(() => {
       if (timeLeft <= 0) {
         onTimeUp?.();
+        alert("timer ended")
         return;
       }
   

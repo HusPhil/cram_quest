@@ -54,8 +54,8 @@ export default function CheckIn() {
     }, [currentAction, setCurrentAction])
   
     const handleAnimationComplete = useCallback(() => {
-      if(currentAction == "idle") return
-      setCurrentAction("idle")
+      if(currentAction == "attack_2") return
+      setCurrentAction("attack_2")
     }, [currentAction, setCurrentAction])
     
 
