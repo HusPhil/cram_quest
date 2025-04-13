@@ -19,7 +19,7 @@ export const useSignIn = () => {
       setAccessToken(data.access_token);
     },
     onError(error, variables, context) {
-      alert("An ERROR OCCURED");
+      alert("An ERROR OCCURED: " + error.message);
       // console.log("errorMessage: ", error.response.data.detail);
       console.log("error: ", error);
       console.log("variables: ", variables);

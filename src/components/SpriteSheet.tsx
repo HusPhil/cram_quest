@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
+import React, { useState, useEffect, useRef, useCallback, memo, CSSProperties } from 'react';
 import { AnimationConfig } from '../features/Battle/configs/animations/animationConfig';
 
 interface SpriteSheetProps {
@@ -12,6 +12,7 @@ interface SpriteSheetProps {
   loop?: boolean;
   frameRow?: number;
   className?: string;
+  style?: CSSProperties
   offsetX?: number;
   offsetY?: number;
   animationConfig?: AnimationConfig;
@@ -30,6 +31,7 @@ const SpriteSheet: React.FC<SpriteSheetProps> = ({
   loop = true,
   frameRow = 0,
   className = '',
+  style={},
   offsetX = 0,
   offsetY = 0,
   onComplete,
@@ -83,7 +85,8 @@ const SpriteSheet: React.FC<SpriteSheetProps> = ({
         height: frameHeight * scale,
         overflow: 'hidden',
         position: 'relative',
-        imageRendering: 'pixelated'
+        imageRendering: 'pixelated',
+        ...style
       }}
     >
       <img

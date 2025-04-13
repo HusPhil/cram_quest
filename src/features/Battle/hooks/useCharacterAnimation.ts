@@ -12,7 +12,7 @@ import {
 } from "../configs/animations/animationConfig";
 import { mergeAnimationConfig } from "../utils/mergeAnimation";
 
-type AnimationStateType = EnemyAnimationState | PlayerAnimationState;
+export type AnimationStateType = EnemyAnimationState | PlayerAnimationState;
 
 export function useCharacterAnimation(
   characterType: CharacterType,
