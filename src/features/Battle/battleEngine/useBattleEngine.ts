@@ -2,12 +2,15 @@ import { useEffect, useRef, useState } from 'react';
 import { BattleContext, BattleStepFn } from './types';
 import { AnimationStateType } from '../hooks/useCharacterAnimation';
 import { enemyPosOffSetX } from '../components/BattleArena';
+import { defaultBattleSequence } from './scenes/default/defaultSequence';
 
 export const useBattleEngine = (steps: BattleStepFn[]) => {
   
 
   const [stepIndex, setStepIndex] = useState(-1);
   const [loop, setLoop] = useState(false);
+  const [currentSteps, setCurrentSteps] = useState<BattleStepFn[]>(defaultBattleSequence);
+  const [customSceneActive, setCustomSceneActive] = useState(false);
 
   const [playerPosX, setPlayerPosX] = useState(0);
   const [enemyPosX, setEnemyPosX] = useState((48 * 3));
@@ -41,11 +44,27 @@ export const useBattleEngine = (steps: BattleStepFn[]) => {
 
   const next = () => {
     setStepIndex((prevIndex) => {
-      if (prevIndex + 1 >= steps.length) {
+      const isLast = prevIndex + 1 >= currentSteps.length;
+
+      if (isLast) {
+        if (customSceneActive) {
+          // Return to default steps after scene
+          setCustomSceneActive(false);
+          setCurrentSteps(defaultBattleSequence);
+          return 0;
+        }
         return loop ? 0 : prevIndex + 1;
       }
+
       return prevIndex + 1;
     });
+  };
+
+  const queueCustomScene = (sceneSteps: BattleStepFn[]) => {
+    cleanupRef.current?.(); // clean current step
+    setCustomSceneActive(true);
+    setCurrentSteps(sceneSteps);
+    setStepIndex(0);
   };
 
   // Start battle

@@ -8,13 +8,14 @@ export const enemyAttack: BattleStepFn = ({
     next
 }) => {
     adjustZValues("enemy")
-    setEnemyLoop(false);
-    setEnemyAction('attack');
     setPlayerAction('idle');
 
+    setEnemyLoop(false);
+    setEnemyAction('attack');
+    
     const attackAnimationDelay = setTimeout(() => {
         next()
-    }, 300);
+    }, 250);
 
     return () => clearTimeout(attackAnimationDelay)
 }

@@ -18,7 +18,7 @@ export default function BattleArena() {
 	const {	
 		getAnimationParams: getEnemyAnimation,
 		setCurrentAction: setEnemyCurrentAction,
-	} = useCharacterAnimation('skeleton');
+	} = useCharacterAnimation('orc');
 
 	const {
 		startBattle,
@@ -32,8 +32,8 @@ export default function BattleArena() {
 		setPlayerActionRef,
 		setLoop
 	} = useBattleEngine(
-		killEnemySequence
-		// defaultBattleSequence
+		// killEnemySequence
+		defaultBattleSequence
 		// []
 	)
 

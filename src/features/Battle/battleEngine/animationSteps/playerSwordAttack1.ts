@@ -13,7 +13,6 @@ export const playerSwordAttack1: BattleStepFn = ({
     setPlayerAction('attack_1');
     
     setPlayerLoop(false);
-    setEnemyAction('idle');
 
     const cleanup = setTimeout(() => {
         setPlayerAction('idle');
