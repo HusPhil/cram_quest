@@ -13,8 +13,6 @@ export const placeEnemyMiddle: BattleStepFn = ({
     setPlayerAction('idle');
     setEnemyAction('idle');
     setEnemyPosX(arenaMiddle + enemyPosOffSetX);
-    
-    console.log("placeEnemyMiddle")
 
     const delay = setTimeout(() => {
         next()

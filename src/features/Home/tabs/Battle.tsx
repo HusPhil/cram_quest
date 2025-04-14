@@ -8,19 +8,17 @@ export const Battle = () => {
 	}, []);
 
 	return (
-		<div className="h-[75dvh] w-full flex justify-center">
-			
-      <div className="flex flex-col h-full items-center  w-full">
+		<div className="w-full flex justify-center h-[75dvh]">
+			<div className="flex flex-col h-full items-center  w-full">
 				<div className="shrink-0">
 					<BattleArena />
 				</div>
 
-				<div className="flex-1 min-h-0 overflow-auto bg-gray-800/0 p-5 space-y-2 mt-4 w-full no-scrollbar">
+				<div className="flex-1 overflow-auto bg-gray-800/0 p-5 space-y-2 mt-4 w-full no-scrollbar">
 					<SelectedQuestList />
 				</div>
 			</div>
-		
-    </div>
+		</div>
 	);
 };
 
