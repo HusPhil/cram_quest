@@ -1,4 +1,4 @@
-import { enemyPosOffSetX } from '../../../components/BattleArena';
+import { arenaMiddle, enemyPosOffSetX } from '../../../components/BattleArena';
 import { BattleStepFn } from '../../types';
 
 export const walkToMiddle: BattleStepFn = ({
@@ -12,8 +12,8 @@ export const walkToMiddle: BattleStepFn = ({
 
   setEnemyAction('walk');
 
-  const targetPlayerX = (6 * 12) - enemyPosOffSetX;
-  const targetEnemyX = (6 * 12) + enemyPosOffSetX;
+  const targetPlayerX = arenaMiddle - enemyPosOffSetX;
+  const targetEnemyX = arenaMiddle + enemyPosOffSetX;
 
   let reached = false;
 

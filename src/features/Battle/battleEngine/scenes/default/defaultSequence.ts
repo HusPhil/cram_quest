@@ -5,6 +5,8 @@ import { playerSwordCharge } from './playerSwordCharge';
 import { playerHurt } from '../../animationSteps/playerHurt';
 import { walkToMiddle } from './walkToMiddle';
 import { BattleStepFn } from '../../types';
+import { playerPunchCharge } from '../killEnemy/playerPunchCharge';
+import { playerPunch } from '../../animationSteps/playerPunch';
 
 export const defaultBattleSequence: BattleStepFn[] = [
   walkToMiddle,
@@ -12,5 +14,12 @@ export const defaultBattleSequence: BattleStepFn[] = [
   playerHurt,
   playerSwordCharge,
   playerSwordAttack2,
-  enemyHurt
+  enemyHurt,
+  // walkToMiddle,
+  // enemyAttack,
+  // playerHurt,
+  // playerPunchCharge,
+  // enemyHurt,
+  // enemyHurt
+
 ];

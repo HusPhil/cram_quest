@@ -1,4 +1,4 @@
-import { enemyPosOffSetX } from "../../../components/BattleArena";
+import { arenaMiddle, enemyPosOffSetX } from "../../../components/BattleArena";
 import { BattleStepFn } from "../../types";
 
 
@@ -12,7 +12,7 @@ export const placeEnemyMiddle: BattleStepFn = ({
     setEnemyLoop(true);
     setPlayerAction('idle');
     setEnemyAction('idle');
-    setEnemyPosX(50 - enemyPosOffSetX);
+    setEnemyPosX(arenaMiddle + enemyPosOffSetX);
     
     console.log("placeEnemyMiddle")
 

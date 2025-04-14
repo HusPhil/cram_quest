@@ -1,4 +1,4 @@
-import { enemyPosOffSetX } from "../../../components/BattleArena";
+import { arenaMiddle, enemyPosOffSetX } from "../../../components/BattleArena";
 import { BattleStepFn } from "../../types"
 
 export const playerPunchCharge: BattleStepFn = ({
@@ -8,13 +8,14 @@ export const playerPunchCharge: BattleStepFn = ({
     getEnemyPosX,
     getPlayerPosX,
     setPlayerPosX,
-
+    adjustZValues
 }) => {
-    setPlayerAction('walk');
+    adjustZValues("player")
+    setPlayerAction('attack_3');
     setPlayerLoop(true);
 
     let chargeReached = false;
-    const chargeTargetX = getEnemyPosX()  + enemyPosOffSetX + 30; // Move LEFT toward enemy
+    const chargeTargetX = arenaMiddle  + enemyPosOffSetX; // Move LEFT toward enemy
 
     const walkInterval = setInterval(() => {
         console.log(getPlayerPosX())
@@ -23,7 +24,7 @@ export const playerPunchCharge: BattleStepFn = ({
                 chargeReached = true;
                 return chargeTargetX;
             }
-            return prev + 30; 
+            return prev + 25; 
         });
 
         if (chargeReached) {
@@ -32,7 +33,6 @@ export const playerPunchCharge: BattleStepFn = ({
         
     }
     , 20);
-    console.log("playerCharge")
     
     return () => clearInterval(walkInterval);
 }

@@ -7,6 +7,7 @@ import { killEnemySequence } from '../battleEngine/scenes/killEnemy/killEnemySeq
 import { defaultBattleSequence } from '../battleEngine/scenes/default/defaultSequence';
 
 export const enemyPosOffSetX = 16
+export const arenaMiddle = (6 * 12)
 
 export default function BattleArena() {
 	const {
@@ -31,8 +32,8 @@ export default function BattleArena() {
 		setPlayerActionRef,
 		setLoop
 	} = useBattleEngine(
-		// killEnemySequence
-		defaultBattleSequence
+		killEnemySequence
+		// defaultBattleSequence
 		// []
 	)
 

@@ -11,7 +11,7 @@ export const playerPunch: BattleStepFn = ({
 
     const transitionDelay = setTimeout(() => {
         next()
-    }, 250)
+    }, 200)
 
     return () => clearTimeout(transitionDelay)
 }
