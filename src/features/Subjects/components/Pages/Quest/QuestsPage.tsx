@@ -53,7 +53,7 @@ const mockQuests = [
   {
     id: 9,
     difficulty: 3,
-    description: 'Research on computer science project',
+    description: 'Research on computer science project Research on computer science project Research on computer science project',
     deadline: "2023-01-09",
   },
   {

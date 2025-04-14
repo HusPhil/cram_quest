@@ -11,10 +11,11 @@ export default function QuestCard({ quest }: QuestCardProps) {
   return (
     <div className="bg-secondary rounded-lg pt-3 pb-1 px-3">
       <div className="flex justify-between">
-        <div className="flex gap-3 items-center">
+        <div className="flex gap-3 items-start">
           <input
             type="checkbox"
-            className="appearance-none w-4 h-4 rounded-sm accent-accent bg-secondary checked:appearance-auto border border-accen"
+            className="appearance-none shrink-0 w-4 h-4 rounded-sm accent-accent 
+                      bg-secondary checked:appearance-auto border border-accent mt-1"
           />
           <p>{quest.description}</p>
         </div>

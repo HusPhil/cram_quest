@@ -5,6 +5,7 @@ export const playerCharge: BattleStepFn = ({
     setPlayerAction,
     setPlayerLoop,
     getEnemyPosX,
+    getPlayerPosX,
     setPlayerPosX,
 
 }) => {
@@ -12,23 +13,28 @@ export const playerCharge: BattleStepFn = ({
     setPlayerLoop(true);
 
     let chargeReached = false;
-    const chargeTargetX = getEnemyPosX() - 26; // Move LEFT toward enemy
+    const chargeTargetX = -1 * getEnemyPosX() // Move LEFT toward enemy
 
-    const walkInterval = setInterval(() => {
-        setPlayerPosX((prev) => {
-            if (prev <= chargeTargetX) {
-                chargeReached = true;
-                return chargeTargetX;
-            }
-            return prev - 6; // step left
-        });
+    console.log(chargeTargetX)
+    console.log(getPlayerPosX())
+    setPlayerPosX(-75)
 
-        if (chargeReached) {
-            next()
-        }
+    // const walkInterval = setInterval(() => {
+    //     setPlayerPosX((prev) => {
+    //         // console.log(prev, "en", chargeTargetX)
+    //         if (prev <= chargeTargetX) {
+    //             chargeReached = true;
+    //             return chargeTargetX;
+    //         }
+    //         return prev - 6; // step left
+    //     });
+
+    //     if (chargeReached) {
+    //         next()
+    //     }
         
-    }
-    , 50);
+    // }
+    // , 50);
     
-    return () => clearInterval(walkInterval);
+    // return () => clearInterval(walkInterval);
 }

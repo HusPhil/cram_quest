@@ -6,12 +6,13 @@ import { useBattleAnimation } from '../hooks/useBattleAnimation';
 import { useBattleSequence } from '../hooks/useBattleSequence';
 import { useBattleEngine } from '../battleEngine/useBattleEngine';
 import { defaultBattleSequence } from '../battleEngine/animationSequences/defaultSequence';
+import { killEnemySequence } from '../battleEngine/animationSequences/killEnemySequence';
 
 export default function BattleArena() {
 	const {
 		getAnimationParams: getPlayerAnimation,
 		setCurrentAction: setPlayerCurrentAction,
-	} = useCharacterAnimation('player', 'default', 'default_1');
+	} = useCharacterAnimation('player', 'default', 'default_2');
 
 	const {
 		getAnimationParams: getEnemyAnimation,
@@ -30,7 +31,7 @@ export default function BattleArena() {
 		setPlayerActionRef,
 		setLoop
 	} = useBattleEngine(
-		defaultBattleSequence
+		killEnemySequence
 	)
 
 	useEffect(() => {
@@ -41,9 +42,9 @@ export default function BattleArena() {
 	}, []);
 
 	return (
-		<div className="flex flex-col items-center gap-4">
+		<div className="flex flex-col w-[280px] items-center gap-4">
 
-			<div className="flex relative w-full h-[200px]  overflow-hidden ">
+			<div className="flex relative w-full h-[200px] overflow-hidden ">
 
 			<div className='absolute top-5 left-1/2 -translate-x-1/2'>
 				<BattleTimer duration={77} />
@@ -82,7 +83,7 @@ export default function BattleArena() {
 					frameRow={getPlayerAnimation().row}
 					scale={2.5}
 					loop={playerLoop}
-					offsetY={14}
+					offsetY={13}
 				/>
 
 				{/* Enemy (can move horizontally) */}
@@ -100,6 +101,7 @@ export default function BattleArena() {
 					fps={getEnemyAnimation().fps}
 					frameRow={getEnemyAnimation().row}
 					scale={2.5}
+					offsetY={-0.5}
 					loop={enemyLoop}
 				/>
 			</div>
