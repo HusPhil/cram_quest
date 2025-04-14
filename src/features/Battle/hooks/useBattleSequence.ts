@@ -47,7 +47,6 @@ export const useBattleSequence = (
 
 		switch (step) {
 			case 'walkToMiddle': {
-                adjustZValues('enemy')
 
 				setEnemyAction('walk');
 				// setPlayerAction('walk');
@@ -99,7 +98,6 @@ export const useBattleSequence = (
 			}
 
 			case 'playerReact': {
-                adjustZValues('player')
 				setEnemyLoop(true);
 				setEnemyAction('idle');
 				setPlayerAction('hurt');

@@ -4,8 +4,10 @@ export const enemyAttack: BattleStepFn = ({
     setEnemyLoop,
     setEnemyAction,
     setPlayerAction,
+    adjustZValues,
     next
 }) => {
+    adjustZValues("enemy")
     setEnemyLoop(false);
     setEnemyAction('attack');
     setPlayerAction('idle');

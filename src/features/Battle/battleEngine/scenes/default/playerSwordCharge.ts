@@ -1,7 +1,7 @@
-import { enemyPosOffSetX } from "../../components/BattleArena";
-import { BattleStepFn } from "../types"
+import { enemyPosOffSetX } from "../../../components/BattleArena";
+import { BattleStepFn } from "../../types"
 
-export const playerCharge: BattleStepFn = ({
+export const playerSwordCharge: BattleStepFn = ({
     next,
     setPlayerAction,
     setPlayerLoop,
@@ -14,12 +14,10 @@ export const playerCharge: BattleStepFn = ({
     setPlayerLoop(true);
 
     let chargeReached = false;
-    const chargeTargetX = getEnemyPosX() + enemyPosOffSetX; // Move LEFT toward enemy
-
-    console.log(chargeTargetX, getPlayerPosX())
+    const chargeTargetX = getEnemyPosX()  + enemyPosOffSetX; // Move LEFT toward enemy
 
     const walkInterval = setInterval(() => {
-        console.log(getPlayerPosX())
+        console.log(getPlayerPosX(), getEnemyPosX())
         setPlayerPosX((prev) => {
             if (prev >= chargeTargetX) {
                 chargeReached = true;
@@ -34,6 +32,7 @@ export const playerCharge: BattleStepFn = ({
         
     }
     , 50);
+    console.log("playerCharge")
     
     return () => clearInterval(walkInterval);
 }

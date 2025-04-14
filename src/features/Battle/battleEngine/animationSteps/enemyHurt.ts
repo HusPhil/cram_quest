@@ -14,14 +14,26 @@ export const enemyHurt: BattleStepFn = ({
     setEnemyAction('hurt');
     setPlayerAction('idle');
     setEnemyLoop(false);
+    let cleanup: (() => void) | undefined;
 
-    const cleanup = startKnockback({
+    const handleKnockbackDone = () => {
+        const transitionDelay = setTimeout(() => {
+            next()
+        }, 500);
+        return () => clearTimeout(transitionDelay);
+    }
+
+    cleanup = startKnockback({
         fromX: getEnemyPosX(),
         setX: setEnemyPosX,
         direction: 'right',
-        knockbackDmg: 50,
-        onDone: () => next(),
+        knockbackDmg: 60,
+        onDone: handleKnockbackDone,
     });
 
-    return cleanup;
+    return () => {
+        if (cleanup) {
+            cleanup();
+        }
+    };
 }

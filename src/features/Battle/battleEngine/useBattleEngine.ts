@@ -81,6 +81,7 @@ export const useBattleEngine = (steps: BattleStepFn[]) => {
 
   useEffect(() => {
     enemyPosXRef.current = enemyPosX;
+    console.log("new enemyPosX: ", enemyPosX);
   }, [enemyPosX]);
 
   return {

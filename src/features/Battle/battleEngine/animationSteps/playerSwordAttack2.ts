@@ -1,13 +1,15 @@
 import { BattleStepFn } from "../types";
 
 
-export const playerAttack: BattleStepFn = ({
+export const playerSwordAttack2: BattleStepFn = ({
     next,
     setPlayerAction,
     setPlayerLoop,
     setEnemyAction,
+    adjustZValues
 }) => {
     
+    adjustZValues('player');
     setPlayerAction('attack_2');
     setPlayerLoop(false);
     setEnemyAction('idle');
@@ -16,6 +18,7 @@ export const playerAttack: BattleStepFn = ({
         setPlayerAction('idle');
         next()
     }, 350);
+    console.log("playerAttack")
 
     return () => clearTimeout(cleanup);
 }

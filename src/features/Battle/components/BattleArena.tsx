@@ -1,12 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 import BattleTimer from './BattleTimer';
 import SpriteSheet from '../../../components/SpriteSheet';
 import useCharacterAnimation, { AnimationStateType } from '../hooks/useCharacterAnimation';
-import { useBattleAnimation } from '../hooks/useBattleAnimation';
-import { useBattleSequence } from '../hooks/useBattleSequence';
 import { useBattleEngine } from '../battleEngine/useBattleEngine';
-import { defaultBattleSequence } from '../battleEngine/animationSequences/defaultSequence';
-import { killEnemySequence } from '../battleEngine/animationSequences/killEnemySequence';
+import { killEnemySequence } from '../battleEngine/scenes/killEnemy/killEnemySequence';
+import { defaultBattleSequence } from '../battleEngine/scenes/default/defaultSequence';
 
 export const enemyPosOffSetX = 16
 
@@ -14,12 +12,12 @@ export default function BattleArena() {
 	const {
 		getAnimationParams: getPlayerAnimation,
 		setCurrentAction: setPlayerCurrentAction,
-	} = useCharacterAnimation('player', 'default', 'default_2');
+	} = useCharacterAnimation('player', 'default', 'default_3');
 
-	const {
+	const {	
 		getAnimationParams: getEnemyAnimation,
 		setCurrentAction: setEnemyCurrentAction,
-	} = useCharacterAnimation('orc');
+	} = useCharacterAnimation('skeleton');
 
 	const {
 		startBattle,
@@ -33,13 +31,14 @@ export default function BattleArena() {
 		setPlayerActionRef,
 		setLoop
 	} = useBattleEngine(
+		// killEnemySequence
 		defaultBattleSequence
 	)
 
 	useEffect(() => {
 		setPlayerActionRef.current = (action: AnimationStateType) => setPlayerCurrentAction(action);
   		setEnemyActionRef.current = (action: AnimationStateType) => setEnemyCurrentAction(action);
-		setLoop(true)
+		setLoop(!true)
 		startBattle();
 	}, []);
 
@@ -92,7 +91,7 @@ export default function BattleArena() {
 				<SpriteSheet
 					style={{
 						zIndex: enemyZ,
-						right: `${enemyPosX}px`,
+						left: `${enemyPosX}px`,
 						bottom: -30,
 						transform: 'scaleX(-1)',
 					}}

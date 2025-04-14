@@ -3,7 +3,6 @@ import { BattleStepFn } from "../types";
 
 export const playerHurt: BattleStepFn = ({
     next,
-    adjustZValues,
     setEnemyLoop,
     setEnemyAction,
     setPlayerAction,
@@ -11,8 +10,6 @@ export const playerHurt: BattleStepFn = ({
     getPlayerPosX,
     setPlayerPosX
 }) => {
-    adjustZValues('player')
-
     setEnemyAction('idle');
     setEnemyLoop(true);
     
