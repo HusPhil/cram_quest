@@ -12,7 +12,6 @@ export const walkToMiddle: BattleStepFn = ({
 }) => {
 
   adjustZValues('enemy');
-  setPlayerAction('walk');
   setEnemyAction('walk');
 
   const targetPlayerX = -60;

@@ -42,15 +42,37 @@ export default function BattleArena() {
 
 	return (
 		<div className="flex flex-col items-center gap-4">
-			<BattleTimer duration={77} />
 
-			<div className="flex relative w-full h-[200px]  overflow-hidden">
+			<div className="flex relative w-full h-[200px]  overflow-hidden ">
+
+			<div className='absolute top-5 left-1/2 -translate-x-1/2'>
+				<BattleTimer duration={77} />
+			</div>
+			
+			{/* Corner Decorations */}
+			<div className="absolute top-0 left-0 w-16 h-16">
+				<div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-accent/80 to-transparent" />
+				<div className="absolute top-0 left-0 h-full w-[1px] bg-gradient-to-b from-accent/80 to-transparent" />
+			</div>
+			<div className="absolute top-0 right-0 w-16 h-16">
+				<div className="absolute top-0 right-0 w-full h-[1px] bg-gradient-to-l from-accent/80 to-transparent" />
+				<div className="absolute top-0 right-0 h-full w-[1px] bg-gradient-to-b from-accent/80 to-transparent" />
+			</div>
+			<div className="absolute bottom-0 left-0 w-16 h-16">
+				<div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-accent/80 to-transparent" />
+				<div className="absolute bottom-0 left-0 h-full w-[1px] bg-gradient-to-t from-accent/80 to-transparent" />
+			</div>
+			<div className="absolute bottom-0 right-0 w-16 h-16">
+				<div className="absolute bottom-0 right-0 w-full h-[1px] bg-gradient-to-l from-accent/80 to-transparent" />
+				<div className="absolute bottom-0 right-0 h-full w-[1px] bg-gradient-to-t from-accent/80 to-transparent" />
+			</div>
+
 				{/* Player (fixed on the left) */}
 				<SpriteSheet
 					style={{
 						zIndex: playerZ,
 						right: `${playerPosX}px`,
-						bottom: 0,
+						bottom: -30,
 					}}
 					src={getPlayerAnimation().characterAsset}
 					frameHeight={48}
@@ -68,7 +90,7 @@ export default function BattleArena() {
 					style={{
 						zIndex: enemyZ,
 						left: `${enemyPosX}px`,
-						bottom: 0,
+						bottom: -30,
 						transform: 'scaleX(-1)',
 					}}
 					src={getEnemyAnimation().characterAsset}

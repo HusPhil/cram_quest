@@ -9,12 +9,15 @@ export default function Battle() {
   }, [])
 
   return (
-    <div>
-      <div>
+    <div className='flex flex-col justify-start'>
+      <div className='shrink-0'>
         <BattleArena />
       </div>
       <div>
-        {/* <SelectedQuestList/> */}
+        <SelectedQuestList/>
+        <SelectedQuestList/>
+        <SelectedQuestList/>
+        <SelectedQuestList/>
       </div>
     </div>
   )
