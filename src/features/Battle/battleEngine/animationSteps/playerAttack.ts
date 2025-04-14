@@ -7,6 +7,7 @@ export const playerAttack: BattleStepFn = ({
     setPlayerLoop,
     setEnemyAction,
 }) => {
+    
     setPlayerAction('attack_2');
     setPlayerLoop(false);
     setEnemyAction('idle');

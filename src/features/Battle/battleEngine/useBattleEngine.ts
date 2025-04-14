@@ -1,13 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import { BattleContext, BattleStepFn } from './types';
 import { AnimationStateType } from '../hooks/useCharacterAnimation';
+import { enemyPosOffSetX } from '../components/BattleArena';
 
 export const useBattleEngine = (steps: BattleStepFn[]) => {
+  
+
   const [stepIndex, setStepIndex] = useState(-1);
   const [loop, setLoop] = useState(false);
 
-  const [playerPosX, setPlayerPosX] = useState(-18);
-  const [enemyPosX, setEnemyPosX] = useState(6);
+  const [playerPosX, setPlayerPosX] = useState(0);
+  const [enemyPosX, setEnemyPosX] = useState(0 - enemyPosOffSetX);
 
   const [playerLoop, setPlayerLoop] = useState(true);
   const [enemyLoop, setEnemyLoop] = useState(true);

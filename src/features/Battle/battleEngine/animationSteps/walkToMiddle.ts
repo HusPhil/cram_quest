@@ -1,7 +1,7 @@
+import { enemyPosOffSetX } from '../../components/BattleArena';
 import { BattleStepFn } from '../types';
 
 export const walkToMiddle: BattleStepFn = ({
-  setPlayerAction,
   setEnemyAction,
   setPlayerPosX,
   setEnemyPosX,
@@ -14,25 +14,28 @@ export const walkToMiddle: BattleStepFn = ({
   adjustZValues('enemy');
   setEnemyAction('walk');
 
-  const targetPlayerX = -60;
-  const targetEnemyX = -34;
+  const targetPlayerX = 56;
+  const targetEnemyX = 56 - enemyPosOffSetX;
 
   let reached = false;
 
+  
   const interval = setInterval(() => {
     setPlayerPosX((prev) => {
-      if (prev <= targetPlayerX) return targetPlayerX;
-      return prev - 6;
+      if (prev >= targetPlayerX) return targetPlayerX;
+      return prev + 6;
     });
+    // console.log(getPlayerPosX(), getEnemyPosX())
+    console.log(getPlayerPosX(), getEnemyPosX())
 
     setEnemyPosX((prev) => {
-      if (prev <= targetEnemyX) return targetEnemyX;
-      return prev - 5;
+      if (prev >= targetEnemyX) return targetEnemyX;
+      return prev + 6;
     });
 
     if (
-      getPlayerPosX() <= targetPlayerX &&
-      getEnemyPosX() <= targetEnemyX &&
+      getPlayerPosX() >= targetPlayerX &&
+      getEnemyPosX() >= targetEnemyX &&
       !reached
     ) {
       reached = true;

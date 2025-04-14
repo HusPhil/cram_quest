@@ -18,7 +18,7 @@ export const enemyHurt: BattleStepFn = ({
     const cleanup = startKnockback({
         fromX: getEnemyPosX(),
         setX: setEnemyPosX,
-        direction: 'left',
+        direction: 'right',
         knockbackDmg: 50,
         onDone: () => next(),
     });

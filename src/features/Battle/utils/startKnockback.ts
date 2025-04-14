@@ -30,7 +30,11 @@ const startKnockback = ({
 		const progress = Math.min(elapsed / duration, 1);
 		const eased = easeOutQuad(progress);
 
-		const newPos = fromX - (toX - fromX) * eased;
+		const distanceInFriction = (toX - fromX) * eased;
+		const newPos = direction === "left" ?
+					fromX + distanceInFriction :
+					fromX - distanceInFriction;
+
 		setX(newPos);
 
 		if (progress < 1) {

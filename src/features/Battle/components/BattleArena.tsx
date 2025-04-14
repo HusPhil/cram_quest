@@ -8,6 +8,8 @@ import { useBattleEngine } from '../battleEngine/useBattleEngine';
 import { defaultBattleSequence } from '../battleEngine/animationSequences/defaultSequence';
 import { killEnemySequence } from '../battleEngine/animationSequences/killEnemySequence';
 
+export const enemyPosOffSetX = 16
+
 export default function BattleArena() {
 	const {
 		getAnimationParams: getPlayerAnimation,
@@ -31,7 +33,7 @@ export default function BattleArena() {
 		setPlayerActionRef,
 		setLoop
 	} = useBattleEngine(
-		killEnemySequence
+		defaultBattleSequence
 	)
 
 	useEffect(() => {
@@ -72,7 +74,7 @@ export default function BattleArena() {
 				<SpriteSheet
 					style={{
 						zIndex: playerZ,
-						right: `${playerPosX}px`,
+						left: `${playerPosX}px`,
 						bottom: -30,
 					}}
 					src={getPlayerAnimation().characterAsset}
@@ -90,7 +92,7 @@ export default function BattleArena() {
 				<SpriteSheet
 					style={{
 						zIndex: enemyZ,
-						left: `${enemyPosX}px`,
+						right: `${enemyPosX}px`,
 						bottom: -30,
 						transform: 'scaleX(-1)',
 					}}
