@@ -18,7 +18,6 @@ export const playerSwordAttack2: BattleStepFn = ({
         setPlayerAction('idle');
         next()
     }, 350);
-    console.log("playerAttack")
 
     return () => clearTimeout(cleanup);
 }

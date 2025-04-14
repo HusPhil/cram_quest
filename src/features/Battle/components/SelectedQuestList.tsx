@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import SelectedQuestCard from '../../Quests/components/SelectedQuestCard'
 import { Quest } from '../../Subjects/components/Pages/Quest/QuestsPage'
 
@@ -38,7 +38,7 @@ const mockSelectedQuests: Quest[] = [
 ]
 
 
-export default function SelectedQuestList() {
+export const SelectedQuestList = () => {
   return (
     <>
       {mockSelectedQuests.map(quest => (
@@ -47,3 +47,6 @@ export default function SelectedQuestList() {
     </>
   )
 }
+
+
+export default memo(SelectedQuestList)

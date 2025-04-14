@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import BattleTimer from './BattleTimer';
 import SpriteSheet from '../../../components/SpriteSheet';
 import useCharacterAnimation, { AnimationStateType } from '../hooks/useCharacterAnimation';
@@ -9,7 +9,7 @@ import { defaultBattleSequence } from '../battleEngine/scenes/default/defaultSeq
 export const enemyPosOffSetX = 16
 export const arenaMiddle = (6 * 12)
 
-export default function BattleArena() {
+export const BattleArena = () => {
 	const {
 		getAnimationParams: getPlayerAnimation,
 		setCurrentAction: setPlayerCurrentAction,
@@ -132,3 +132,6 @@ export default function BattleArena() {
 		</div>
 	);
 }
+
+
+export default memo(BattleArena)

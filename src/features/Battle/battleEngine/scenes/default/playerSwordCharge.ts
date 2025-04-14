@@ -17,7 +17,6 @@ export const playerSwordCharge: BattleStepFn = ({
     const chargeTargetX = arenaMiddle - enemyPosOffSetX; // Move LEFT toward enemy
 
     const walkInterval = setInterval(() => {
-        console.log(getPlayerPosX(), getEnemyPosX())
         setPlayerPosX((prev) => {
             if (prev >= chargeTargetX) {
                 chargeReached = true;
@@ -32,7 +31,6 @@ export const playerSwordCharge: BattleStepFn = ({
         
     }
     , 50);
-    console.log("playerCharge")
     
     return () => clearInterval(walkInterval);
 }

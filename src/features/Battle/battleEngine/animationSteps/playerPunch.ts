@@ -6,7 +6,6 @@ export const playerPunch: BattleStepFn = ({
     adjustZValues
 }) => {
     adjustZValues("player");
-    console.log("player punch")
     setPlayerAction("attack_3")
 
     const transitionDelay = setTimeout(() => {

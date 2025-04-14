@@ -23,8 +23,6 @@ export const walkToMiddle: BattleStepFn = ({
       if (prev >= targetPlayerX) return targetPlayerX;
       return prev + 6;
     });
-    // console.log(getPlayerPosX(), getEnemyPosX())
-    console.log(getPlayerPosX(), getEnemyPosX())
 
     setEnemyPosX((prev) => {
       if (prev <= targetEnemyX) return targetEnemyX;

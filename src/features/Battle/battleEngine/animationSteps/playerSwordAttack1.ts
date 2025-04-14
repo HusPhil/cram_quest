@@ -5,7 +5,6 @@ export const playerSwordAttack1: BattleStepFn = ({
     next,
     setPlayerAction,
     setPlayerLoop,
-    setEnemyAction,
     adjustZValues
 }) => {
     

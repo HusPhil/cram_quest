@@ -5,7 +5,6 @@ export const playerPunchCharge: BattleStepFn = ({
     next,
     setPlayerAction,
     setPlayerLoop,
-    getEnemyPosX,
     getPlayerPosX,
     setPlayerPosX,
     adjustZValues
