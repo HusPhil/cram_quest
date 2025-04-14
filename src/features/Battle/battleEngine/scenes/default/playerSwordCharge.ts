@@ -14,7 +14,7 @@ export const playerSwordCharge: BattleStepFn = ({
     setPlayerLoop(true);
 
     let chargeReached = false;
-    const chargeTargetX = getEnemyPosX()  + enemyPosOffSetX; // Move LEFT toward enemy
+    const chargeTargetX = (6 * 10); // Move LEFT toward enemy
 
     const walkInterval = setInterval(() => {
         console.log(getPlayerPosX(), getEnemyPosX())

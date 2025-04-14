@@ -10,7 +10,7 @@ export const useBattleEngine = (steps: BattleStepFn[]) => {
   const [loop, setLoop] = useState(false);
 
   const [playerPosX, setPlayerPosX] = useState(0);
-  const [enemyPosX, setEnemyPosX] = useState(0 - enemyPosOffSetX);
+  const [enemyPosX, setEnemyPosX] = useState((48 * 3));
 
   const [playerLoop, setPlayerLoop] = useState(true);
   const [enemyLoop, setEnemyLoop] = useState(true);
@@ -81,7 +81,6 @@ export const useBattleEngine = (steps: BattleStepFn[]) => {
 
   useEffect(() => {
     enemyPosXRef.current = enemyPosX;
-    console.log("new enemyPosX: ", enemyPosX);
   }, [enemyPosX]);
 
   return {

@@ -12,8 +12,8 @@ export const walkToMiddle: BattleStepFn = ({
 
   setEnemyAction('walk');
 
-  const targetPlayerX = 56;
-  const targetEnemyX = 56 - enemyPosOffSetX;
+  const targetPlayerX = (6 * 12) - enemyPosOffSetX;
+  const targetEnemyX = (6 * 12) + enemyPosOffSetX;
 
   let reached = false;
 
@@ -27,13 +27,13 @@ export const walkToMiddle: BattleStepFn = ({
     console.log(getPlayerPosX(), getEnemyPosX())
 
     setEnemyPosX((prev) => {
-      if (prev >= targetEnemyX) return targetEnemyX;
-      return prev + 6;
+      if (prev <= targetEnemyX) return targetEnemyX;
+      return prev - 6;
     });
 
     if (
       getPlayerPosX() >= targetPlayerX &&
-      getEnemyPosX() >= targetEnemyX &&
+      getEnemyPosX() <= targetEnemyX &&
       !reached
     ) {
       reached = true;

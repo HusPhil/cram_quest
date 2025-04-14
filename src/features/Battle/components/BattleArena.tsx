@@ -33,12 +33,13 @@ export default function BattleArena() {
 	} = useBattleEngine(
 		// killEnemySequence
 		defaultBattleSequence
+		// []
 	)
 
 	useEffect(() => {
 		setPlayerActionRef.current = (action: AnimationStateType) => setPlayerCurrentAction(action);
   		setEnemyActionRef.current = (action: AnimationStateType) => setEnemyCurrentAction(action);
-		setLoop(!true)
+		setLoop(true)
 		startBattle();
 	}, []);
 
@@ -71,10 +72,12 @@ export default function BattleArena() {
 
 				{/* Player (fixed on the left) */}
 				<SpriteSheet
+				// className='border'
 					style={{
+						position: "absolute",
 						zIndex: playerZ,
 						left: `${playerPosX}px`,
-						bottom: -30,
+						bottom: 30,
 					}}
 					src={getPlayerAnimation().characterAsset}
 					frameHeight={48}
@@ -89,11 +92,13 @@ export default function BattleArena() {
 
 				{/* Enemy (can move horizontally) */}
 				<SpriteSheet
+				// className='border'
 					style={{
+						position: "absolute",
 						zIndex: enemyZ,
 						left: `${enemyPosX}px`,
-						bottom: -30,
 						transform: 'scaleX(-1)',
+						bottom: 30,
 					}}
 					src={getEnemyAnimation().characterAsset}
 					frameWidth={64}

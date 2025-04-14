@@ -28,7 +28,7 @@ export const enemyHurt: BattleStepFn = ({
         setX: setEnemyPosX,
         direction: 'right',
         knockbackDmg: 60,
-        onDone: handleKnockbackDone,
+        onDone: () => next(),
     });
 
     return () => {
