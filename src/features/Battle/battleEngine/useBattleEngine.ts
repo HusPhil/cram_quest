@@ -21,6 +21,7 @@ export const useBattleEngine = (steps: BattleStepFn[]) => {
   const [playerZ, setPlayerZ] = useState(99);
   const [enemyZ, setEnemyZ] = useState(100);
 
+  const customSceneActiveRef = useRef(false);
   const setPlayerActionRef = useRef<(action: AnimationStateType) => void>(() => {});
   const setEnemyActionRef = useRef<(action: AnimationStateType) => void>(() => {});
 
@@ -61,7 +62,8 @@ export const useBattleEngine = (steps: BattleStepFn[]) => {
   };
 
   const queueCustomScene = (sceneSteps: BattleStepFn[]) => {
-    cleanupRef.current?.(); // clean current step
+    if (customSceneActiveRef.current) return; // 👈 prevent spamming
+    cleanupRef.current?.();
     setCustomSceneActive(true);
     setCurrentSteps(sceneSteps);
     setStepIndex(0);
@@ -86,13 +88,14 @@ export const useBattleEngine = (steps: BattleStepFn[]) => {
 
   // === Run current step ===
   useEffect(() => {
-    if (stepIndex < 0 || stepIndex >= steps.length) return;
-    cleanupRef.current?.(); // cleanup last step
-
-    const stepFn = steps[stepIndex];
+    if (stepIndex < 0 || stepIndex >= currentSteps.length) return;
+    cleanupRef.current?.();
+  
+    const stepFn = currentSteps[stepIndex];
     const cleanup = stepFn(context);
     cleanupRef.current = cleanup ?? undefined;
-  }, [stepIndex]);
+  }, [stepIndex, currentSteps]);
+  
 
   useEffect(() => {
     playerPosXRef.current = playerPosX;
@@ -101,6 +104,10 @@ export const useBattleEngine = (steps: BattleStepFn[]) => {
   useEffect(() => {
     enemyPosXRef.current = enemyPosX;
   }, [enemyPosX]);
+
+  useEffect(() => {
+    customSceneActiveRef.current = customSceneActive;
+  }, [customSceneActive]);
 
   return {
     startBattle: start,
@@ -112,6 +119,8 @@ export const useBattleEngine = (steps: BattleStepFn[]) => {
     enemyZ,
     setPlayerActionRef,
     setEnemyActionRef,
+    queueCustomScene,
+    customSceneActiveRef,
     setLoop,       
     isLooping: loop,
   };

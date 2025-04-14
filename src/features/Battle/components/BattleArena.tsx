@@ -30,12 +30,29 @@ export default function BattleArena() {
 		playerZ,
 		setEnemyActionRef,
 		setPlayerActionRef,
+		queueCustomScene,
+		customSceneActiveRef,
 		setLoop
 	} = useBattleEngine(
 		// killEnemySequence
 		defaultBattleSequence
 		// []
 	)
+	useEffect(() => {
+		const handleKeyUp = (e: KeyboardEvent) => {
+			console.log(e.key)
+			if (e.key === "a") {
+				queueCustomScene(killEnemySequence);
+			}
+		};
+		window.addEventListener('keyup', handleKeyUp);
+
+		return () => {
+			window.removeEventListener('keyup', handleKeyUp);
+		};
+	},[]);
+	
+
 
 	useEffect(() => {
 		setPlayerActionRef.current = (action: AnimationStateType) => setPlayerCurrentAction(action);
@@ -45,7 +62,7 @@ export default function BattleArena() {
 	}, []);
 
 	return (
-		<div className="flex flex-col w-[280px] items-center gap-4">
+		<div className={`flex flex-col w-[280px] items-center gap-4 ${customSceneActiveRef.current ? 'border' : ''}`}>
 
 			<div className="flex relative w-full h-[200px] overflow-hidden ">
 
