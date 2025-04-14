@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, RefObject } from 'react'
 import SelectedQuestCard from '../../Quests/components/SelectedQuestCard'
 import { Quest } from '../../Subjects/components/Pages/Quest/QuestsPage'
 
@@ -38,11 +38,13 @@ const mockSelectedQuests: Quest[] = [
 ]
 
 
-export const SelectedQuestList = () => {
+
+
+export const SelectedQuestList = ({queueCustomScene, customSceneActiveRef}: {queueCustomScene: (sceneSteps: any[]) => void, customSceneActiveRef: RefObject<boolean>;}) => {
   return (
     <>
       {mockSelectedQuests.map(quest => (
-        <SelectedQuestCard key={quest.id} quest={quest} />
+        <SelectedQuestCard key={quest.id} quest={quest} queueCustomScene={queueCustomScene} customSceneActiveRef={customSceneActiveRef}/>
       ))}
     </>
   )

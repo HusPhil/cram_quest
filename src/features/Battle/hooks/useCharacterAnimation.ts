@@ -14,6 +14,13 @@ import { mergeAnimationConfig } from "../utils/mergeAnimation";
 
 export type AnimationStateType = EnemyAnimationState | PlayerAnimationState;
 
+export interface AnimationParams {
+  frameCount: number;
+  fps: number;
+  row: number;
+  characterAsset: string;
+}
+
 export function useCharacterAnimation(
   characterType: CharacterType,
   playerClass?: PlayerClass,
@@ -38,7 +45,7 @@ export function useCharacterAnimation(
     }
   }, [characterType, playerClass, playerSkin]);
 
-  const getAnimationParams = (state?: AnimationStateType) => {
+  const getAnimationParams = (state?: AnimationStateType): AnimationParams => {
     // If no state is provided, use currentAction
     const animState = state || currentAction;
     

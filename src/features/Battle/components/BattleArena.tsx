@@ -1,75 +1,42 @@
-import { memo, useEffect } from 'react';
+import { memo, Ref, RefObject, useEffect } from 'react';
 import BattleTimer from './BattleTimer';
 import SpriteSheet from '../../../components/SpriteSheet';
 import useCharacterAnimation, {
+	AnimationParams,
 	AnimationStateType,
 } from '../hooks/useCharacterAnimation';
 import { useBattleEngine } from '../battleEngine/useBattleEngine';
 import { killEnemySequence } from '../battleEngine/scenes/killEnemy/killEnemySequence';
 import { defaultBattleSequence } from '../battleEngine/scenes/default/defaultSequence';
+import { AnimationConfig } from '../configs/spritesheetConfig';
 
 export const enemyPosOffSetX = 16;
 export const arenaMiddle = 6 * 12;
 
 interface BattleArenaProps {
-	setIsAnimationPlaying: (playing: boolean) => void;
+	playerZ: number;
+	playerPosX: number;
+	playerLoop: boolean;
+	enemyZ: number;
+	enemyPosX: number;
+	enemyLoop: boolean;
+	customSceneActiveRef: RefObject<boolean>;
+	getEnemyAnimation: () => AnimationParams;
+	getPlayerAnimation: () => AnimationParams;
 }
 
-export const BattleArena = ({ setIsAnimationPlaying }: BattleArenaProps) => {
-	const {
-		getAnimationParams: getPlayerAnimation,
-		setCurrentAction: setPlayerCurrentAction,
-	} = useCharacterAnimation('player', 'default', 'default_3');
-
-	const {
-		getAnimationParams: getEnemyAnimation,
-		setCurrentAction: setEnemyCurrentAction,
-	} = useCharacterAnimation('orc');
-
-	const {
-		startBattle,
-		enemyPosX,
-		enemyLoop,
-		enemyZ,
-		playerPosX,
-		playerLoop,
-		playerZ,
-		setEnemyActionRef,
-		setPlayerActionRef,
-		queueCustomScene,
-		customSceneActiveRef,
-		setLoop,
-	} = useBattleEngine(
-		// killEnemySequence
-		defaultBattleSequence
-		// []
-	);
-	useEffect(() => {
-		const handleKeyUp = (e: KeyboardEvent) => {
-			console.log(e.key);
-			if (e.key === 'a') {
-				queueCustomScene(killEnemySequence);
-			}
-		};
-		window.addEventListener('keyup', handleKeyUp);
-
-		return () => {
-			window.removeEventListener('keyup', handleKeyUp);
-		};
-	}, []);
-
-	useEffect(() => {
-		setPlayerActionRef.current = (action: AnimationStateType) =>
-			setPlayerCurrentAction(action);
-		setEnemyActionRef.current = (action: AnimationStateType) =>
-			setEnemyCurrentAction(action);
-		setLoop(true);
-		startBattle();
-	}, []);
-
-	useEffect(() => {
-		setIsAnimationPlaying(customSceneActiveRef.current);
-	}, [customSceneActiveRef])
+export const BattleArena = ({ 
+	playerZ,
+	playerPosX,
+	playerLoop,
+	enemyZ,
+	enemyPosX,
+	enemyLoop,
+	customSceneActiveRef,
+	getEnemyAnimation,
+	getPlayerAnimation,
+}: BattleArenaProps) => {
+	
 
 	return (
 		<div
