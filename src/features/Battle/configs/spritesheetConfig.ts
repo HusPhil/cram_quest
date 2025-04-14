@@ -66,9 +66,9 @@ export const basePlayerAnimationConfig: PlayerAnimations = {
   idle: { frameCount: 6, fps: 8, row: 0 },
   walk: { frameCount: 6, fps: 8, row: 1 },
   hurt: { frameCount: 4, fps: 7, row: 10 },
-  attack_1: { frameCount: 7, fps: 12, row: 5 },
-  attack_2: { frameCount: 7, fps: 12, row: 6 },
-  attack_3: { frameCount: 7, fps: 12, row: 7 },
+  attack_1: { frameCount: 7, fps: 16, row: 5 },
+  attack_2: { frameCount: 7, fps: 16, row: 6 },
+  attack_3: { frameCount: 7, fps: 16, row: 7 },
 };
 
 // NEW: Player-specific overrides based on class

@@ -11,7 +11,7 @@ export default function BattleArena() {
 	const {
 		getAnimationParams: getPlayerAnimation,
 		setCurrentAction: setPlayerCurrentAction,
-	} = useCharacterAnimation('player', 'default', 'default_3');
+	} = useCharacterAnimation('player', 'default', 'default_1');
 
 	const {
 		getAnimationParams: getEnemyAnimation,
