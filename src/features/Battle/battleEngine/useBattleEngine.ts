@@ -62,7 +62,7 @@ export const useBattleEngine = (steps: BattleStepFn[]) => {
   };
 
   const queueCustomScene = (sceneSteps: BattleStepFn[]) => {
-    if (customSceneActiveRef.current) return; // 👈 prevent spamming
+    if (customSceneActiveRef.current) return; 
     cleanupRef.current?.();
     setCustomSceneActive(true);
     setCurrentSteps(sceneSteps);

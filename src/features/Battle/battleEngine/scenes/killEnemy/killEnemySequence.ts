@@ -5,6 +5,8 @@ import { BattleStepFn } from '../../types';
 import { playerPunchCharge } from './playerPunchCharge';
 import { enemyHurtWeak } from '../../animationSteps/enemyHurtWeak';
 import { playerSwordAttack1 } from '../../animationSteps/playerSwordAttack1';
+import { enemyDeath } from '../../animationSteps/enemyDeath';
+import { playerCelebrate } from '../../animationSteps/playerCelebrate';
 
 export const killEnemySequence: BattleStepFn[] = [
 	placeEnemyMiddle,
@@ -13,5 +15,6 @@ export const killEnemySequence: BattleStepFn[] = [
 	enemyHurtWeak,
 	playerSwordAttack2,
 	playerSwordAttack1,
-	enemyHurtWeak
+	enemyDeath,
+	playerCelebrate,
 ];

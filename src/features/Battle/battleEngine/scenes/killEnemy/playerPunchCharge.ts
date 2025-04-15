@@ -9,6 +9,7 @@ export const playerPunchCharge: BattleStepFn = ({
     setPlayerPosX,
     adjustZValues
 }) => {
+    setPlayerPosX(0)
     adjustZValues("player")
     setPlayerAction('attack_3');
     setPlayerLoop(true);

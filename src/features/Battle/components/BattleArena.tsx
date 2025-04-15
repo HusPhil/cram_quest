@@ -40,9 +40,7 @@ export const BattleArena = ({
 
 	return (
 		<div
-			className={`flex flex-col w-[280px] items-center gap-4 ${
-				customSceneActiveRef.current ? 'border' : ''
-			}`}
+			className={`flex flex-col w-[280px] items-center gap-4`}
 		>
 			<div className="flex relative w-full h-[200px] overflow-hidden ">
 				<div className="absolute top-5 left-1/2 -translate-x-1/2">
