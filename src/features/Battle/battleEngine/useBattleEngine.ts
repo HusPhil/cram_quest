@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { BattleContext, BattleStepFn } from './types';
 import { AnimationStateType } from '../hooks/useCharacterAnimation';
 import { enemyPosOffSetX } from '../components/BattleArena';
@@ -61,13 +61,13 @@ export const useBattleEngine = (steps: BattleStepFn[]) => {
     });
   };
 
-  const queueCustomScene = (sceneSteps: BattleStepFn[]) => {
+  const queueCustomScene = useCallback((sceneSteps: BattleStepFn[]) => {
     if (customSceneActiveRef.current) return; 
     cleanupRef.current?.();
     setCustomSceneActive(true);
     setCurrentSteps(sceneSteps);
     setStepIndex(0);
-  };
+  }, [])
 
   // Start battle
   const start = () => setStepIndex(0);

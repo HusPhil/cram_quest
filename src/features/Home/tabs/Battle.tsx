@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import BattleArena from '../../Battle/components/BattleArena';
 import SelectedQuestList from '../../Battle/components/SelectedQuestList';
 import useCharacterAnimation, {
@@ -8,10 +8,17 @@ import { useBattleEngine } from '../../Battle/battleEngine/useBattleEngine';
 import { defaultBattleSequence } from '../../Battle/battleEngine/scenes/default/defaultSequence';
 import { killEnemySequence } from '../../Battle/battleEngine/scenes/killEnemy/killEnemySequence';
 import { parsePlayerAvatar } from '../../Battle/utils/parsePlayerAvatar';
+import { BattleStepFn } from '../../Battle/battleEngine/types';
 
 export const Battle = () => {
-	const playerProfileAvatarUrl = "default/default_1.png"
-	const { playerClass, playerSkin } = parsePlayerAvatar(playerProfileAvatarUrl)
+	const playerProfileAvatarUrl = 'default/default_1.png';
+	const { playerClass, playerSkin } = parsePlayerAvatar(
+		playerProfileAvatarUrl
+	);
+
+	const queueCustomSceneRef = useRef<(battleScene: BattleStepFn[]) => void>(
+		() => {}
+	);
 
 	const {
 		getAnimationParams: getPlayerAnimation,
@@ -64,6 +71,10 @@ export const Battle = () => {
 		startBattle();
 	}, []);
 
+	useEffect(() => {
+		queueCustomSceneRef.current = queueCustomScene;
+	}, [queueCustomScene]);
+
 	return (
 		<div className="w-full flex justify-center h-[75dvh]">
 			<div className="flex flex-col h-full items-center  w-full">
@@ -82,7 +93,7 @@ export const Battle = () => {
 				</div>
 				<div className="flex-1 overflow-auto bg-gray-800/0 p-5 space-y-2 mt-4 w-full no-scrollbar">
 					<SelectedQuestList
-						queueCustomScene={queueCustomScene}
+						queueCustomSceneRef={queueCustomSceneRef}
 						customSceneActiveRef={customSceneActiveRef}
 					/>
 				</div>

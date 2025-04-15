@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { memo } from 'react'
 
-export default function CornerDecoration() {
+export const CornerDecoration = () => {
   return (
     <>
         <div className="absolute top-0 left-0 w-16 h-16">
@@ -22,3 +22,6 @@ export default function CornerDecoration() {
     </>
   )
 }
+
+
+export default memo(CornerDecoration)
