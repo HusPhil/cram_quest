@@ -7,24 +7,28 @@ import {
 	useState,
 	useCallback,
 	useMemo,
+	ChangeEvent,
 } from 'react';
 
 interface SelectedQuestCardProps {
 	quest: Quest;
 	queueCustomScene: (battleScene: BattleStepFn[]) => void;
 	customSceneActive: boolean;
+	onCheckboxChangeOnParent?: (e: ChangeEvent<HTMLInputElement>, quest: Quest) => void
 }
 
 export const SelectedQuestCard = ({
 	quest,
 	queueCustomScene,
 	customSceneActive,
+	onCheckboxChangeOnParent
 }: SelectedQuestCardProps) => {
 	const [isCompleted, setIsCompleted] = useState(false);
 	// Add a state variable to track the customSceneActive value
 
 	const handleCheckboxChange = useCallback(
 		(e: React.ChangeEvent<HTMLInputElement>) => {
+			onCheckboxChangeOnParent?.(e, quest)
 			if (e.target.checked) {
 				if (queueCustomScene) {
 					queueCustomScene(killEnemySequence);

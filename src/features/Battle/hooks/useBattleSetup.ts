@@ -1,81 +1,93 @@
-import { useEffect } from 'react';
-import useCharacterAnimation, { AnimationStateType } from '../../Battle/hooks/useCharacterAnimation';
+import { ChangeEvent, useCallback, useEffect } from 'react';
+import useCharacterAnimation, {
+	AnimationStateType,
+} from '../../Battle/hooks/useCharacterAnimation';
 import { useBattleEngine } from './useBattleEngine';
 import { defaultBattleSequence } from '../../Battle/battleEngine/scenes/default/defaultSequence';
 import { parsePlayerAvatar } from '../../Battle/utils/parsePlayerAvatar';
+import { Quest } from '../../Subjects/components/Pages/Quest/QuestsPage';
 
 export const useBattleSetup = () => {
-  // Character setup
-  const playerProfileAvatarUrl = 'default/default_1.png';
-  const { playerClass, playerSkin } = parsePlayerAvatar(playerProfileAvatarUrl);
+	// Character setup
+	const playerProfileAvatarUrl = 'default/default_1.png';
+	const { playerClass, playerSkin } = parsePlayerAvatar(
+		playerProfileAvatarUrl
+	);
 
-  // Player animation
-  const {
-    getAnimationParams: getPlayerAnimation,
-    setCurrentAction: setPlayerCurrentAction,
-  } = useCharacterAnimation('player', playerClass, playerSkin);
+	// Player animation
+	const {
+		getAnimationParams: getPlayerAnimation,
+		setCurrentAction: setPlayerCurrentAction,
+	} = useCharacterAnimation('player', playerClass, playerSkin);
 
-  // Enemy animation
-  const {
-    getAnimationParams: getEnemyAnimation,
-    setCurrentAction: setEnemyCurrentAction,
-  } = useCharacterAnimation('orc');
+	// Enemy animation
+	const {
+		getAnimationParams: getEnemyAnimation,
+		setCurrentAction: setEnemyCurrentAction,
+	} = useCharacterAnimation('skeleton');
 
-  // Battle engine
-  const {
-    startBattle,
-    enemyPosX,
-    enemyLoop,
-    enemyZ,
-    playerPosX,
-    playerLoop,
-    playerZ,
-    setEnemyActionRef,
-    setPlayerActionRef,
-    queueCustomScene,
-    customSceneActiveRef,
-    setLoop,
-  } = useBattleEngine(defaultBattleSequence);
+	// Battle engine
+	const {
+		startBattle,
+		enemyPosX,
+		enemyLoop,
+		enemyZ,
+		playerPosX,
+		playerLoop,
+		playerZ,
+		setEnemyActionRef,
+		setPlayerActionRef,
+		queueCustomScene,
+		customSceneActiveRef,
+		setLoop,
+	} = useBattleEngine(defaultBattleSequence);
 
-  // Initialize battle
-  useEffect(() => {
-    // Connect action refs
-    setPlayerActionRef.current = (action: AnimationStateType) =>
-      setPlayerCurrentAction(action);
-    setEnemyActionRef.current = (action: AnimationStateType) =>
-      setEnemyCurrentAction(action);
-    
-    // Initialize and start
-    setLoop(true);
-    startBattle();
-  }, []);
+	// Initialize battle
+	useEffect(() => {
+		// Connect action refs
+		setPlayerActionRef.current = (action: AnimationStateType) =>
+			setPlayerCurrentAction(action);
+		setEnemyActionRef.current = (action: AnimationStateType) =>
+			setEnemyCurrentAction(action);
 
-  // Organize props for components
-  const arenaProps = {
-    playerZ,
-    playerLoop,
-    playerPosX,
-    enemyZ,
-    enemyLoop,
-    enemyPosX,
-    getPlayerAnimation,
-    getEnemyAnimation,
-    customSceneActiveRef,
-  };
+		// Initialize and start
+		setLoop(true);
+		startBattle();
+	}, []);
 
-  const questListProps = {
-    queueCustomScene,
-    customSceneActive: !!customSceneActiveRef.current,
-  };
 
-  const battleProps = {
-    queueCustomScene,
-    startBattle,
-  };
+    const handleCheckboxChangeOnParent = useCallback((e: ChangeEvent<HTMLInputElement>, quest: Quest) => {
+		console.log("HANDLED IN PARENT", e.type, ": ", quest.description);
+	}, [])
 
-  return {
-    arenaProps,
-    questListProps,
-    battleProps,
-  };
+
+	// Organize props for components
+	const arenaProps = {
+		playerZ,
+		playerLoop,
+		playerPosX,
+		enemyZ,
+		enemyLoop,
+		enemyPosX,
+		getPlayerAnimation,
+		getEnemyAnimation,
+		customSceneActiveRef,
+	};
+
+	const questListProps = {
+		queueCustomScene,
+		customSceneActive: !!customSceneActiveRef.current,
+        onCheckboxChangeOnParent: handleCheckboxChangeOnParent
+	};
+
+	const battleProps = {
+		queueCustomScene,
+		startBattle,
+	};
+
+	return {
+		arenaProps,
+		questListProps,
+		battleProps,
+	};
 };

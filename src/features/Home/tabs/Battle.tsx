@@ -12,6 +12,9 @@ export const Battle = () => {
 		questListProps
 	} = useBattleSetup();
 
+
+	
+
 	
 	useEffect(() => {
 		const handleKeyUp = (e: KeyboardEvent) => {
