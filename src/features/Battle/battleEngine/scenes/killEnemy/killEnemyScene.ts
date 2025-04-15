@@ -8,7 +8,7 @@ import { playerSwordAttack1 } from '../../animationSteps/playerSwordAttack1';
 import { enemyDeath } from '../../animationSteps/enemyDeath';
 import { playerExit } from '../../animationSteps/playerExit';
 
-export const killEnemySequence: BattleStepFn[] = [
+export const killEnemyScene: BattleStepFn[] = [
 	placeEnemyMiddle,
 	playerPunchCharge,
 	enemyHurtWeak,

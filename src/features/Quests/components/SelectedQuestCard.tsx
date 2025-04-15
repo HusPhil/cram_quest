@@ -1,7 +1,7 @@
 import { GiRoundStar } from 'react-icons/gi';
 import { Quest } from '../../Subjects/components/Pages/Quest/QuestsPage';
 import { BattleStepFn } from '../../Battle/battleEngine/types';
-import { killEnemySequence } from '../../Battle/battleEngine/scenes/killEnemy/killEnemySequence';
+import { killEnemyScene } from '../../Battle/battleEngine/scenes/killEnemy/killEnemyScene';
 import { memo, useState, useCallback, useMemo, ChangeEvent } from 'react';
 import { useBattleUI } from '../../Battle/context/BattleUIContext';
 
@@ -24,7 +24,7 @@ export const SelectedQuestCard = ({ quest }: { quest: Quest }) => {
 			if (e.target.checked) {
 				if (queueCustomScene) {
 					queueCustomScene(
-						killEnemySequence,
+						killEnemyScene,
 						'killEnemyScene',
 						handleKillEnemySceneEnd
 					);

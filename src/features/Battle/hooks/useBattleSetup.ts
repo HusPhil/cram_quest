@@ -3,7 +3,7 @@ import useCharacterAnimation, {
 	AnimationStateType,
 } from '../../Battle/hooks/useCharacterAnimation';
 import { useBattleEngine } from './useBattleEngine';
-import { defaultBattleSequence } from '../../Battle/battleEngine/scenes/default/defaultSequence';
+import { defaultBattleScene } from '../battleEngine/scenes/default/defaultBattleScene';
 import { parsePlayerAvatar } from '../../Battle/utils/parsePlayerAvatar';
 import { Quest } from '../../Subjects/components/Pages/Quest/QuestsPage';
 import { useBattleUI } from '../context/BattleUIContext';
@@ -41,7 +41,7 @@ export const useBattleSetup = () => {
 		queueCustomScene,
 		customSceneActiveRef,
 		setLoop,
-	} = useBattleEngine(defaultBattleSequence);
+	} = useBattleEngine(defaultBattleScene);
 
 	// Initialize battle
 	useEffect(() => {

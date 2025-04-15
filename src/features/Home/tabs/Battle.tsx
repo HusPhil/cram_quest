@@ -1,7 +1,7 @@
 import { memo, useEffect, useRef, useState } from 'react';
 import BattleArena from '../../Battle/components/BattleArena';
 import SelectedQuestList from '../../Battle/components/SelectedQuestList';
-import { killEnemySequence } from '../../Battle/battleEngine/scenes/killEnemy/killEnemySequence';
+import { killEnemyScene } from '../../Battle/battleEngine/scenes/killEnemy/killEnemyScene';
 import { useBattleSetup } from '../../Battle/hooks/useBattleSetup';
 import { BattleUIProvider, useBattleUI } from '../../Battle/context/BattleUIContext';
 
@@ -18,7 +18,7 @@ export const Battle = () => {
 		const handleKeyUp = (e: KeyboardEvent) => {
 			console.log(e.key);
 			if (e.key === 'a') {
-				battleProps.queueCustomScene(killEnemySequence, "killEnemyScene", uiProviderProps.handleKillEnemySceneEnd);
+				battleProps.queueCustomScene(killEnemyScene, "killEnemyScene", uiProviderProps.handleKillEnemySceneEnd);
 			}
 		};
 		window.addEventListener('keyup', handleKeyUp);

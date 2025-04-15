@@ -6,7 +6,7 @@ import { playerHurt } from '../../animationSteps/playerHurt';
 import { walkToMiddle } from './walkToMiddle';
 import { BattleStepFn } from '../../types';
 
-export const defaultBattleSequence: BattleStepFn[] = [
+export const defaultBattleScene: BattleStepFn[] = [
   walkToMiddle,
   enemyAttack,
   playerHurt,

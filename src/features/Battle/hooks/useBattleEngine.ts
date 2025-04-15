@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { BattleContext, BattleStepFn } from '../battleEngine/types';
 import { AnimationStateType } from './useCharacterAnimation';
-import { defaultBattleSequence } from '../battleEngine/scenes/default/defaultSequence';
+import { defaultBattleScene } from '../battleEngine/scenes/default/defaultBattleScene';
 import { sceneName } from '../battleEngine/scenes/sceneNames';
 
 export const useBattleEngine = (steps: BattleStepFn[]) => {
@@ -60,7 +60,7 @@ export const useBattleEngine = (steps: BattleStepFn[]) => {
 					onSceneCompleteRef.current?.(currentSceneNameRef.current);
 
 					setCustomSceneActive(false);
-					setCurrentSteps(defaultBattleSequence);
+					setCurrentSteps(defaultBattleScene);
 					return 0;
 				}
 				return loop ? 0 : prevIndex + 1;
