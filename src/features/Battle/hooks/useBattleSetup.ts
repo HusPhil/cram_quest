@@ -41,7 +41,7 @@ export const useBattleSetup = () => {
 		mockFetch();
 	}, []);
 
-	const [ currentEnemy, setCurrentEnemy ] = useState<CharacterType>(getRandomChoice(enemyTypes, 'orc'))
+	const [ currentEnemy, setCurrentEnemy ] = useState<CharacterType>('skeleton_lord')
 
 	// Player animation
 	const {
@@ -104,37 +104,41 @@ export const useBattleSetup = () => {
 	const processingRef = useRef(false); //development only
 
 	const handleKillEnemySceneEnd = useCallback((sceneName?: sceneName) => {
-	if (sceneName === "killEnemyScene" && !processingRef.current) {
-
-		console.log(completedQuests, selectedQuests.length)
-
-		let bossOn = false
-
-		setCompletedQuests(prev => {
-			if(prev + 1 === selectedQuests.length) {
-				setCurrentEnemy('dark_knight')
-				bossOn = true
-			}
-			return prev + 1
-		})
-
-
-		if(bossOn) return
+		// Guard clause - only proceed if correct scene and not processing
+		if (sceneName !== "killEnemyScene" || processingRef.current) {
+			return;
+		}
+	
+		// Start processing
 		processingRef.current = true;
-		
-		setCurrentEnemy(prevEnemy => {
-			const newEnemy = getRandomChoice(enemyTypes, prevEnemy);
-			console.log("Kill enemy scene completed: " + prevEnemy);
-		
-		// Reset flag after state update //development only
-		setTimeout(() => {
-			processingRef.current = false;
-		}, 0);
-		
-		return newEnemy;
+	
+		// Update quest completion counter
+		setCompletedQuests(prevCount => {
+			const newCount = prevCount + 1;
+			const isAllQuestsCompleted = newCount === selectedQuests.length;
+	
+			// Handle boss appearance
+			if (isAllQuestsCompleted) {
+				setCurrentEnemy('orc_lord');
+				processingRef.current = false;
+				return newCount;
+			}
+	
+			// Update to next random enemy
+			setCurrentEnemy(prevEnemy => {
+				const newEnemy = getRandomChoice(enemyTypes, prevEnemy);
+				console.log(`Enemy defeated: ${prevEnemy}, Next enemy: ${newEnemy}`);
+				return newEnemy;
+			});
+	
+			// Reset processing flag with slight delay
+			setTimeout(() => {
+				processingRef.current = false;
+			}, 100);
+	
+			return newCount;
 		});
-	}
-	}, [selectedQuests, completedQuests]);
+	}, [selectedQuests.length, enemyTypes]);
 
 
 	// Organize props for components

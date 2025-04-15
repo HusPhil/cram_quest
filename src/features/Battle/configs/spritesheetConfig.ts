@@ -50,9 +50,7 @@ export const enemyAnimationOverrides: EnemyAnimationOverridesMap = {
     evil_shogun: {},
     skeleton_lord: {},
     dark_knight: {},
-    pig_lord: {
-      attack: { frameCount: 6, fps: 9, row: 2 }
-    },
+    pig_lord: {},
     skeleton: {    
       walk: { frameCount: 6, fps: 10, row: 1 },
       hurt: { frameCount: 3, fps: 10, row: 2 },
