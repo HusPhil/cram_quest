@@ -17,3 +17,4 @@ export const killEnemySequence: BattleStepFn[] = [
 	enemyDeath,
 	playerExit,
 ];
+

@@ -2,36 +2,33 @@ import { GiRoundStar } from 'react-icons/gi';
 import { Quest } from '../../Subjects/components/Pages/Quest/QuestsPage';
 import { BattleStepFn } from '../../Battle/battleEngine/types';
 import { killEnemySequence } from '../../Battle/battleEngine/scenes/killEnemy/killEnemySequence';
-import {
-	memo,
-	useState,
-	useCallback,
-	useMemo,
-	ChangeEvent,
-} from 'react';
+import { memo, useState, useCallback, useMemo, ChangeEvent } from 'react';
+import { useBattleUI } from '../../Battle/context/BattleUIContext';
 
-interface SelectedQuestCardProps {
-	quest: Quest;
-	queueCustomScene: (battleScene: BattleStepFn[]) => void;
-	customSceneActive: boolean;
-	onCheckboxChangeOnParent?: (e: ChangeEvent<HTMLInputElement>, quest: Quest) => void
-}
-
-export const SelectedQuestCard = ({
-	quest,
-	queueCustomScene,
-	customSceneActive,
-	onCheckboxChangeOnParent
-}: SelectedQuestCardProps) => {
+export const SelectedQuestCard = ({ quest }: { quest: Quest }) => {
 	const [isCompleted, setIsCompleted] = useState(false);
 	// Add a state variable to track the customSceneActive value
 
+	const handleKillEnemySceneEnd = useCallback((sceneName: string | undefined) => {
+		console.log(sceneName + ' has ended.');
+	}, []);
+
+	const {
+		customSceneActive,
+		onCheckboxChangeOnParent,
+		queueCustomScene
+	} = useBattleUI()
+
 	const handleCheckboxChange = useCallback(
 		(e: React.ChangeEvent<HTMLInputElement>) => {
-			onCheckboxChangeOnParent?.(e, quest)
+			onCheckboxChangeOnParent?.(e, quest);
 			if (e.target.checked) {
 				if (queueCustomScene) {
-					queueCustomScene(killEnemySequence);
+					queueCustomScene(
+						killEnemySequence,
+						'killEnemyScene',
+						handleKillEnemySceneEnd
+					);
 					// Wait a moment to ensure the animation has time to start
 					setTimeout(() => {
 						setIsCompleted(true);

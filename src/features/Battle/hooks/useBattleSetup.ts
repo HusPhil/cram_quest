@@ -6,6 +6,7 @@ import { useBattleEngine } from './useBattleEngine';
 import { defaultBattleSequence } from '../../Battle/battleEngine/scenes/default/defaultSequence';
 import { parsePlayerAvatar } from '../../Battle/utils/parsePlayerAvatar';
 import { Quest } from '../../Subjects/components/Pages/Quest/QuestsPage';
+import { useBattleUI } from '../context/BattleUIContext';
 
 export const useBattleSetup = () => {
 	// Character setup
@@ -82,8 +83,11 @@ export const useBattleSetup = () => {
 
 	const battleProps = {
 		queueCustomScene,
+        customSceneActiveRef,
 		startBattle,
 	};
+
+
 
 	return {
 		arenaProps,

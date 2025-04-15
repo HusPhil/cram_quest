@@ -1,4 +1,4 @@
-import React, { ChangeEvent, memo, RefObject } from 'react';
+import { ChangeEvent, memo } from 'react';
 import SelectedQuestCard from '../../Quests/components/SelectedQuestCard';
 import { Quest } from '../../Subjects/components/Pages/Quest/QuestsPage';
 import { BattleStepFn } from '../battleEngine/types';
@@ -36,26 +36,13 @@ const mockSelectedQuests: Quest[] = [
 	},
 ];
 
-interface SelectedQuestListProps {
-	queueCustomScene: (battleScene: BattleStepFn[]) => void;
-	customSceneActive: boolean;
-	onCheckboxChangeOnParent?: (e: ChangeEvent<HTMLInputElement>, quest: Quest) => void,
-}
-
-export const SelectedQuestList = ({
-	queueCustomScene,
-	customSceneActive,
-	onCheckboxChangeOnParent,
-}: SelectedQuestListProps) => {
+export const SelectedQuestList = () => {
 	return (
 		<>
 			{mockSelectedQuests.map((quest) => (
 				<SelectedQuestCard
 					key={quest.id}
 					quest={quest}
-					queueCustomScene={queueCustomScene}
-					customSceneActive={customSceneActive}
-					onCheckboxChangeOnParent={onCheckboxChangeOnParent}
 				/>
 			))}
 		</>
