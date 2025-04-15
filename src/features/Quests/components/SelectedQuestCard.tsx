@@ -2,7 +2,7 @@ import { GiRoundStar } from 'react-icons/gi';
 import { Quest } from '../../Subjects/components/Pages/Quest/QuestsPage';
 import { BattleStepFn } from '../../Battle/battleEngine/types';
 import { killEnemySequence } from '../../Battle/battleEngine/scenes/killEnemy/killEnemySequence';
-import { memo, RefObject, useState, useCallback, useMemo } from 'react';
+import { memo, RefObject, useState, useCallback, useMemo, useEffect } from 'react';
 
 interface SelectedQuestCardProps {
     quest: Quest;
@@ -16,11 +16,38 @@ const SelectedQuestCard = memo(({
     customSceneActiveRef
 }: SelectedQuestCardProps) => {
     const [isCompleted, setIsCompleted] = useState(false);
+    // Add a state variable to track the customSceneActive value
+    const [isCustomSceneActive, setIsCustomSceneActive] = useState(false);
+    
+    // Update local state when ref changes
+    useEffect(() => {
+        // Initial check
+        if (customSceneActiveRef.current !== undefined) {
+            setIsCustomSceneActive(!!customSceneActiveRef.current);
+        }
+        
+        // Setup an interval to check for changes
+        const checkInterval = setInterval(() => {
+            if (customSceneActiveRef.current !== undefined && 
+                isCustomSceneActive !== !!customSceneActiveRef.current) {
+                setIsCustomSceneActive(!!customSceneActiveRef.current);
+            }
+        }, 100); // Check every 100ms
+        
+        return () => clearInterval(checkInterval);
+    }, [customSceneActiveRef, isCustomSceneActive]);
 
     const handleCheckboxChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.checked) {
-            setIsCompleted(true);
-            queueCustomSceneRef.current(killEnemySequence);
+            if (queueCustomSceneRef.current) {
+                queueCustomSceneRef.current(killEnemySequence);
+                // Wait a moment to ensure the animation has time to start
+                setTimeout(() => {
+                    setIsCompleted(true);
+                }, 50);
+            } else {
+                setIsCompleted(true);
+            }
         }
     }, [queueCustomSceneRef]);
 
@@ -34,7 +61,7 @@ const SelectedQuestCard = memo(({
     return (
         <div
             className={`bg-secondary rounded-lg pt-3 pb-1 px-3 w-full
-                ${customSceneActiveRef.current && !isCompleted ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}
+                ${isCustomSceneActive && !isCompleted ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}
         >
             <div className="flex justify-between">
                 <div className="flex gap-3 items-start">
