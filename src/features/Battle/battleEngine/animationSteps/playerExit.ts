@@ -1,6 +1,6 @@
 import { BattleStepFn } from "../types";
 
-export const playerCelebrate: BattleStepFn = ({
+export const playerExit: BattleStepFn = ({
     next,
     setPlayerAction,
     setPlayerPosX,
@@ -14,7 +14,6 @@ export const playerCelebrate: BattleStepFn = ({
     let exitReached = false;
 
     let walkInterval: number;
-    let transitionDelay: number;
 
     walkInterval = window.setInterval(() => {
         setPlayerPosX((prev) => {
@@ -30,7 +29,7 @@ export const playerCelebrate: BattleStepFn = ({
             setPlayerAction("idle")
             next()
         }
-        
+                
     }
     , 50);
 

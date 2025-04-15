@@ -2,6 +2,7 @@ import React, { useState, useMemo, useRef } from "react";
 import SpriteSheet from "../components/SpriteSheet";
 import { PlayerClass, playerAssets } from "../features/Battle/configs/spritesheetConfig";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+import CornerDecoration from "../components/CornerDecoration";
 
 const skinDisplayNames: Record<string, string> = {
   default_1: "Adventurous Spirit",
@@ -48,10 +49,7 @@ export default function CharacterCreation() {
     <div className="flex flex-col h-[100dvh] items-center justify-center">
       <div className="relative flex flex-col items-center p-10 lg:p-16">
         {/* Corners */}
-        <div className="absolute top-0 left-0 w-12 h-12 border-l-2 border-t-2 border-accent/20" />
-        <div className="absolute top-0 right-0 w-12 h-12 border-r-2 border-t-2 border-accent/20" />
-        <div className="absolute bottom-0 left-0 w-12 h-12 border-l-2 border-b-2 border-accent/20" />
-        <div className="absolute bottom-0 right-0 w-12 h-12 border-r-2 border-b-2 border-accent/20" />
+        <CornerDecoration />
 
         <h1 className="text-xl font-bold text-accent w-full text-center">Create Your Hero!</h1>
 

@@ -7,12 +7,16 @@ import useCharacterAnimation, {
 import { useBattleEngine } from '../../Battle/battleEngine/useBattleEngine';
 import { defaultBattleSequence } from '../../Battle/battleEngine/scenes/default/defaultSequence';
 import { killEnemySequence } from '../../Battle/battleEngine/scenes/killEnemy/killEnemySequence';
+import { parsePlayerAvatar } from '../../Battle/utils/parsePlayerAvatar';
 
 export const Battle = () => {
+	const playerProfileAvatarUrl = "default/default_1.png"
+	const { playerClass, playerSkin } = parsePlayerAvatar(playerProfileAvatarUrl)
+
 	const {
 		getAnimationParams: getPlayerAnimation,
 		setCurrentAction: setPlayerCurrentAction,
-	} = useCharacterAnimation('player', 'default', 'default_3');
+	} = useCharacterAnimation('player', playerClass, playerSkin);
 
 	const {
 		getAnimationParams: getEnemyAnimation,
