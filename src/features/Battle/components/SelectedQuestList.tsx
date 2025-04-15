@@ -37,13 +37,13 @@ const mockSelectedQuests: Quest[] = [
 ];
 
 interface SelectedQuestListProps {
-	queueCustomSceneRef: RefObject<(battleScene: BattleStepFn[]) => void>;
-	customSceneActiveRef: RefObject<boolean>;
+	queueCustomScene: (battleScene: BattleStepFn[]) => void;
+	customSceneActive: boolean;
 }
 
 export const SelectedQuestList = ({
-	queueCustomSceneRef,
-	customSceneActiveRef,
+	queueCustomScene,
+	customSceneActive,
 }: SelectedQuestListProps) => {
 	return (
 		<>
@@ -51,12 +51,12 @@ export const SelectedQuestList = ({
 				<SelectedQuestCard
 					key={quest.id}
 					quest={quest}
-					queueCustomSceneRef={queueCustomSceneRef}
-					customSceneActiveRef={customSceneActiveRef}
+					queueCustomScene={queueCustomScene}
+					customSceneActive={customSceneActive}
 				/>
 			))}
 		</>
 	);
 };
 
-export default SelectedQuestList;
+export default memo(SelectedQuestList);

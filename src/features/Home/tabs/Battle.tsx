@@ -16,10 +16,6 @@ export const Battle = () => {
 		playerProfileAvatarUrl
 	);
 
-	const queueCustomSceneRef = useRef<(battleScene: BattleStepFn[]) => void>(
-		() => {}
-	);
-
 	const {
 		getAnimationParams: getPlayerAnimation,
 		setCurrentAction: setPlayerCurrentAction,
@@ -67,13 +63,10 @@ export const Battle = () => {
 			setPlayerCurrentAction(action);
 		setEnemyActionRef.current = (action: AnimationStateType) =>
 			setEnemyCurrentAction(action);
-		setLoop(true);
+		setLoop(true);		
 		startBattle();
 	}, []);
 
-	useEffect(() => {
-		queueCustomSceneRef.current = queueCustomScene;
-	}, [queueCustomScene]);
 
 	return (
 		<div className="w-full flex justify-center h-[75dvh]">
@@ -93,8 +86,8 @@ export const Battle = () => {
 				</div>
 				<div className="flex-1 overflow-auto bg-gray-800/0 p-5 space-y-2 mt-4 w-full no-scrollbar">
 					<SelectedQuestList
-						queueCustomSceneRef={queueCustomSceneRef}
-						customSceneActiveRef={customSceneActiveRef}
+						queueCustomScene={queueCustomScene}
+						customSceneActive={customSceneActiveRef.current}
 					/>
 				</div>
 			</div>
