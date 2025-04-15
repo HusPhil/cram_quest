@@ -11,6 +11,7 @@ import { playerExit } from '../../animationSteps/playerExit';
 export const killEnemyScene: BattleStepFn[] = [
 	placeEnemyMiddle,
 	playerPunchCharge,
+	playerPunch,
 	enemyHurtWeak,
 	playerSwordAttack2,
 	playerSwordAttack1,

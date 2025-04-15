@@ -4,12 +4,10 @@ import { AnimationStateType } from './useCharacterAnimation';
 import { defaultBattleScene } from '../battleEngine/scenes/default/defaultBattleScene';
 import { sceneName } from '../battleEngine/scenes/sceneNames';
 
-export const useBattleEngine = (steps: BattleStepFn[]) => {
+export const useBattleEngine = (scene: BattleStepFn[]) => {
 	const [stepIndex, setStepIndex] = useState(-1);
 	const [loop, setLoop] = useState(false);
-	const [currentSteps, setCurrentSteps] = useState<BattleStepFn[]>(
-		steps
-	);
+	const [currentSteps, setCurrentSteps] = useState<BattleStepFn[]>(scene);
 	const [customSceneActive, setCustomSceneActive] = useState(false);
 
 	const [playerPosX, setPlayerPosX] = useState(0);
@@ -29,7 +27,7 @@ export const useBattleEngine = (steps: BattleStepFn[]) => {
 		() => {}
 	);
 
-  const currentSceneNameRef = useRef<sceneName | undefined>(undefined);
+	const currentSceneNameRef = useRef<sceneName | undefined>(undefined);
 	const onSceneCompleteRef = useRef<(sceneName?: string) => void>(undefined);
 
 	const cleanupRef = useRef<() => void | undefined>(undefined);
@@ -70,22 +68,24 @@ export const useBattleEngine = (steps: BattleStepFn[]) => {
 		});
 	};
 
-	const queueCustomScene = useCallback((
-    sceneSteps: BattleStepFn[], 
-    sceneName?: sceneName,
-    onComplete?: (sceneName?: string) => void,
-  ) => {
-    if (customSceneActiveRef.current) return;
+	const queueCustomScene = useCallback(
+		(
+			sceneSteps: BattleStepFn[],
+			sceneName?: sceneName,
+			onComplete?: (sceneName?: string) => void
+		) => {
+			if (customSceneActiveRef.current) return;
 
-    cleanupRef.current?.();
-    currentSceneNameRef.current = sceneName;
-    onSceneCompleteRef.current = onComplete;
-    
-    setCustomSceneActive(true);
-    setCurrentSteps(sceneSteps);
-    setStepIndex(0);
-  
-  },[]);
+			cleanupRef.current?.();
+			currentSceneNameRef.current = sceneName;
+			onSceneCompleteRef.current = onComplete;
+
+			setCustomSceneActive(true);
+			setCurrentSteps(sceneSteps);
+			setStepIndex(0);
+		},
+		[]
+	);
 
 	// Start battle
 	const start = () => setStepIndex(0);

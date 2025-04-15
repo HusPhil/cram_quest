@@ -7,16 +7,22 @@ export const placeEnemyMiddle: BattleStepFn = ({
     setEnemyAction,
     setPlayerAction,
     setEnemyLoop,
-    setEnemyPosX
+    getEnemyPosX,
+    setEnemyPosX,
 }) => {
     setEnemyLoop(true);
     setPlayerAction('idle');
-    setEnemyAction('idle');
-    setEnemyPosX(arenaMiddle + enemyPosOffSetX);
+    setEnemyAction('walk');
+    const targetX = arenaMiddle + enemyPosOffSetX
+    const checkIfEnemyInTargetX = setInterval(() => {
+        console.log('getEnemyPosX()', getEnemyPosX())
+        setEnemyPosX(prev => prev - 6)
+        
+        if (getEnemyPosX() <= targetX) {
+            setEnemyAction('idle')
+            next()
+        }
+    }, 50)
 
-    const delay = setTimeout(() => {
-        next()
-    }, 50);
-
-    return () => clearTimeout(delay);   
+    return () => clearTimeout(checkIfEnemyInTargetX);   
 }

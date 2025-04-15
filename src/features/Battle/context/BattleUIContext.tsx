@@ -15,10 +15,10 @@ export type BattleUIContextType = {
 	queueCustomScene: (
         sceneSteps: BattleStepFn[], 
         sceneName?: sceneName,
-        onComplete?: (sceneName?: string) => void
+        onComplete?: (sceneName?: sceneName) => void
     ) => void
     handleKillEnemySceneEnd: (
-        sceneName: string | undefined
+        sceneName?: sceneName | undefined
     ) => void
 	onCheckboxChangeOnParent?: (
 		e: ChangeEvent<HTMLInputElement>,

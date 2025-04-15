@@ -4,6 +4,7 @@ import { BattleStepFn } from '../../types';
 export const walkToMiddle: BattleStepFn = ({
   setEnemyAction,
   setPlayerPosX,
+  setPlayerAction,
   setEnemyPosX,
   getPlayerPosX,
   getEnemyPosX,
@@ -11,6 +12,7 @@ export const walkToMiddle: BattleStepFn = ({
 }) => {
 
   setEnemyAction('walk');
+  setPlayerAction('walk')
 
   const targetPlayerX = arenaMiddle - enemyPosOffSetX;
   const targetEnemyX = arenaMiddle + enemyPosOffSetX;

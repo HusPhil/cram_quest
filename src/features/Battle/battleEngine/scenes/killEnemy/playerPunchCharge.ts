@@ -6,23 +6,23 @@ export const playerPunchCharge: BattleStepFn = ({
     setPlayerAction,
     setPlayerLoop,
     setPlayerPosX,
+    getEnemyPosX,
     adjustZValues
 }) => {
-    // Reset position and adjust z-index
-    setPlayerPosX(0);
+    // Reset position and adjust z-index    
     adjustZValues("player");
 
     // Start with a charge animation
     setPlayerAction('celebrate'); // Using a more appropriate animation
     setPlayerLoop(true);
     let chargeReached = false;
-    const chargeTargetX = arenaMiddle + enemyPosOffSetX; // Target position to reach enemy
+    const chargeTargetX = getEnemyPosX() - enemyPosOffSetX + 10; // Target position to reach enemy
 
     // Change to attack animation after a brief charge period
-    const earlyAttackDelay = setTimeout(() => {
-        setPlayerAction('attack_3');
-        setPlayerLoop(false); // Don't loop the attack animation
-    }, 170);
+    // const earlyAttackDelay = setTimeout(() => {
+    //     setPlayerAction('attack_3');
+    //     setPlayerLoop(false); // Don't loop the attack animation
+    // }, 170);
 
     // Move player toward enemy
     const walkInterval = setInterval(() => {
@@ -37,7 +37,7 @@ export const playerPunchCharge: BattleStepFn = ({
         // Proceed to next step when target position is reached
         if (chargeReached) {
             clearInterval(walkInterval);
-            clearTimeout(earlyAttackDelay);
+            // clearTimeout(earlyAttackDelay);
             next();
         }
     }, 50);
@@ -45,6 +45,6 @@ export const playerPunchCharge: BattleStepFn = ({
     // Cleanup function
     return () => {
         clearInterval(walkInterval);
-        clearTimeout(earlyAttackDelay);
+        // clearTimeout(earlyAttackDelay);
     };
 };

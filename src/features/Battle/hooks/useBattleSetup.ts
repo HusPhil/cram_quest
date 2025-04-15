@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect } from 'react';
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import useCharacterAnimation, {
 	AnimationStateType,
 } from '../../Battle/hooks/useCharacterAnimation';
@@ -7,13 +7,19 @@ import { defaultBattleScene } from '../battleEngine/scenes/default/defaultBattle
 import { parsePlayerAvatar } from '../../Battle/utils/parsePlayerAvatar';
 import { Quest } from '../../Subjects/components/Pages/Quest/QuestsPage';
 import { useBattleUI } from '../context/BattleUIContext';
+import { sceneName } from '../battleEngine/scenes/sceneNames';
+import { CharacterType } from '../configs/spritesheetConfig';
 
 export const useBattleSetup = () => {
+		const enemyTypes = ['orc', 'pig', 'skeleton'] as CharacterType[]
+
 	// Character setup
 	const playerProfileAvatarUrl = 'default/default_1.png';
 	const { playerClass, playerSkin } = parsePlayerAvatar(
 		playerProfileAvatarUrl
 	);
+
+	const [ currentEnemy, setCurrentEnemy ] = useState<CharacterType>(getRandomChoice(enemyTypes, 'orc'))
 
 	// Player animation
 	const {
@@ -25,7 +31,7 @@ export const useBattleSetup = () => {
 	const {
 		getAnimationParams: getEnemyAnimation,
 		setCurrentAction: setEnemyCurrentAction,
-	} = useCharacterAnimation('skeleton');
+	} = useCharacterAnimation(currentEnemy);
 
 	// Battle engine
 	const {
@@ -61,12 +67,39 @@ export const useBattleSetup = () => {
 		console.log("HANDLED IN PARENT", e.type, ": ", quest.description);
 	}, [])
 
-    const handleKillEnemySceneEnd = useCallback(
-		(sceneName: string | undefined) => {
-			console.log(sceneName + ' has ended.');
-		},
-		[]
-	);
+	function getRandomChoice<T>(choices: T[], currentChoice: T, excludeCurrent: boolean = true): T {
+		const pool = excludeCurrent
+		  ? choices.filter(choice => choice !== currentChoice)
+		  : choices;
+	  
+		if (pool.length === 0) return currentChoice;
+	  
+		const randomIndex = Math.floor(Math.random() * pool.length);
+		return pool[randomIndex];
+	  }
+	  
+	  
+	  
+
+	const processingRef = useRef(false); //development only
+
+	const handleKillEnemySceneEnd = useCallback((sceneName?: sceneName) => {
+	if (sceneName === "killEnemyScene" && !processingRef.current) {
+		processingRef.current = true;
+		
+		setCurrentEnemy(prevEnemy => {
+			const newEnemy = getRandomChoice(enemyTypes, prevEnemy);
+			console.log("Kill enemy scene completed: " + prevEnemy);
+		
+		// Reset flag after state update //development only
+		setTimeout(() => {
+			processingRef.current = false;
+		}, 0);
+		
+		return newEnemy;
+		});
+	}
+	}, []);
 
 
 	// Organize props for components
