@@ -4,6 +4,7 @@ import SelectedQuestList from '../../Battle/components/SelectedQuestList';
 import { killEnemyScene } from '../../Battle/battleEngine/scenes/killEnemy/killEnemyScene';
 import { useBattleSetup } from '../../Battle/hooks/useBattleSetup';
 import { BattleUIProvider, useBattleUI } from '../../Battle/context/BattleUIContext';
+import PixelButton from '../../../components/PixelButton';
 
 export const Battle = () => {
 	
@@ -46,8 +47,12 @@ export const Battle = () => {
 					<div className="flex-1 overflow-auto bg-gray-800/0 p-5 space-y-2 mt-4 w-full no-scrollbar">
 						<SelectedQuestList />
 					</div>
+				<PixelButton>
+				eyy
+			</PixelButton>
 				</div>
 			</div>
+			
 		</BattleUIProvider>
 	);
 };
