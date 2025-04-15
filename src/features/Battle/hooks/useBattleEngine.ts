@@ -28,7 +28,7 @@ export const useBattleEngine = (scene: BattleStepFn[]) => {
 	);
 
 	const currentSceneNameRef = useRef<sceneName | undefined>(undefined);
-	const onSceneCompleteRef = useRef<(sceneName?: string) => void>(undefined);
+	const onSceneCompleteRef = useRef<(sceneName?: sceneName) => void>(undefined);
 
 	const cleanupRef = useRef<() => void | undefined>(undefined);
 
@@ -72,7 +72,7 @@ export const useBattleEngine = (scene: BattleStepFn[]) => {
 		(
 			sceneSteps: BattleStepFn[],
 			sceneName?: sceneName,
-			onComplete?: (sceneName?: string) => void
+			onComplete?: (sceneName?: sceneName) => void
 		) => {
 			if (customSceneActiveRef.current) return;
 

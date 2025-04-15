@@ -79,8 +79,6 @@ export const useBattleSetup = () => {
 	  }
 	  
 	  
-	  
-
 	const processingRef = useRef(false); //development only
 
 	const handleKillEnemySceneEnd = useCallback((sceneName?: sceneName) => {
