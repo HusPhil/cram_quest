@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { BattleContext, BattleStepFn } from './types';
-import { AnimationStateType } from '../hooks/useCharacterAnimation';
+import { BattleContext, BattleStepFn } from '../battleEngine/types';
+import { AnimationStateType } from './useCharacterAnimation';
 import { enemyPosOffSetX } from '../components/BattleArena';
-import { defaultBattleSequence } from './scenes/default/defaultSequence';
+import { defaultBattleSequence } from '../battleEngine/scenes/default/defaultSequence';
 
 export const useBattleEngine = (steps: BattleStepFn[]) => {
   
