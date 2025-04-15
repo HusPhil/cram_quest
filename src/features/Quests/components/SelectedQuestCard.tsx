@@ -9,15 +9,14 @@ export const SelectedQuestCard = ({ quest }: { quest: Quest }) => {
 	const [isCompleted, setIsCompleted] = useState(false);
 	// Add a state variable to track the customSceneActive value
 
-	const handleKillEnemySceneEnd = useCallback((sceneName: string | undefined) => {
-		console.log(sceneName + ' has ended.');
-	}, []);
 
-	const {
-		customSceneActive,
-		onCheckboxChangeOnParent,
-		queueCustomScene
-	} = useBattleUI()
+
+	const { 
+		customSceneActive, 
+		onCheckboxChangeOnParent, 
+		queueCustomScene,
+		handleKillEnemySceneEnd
+	} = useBattleUI();
 
 	const handleCheckboxChange = useCallback(
 		(e: React.ChangeEvent<HTMLInputElement>) => {

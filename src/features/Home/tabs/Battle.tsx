@@ -10,18 +10,15 @@ export const Battle = () => {
 	const {
 		battleProps,
 		arenaProps,
-		questListProps
+		uiProviderProps,
 	} = useBattleSetup();
 
 
-	
-
-	
 	useEffect(() => {
 		const handleKeyUp = (e: KeyboardEvent) => {
 			console.log(e.key);
 			if (e.key === 'a') {
-				battleProps.queueCustomScene(killEnemySequence);
+				battleProps.queueCustomScene(killEnemySequence, "killEnemyScene", uiProviderProps.handleKillEnemySceneEnd);
 			}
 		};
 		window.addEventListener('keyup', handleKeyUp);
@@ -36,6 +33,7 @@ export const Battle = () => {
 		<BattleUIProvider
 			customSceneActive={battleProps.customSceneActiveRef.current}
 			queueCustomScene={battleProps.queueCustomScene}
+			handleKillEnemySceneEnd={uiProviderProps.handleKillEnemySceneEnd}
 			>
 			<div className="w-full flex justify-center h-[75dvh]">
 				<div className="flex flex-col h-full items-center  w-full">

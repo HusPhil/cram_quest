@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { BattleContext, BattleStepFn } from '../battleEngine/types';
 import { AnimationStateType } from './useCharacterAnimation';
 import { defaultBattleSequence } from '../battleEngine/scenes/default/defaultSequence';
+import { sceneName } from '../battleEngine/scenes/sceneNames';
 
 export const useBattleEngine = (steps: BattleStepFn[]) => {
 	const [stepIndex, setStepIndex] = useState(-1);
@@ -28,7 +29,7 @@ export const useBattleEngine = (steps: BattleStepFn[]) => {
 		() => {}
 	);
 
-  const currentSceneNameRef = useRef<string | undefined>(undefined);
+  const currentSceneNameRef = useRef<sceneName | undefined>(undefined);
 	const onSceneCompleteRef = useRef<(sceneName?: string) => void>(undefined);
 
 	const cleanupRef = useRef<() => void | undefined>(undefined);
@@ -71,7 +72,7 @@ export const useBattleEngine = (steps: BattleStepFn[]) => {
 
 	const queueCustomScene = useCallback((
     sceneSteps: BattleStepFn[], 
-    sceneName?: string,
+    sceneName?: sceneName,
     onComplete?: (sceneName?: string) => void,
   ) => {
     if (customSceneActiveRef.current) return;

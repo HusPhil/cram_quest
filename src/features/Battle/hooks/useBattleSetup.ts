@@ -61,6 +61,13 @@ export const useBattleSetup = () => {
 		console.log("HANDLED IN PARENT", e.type, ": ", quest.description);
 	}, [])
 
+    const handleKillEnemySceneEnd = useCallback(
+		(sceneName: string | undefined) => {
+			console.log(sceneName + ' has ended.');
+		},
+		[]
+	);
+
 
 	// Organize props for components
 	const arenaProps = {
@@ -87,11 +94,16 @@ export const useBattleSetup = () => {
 		startBattle,
 	};
 
+    const uiProviderProps = {
+        handleKillEnemySceneEnd
+    }
+
 
 
 	return {
 		arenaProps,
 		questListProps,
 		battleProps,
+        uiProviderProps
 	};
 };
