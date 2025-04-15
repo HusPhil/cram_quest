@@ -31,6 +31,8 @@ export const Battle = () => {
 
 	return (
 		<BattleUIProvider
+			completedQuests={uiProviderProps.completedQuests}
+			selectedQuests={uiProviderProps.selectedQuests}
 			customSceneActive={battleProps.customSceneActiveRef.current}
 			queueCustomScene={battleProps.queueCustomScene}
 			handleKillEnemySceneEnd={uiProviderProps.handleKillEnemySceneEnd}
@@ -40,6 +42,7 @@ export const Battle = () => {
 					<div className="shrink-0">
 						<BattleArena {...arenaProps} />
 					</div>
+					<p>{uiProviderProps.completedQuests}/{uiProviderProps.selectedQuests.length} </p>
 					<div className="flex-1 overflow-auto bg-gray-800/0 p-5 space-y-2 mt-4 w-full no-scrollbar">
 						<SelectedQuestList />
 					</div>

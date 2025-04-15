@@ -1,69 +1,61 @@
-import {
-	ChangeEvent,
-	createContext,
-	useContext,
-	useMemo,
-	ReactNode,
-	RefObject,
-} from 'react';
-import { BattleStepFn } from '../battleEngine/types';
-import { Quest } from '../../Subjects/components/Pages/Quest/QuestsPage';
-import { sceneName } from '../battleEngine/scenes/sceneNames';
-
-export type BattleUIContextType = {
-    customSceneActive: boolean;
+import { 
+	ChangeEvent, 
+	createContext, 
+	useContext, 
+	useMemo, 
+	ReactNode, 
+  } from 'react'; 
+  import { BattleStepFn } from '../battleEngine/types'; 
+  import { Quest } from '../../Subjects/components/Pages/Quest/QuestsPage'; 
+  import { sceneName } from '../battleEngine/scenes/sceneNames'; 
+  
+  // Define the context type
+  export type BattleUIContextType = { 
+	selectedQuests: Quest[];
+	completedQuests: number;
+	customSceneActive: boolean;
 	queueCustomScene: (
-        sceneSteps: BattleStepFn[], 
-        sceneName?: sceneName,
-        onComplete?: (sceneName?: sceneName) => void
-    ) => void
-    handleKillEnemySceneEnd: (
-        sceneName?: sceneName | undefined
-    ) => void
-	onCheckboxChangeOnParent?: (
-		e: ChangeEvent<HTMLInputElement>,
-		quest: Quest
+	  sceneSteps: BattleStepFn[],  
+	  sceneName?: sceneName, 
+	  onComplete?: (sceneName?: sceneName) => void
 	) => void;
-};
-
-const BattleUIContext = createContext<BattleUIContextType | null>(null);
-
-type BattleUIProviderProps = {
-	customSceneActive: BattleUIContextType['customSceneActive'];
-	queueCustomScene: BattleUIContextType['queueCustomScene'];
-	handleKillEnemySceneEnd: BattleUIContextType['handleKillEnemySceneEnd'];
-    onCheckboxChangeOnParent?: BattleUIContextType['onCheckboxChangeOnParent'];
+	handleKillEnemySceneEnd: (
+	  sceneName?: sceneName | undefined
+	) => void;
+	onCheckboxChangeOnParent?: (
+	  e: ChangeEvent<HTMLInputElement>, 
+	  quest: Quest
+	) => void;
+  }; 
+  
+  const BattleUIContext = createContext<BattleUIContextType | null>(null); 
+  
+  type BattleUIProviderProps = BattleUIContextType & {
 	children: ReactNode;
-};
-
-export const BattleUIProvider = ({
-	customSceneActive,
-	queueCustomScene,
-    handleKillEnemySceneEnd,
-	onCheckboxChangeOnParent,
+  }; 
+  
+  export const BattleUIProvider = ({
 	children,
-}: BattleUIProviderProps) => {
-	const value = useMemo<BattleUIContextType>(
-		() => ({
-			customSceneActive,
-			queueCustomScene,
-            handleKillEnemySceneEnd,
-			onCheckboxChangeOnParent,
-		}),
-		[customSceneActive, queueCustomScene, handleKillEnemySceneEnd, onCheckboxChangeOnParent]
-	);
-
-	return (
-		<BattleUIContext.Provider value={value}>
-			{children}
-		</BattleUIContext.Provider>
-	);
-};
-
-
-export const useBattleUI = (): BattleUIContextType => {
-	const ctx = useContext(BattleUIContext);
-	if (!ctx)
-		throw new Error('useBattleUI must be used within a BattleUIProvider');
-	return ctx;
-};
+	...contextValues
+  }: BattleUIProviderProps) => { 
+	// Restore useMemo to prevent unnecessary re-renders
+	const value = useMemo(() => ({
+	  ...contextValues
+	}), [
+	  // Explicitly list all dependencies for proper memoization
+	  ...Object.values(contextValues)
+	]);
+	
+	return ( 
+	  <BattleUIContext.Provider value={value}> 
+		{children} 
+	  </BattleUIContext.Provider> 
+	); 
+  }; 
+  
+  export const useBattleUI = (): BattleUIContextType => { 
+	const ctx = useContext(BattleUIContext); 
+	if (!ctx) 
+	  throw new Error('useBattleUI must be used within a BattleUIProvider'); 
+	return ctx; 
+  };

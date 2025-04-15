@@ -19,6 +19,28 @@ export const useBattleSetup = () => {
 		playerProfileAvatarUrl
 	);
 
+	const [selectedQuests, setSelectedQuests] = useState<Quest[]>([]);
+	const [ completedQuests, setCompletedQuests ] = useState<number>(0)
+
+	useEffect(() => {
+		const mockFetch = async () => {
+			// mimic network delay
+			await new Promise(resolve => setTimeout(resolve, 300)); 
+			
+			const mockResponse: Quest[] = [
+				{ id: 1, description: '[NEW] Study React Hooks', difficulty: 2, deadline: '' },
+				{ id: 2, description: '[NEW] Complete TypeScript Tutorial', difficulty: 2, deadline: '' },
+				{ id: 3, description: '[NEW] Practice CSS Grid', difficulty: 2, deadline: '' },
+				{ id: 4, description: '[NEW] Learn Redux', difficulty: 3, deadline: '' },
+				{ id: 5, description: '[NEW] Build a Portfolio Website', difficulty: 4, deadline: '' },
+			];
+	
+			setSelectedQuests(mockResponse);
+		};
+	
+		mockFetch();
+	}, []);
+
 	const [ currentEnemy, setCurrentEnemy ] = useState<CharacterType>(getRandomChoice(enemyTypes, 'orc'))
 
 	// Player animation
@@ -83,6 +105,21 @@ export const useBattleSetup = () => {
 
 	const handleKillEnemySceneEnd = useCallback((sceneName?: sceneName) => {
 	if (sceneName === "killEnemyScene" && !processingRef.current) {
+
+		console.log(completedQuests, selectedQuests.length)
+
+		let bossOn = false
+
+		setCompletedQuests(prev => {
+			if(prev + 1 === selectedQuests.length) {
+				setCurrentEnemy('dark_knight')
+				bossOn = true
+			}
+			return prev + 1
+		})
+
+
+		if(bossOn) return
 		processingRef.current = true;
 		
 		setCurrentEnemy(prevEnemy => {
@@ -97,7 +134,7 @@ export const useBattleSetup = () => {
 		return newEnemy;
 		});
 	}
-	}, []);
+	}, [selectedQuests, completedQuests]);
 
 
 	// Organize props for components
@@ -126,9 +163,10 @@ export const useBattleSetup = () => {
 	};
 
     const uiProviderProps = {
-        handleKillEnemySceneEnd
+        handleKillEnemySceneEnd,
+		selectedQuests,
+		completedQuests
     }
-
 
 
 	return {
