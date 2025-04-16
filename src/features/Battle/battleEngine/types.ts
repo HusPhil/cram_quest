@@ -5,6 +5,7 @@ export type BattleStepFn = (ctx: BattleContext) => (() => void) | void;
 
 export type BattleContext = {
 	next: () => void;
+	end: () => void;
 
 	// Animation
 	setPlayerAction: (action: AnimationStateType) => void;

@@ -3,6 +3,7 @@ import { BattleStepFn } from '../types';
 
 export const playerExit: BattleStepFn = ({
 	next,
+	end,
 	setPlayerAction,
 	setPlayerPosX,
 	setEnemyPosX,
@@ -20,6 +21,7 @@ export const playerExit: BattleStepFn = ({
 	walkInterval = window.setInterval(() => {
 		setPlayerPosX((prev) => {
 			if (prev >= exitPosX) {
+				setEnemyPosX(enemyPosOffSetX * 10);
 				exitReached = true;
 				return exitPosX;
 			}
@@ -30,6 +32,7 @@ export const playerExit: BattleStepFn = ({
 			setPlayerPosX(0);
 			setPlayerAction('idle');
 			next();
+			end();
 		}
 	}, 50);
 

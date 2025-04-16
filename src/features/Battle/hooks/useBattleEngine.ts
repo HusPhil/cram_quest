@@ -56,17 +56,23 @@ export const useBattleEngine = (scene: BattleStepFn[]) => {
 	};
 
 	const next = useCallback(() => {
-		// console.log('natawag sdas: ', stepIndex);
 		setStepIndex((prevIndex) => {
 			const isLast = prevIndex + 1 >= currentSteps.length;
 
 			if (isLast) {
+				setCustomSceneActive(false);
+				currentSceneNameRef.current = 'defaultBattleScence';
+				setCurrentSteps(defaultBattleScene);
 				return loop ? 0 : prevIndex + 1;
 			}
 
 			return prevIndex + 1;
 		});
 	}, [stepIndex]);
+
+	const end = useCallback(() => {
+		onSceneCompleteRef.current?.(currentSceneNameRef.current);
+	}, []);
 
 	const queueCustomScene: QueueCustomSceneFn = useCallback(
 		(
@@ -93,6 +99,7 @@ export const useBattleEngine = (scene: BattleStepFn[]) => {
 	// === Provide current context to steps ===
 	const context: BattleContext = {
 		next,
+		end,
 		setPlayerAction: (a) => setPlayerActionRef.current(a),
 		setEnemyAction: (a) => setEnemyActionRef.current(a),
 		setPlayerLoop,
@@ -121,19 +128,6 @@ export const useBattleEngine = (scene: BattleStepFn[]) => {
 	useEffect(() => {
 		enemyPosXRef.current = enemyPosX;
 	}, [enemyPosX]);
-
-	useEffect(() => {
-		const isLast = stepIndex + 1 >= currentSteps.length;
-
-		if (isLast && currentSceneNameRef.current === 'killEnemyScene') {
-			console.log(stepIndex, currentSteps.length);
-			currentSceneNameRef.current = 'defaultBattleScence';
-			onSceneCompleteRef.current?.(currentSceneNameRef.current);
-			setCustomSceneActive(false);
-			setCurrentSteps(defaultBattleScene);
-			currentSceneNameRef.current === 'defaultBattleScence';
-		}
-	}, [stepIndex]);
 
 	return {
 		startBattle: start,

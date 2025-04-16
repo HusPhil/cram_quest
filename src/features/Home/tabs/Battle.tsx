@@ -15,7 +15,8 @@ export const Battle = () => {
 			if (e.key === 'a') {
 				battleEngineProps.queueCustomScene(
 					killEnemyScene,
-					'killEnemyScene'
+					'killEnemyScene',
+					() => battleUIProviderProps.handleQuestComplete(3)
 				);
 			}
 		};

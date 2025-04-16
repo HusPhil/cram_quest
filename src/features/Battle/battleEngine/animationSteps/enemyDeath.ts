@@ -4,6 +4,7 @@ import { BattleStepFn } from '../types';
 
 export const enemyDeath: BattleStepFn = ({
 	next,
+	end,
 	setPlayerLoop,
 	setPlayerAction,
 	setEnemyAction,
@@ -23,7 +24,7 @@ export const enemyDeath: BattleStepFn = ({
 		direction: 'right',
 		knockbackDmg: 30,
 		onDone: () => {
-			setEnemyPosX(enemyPosOffSetX * 100);
+			// setEnemyPosX(enemyPosOffSetX * 100);
 			next();
 		},
 	});

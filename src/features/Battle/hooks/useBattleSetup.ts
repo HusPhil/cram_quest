@@ -134,8 +134,6 @@ export const useBattleSetup = () => {
 	const handleQuestComplete = useCallback((questId: number) => {
 		setCurrentEnemy((prevEnemy) => {
 			const newEnemy = getRandomChoice(enemyTypes, prevEnemy);
-			console.log(prevEnemy, newEnemy);
-
 			return newEnemy;
 		});
 		setCompletedQuestIds((prev) => [...prev, questId]);
