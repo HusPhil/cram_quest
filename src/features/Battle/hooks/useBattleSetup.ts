@@ -131,13 +131,20 @@ export const useBattleSetup = () => {
 		return pool[randomIndex];
 	}
 
-	const handleQuestComplete = useCallback((questId: number) => {
-		setCurrentEnemy((prevEnemy) => {
-			const newEnemy = getRandomChoice(enemyTypes, prevEnemy);
-			return newEnemy;
-		});
-		setCompletedQuestIds((prev) => [...prev, questId]);
-	}, []);
+	const handleQuestComplete = useCallback(
+		(questId: number) => {
+			setCurrentEnemy((prevEnemy) => {
+				const newEnemy = getRandomChoice(enemyTypes, prevEnemy);
+				return newEnemy;
+			});
+			setCompletedQuestIds((prev) => {
+				const newCompletedQuestIds = [...prev, questId];
+				if (prev.length >= selectedQuests.length) return prev;
+				return newCompletedQuestIds;
+			});
+		},
+		[selectedQuests]
+	);
 
 	// Organize props for components
 	const arenaProps = {
