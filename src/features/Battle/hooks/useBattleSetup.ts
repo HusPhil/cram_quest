@@ -138,9 +138,8 @@ export const useBattleSetup = () => {
 				return newEnemy;
 			});
 			setCompletedQuestIds((prev) => {
-				const newCompletedQuestIds = [...prev, questId];
 				if (prev.length >= selectedQuests.length) return prev;
-				return newCompletedQuestIds;
+				return [...prev, questId];
 			});
 		},
 		[selectedQuests]
