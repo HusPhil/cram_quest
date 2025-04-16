@@ -4,6 +4,12 @@ import { AnimationStateType } from './useCharacterAnimation';
 import { defaultBattleScene } from '../battleEngine/scenes/default/defaultBattleScene';
 import { sceneName } from '../battleEngine/scenes/sceneNames';
 
+export type QueueCustomSceneFn = (
+	sceneSteps: BattleStepFn[],
+	sceneName?: sceneName,
+	onComplete?: (sceneName?: sceneName) => void
+) => void;
+
 export const useBattleEngine = (scene: BattleStepFn[]) => {
 	const [stepIndex, setStepIndex] = useState(-1);
 	const [loop, setLoop] = useState(false);
@@ -27,8 +33,9 @@ export const useBattleEngine = (scene: BattleStepFn[]) => {
 		() => {}
 	);
 
-	const currentSceneNameRef = useRef<sceneName | undefined>(undefined);
-	const onSceneCompleteRef = useRef<(sceneName?: sceneName) => void>(undefined);
+	const currentSceneNameRef = useRef<sceneName>('defaultBattleScence');
+	const onSceneCompleteRef =
+		useRef<(sceneName?: sceneName) => void>(undefined);
 
 	const cleanupRef = useRef<() => void | undefined>(undefined);
 
@@ -48,27 +55,20 @@ export const useBattleEngine = (scene: BattleStepFn[]) => {
 		}
 	};
 
-	const next = () => {
+	const next = useCallback(() => {
+		// console.log('natawag sdas: ', stepIndex);
 		setStepIndex((prevIndex) => {
 			const isLast = prevIndex + 1 >= currentSteps.length;
 
 			if (isLast) {
-				if (customSceneActive) {
-					// Return to default steps after scene)
-					onSceneCompleteRef.current?.(currentSceneNameRef.current);
-
-					setCustomSceneActive(false);
-					setCurrentSteps(defaultBattleScene);
-					return 0;
-				}
 				return loop ? 0 : prevIndex + 1;
 			}
 
 			return prevIndex + 1;
 		});
-	};
+	}, [stepIndex]);
 
-	const queueCustomScene = useCallback(
+	const queueCustomScene: QueueCustomSceneFn = useCallback(
 		(
 			sceneSteps: BattleStepFn[],
 			sceneName?: sceneName,
@@ -77,7 +77,7 @@ export const useBattleEngine = (scene: BattleStepFn[]) => {
 			if (customSceneActiveRef.current) return;
 
 			cleanupRef.current?.();
-			currentSceneNameRef.current = sceneName;
+			currentSceneNameRef.current = sceneName ?? 'defaultBattleScence';
 			onSceneCompleteRef.current = onComplete;
 
 			setCustomSceneActive(true);
@@ -123,8 +123,17 @@ export const useBattleEngine = (scene: BattleStepFn[]) => {
 	}, [enemyPosX]);
 
 	useEffect(() => {
-		customSceneActiveRef.current = customSceneActive;
-	}, [customSceneActive]);
+		const isLast = stepIndex + 1 >= currentSteps.length;
+
+		if (isLast && currentSceneNameRef.current === 'killEnemyScene') {
+			console.log(stepIndex, currentSteps.length);
+			currentSceneNameRef.current = 'defaultBattleScence';
+			onSceneCompleteRef.current?.(currentSceneNameRef.current);
+			setCustomSceneActive(false);
+			setCurrentSteps(defaultBattleScene);
+			currentSceneNameRef.current === 'defaultBattleScence';
+		}
+	}, [stepIndex]);
 
 	return {
 		startBattle: start,

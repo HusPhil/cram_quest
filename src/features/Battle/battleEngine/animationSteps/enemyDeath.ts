@@ -1,32 +1,36 @@
-import startKnockback from "../../utils/startKnockback";
-import { BattleStepFn } from "../types";
+import { enemyPosOffSetX } from '../../components/BattleArena';
+import startKnockback from '../../utils/startKnockback';
+import { BattleStepFn } from '../types';
 
 export const enemyDeath: BattleStepFn = ({
-    next,
-    setPlayerLoop,
-    setPlayerAction,
-    setEnemyAction,
-    setEnemyLoop,
-    getEnemyPosX,
-    setEnemyPosX
+	next,
+	setPlayerLoop,
+	setPlayerAction,
+	setEnemyAction,
+	setEnemyLoop,
+	getEnemyPosX,
+	setEnemyPosX,
 }) => {
-    setPlayerLoop(true);
-    setEnemyAction('death');
-    setPlayerAction('idle');
-    setEnemyLoop(false);
-    let cleanup: (() => void) | undefined;
+	setPlayerLoop(true);
+	setEnemyAction('death');
+	setPlayerAction('idle');
+	setEnemyLoop(false);
+	let cleanup: (() => void) | undefined;
 
-    cleanup = startKnockback({
-        fromX: getEnemyPosX(),
-        setX: setEnemyPosX,
-        direction: 'right',
-        knockbackDmg: 30,
-        onDone: () => next(),
-    });
+	cleanup = startKnockback({
+		fromX: getEnemyPosX(),
+		setX: setEnemyPosX,
+		direction: 'right',
+		knockbackDmg: 30,
+		onDone: () => {
+			setEnemyPosX(enemyPosOffSetX * 100);
+			next();
+		},
+	});
 
-    return () => {
-        if (cleanup) {
-            cleanup();
-        }
-    };
-}
+	return () => {
+		if (cleanup) {
+			cleanup();
+		}
+	};
+};

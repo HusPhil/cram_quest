@@ -11,7 +11,13 @@ import { sceneName } from '../battleEngine/scenes/sceneNames';
 import { CharacterType } from '../configs/spritesheetConfig';
 
 export const useBattleSetup = () => {
-		const enemyTypes = ['orc', 'pig', 'skeleton'] as CharacterType[]
+	const enemyTypes = [
+		'orc',
+		'pig',
+		'skeleton',
+		'orc',
+		'pig',
+	] as CharacterType[];
 
 	// Character setup
 	const playerProfileAvatarUrl = 'default/default_1.png';
@@ -20,28 +26,9 @@ export const useBattleSetup = () => {
 	);
 
 	const [selectedQuests, setSelectedQuests] = useState<Quest[]>([]);
-	const [ completedQuests, setCompletedQuests ] = useState<number>(0)
+	const [completedQuestIds, setCompletedQuestIds] = useState<number[]>([]);
 
-	useEffect(() => {
-		const mockFetch = async () => {
-			// mimic network delay
-			await new Promise(resolve => setTimeout(resolve, 300)); 
-			
-			const mockResponse: Quest[] = [
-				{ id: 1, description: '[NEW] Study React Hooks', difficulty: 2, deadline: '' },
-				{ id: 2, description: '[NEW] Complete TypeScript Tutorial', difficulty: 2, deadline: '' },
-				{ id: 3, description: '[NEW] Practice CSS Grid', difficulty: 2, deadline: '' },
-				{ id: 4, description: '[NEW] Learn Redux', difficulty: 3, deadline: '' },
-				{ id: 5, description: '[NEW] Build a Portfolio Website', difficulty: 4, deadline: '' },
-			];
-	
-			setSelectedQuests(mockResponse);
-		};
-	
-		mockFetch();
-	}, []);
-
-	const [ currentEnemy, setCurrentEnemy ] = useState<CharacterType>('skeleton_lord')
+	const [currentEnemy, setCurrentEnemy] = useState<CharacterType>('orc');
 
 	// Player animation
 	const {
@@ -57,7 +44,6 @@ export const useBattleSetup = () => {
 
 	// Battle engine
 	const {
-		startBattle,
 		enemyPosX,
 		enemyLoop,
 		enemyZ,
@@ -66,10 +52,56 @@ export const useBattleSetup = () => {
 		playerZ,
 		setEnemyActionRef,
 		setPlayerActionRef,
-		queueCustomScene,
 		customSceneActiveRef,
+		queueCustomScene,
 		setLoop,
+		startBattle,
 	} = useBattleEngine(defaultBattleScene);
+
+	// mock fetch of quests
+	useEffect(() => {
+		const mockFetch = async () => {
+			// mimic network delay
+			await new Promise((resolve) => setTimeout(resolve, 300));
+
+			const mockResponse: Quest[] = [
+				{
+					id: 1,
+					description: '[NEW] Study React Hooks',
+					difficulty: 2,
+					deadline: '',
+				},
+				{
+					id: 2,
+					description: '[NEW] Complete TypeScript Tutorial',
+					difficulty: 2,
+					deadline: '',
+				},
+				{
+					id: 3,
+					description: '[NEW] Practice CSS Grid',
+					difficulty: 2,
+					deadline: '',
+				},
+				{
+					id: 4,
+					description: '[NEW] Learn Redux',
+					difficulty: 3,
+					deadline: '',
+				},
+				{
+					id: 5,
+					description: '[NEW] Build a Portfolio Website',
+					difficulty: 4,
+					deadline: '',
+				},
+			];
+
+			setSelectedQuests(mockResponse);
+		};
+
+		mockFetch();
+	}, []);
 
 	// Initialize battle
 	useEffect(() => {
@@ -84,62 +116,30 @@ export const useBattleSetup = () => {
 		startBattle();
 	}, []);
 
-
-    const handleCheckboxChangeOnParent = useCallback((e: ChangeEvent<HTMLInputElement>, quest: Quest) => {
-		console.log("HANDLED IN PARENT", e.type, ": ", quest.description);
-	}, [])
-
-	function getRandomChoice<T>(choices: T[], currentChoice: T, excludeCurrent: boolean = true): T {
+	function getRandomChoice<T>(
+		choices: T[],
+		currentChoice: T,
+		excludeCurrent: boolean = true
+	): T {
 		const pool = excludeCurrent
-		  ? choices.filter(choice => choice !== currentChoice)
-		  : choices;
-	  
+			? choices.filter((choice) => choice !== currentChoice)
+			: choices;
+
 		if (pool.length === 0) return currentChoice;
-	  
+
 		const randomIndex = Math.floor(Math.random() * pool.length);
 		return pool[randomIndex];
-	  }
-	  
-	  
-	const processingRef = useRef(false); //development only
+	}
 
-	const handleKillEnemySceneEnd = useCallback((sceneName?: sceneName) => {
-		// Guard clause - only proceed if correct scene and not processing
-		if (sceneName !== "killEnemyScene" || processingRef.current) {
-			return;
-		}
-	
-		// Start processing
-		processingRef.current = true;
-	
-		// Update quest completion counter
-		setCompletedQuests(prevCount => {
-			const newCount = prevCount + 1;
-			const isAllQuestsCompleted = newCount === selectedQuests.length;
-	
-			// Handle boss appearance
-			if (isAllQuestsCompleted) {
-				setCurrentEnemy('orc_lord');
-				processingRef.current = false;
-				return newCount;
-			}
-	
-			// Update to next random enemy
-			setCurrentEnemy(prevEnemy => {
-				const newEnemy = getRandomChoice(enemyTypes, prevEnemy);
-				console.log(`Enemy defeated: ${prevEnemy}, Next enemy: ${newEnemy}`);
-				return newEnemy;
-			});
-	
-			// Reset processing flag with slight delay
-			setTimeout(() => {
-				processingRef.current = false;
-			}, 100);
-	
-			return newCount;
+	const handleQuestComplete = useCallback((questId: number) => {
+		setCurrentEnemy((prevEnemy) => {
+			const newEnemy = getRandomChoice(enemyTypes, prevEnemy);
+			console.log(prevEnemy, newEnemy);
+
+			return newEnemy;
 		});
-	}, [selectedQuests.length, enemyTypes]);
-
+		setCompletedQuestIds((prev) => [...prev, questId]);
+	}, []);
 
 	// Organize props for components
 	const arenaProps = {
@@ -151,32 +151,29 @@ export const useBattleSetup = () => {
 		enemyPosX,
 		getPlayerAnimation,
 		getEnemyAnimation,
-		customSceneActiveRef,
 	};
 
 	const questListProps = {
 		queueCustomScene,
 		customSceneActive: !!customSceneActiveRef.current,
-        onCheckboxChangeOnParent: handleCheckboxChangeOnParent
 	};
 
-	const battleProps = {
+	const battleEngineProps = {
 		queueCustomScene,
-        customSceneActiveRef,
+		customSceneActiveRef,
 		startBattle,
 	};
 
-    const uiProviderProps = {
-        handleKillEnemySceneEnd,
+	const battleUIProviderProps = {
 		selectedQuests,
-		completedQuests
-    }
-
+		completedQuestIds,
+		handleQuestComplete,
+	};
 
 	return {
 		arenaProps,
 		questListProps,
-		battleProps,
-        uiProviderProps
+		battleEngineProps,
+		battleUIProviderProps,
 	};
 };

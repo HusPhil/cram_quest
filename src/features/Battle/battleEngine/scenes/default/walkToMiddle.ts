@@ -19,6 +19,7 @@ export const walkToMiddle: BattleStepFn = ({
 	// Initial animations
 	setPlayerAction(getPlayerPosX() >= targetPlayerX ? 'idle' : 'walk');
 	setEnemyAction('walk');
+	setEnemyPosX(48 * 3);
 
 	let positionsReached = false;
 

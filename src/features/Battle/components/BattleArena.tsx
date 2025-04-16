@@ -14,7 +14,6 @@ interface BattleArenaProps {
 	enemyZ: number;
 	enemyPosX: number;
 	enemyLoop: boolean;
-	customSceneActiveRef: RefObject<boolean>;
 	getEnemyAnimation: () => AnimationParams;
 	getPlayerAnimation: () => AnimationParams;
 }
@@ -26,7 +25,6 @@ export const BattleArena = ({
 	enemyZ,
 	enemyPosX,
 	enemyLoop,
-	customSceneActiveRef,
 	getEnemyAnimation,
 	getPlayerAnimation,
 }: BattleArenaProps) => {
@@ -62,7 +60,6 @@ export const BattleArena = ({
 
 				{/* Enemy (can move horizontally) */}
 				<SpriteSheet
-					// className='border'
 					style={{
 						position: 'absolute',
 						zIndex: enemyZ,

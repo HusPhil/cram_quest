@@ -1,6 +1,5 @@
 import { GiRoundStar } from 'react-icons/gi';
 import { Quest } from '../../Subjects/components/Pages/Quest/QuestsPage';
-import { BattleStepFn } from '../../Battle/battleEngine/types';
 import { killEnemyScene } from '../../Battle/battleEngine/scenes/killEnemy/killEnemyScene';
 import { memo, useState, useCallback, useMemo, ChangeEvent } from 'react';
 import { useBattleUI } from '../../Battle/context/BattleUIContext';
@@ -9,18 +8,16 @@ export const SelectedQuestCard = ({ quest }: { quest: Quest }) => {
 	const [isCompleted, setIsCompleted] = useState(false);
 	// Add a state variable to track the customSceneActive value
 
+	const { customSceneActive, queueCustomScene, handleQuestComplete } =
+		useBattleUI();
 
-
-	const { 
-		customSceneActive, 
-		onCheckboxChangeOnParent, 
-		queueCustomScene,
-		handleKillEnemySceneEnd
-	} = useBattleUI();
+	const handleKillEnemySceneEnd = useCallback(() => {
+		handleQuestComplete(quest.id);
+	}, []);
 
 	const handleCheckboxChange = useCallback(
 		(e: React.ChangeEvent<HTMLInputElement>) => {
-			onCheckboxChangeOnParent?.(e, quest);
+			console.log('natawag din naman');
 			if (e.target.checked) {
 				if (queueCustomScene) {
 					queueCustomScene(
@@ -28,11 +25,6 @@ export const SelectedQuestCard = ({ quest }: { quest: Quest }) => {
 						'killEnemyScene',
 						handleKillEnemySceneEnd
 					);
-					// Wait a moment to ensure the animation has time to start
-					setTimeout(() => {
-						setIsCompleted(true);
-					}, 50);
-				} else {
 					setIsCompleted(true);
 				}
 			}

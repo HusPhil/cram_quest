@@ -1,22 +1,23 @@
-import { AnimationStateType } from "../hooks/useCharacterAnimation";
+import { AnimationStateType } from '../hooks/useCharacterAnimation';
+import { sceneName } from './scenes/sceneNames';
 
 export type BattleStepFn = (ctx: BattleContext) => (() => void) | void;
 
 export type BattleContext = {
-  next: () => void;
+	next: () => void;
 
-  // Animation
-  setPlayerAction: (action: AnimationStateType) => void;
-  setEnemyAction: (action: AnimationStateType) => void;
-  setPlayerLoop: (loop: boolean) => void;
-  setEnemyLoop: (loop: boolean) => void;
+	// Animation
+	setPlayerAction: (action: AnimationStateType) => void;
+	setEnemyAction: (action: AnimationStateType) => void;
+	setPlayerLoop: (loop: boolean) => void;
+	setEnemyLoop: (loop: boolean) => void;
 
-  // Movement
-  setPlayerPosX: React.Dispatch<React.SetStateAction<number>>;
-  setEnemyPosX: React.Dispatch<React.SetStateAction<number>>;
-  getPlayerPosX: () => number;
-  getEnemyPosX: () => number;
+	// Movement
+	setPlayerPosX: React.Dispatch<React.SetStateAction<number>>;
+	setEnemyPosX: React.Dispatch<React.SetStateAction<number>>;
+	getPlayerPosX: () => number;
+	getEnemyPosX: () => number;
 
-  // Z-index
-  adjustZValues: (entity: 'enemy' | 'player') => void;
+	// Z-index
+	adjustZValues: (entity: 'enemy' | 'player') => void;
 };
