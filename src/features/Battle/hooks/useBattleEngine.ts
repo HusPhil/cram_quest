@@ -61,14 +61,16 @@ export const useBattleEngine = (scene: BattleStepFn[]) => {
 
 			if (isLast) {
 				setCustomSceneActive(false);
-				currentSceneNameRef.current = 'defaultBattleScence';
-				setCurrentSteps(defaultBattleScene);
+
 				return loop ? 0 : prevIndex + 1;
 			}
 
 			return prevIndex + 1;
 		});
 	}, [stepIndex]);
+
+	// Start battle
+	const start = () => setStepIndex(0);
 
 	const end = useCallback(() => {
 		onSceneCompleteRef.current?.(currentSceneNameRef.current);
@@ -92,9 +94,6 @@ export const useBattleEngine = (scene: BattleStepFn[]) => {
 		},
 		[]
 	);
-
-	// Start battle
-	const start = () => setStepIndex(0);
 
 	// === Provide current context to steps ===
 	const context: BattleContext = {
@@ -128,6 +127,23 @@ export const useBattleEngine = (scene: BattleStepFn[]) => {
 	useEffect(() => {
 		enemyPosXRef.current = enemyPosX;
 	}, [enemyPosX]);
+
+	useEffect(() => {
+		customSceneActiveRef.current = customSceneActive;
+
+		if (!customSceneActive) {
+		}
+	}, [customSceneActive]);
+
+	useEffect(() => {
+		const isLast = stepIndex + 1 >= currentSteps.length;
+
+		if (currentSceneNameRef.current === 'killEnemyScene' && isLast) {
+			onSceneCompleteRef.current?.(currentSceneNameRef.current);
+			currentSceneNameRef.current = 'defaultBattleScence';
+			setCurrentSteps(defaultBattleScene);
+		}
+	}, [stepIndex]);
 
 	return {
 		startBattle: start,

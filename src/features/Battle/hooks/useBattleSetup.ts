@@ -20,7 +20,7 @@ export const useBattleSetup = () => {
 	] as CharacterType[];
 
 	// Character setup
-	const playerProfileAvatarUrl = 'default/default_1.png';
+	const playerProfileAvatarUrl = 'default/default_3.png';
 	const { playerClass, playerSkin } = parsePlayerAvatar(
 		playerProfileAvatarUrl
 	);

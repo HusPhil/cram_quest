@@ -46,7 +46,7 @@ export const SelectedQuestCard = ({ quest }: { quest: Quest }) => {
 			className={`bg-secondary rounded-lg pt-3 pb-1 px-3 w-full
                 ${
 					!isCompleted && customSceneActive
-						? 'opacity-50 pointer-events-none'
+						? 'opacity-50 pointer-events-none cursor-not-allowed'
 						: 'opacity-100'
 				}`}
 		>

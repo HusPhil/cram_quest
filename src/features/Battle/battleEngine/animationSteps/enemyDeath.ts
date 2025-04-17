@@ -24,7 +24,7 @@ export const enemyDeath: BattleStepFn = ({
 		direction: 'right',
 		knockbackDmg: 30,
 		onDone: () => {
-			// setEnemyPosX(enemyPosOffSetX * 100);
+			setEnemyPosX(enemyPosOffSetX * 100);
 			next();
 		},
 	});
