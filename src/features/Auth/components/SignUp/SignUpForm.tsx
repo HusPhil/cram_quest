@@ -5,41 +5,56 @@ import SignUpStep1 from './SignUpStep1';
 import SignUpStep2 from './SignUpStep2';
 
 export default function SignUpForm() {
-	const [emailInput, setEmailInput] = useState('');
-	const [passwordInput, setPasswordInput] = useState('');
-	const [confirmPasswordInput, setConfirmPasswordInput] = useState('');
-
 	const signUpMutate = useSignUp();
 
 	const [signUpStep, setSignUpStep] = useState<number>(1);
 
-	const avatarUrlRef = useRef<HTMLInputElement>(null);
 	const usernameRef = useRef<HTMLInputElement>(null);
+	const emailRef = useRef<HTMLInputElement>(null);
+	const passwordRef = useRef<HTMLInputElement>(null);
+	const confirmPasswordRef = useRef<HTMLInputElement>(null);
+
+	const avatarUrlRef = useRef<HTMLInputElement>(null);
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		// TODO: Handle sign-up logic (e.g., API call)
-		setSignUpStep((prev) => prev + 1);
+		alert(
+			`username: ${usernameRef.current?.value}\nemail: ${emailRef.current?.value}\npassword: ${passwordRef.current?.value}\navatarUrl: ${avatarUrlRef.current?.value}`
+		);
+	};
+
+	const handleNextStep = () => {
+		setSignUpStep(2);
 	};
 
 	return (
-		<form className="space-y-4 mt-5">
-			{signUpStep === 1 && (
+		<form className="">
+			<div
+				className={`space-y-5 mt-5 ${
+					signUpStep == 1 ? 'block' : 'hidden'
+				}`}
+			>
 				<SignUpStep1
-					setEmailInput={setEmailInput}
-					setPasswordInput={setPasswordInput}
-					setConfirmPasswordInput={setConfirmPasswordInput}
-					handleSubmit={handleSubmit}
+					emailRef={emailRef}
+					passwordRef={passwordRef}
+					confirmPasswordRef={confirmPasswordRef}
+					handleNextPage={handleNextStep}
 				/>
-			)}
+			</div>
 
-			{signUpStep == 2 && (
+			<div
+				className={`space-y-5 mt-5 ${
+					signUpStep == 2 ? 'block' : 'hidden'
+				}`}
+			>
 				<SignUpStep2
 					setSignUpStep={setSignUpStep}
 					avatarUrlRef={avatarUrlRef}
 					usernameRef={usernameRef}
+					handleSubmit={handleSubmit}
 				/>
-			)}
+			</div>
 		</form>
 	);
 }

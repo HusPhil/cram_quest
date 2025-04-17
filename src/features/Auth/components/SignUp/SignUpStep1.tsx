@@ -1,18 +1,18 @@
-import { useState } from 'react';
+import { RefObject, useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 interface SignUpStep1Props {
-	setEmailInput: (input: string) => void;
-	setPasswordInput: (input: string) => void;
-	setConfirmPasswordInput: (input: string) => void;
-	handleSubmit: (e: React.FormEvent) => void;
+	emailRef: RefObject<HTMLInputElement | null>;
+	passwordRef: RefObject<HTMLInputElement | null>;
+	confirmPasswordRef: RefObject<HTMLInputElement | null>;
+	handleNextPage: (e: React.FormEvent) => void;
 }
 
 export default function SignUpStep1({
-	setEmailInput,
-	setPasswordInput,
-	setConfirmPasswordInput,
-	handleSubmit,
+	emailRef,
+	passwordRef,
+	confirmPasswordRef,
+	handleNextPage,
 }: SignUpStep1Props) {
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -23,7 +23,7 @@ export default function SignUpStep1({
 				<input
 					type="email"
 					required
-					onChange={(e) => setEmailInput(e.target.value)}
+					ref={emailRef}
 					placeholder="cramwarrior@example.com"
 					className="w-full px-4 py-3 rounded bg-background/50 border border-accent/30 focus:border-accent/60 focus:outline-none transition-colors placeholder:text-text/30 text-sm"
 				/>
@@ -33,8 +33,8 @@ export default function SignUpStep1({
 				<label className="text-sm text-text/70">Password</label>
 				<div className="relative">
 					<input
-						onChange={(e) => setPasswordInput(e.target.value)}
 						type={showPassword ? 'text' : 'password'}
+						ref={passwordRef}
 						placeholder="sw0rdP@ssw0rd"
 						className="w-full px-4 py-3 rounded bg-background/50 border border-accent/30 focus:border-accent/60 focus:outline-none transition-colors placeholder:text-text/30 text-sm pr-10"
 					/>
@@ -53,10 +53,8 @@ export default function SignUpStep1({
 				<label className="text-sm text-text/70">Confirm password</label>
 				<div className="relative">
 					<input
-						onChange={(e) =>
-							setConfirmPasswordInput(e.target.value)
-						}
 						type={showConfirmPassword ? 'text' : 'password'}
+						ref={confirmPasswordRef}
 						placeholder="sw0rdP@ssw0rd"
 						className="w-full px-4 py-3 rounded bg-background/50 border border-accent/30 focus:border-accent/60 focus:outline-none transition-colors placeholder:text-text/30 text-sm pr-10"
 					/>
@@ -73,7 +71,7 @@ export default function SignUpStep1({
 
 			<button
 				type="submit"
-				onClick={handleSubmit}
+				onClick={handleNextPage}
 				className="w-full bg-accent/90 hover:bg-accent text-white py-3 rounded-lg font-bold transition-colors relative group overflow-hidden"
 			>
 				<span className="relative z-10">Create Character</span>
