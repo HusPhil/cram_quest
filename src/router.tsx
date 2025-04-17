@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Loading from './components/Loading';
 import MainLayout from './layouts/MainLayout';
+import SignOut from './pages/SignOut';
 
 //Route Protector
 const RejectAuth = lazy(() => import('./layouts/RejectAuth'));
@@ -9,7 +10,6 @@ const RequireAuth = lazy(() => import('./layouts/RequireAuth'));
 
 // Pages
 const Authentication = lazy(() => import('./pages/Authentication'));
-const CharacterCreationPage = lazy(() => import('./pages/CharacterCreation'));
 const About = lazy(() => import('./pages/About'));
 const Home = lazy(() => import('./pages/Home'));
 
@@ -28,10 +28,6 @@ const AppRouter = () => {
 					{/* Public auth route without layout */}
 					<Route element={<RejectAuth />}>
 						<Route path="/auth" element={<Authentication />} />
-						<Route
-							path="/new-player"
-							element={<CharacterCreationPage />}
-						/>
 					</Route>
 
 					{/* All routes under MainLayout */}
@@ -59,6 +55,7 @@ const AppRouter = () => {
 
 						{/* About page */}
 						<Route path="/about" element={<About />} />
+						<Route path="/signOut" element={<SignOut />} />
 
 						{/* Catch-all redirect */}
 						<Route

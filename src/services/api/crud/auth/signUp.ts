@@ -6,7 +6,7 @@ export const signUp = async ({
 	username,
 	email,
 	password,
-	avatarUrl,
+	avatar_url,
 }: SignUpSchema) => {
 	const { data: response } = await axiosInstance.post(
 		signUpEndRoute,
@@ -14,7 +14,7 @@ export const signUp = async ({
 			username,
 			email,
 			password,
-			avatarUrl,
+			avatar_url,
 		},
 		{
 			withCredentials: true,

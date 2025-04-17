@@ -37,7 +37,7 @@ export default function SignUpForm() {
 			username: usernameRef.current?.value,
 			email: emailRef.current?.value,
 			password: passwordRef.current?.value,
-			avatarUrl: avatarUrlRef.current?.value,
+			avatar_url: avatarUrlRef.current?.value,
 		});
 	};
 

@@ -7,5 +7,5 @@ export interface SignUpSchema {
 	username: string;
 	email: string;
 	password: string;
-	avatarUrl: string;
+	avatar_url: string;
 }
