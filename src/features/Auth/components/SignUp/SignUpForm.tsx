@@ -19,9 +19,26 @@ export default function SignUpForm() {
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		// TODO: Handle sign-up logic (e.g., API call)
-		alert(
-			`username: ${usernameRef.current?.value}\nemail: ${emailRef.current?.value}\npassword: ${passwordRef.current?.value}\navatarUrl: ${avatarUrlRef.current?.value}`
-		);
+		// alert(
+		// 	`username: ${usernameRef.current?.value}\nemail: ${emailRef.current?.value}\npassword: ${passwordRef.current?.value}\navatarUrl: ${avatarUrlRef.current?.value}`
+		// );
+
+		if (
+			!usernameRef.current ||
+			!emailRef.current ||
+			!passwordRef.current ||
+			!avatarUrlRef.current
+		) {
+			alert('Invalid inputs!');
+			return;
+		}
+
+		signUpMutate.mutate({
+			username: usernameRef.current?.value,
+			email: emailRef.current?.value,
+			password: passwordRef.current?.value,
+			avatarUrl: avatarUrlRef.current?.value,
+		});
 	};
 
 	const handleNextStep = () => {

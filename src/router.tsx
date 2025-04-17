@@ -1,14 +1,11 @@
 import { lazy, Suspense } from 'react';
-import {
-	HashRouter as Router,
-	Routes,
-	Route,
-	Navigate,
-} from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Loading from './components/Loading';
 import MainLayout from './layouts/MainLayout';
-import RequireAuth from './layouts/RequireAuth';
-import RejectAuth from './layouts/RejectAuth';
+
+//Route Protector
+const RejectAuth = lazy(() => import('./layouts/RejectAuth'));
+const RequireAuth = lazy(() => import('./layouts/RequireAuth'));
 
 // Pages
 const Authentication = lazy(() => import('./pages/Authentication'));
@@ -25,7 +22,7 @@ const SessionLogs = lazy(() => import('./features/Home/tabs/SessionLogs'));
 
 const AppRouter = () => {
 	return (
-		<Router>
+		<BrowserRouter basename="cramquest">
 			<Suspense fallback={<Loading />}>
 				<Routes>
 					{/* Public auth route without layout */}
@@ -71,7 +68,7 @@ const AppRouter = () => {
 					</Route>
 				</Routes>
 			</Suspense>
-		</Router>
+		</BrowserRouter>
 	);
 };
 

@@ -1,10 +1,11 @@
-export interface SignInSchema { 
-    username: string;
-    password: string, 
+export interface SignInSchema {
+	username: string;
+	password: string;
 }
 
 export interface SignUpSchema {
-  username: string;
-  email: string;
-  password: string;
+	username: string;
+	email: string;
+	password: string;
+	avatarUrl: string;
 }

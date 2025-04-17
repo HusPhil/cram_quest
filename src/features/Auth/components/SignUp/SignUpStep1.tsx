@@ -70,7 +70,7 @@ export default function SignUpStep1({
 			</div>
 
 			<button
-				type="submit"
+				type="button"
 				onClick={handleNextPage}
 				className="w-full bg-accent/90 hover:bg-accent text-white py-3 rounded-lg font-bold transition-colors relative group overflow-hidden"
 			>
