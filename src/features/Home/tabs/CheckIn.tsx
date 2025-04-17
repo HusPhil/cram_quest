@@ -5,6 +5,8 @@ import PlayerCard from '../../CheckIn/components/PlayerCard/PlayerCard';
 import WeeklyRecord from '../../CheckIn/components/WeeklyRecord.tsx/WeeklyRecord';
 import RpgCard from '../../../components/RpgCard';
 import RankParticles from '../../../components/RankParticle';
+import { useGetPlayerByUser } from '../../CheckIn/hooks/useGetPlayerByUser';
+import { useAuth } from '../../../context/AuthContext';
 
 const mockWeeklyCheckInRecord = [
 	{
@@ -62,6 +64,13 @@ export default function CheckIn() {
 		setCurrentAction('idle');
 	}, [currentAction, setCurrentAction]);
 
+	const { currentUserId } = useAuth();
+	const { data: player, isLoading } = useGetPlayerByUser(currentUserId || -1);
+
+	useEffect(() => {
+		console.log('currentUserId: ', currentUserId);
+	}, [currentUserId]);
+
 	return (
 		<div className="flex flex-col items-center justify-end flex-1 mx-4">
 			{/* Character Card */}
@@ -78,11 +87,11 @@ export default function CheckIn() {
 						fps={getPlayerAnimationParams().fps}
 						frameCount={getPlayerAnimationParams().frameCount}
 						currentScreenSize={currentScreenSize}
-						currentExp={20913}
+						currentExp={player?.experience}
 						nextLvlExp={39792}
-						playerTitle={'Noobie'}
-						playerName={'CacheWarrior'}
-						currentLevel={100}
+						playerTitle={isLoading ? 'Loading...' : player?.title}
+						playerName={currentUserId?.toString() || 'Noobie'}
+						currentLevel={player?.level}
 						onClick={handlePlayerClick}
 						onAnimationComplete={handleAnimationComplete}
 					/>

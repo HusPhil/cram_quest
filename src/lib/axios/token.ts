@@ -1,6 +1,7 @@
 // src/lib/axios/token.ts
 import { useAuth } from '../../context/AuthContext';
 import { BASE_URL } from '../../data/api';
+import { RefreshTokenResponse } from '../../services/api/schema/auth_schema';
 import { axiosInstance } from './axiosInstance';
 
 // Function to retrieve the auth token
@@ -10,7 +11,7 @@ export function getAuthToken() {
 }
 
 // Function to refresh the access token
-export async function refreshAccessToken() {
+export async function refreshAccessToken(): Promise<RefreshTokenResponse> {
 	try {
 		const response = await fetch(`${BASE_URL}/auth/refresh_token`, {
 			method: 'POST',
@@ -19,7 +20,7 @@ export async function refreshAccessToken() {
 
 		const data = await response.json();
 
-		return data.access_token;
+		return data;
 	} catch (error) {
 		console.error('Failed to refresh token', error);
 		throw error;

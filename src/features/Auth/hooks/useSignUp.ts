@@ -4,13 +4,14 @@ import { useAuth } from '../../../context/AuthContext';
 import { signUp } from '../../../services/api/crud/auth_crud';
 
 const useSignUp = () => {
-	const { setAccessToken } = useAuth();
+	const { setCurrentUserId } = useAuth();
 
 	return useMutation({
 		mutationFn: signUp,
 		onSuccess(data) {
 			alert('Successfully signed up');
-			setAccessToken(data.access_token);
+			console.log('signup data: ', data);
+			setCurrentUserId(data.user_id);
 		},
 		onError(error) {
 			console.error('error: ', error);

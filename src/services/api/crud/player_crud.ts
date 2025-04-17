@@ -1,18 +1,6 @@
 import { BASE_URL } from '../../../data/api';
 import { fetcher } from '../fetcher';
 
-export const getPlayer = async (player_id: number) => {
-	const response = await fetcher(`${BASE_URL}/players/${player_id}`);
-
-	console.log('GetSubects: ', response);
-
-	if (response.status !== 200) {
-		throw new Error('Failed to fetch player by id');
-	}
-
-	return response.data;
-};
-
 export const getPlayerSubjects = async (player_id: number) => {
 	const response = await fetcher(`${BASE_URL}/players/${player_id}/subjects`);
 

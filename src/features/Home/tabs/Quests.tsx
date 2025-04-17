@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from 'react';
-import { getPlayerSubjects } from '../../../services/api/crud/players/getPlayerSubjects';
 import { useFetchQuest } from '../../../hooks/useFetchQuest';
 import { useAuth } from '../../../context/AuthContext';
 

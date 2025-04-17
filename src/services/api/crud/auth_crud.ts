@@ -5,7 +5,7 @@ import {
 	signOutEndRoute,
 	signUpEndRoute,
 } from '../router/auth_router';
-import { SignInSchema, SignUpSchema } from '../schema/auth_schema';
+import { SignInRequest, SignUpRequest } from '../schema/auth_schema';
 
 export async function refreshToken() {
 	try {
@@ -29,7 +29,7 @@ export const signUp = async ({
 	email,
 	password,
 	avatar_url,
-}: SignUpSchema) => {
+}: SignUpRequest) => {
 	const { data: response } = await axiosInstance.post(
 		signUpEndRoute,
 		{
@@ -46,7 +46,7 @@ export const signUp = async ({
 	return response;
 };
 
-export const signIn = async ({ username, password }: SignInSchema) => {
+export const signIn = async ({ username, password }: SignInRequest) => {
 	const formData = new URLSearchParams();
 	formData.append('username', username);
 	formData.append('password', password);
