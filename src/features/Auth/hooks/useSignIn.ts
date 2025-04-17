@@ -1,9 +1,7 @@
 // src/features/Auth/hooks/useSignIn.ts
 import { useMutation } from '@tanstack/react-query';
-import { useAuth } from '../../../context/AuthContext';
-import { signIn } from '../../../services/api/crud/auth/signIn';
-import { setAuthHeader } from '../../../lib/axios/token';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { signIn } from '../../../services/api/crud/auth_crud';
 
 export const useSignIn = () => {
 	const navigate = useNavigate();

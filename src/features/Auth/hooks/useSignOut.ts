@@ -1,8 +1,7 @@
 // src/features/Auth/hooks/useSignIn.ts
 import { useMutation } from '@tanstack/react-query';
-import { useAuth } from '../../../context/AuthContext';
-import { signOut } from '../../../services/api/crud/auth/signOut';
 import { useNavigate } from 'react-router-dom';
+import { signOut } from '../../../services/api/crud/auth_crud';
 
 const useSignOut = () => {
 	const navigate = useNavigate();
