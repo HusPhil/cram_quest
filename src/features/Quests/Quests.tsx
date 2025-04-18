@@ -1,5 +1,5 @@
-import { useFetchQuest } from '../../../hooks/useFetchQuest';
-import { useAuth } from '../../../context/AuthContext';
+import { useFetchQuest } from '../../hooks/useFetchQuest';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Quests() {
 	const { data, isLoading, isError, error } = useFetchQuest(1);

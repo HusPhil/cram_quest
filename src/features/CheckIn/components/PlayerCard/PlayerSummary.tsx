@@ -1,28 +1,41 @@
 import { memo } from 'react';
 import SpriteSheet from '../../../../components/SpriteSheet';
 import StatCard from '../../../../components/StatCard';
+import useCharacterAnimation from '../../../Battle/hooks/useCharacterAnimation';
+import {
+	PlayerClass,
+	PlayerSkin,
+} from '../../../Battle/configs/spritesheetConfig';
 
 interface PlayerSummaryProps {
-	characterAsset: string;
-	row: number;
-	fps: number;
-	frameCount: number;
+	playerClass: PlayerClass;
+	playerSkin: PlayerSkin;
 	currentScreenSize: string;
 	isLoading: boolean;
-	onAnimationComplete?: () => void;
-	onClick?: () => void;
 }
 
 export function PlayerSummary({
-	characterAsset,
-	row,
-	fps,
-	frameCount,
+	playerClass,
+	playerSkin,
 	currentScreenSize,
 	isLoading,
-	onAnimationComplete,
-	onClick,
 }: PlayerSummaryProps) {
+	const {
+		getAnimationParams: getPlayerAnimationParams,
+		setCurrentAction,
+		currentAction,
+	} = useCharacterAnimation('player', playerClass, playerSkin);
+
+	const handlePlayerClick = () => {
+		if (currentAction == 'hurt') return;
+		setCurrentAction('hurt');
+	};
+
+	const handleAnimationComplete = () => {
+		if (currentAction == 'idle') return;
+		setCurrentAction('idle');
+	};
+
 	return (
 		<div className="flex justify-between items-center flex-1 w-full">
 			{/* <div className='flex flex-2 w-full items-center justify-end md:justify-center'>
@@ -30,17 +43,17 @@ export function PlayerSummary({
         </div> */}
 			<div
 				className="flex flex-1 flex-col justify-center items-center mx-3"
-				onClick={onClick}
+				onClick={handlePlayerClick}
 			>
 				<SpriteSheet
-					src={characterAsset}
-					frameRow={row}
-					fps={fps}
-					frameCount={frameCount}
+					src={getPlayerAnimationParams().characterAsset}
+					frameRow={getPlayerAnimationParams().row}
+					fps={getPlayerAnimationParams().fps}
+					frameCount={getPlayerAnimationParams().frameCount}
 					frameWidth={48}
 					frameHeight={48}
 					isLoading={isLoading}
-					onAnimationCycleComplete={onAnimationComplete}
+					onAnimationCycleComplete={handleAnimationComplete}
 					scale={currentScreenSize !== 'LARGE' ? 2 : 2.3}
 				/>
 			</div>

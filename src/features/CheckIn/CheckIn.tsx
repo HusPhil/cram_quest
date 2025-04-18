@@ -1,12 +1,12 @@
 import { useCallback, useEffect } from 'react';
-import useCharacterAnimation from '../../Battle/hooks/useCharacterAnimation';
-import useScreenResize from '../../../hooks/useScreenResize';
-import PlayerCard from '../../CheckIn/components/PlayerCard/PlayerCard';
-import WeeklyRecord from '../../CheckIn/components/WeeklyRecord.tsx/WeeklyRecord';
-import RpgCard from '../../../components/RpgCard';
-import RankParticles from '../../../components/RankParticle';
-import { useGetPlayerByUser } from '../../CheckIn/hooks/useGetPlayerByUser';
-import { useAuth } from '../../../context/AuthContext';
+import useCharacterAnimation from '../Battle/hooks/useCharacterAnimation';
+import useScreenResize from '../../hooks/useScreenResize';
+import PlayerCard from './components/PlayerCard/PlayerCard';
+import WeeklyRecord from './components/WeeklyRecord.tsx/WeeklyRecord';
+import RpgCard from '../../components/RpgCard';
+import RankParticles from '../../components/RankParticle';
+import { useGetPlayerByUser } from './hooks/useGetPlayerByUser';
+import { useAuth } from '../../context/AuthContext';
 
 const mockWeeklyCheckInRecord = [
 	{
@@ -48,21 +48,6 @@ const mockWeeklyCheckInRecord = [
 
 export default function CheckIn() {
 	const { currentScreenSize, currentHeightSize } = useScreenResize();
-	const {
-		getAnimationParams: getPlayerAnimationParams,
-		setCurrentAction,
-		currentAction,
-	} = useCharacterAnimation('player', 'default', 'default_3');
-
-	const handlePlayerClick = useCallback(() => {
-		if (currentAction == 'hurt') return;
-		setCurrentAction('hurt');
-	}, [currentAction, setCurrentAction]);
-
-	const handleAnimationComplete = useCallback(() => {
-		if (currentAction == 'idle') return;
-		setCurrentAction('idle');
-	}, [currentAction, setCurrentAction]);
 
 	const { currentUserId } = useAuth();
 	const { data: player, isLoading } = useGetPlayerByUser(currentUserId || -1);
@@ -80,12 +65,8 @@ export default function CheckIn() {
 					className="w-full mb-2 py-5 max-w-sm md:max-w-xl lg:max-w-2xl lg:mb-5"
 				>
 					<PlayerCard
-						characterAsset={
-							getPlayerAnimationParams().characterAsset
-						}
-						row={getPlayerAnimationParams().row}
-						fps={getPlayerAnimationParams().fps}
-						frameCount={getPlayerAnimationParams().frameCount}
+						playerClass="default"
+						playerSkin="default_2"
 						currentScreenSize={currentScreenSize}
 						currentExp={isLoading ? 0 : player?.experience}
 						nextLvlExp={39792}
@@ -93,8 +74,6 @@ export default function CheckIn() {
 						playerName={currentUserId?.toString() || 'Noobie'}
 						isLoading={isLoading}
 						currentLevel={isLoading ? 0 : player?.level}
-						onClick={handlePlayerClick}
-						onAnimationComplete={handleAnimationComplete}
 					/>
 				</RpgCard>
 			) : (

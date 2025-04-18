@@ -2,12 +2,14 @@ import { memo } from 'react';
 import RankTitle from '../../../../components/RankTitle';
 import PlayerSummary from './PlayerSummary';
 import PlayerStats from './PlayerStats';
+import {
+	PlayerClass,
+	PlayerSkin,
+} from '../../../Battle/configs/spritesheetConfig';
 
 interface PlayerCardProps {
-	characterAsset: string;
-	row: number;
-	fps: number;
-	frameCount: number;
+	playerClass: PlayerClass;
+	playerSkin: PlayerSkin;
 	currentScreenSize: string;
 	playerTitle: string | undefined;
 	playerName: string | undefined;
@@ -15,15 +17,11 @@ interface PlayerCardProps {
 	currentExp: number | undefined;
 	nextLvlExp: number | undefined;
 	currentLevel: number | undefined;
-	onAnimationComplete?: () => void;
-	onClick?: () => void;
 }
 
 export function PlayerCard({
-	characterAsset,
-	row,
-	fps,
-	frameCount,
+	playerClass,
+	playerSkin,
 	currentScreenSize,
 	playerTitle,
 	playerName,
@@ -31,8 +29,6 @@ export function PlayerCard({
 	currentExp,
 	nextLvlExp,
 	currentLevel,
-	onAnimationComplete,
-	onClick,
 }: PlayerCardProps) {
 	return (
 		<>
@@ -45,14 +41,10 @@ export function PlayerCard({
 				</div>
 				<div className="flex-2 flex-grow w-full">
 					<PlayerSummary
-						characterAsset={characterAsset}
-						row={row}
-						fps={fps}
-						frameCount={frameCount}
+						playerClass={playerClass}
+						playerSkin={playerSkin}
 						currentScreenSize={currentScreenSize}
 						isLoading={isLoading}
-						onAnimationComplete={onAnimationComplete}
-						onClick={onClick}
 					/>
 				</div>
 				<div className="flex-1 w-full">

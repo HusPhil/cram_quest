@@ -1,9 +1,9 @@
 import { memo, useEffect } from 'react';
-import BattleArena from '../../Battle/components/BattleArena';
-import SelectedQuestList from '../../Battle/components/SelectedQuestList';
-import { killEnemyScene } from '../../Battle/battleEngine/scenes/killEnemy/killEnemyScene';
-import { useBattleSetup } from '../../Battle/hooks/useBattleSetup';
-import { BattleUIProvider } from '../../Battle/context/BattleUIContext';
+import BattleArena from './components/BattleArena';
+import SelectedQuestList from './components/SelectedQuestList';
+import { killEnemyScene } from './battleEngine/scenes/killEnemy/killEnemyScene';
+import { useBattleSetup } from './hooks/useBattleSetup';
+import { BattleUIProvider } from './context/BattleUIContext';
 
 export const Battle = () => {
 	const { battleEngineProps, arenaProps, battleUIProviderProps } =

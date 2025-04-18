@@ -14,10 +14,10 @@ const About = lazy(() => import('./pages/About'));
 const Home = lazy(() => import('./pages/Home'));
 
 // Tabs (children of Home)
-const CheckIn = lazy(() => import('./features/Home/tabs/CheckIn'));
-const Quests = lazy(() => import('./features/Home/tabs/Quests'));
-const Battle = lazy(() => import('./features/Home/tabs/Battle'));
-const Subjects = lazy(() => import('./features/Home/tabs/Subjects'));
+const CheckIn = lazy(() => import('./features/CheckIn/CheckIn'));
+const Quests = lazy(() => import('./features/Quests/Quests'));
+const Battle = lazy(() => import('./features/Battle/Battle'));
+const Subjects = lazy(() => import('./features/Subjects/Subjects'));
 const SessionLogs = lazy(() => import('./features/Home/tabs/SessionLogs'));
 
 const AppRouter = () => {
