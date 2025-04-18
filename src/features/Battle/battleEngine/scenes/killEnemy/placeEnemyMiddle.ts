@@ -18,6 +18,7 @@ export const placeEnemyMiddle: BattleStepFn = ({
 
 		if (getEnemyPosX() <= targetX) {
 			setEnemyAction('idle');
+			setEnemyPosX((prev) => prev + 6);
 			next();
 		}
 	}, 50);
