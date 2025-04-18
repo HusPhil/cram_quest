@@ -1,12 +1,12 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { useFloatingScreen } from '../../context/FloatingScreenContext';
 import SubjectScreen from './components/SubjectScreen/SubjectScreen';
-import Modal from '../../components/Modal';
-import AddNewSubjectModal from './components/Modals/AddNewSubjectModal';
+import SubjectHeader from './components/SubjectHeader';
+import { useGetUserPlayer } from '../CheckIn/hooks/useGetUserPlayer';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Subjects() {
 	const { openScreen, setContent } = useFloatingScreen();
-	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const handleOpenScreen = useCallback(
 		(
@@ -28,22 +28,18 @@ export default function Subjects() {
 		[]
 	);
 
+	const { currentUserId } = useAuth();
+
+	const {
+		data: player,
+		isLoading: playerLoading,
+		error: playerError,
+	} = useGetUserPlayer(currentUserId!);
+
 	return (
 		<div className="flex flex-col h-full w-full relative">
 			{/* Header section - fixed at top */}
-			<div className="flex-none px-4 py-2">
-				<h1 className="text-2xl font-bold mb-2">Subjects</h1>
-				<p className="text-gray-700">
-					Explore various subjects and their details.
-				</p>
-			</div>
-
-			<button onClick={() => setIsModalOpen(true)}>Open Modal</button>
-
-			<AddNewSubjectModal
-				isModalOpen={isModalOpen}
-				setIsModalOpen={setIsModalOpen}
-			/>
+			<SubjectHeader playerId={player?.id} />
 
 			{/* Scrollable grid section */}
 			<div className="flex-1 overflow-auto flex">

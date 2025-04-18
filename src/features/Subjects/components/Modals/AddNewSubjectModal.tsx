@@ -1,31 +1,24 @@
 import React, { useRef, useState } from 'react';
 import Modal from '../../../../components/Modal';
 import StarRating from '../StarRating';
-import { useGetUserPlayer } from '../../../CheckIn/hooks/useGetUserPlayer';
-import { useAuth } from '../../../../context/AuthContext';
 import { useCreateSubject } from '../../hooks/useCreateSubject';
-import { toast } from 'react-toastify';
 
-export default function AddNewSubjectModal({
-	isModalOpen,
-	setIsModalOpen,
-}: {
+interface AddNewSubjectModalProps {
+	playerId: number;
 	isModalOpen: boolean;
 	setIsModalOpen: (open: boolean) => void;
-}) {
+}
+
+export default function AddNewSubjectModal({
+	playerId,
+	isModalOpen,
+	setIsModalOpen,
+}: AddNewSubjectModalProps) {
 	const formRef = useRef<HTMLFormElement>(null);
 	const codeNameRef = useRef<HTMLInputElement>(null);
 	const descriptionRef = useRef<HTMLTextAreaElement>(null);
 
 	const [difficulty, setDifficulty] = useState(3);
-
-	const { currentUserId } = useAuth();
-
-	const {
-		data: player,
-		isLoading: playerLoading,
-		error: playerError,
-	} = useGetUserPlayer(currentUserId!);
 
 	const createSubjectMutate = useCreateSubject(setIsModalOpen);
 
@@ -34,7 +27,7 @@ export default function AddNewSubjectModal({
 		const formData = new FormData(formRef?.current!);
 
 		await createSubjectMutate.mutateAsync({
-			playerId: player!.id,
+			playerId: playerId,
 			subjectCreate: {
 				code_name: formData.get('codeName') as string,
 				description: formData.get('description') as string,
@@ -57,7 +50,7 @@ export default function AddNewSubjectModal({
 						htmlFor="codeName"
 						className="block font-rpg text-accent text-sm"
 					>
-						Code Name {currentUserId} - {player?.id}
+						Code Name
 					</label>
 					<input
 						required
