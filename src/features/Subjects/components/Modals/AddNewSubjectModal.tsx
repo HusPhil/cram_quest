@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Modal from '../../../../components/Modal';
 import StarRating from '../StarRating';
+import { useGetUserPlayer } from '../../../CheckIn/hooks/useGetUserPlayer';
+import { useAuth } from '../../../../context/AuthContext';
+import { useCreateSubject } from '../../hooks/useCreateSubject';
+import { toast } from 'react-toastify';
 
 export default function AddNewSubjectModal({
 	isModalOpen,
@@ -9,17 +13,36 @@ export default function AddNewSubjectModal({
 	isModalOpen: boolean;
 	setIsModalOpen: (open: boolean) => void;
 }) {
-	const [formData, setFormData] = useState({
-		codeName: '',
-		description: '',
-	});
+	const formRef = useRef<HTMLFormElement>(null);
+	const codeNameRef = useRef<HTMLInputElement>(null);
+	const descriptionRef = useRef<HTMLTextAreaElement>(null);
 
 	const [difficulty, setDifficulty] = useState(3);
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const { currentUserId } = useAuth();
+
+	const {
+		data: player,
+		isLoading: playerLoading,
+		error: playerError,
+	} = useGetUserPlayer(currentUserId!);
+
+	const createSubjectMutate = useCreateSubject(setIsModalOpen);
+
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		// Handle form submission
-		console.log(formData);
+		const formData = new FormData(formRef?.current!);
+
+		await createSubjectMutate.mutateAsync({
+			playerId: player!.id,
+			subjectCreate: {
+				code_name: formData.get('codeName') as string,
+				description: formData.get('description') as string,
+				difficulty,
+			},
+		});
+
+		formRef?.current?.reset();
 	};
 
 	return (
@@ -28,24 +51,19 @@ export default function AddNewSubjectModal({
 			onClose={() => setIsModalOpen(false)}
 			title="Add a new subject!"
 		>
-			<form onSubmit={handleSubmit} className="space-y-4">
+			<form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
 				<div className="space-y-2">
 					<label
 						htmlFor="codeName"
 						className="block font-rpg text-accent text-sm"
 					>
-						Code Name
+						Code Name {currentUserId} - {player?.id}
 					</label>
 					<input
-						id="codeName"
+						required
+						name="codeName"
 						type="text"
-						value={formData.codeName}
-						onChange={(e) =>
-							setFormData({
-								...formData,
-								codeName: e.target.value,
-							})
-						}
+						ref={codeNameRef}
 						className="w-full rounded-lg bg-secondary/50 border border-accent/30 p-2 
                                  text-text placeholder-text/50 focus:border-accent/60 focus:outline-none
                                  transition-colors"
@@ -61,14 +79,9 @@ export default function AddNewSubjectModal({
 						Description
 					</label>
 					<textarea
-						id="description"
-						value={formData.description}
-						onChange={(e) =>
-							setFormData({
-								...formData,
-								description: e.target.value,
-							})
-						}
+						required
+						name="description"
+						ref={descriptionRef}
 						className="w-full rounded-lg bg-secondary/50 border border-accent/30 p-2 
                                  text-text placeholder-text/50 focus:border-accent/60 focus:outline-none
                                  transition-colors min-h-[100px] resize-none"
@@ -76,7 +89,7 @@ export default function AddNewSubjectModal({
 					/>
 					<div className="space-y-2">
 						<label
-							htmlFor="description"
+							htmlFor="difficulty"
 							className="block font-rpg text-accent text-sm"
 						>
 							Difficulty

@@ -1,15 +1,12 @@
 import { useCallback, useState } from 'react';
 import { useFloatingScreen } from '../../context/FloatingScreenContext';
 import SubjectScreen from './components/SubjectScreen/SubjectScreen';
-import { useGetSubject } from './hooks/useGetSubjects';
 import Modal from '../../components/Modal';
 import AddNewSubjectModal from './components/Modals/AddNewSubjectModal';
 
 export default function Subjects() {
 	const { openScreen, setContent } = useFloatingScreen();
 	const [isModalOpen, setIsModalOpen] = useState(false);
-
-	const subjectQuery = useGetSubject(22);
 
 	const handleOpenScreen = useCallback(
 		(
