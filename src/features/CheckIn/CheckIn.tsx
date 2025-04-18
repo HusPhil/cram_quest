@@ -5,8 +5,10 @@ import PlayerCard from './components/PlayerCard/PlayerCard';
 import WeeklyRecord from './components/WeeklyRecord.tsx/WeeklyRecord';
 import RpgCard from '../../components/RpgCard';
 import RankParticles from '../../components/RankParticle';
-import { useGetPlayerByUser } from './hooks/useGetPlayerByUser';
+import { useGetUserPlayer } from './hooks/useGetUserPlayer';
 import { useAuth } from '../../context/AuthContext';
+import { useGetPlayerProfile } from './hooks/useGetPlayerProfile';
+import { parsePlayerAvatar } from '../../utils/parsePlayerAvatar';
 
 const mockWeeklyCheckInRecord = [
 	{
@@ -50,11 +52,14 @@ export default function CheckIn() {
 	const { currentScreenSize, currentHeightSize } = useScreenResize();
 
 	const { currentUserId } = useAuth();
-	const { data: player, isLoading } = useGetPlayerByUser(currentUserId || -1);
+	const { data: player, isLoading: playerIsLoading } = useGetUserPlayer(
+		currentUserId || -1
+	);
 
-	useEffect(() => {
-		console.log('currentUserId: ', currentUserId);
-	}, [currentUserId]);
+	const { data: profile, isLoading: profileIsLoading } = useGetPlayerProfile(
+		player?.id,
+		player?.id !== null
+	);
 
 	return (
 		<div className="flex flex-col items-center justify-end flex-1 mx-4">
@@ -65,15 +70,27 @@ export default function CheckIn() {
 					className="w-full mb-2 py-5 max-w-sm md:max-w-xl lg:max-w-2xl lg:mb-5"
 				>
 					<PlayerCard
-						playerClass="default"
-						playerSkin="default_2"
+						playerClass={
+							profileIsLoading
+								? 'default'
+								: parsePlayerAvatar(profile?.avatar_url || '')
+										.playerClass
+						}
+						playerSkin={
+							profileIsLoading
+								? 'default_1'
+								: parsePlayerAvatar(profile?.avatar_url || '')
+										.playerSkin
+						}
 						currentScreenSize={currentScreenSize}
-						currentExp={isLoading ? 0 : player?.experience}
+						currentExp={playerIsLoading ? 0 : player?.experience}
 						nextLvlExp={39792}
-						playerTitle={isLoading ? 'Loading...' : player?.title}
+						playerTitle={
+							playerIsLoading ? 'Loading...' : player?.title
+						}
 						playerName={currentUserId?.toString() || 'Noobie'}
-						isLoading={isLoading}
-						currentLevel={isLoading ? 0 : player?.level}
+						isLoading={playerIsLoading}
+						currentLevel={playerIsLoading ? 0 : player?.level}
 					/>
 				</RpgCard>
 			) : (

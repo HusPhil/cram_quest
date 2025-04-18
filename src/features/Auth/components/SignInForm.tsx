@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, use } from 'react';
+import { useState, useEffect } from 'react';
 import { FormValidationResult } from '../../../pages/Authentication';
 import { useSignIn } from '../hooks/useSignIn';
 
@@ -11,25 +11,6 @@ export default function SignInForm() {
 	});
 
 	const signInMutate = useSignIn();
-
-	useEffect(() => {
-		const trimmedUsername = username.trim();
-		const trimmedPassword = password.trim();
-
-		if (trimmedUsername.length === 0) {
-			setValidation({
-				valid: false,
-				message: 'Please provide your username',
-			});
-		} else if (trimmedPassword.length === 0) {
-			setValidation({
-				valid: false,
-				message: 'Please provide your password',
-			});
-		} else {
-			setValidation({ valid: true, message: 'Successfully signed in' });
-		}
-	}, [username, password]);
 
 	const handleSubmit = (e: React.FormEvent) => {
 		signInMutate.mutate({ username, password });

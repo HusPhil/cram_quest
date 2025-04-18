@@ -1,8 +1,13 @@
 import { BASE_URL } from '../../../data/api';
 import { fetcher } from '../fetcher';
+import {
+	getPlayerProfileEndRoute,
+	getPlayerSubjectsEndRoute,
+} from '../routes/player_routes';
+import { ProfileRead } from '../schema/profile_schema';
 
-export const getPlayerSubjects = async (player_id: number) => {
-	const response = await fetcher(`${BASE_URL}/players/${player_id}/subjects`);
+export const getPlayerSubjects = async (playerId: number) => {
+	const response = await fetcher(getPlayerSubjectsEndRoute(playerId));
 
 	console.log('GetSubects: ', response.headers);
 
@@ -13,4 +18,16 @@ export const getPlayerSubjects = async (player_id: number) => {
 	return response.data;
 };
 
-export default getPlayerSubjects;
+export const getPlayerProfile = async (
+	playerId: number
+): Promise<ProfileRead> => {
+	const response = await fetcher(getPlayerProfileEndRoute(playerId));
+
+	console.log('PLayer Profile: ', response);
+
+	if (response.status !== 200) {
+		throw new Error('Failed to fetch subjects');
+	}
+
+	return response.data;
+};

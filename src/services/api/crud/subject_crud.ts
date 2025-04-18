@@ -1,5 +1,5 @@
 import { axiosInstance } from '../../../lib/axios/axiosInstance';
-import { getSubjectByIdRoute } from '../router/subject_router';
+import { getSubjectByIdRoute } from '../routes/subject_routes';
 
 export const getSubject = async ({ subject_id }: { subject_id: number }) => {
 	const { data: response } = await axiosInstance.get(

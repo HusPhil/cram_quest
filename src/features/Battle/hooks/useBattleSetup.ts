@@ -4,7 +4,7 @@ import useCharacterAnimation, {
 } from '../../Battle/hooks/useCharacterAnimation';
 import { useBattleEngine } from './useBattleEngine';
 import { defaultBattleScene } from '../battleEngine/scenes/default/defaultBattleScene';
-import { parsePlayerAvatar } from '../../Battle/utils/parsePlayerAvatar';
+import { parsePlayerAvatar } from '../../../utils/parsePlayerAvatar';
 import { Quest } from '../../Subjects/components/Pages/Quest/QuestsPage';
 import { useBattleUI } from '../context/BattleUIContext';
 import { sceneName } from '../battleEngine/scenes/sceneNames';

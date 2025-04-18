@@ -4,7 +4,7 @@ import {
 	signInEndRoute,
 	signOutEndRoute,
 	signUpEndRoute,
-} from '../router/auth_router';
+} from '../routes/auth_routes';
 import { SignInRequest, SignUpRequest } from '../schema/auth_schema';
 
 export async function refreshToken() {

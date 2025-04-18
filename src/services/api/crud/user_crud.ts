@@ -1,14 +1,12 @@
 import { BASE_URL } from '../../../data/api';
 import { fetcher } from '../fetcher';
-import { getPlayerByUserEndRoute } from '../router/user_routers';
+import { getUserPlayerEndRoute } from '../routes/user_routes';
 import { PlayerRead } from '../schema/player_schema';
 
-export const getPlayerByUser = async (userId: number): Promise<PlayerRead> => {
+export const getUserPlayer = async (userId: number): Promise<PlayerRead> => {
 	const response = await fetcher(
-		`${BASE_URL}${getPlayerByUserEndRoute(userId)}`
+		`${BASE_URL}${getUserPlayerEndRoute(userId)}`
 	);
-
-	console.log('GetSubects: ', response);
 
 	if (response.status !== 200) {
 		throw new Error('Failed to fetch player by id');

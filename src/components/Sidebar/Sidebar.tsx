@@ -1,22 +1,11 @@
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect, useCallback } from 'react';
-import {
-	GiArchiveRegister,
-	GiSpellBook,
-	GiHamburgerMenu,
-	GiCharacter,
-	GiPlayerBase,
-	GiKing,
-	GiKnightBanner,
-	GiBlackKnightHelm,
-	GiCloak,
-	GiClothes,
-} from 'react-icons/gi';
+import { GiHamburgerMenu } from 'react-icons/gi';
 import NavItem from './NavItem';
 import NavFooter from './NavFooter';
 import NavHeader from './NavHeader';
 import { useFloatingScreen } from '../../context/FloatingScreenContext';
-import { FaClock, FaHome, FaQuestion } from 'react-icons/fa';
+import { FaHome, FaQuestion } from 'react-icons/fa';
 import { FaRightFromBracket, FaShirt } from 'react-icons/fa6';
 
 const navItems = [
