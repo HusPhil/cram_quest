@@ -2,7 +2,7 @@ import { memo } from 'react';
 
 interface RankTitleProps {
 	text: String | undefined;
-	color?: 'gold' | 'silver' | 'bronze';
+	color?: 'gold' | 'silver' | 'bronze' | 'error';
 	className?: String;
 }
 
@@ -12,6 +12,7 @@ const RankTitle: React.FC<RankTitleProps> = ({
 	className = '',
 }) => {
 	const colorStyles = {
+		error: 'opacity-20 bg-gray-500/20 border-gray-400/40 text-gray-300 before:border-gray-500/20 after:border-gray-500/20',
 		gold: 'bg-yellow-500/20 border-yellow-400/40 text-yellow-300 before:border-yellow-500/20 after:border-yellow-500/20',
 		silver: 'bg-gray-600/20 border-gray-400/40 text-gray-200 before:border-gray-600/20 after:border-gray-600/20',
 		bronze: 'bg-orange-700/20 border-orange-500/40 text-orange-300 before:border-orange-700/20 after:border-orange-700/20',
@@ -37,24 +38,4 @@ const RankTitle: React.FC<RankTitleProps> = ({
 	);
 };
 
-// Add to your CSS:
-`
-  @keyframes shine {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(200%); }
-  }
-  
-  .animate-shine {
-    animation: shine 3s ease-in-out infinite;
-  }
-  
-  .clip-ribbon-tail {
-    clip-path: polygon(0 20%, 100% 0, 100% 80%, 0 100%);
-  }
-  
-  .text-shadow {
-    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
-  }
-  `;
-
-export default memo(RankTitle);
+export default RankTitle;

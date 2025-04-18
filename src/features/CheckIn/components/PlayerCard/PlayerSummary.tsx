@@ -12,6 +12,9 @@ interface PlayerSummaryProps {
 	playerSkin: PlayerSkin;
 	currentScreenSize: string;
 	isLoading: boolean;
+	userError: Error | null;
+	playerError: Error | null;
+	profileError: Error | null;
 }
 
 export function PlayerSummary({
@@ -19,6 +22,9 @@ export function PlayerSummary({
 	playerSkin,
 	currentScreenSize,
 	isLoading,
+	userError,
+	playerError,
+	profileError,
 }: PlayerSummaryProps) {
 	const {
 		getAnimationParams: getPlayerAnimationParams,
@@ -37,12 +43,9 @@ export function PlayerSummary({
 	};
 
 	return (
-		<div className="flex justify-between items-center flex-1 w-full">
-			{/* <div className='flex flex-2 w-full items-center justify-end md:justify-center'>
-            <StatCard label={"Best Streak"} value={0}/>
-        </div> */}
+		<div className="flex justify-center items-center flex-1 w-full">
 			<div
-				className="flex flex-1 flex-col justify-center items-center mx-3"
+				className="flex flex-col justify-center items-center mx-3"
 				onClick={handlePlayerClick}
 			>
 				<SpriteSheet
@@ -53,13 +56,13 @@ export function PlayerSummary({
 					frameWidth={48}
 					frameHeight={48}
 					isLoading={isLoading}
+					isError={
+						(userError || playerError || profileError) !== null
+					}
 					onAnimationCycleComplete={handleAnimationComplete}
 					scale={currentScreenSize !== 'LARGE' ? 2 : 2.3}
 				/>
 			</div>
-			{/* <div className='flex flex-2 w-full items-center justify-start md:justify-center'>
-            <StatCard label={"Battles Won"} value={0}/>
-        </div> */}
 		</div>
 	);
 }

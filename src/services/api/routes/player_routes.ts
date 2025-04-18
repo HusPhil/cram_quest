@@ -7,5 +7,5 @@ export const getPlayerSubjectsEndRoute = (playerId: number) => {
 };
 
 export const getPlayerProfileEndRoute = (playerId: number) => {
-	return `${BASE_URL}/${basePlayerRoute}/${playerId}/profile`;
+	return `${BASE_URL}/${basePlayerRoute}/${playerId}/profile/`;
 };

@@ -24,6 +24,7 @@ interface SpriteSheetProps {
 	offsetX?: number;
 	offsetY?: number;
 	isLoading?: boolean;
+	isError?: boolean;
 	animationConfig?: AnimationConfig;
 	onComplete?: () => void;
 	onAnimationCycleComplete?: () => void;
@@ -44,6 +45,7 @@ const SpriteSheet: React.FC<SpriteSheetProps> = ({
 	offsetX = 0,
 	offsetY = 0,
 	isLoading = false,
+	isError = false,
 	onComplete,
 	onAnimationCycleComplete,
 }) => {
@@ -101,7 +103,7 @@ const SpriteSheet: React.FC<SpriteSheetProps> = ({
 		>
 			<img
 				ref={imgRef}
-				src={isLoading ? loaderPath : src}
+				src={isLoading || isError ? loaderPath : src}
 				alt="Sprite"
 				style={{
 					position: 'absolute',

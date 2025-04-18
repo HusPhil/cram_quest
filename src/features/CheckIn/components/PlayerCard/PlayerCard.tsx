@@ -17,6 +17,9 @@ interface PlayerCardProps {
 	currentExp: number | undefined;
 	nextLvlExp: number | undefined;
 	currentLevel: number | undefined;
+	userError: Error | null;
+	playerError: Error | null;
+	profileError: Error | null;
 }
 
 export function PlayerCard({
@@ -29,6 +32,9 @@ export function PlayerCard({
 	currentExp,
 	nextLvlExp,
 	currentLevel,
+	userError,
+	playerError,
+	profileError,
 }: PlayerCardProps) {
 	return (
 		<>
@@ -37,7 +43,10 @@ export function PlayerCard({
 				title="Player Card"
 			>
 				<div className="flex-1 w-full">
-					<RankTitle text={playerTitle} color="bronze" />
+					<RankTitle
+						text={playerError ? '! ERROR !' : playerTitle}
+						color={playerError ? 'error' : 'bronze'}
+					/>
 				</div>
 				<div className="flex-2 flex-grow w-full">
 					<PlayerSummary
@@ -45,6 +54,9 @@ export function PlayerCard({
 						playerSkin={playerSkin}
 						currentScreenSize={currentScreenSize}
 						isLoading={isLoading}
+						userError={userError}
+						playerError={playerError}
+						profileError={profileError}
 					/>
 				</div>
 				<div className="flex-1 w-full">

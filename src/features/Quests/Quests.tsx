@@ -1,12 +1,21 @@
-import { useFetchQuest } from '../../hooks/useFetchQuest';
+import { useGetPlayerSubjects } from './components/useGetPlayerSubjects';
 import { useAuth } from '../../context/AuthContext';
+import { useGetUserPlayer } from '../CheckIn/hooks/useGetUserPlayer';
 
 export default function Quests() {
-	const { data, isLoading, isError, error } = useFetchQuest(1);
+	const { currentUserId } = useAuth();
+
+	const { data: player, isLoading: playerIsLoading } = useGetUserPlayer(
+		currentUserId || -1
+	);
+
+	const { data, isLoading, isError, error } = useGetPlayerSubjects(
+		player?.id
+	);
 
 	const { accessToken } = useAuth();
 
-	if (isLoading) {
+	if (isLoading || playerIsLoading) {
 		return (
 			<div>
 				<h1>{accessToken}</h1>

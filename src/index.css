@@ -11,6 +11,8 @@ body {
   font-family: 'Pixelify Sans', 'MedievalSharp', 'Almendra SC', 'Press Start 2P', cursive;
 }
 
+
+
 @keyframes glow-orange {
   0% { box-shadow: 0 0 10px rgba(255, 165, 0, 0.4); }
   50% { box-shadow: 0 0 20px rgba(255, 165, 0, 0.8); }
@@ -118,4 +120,11 @@ body {
   scrollbar-width: none;     /* Firefox */
   -webkit-overflow-scrolling: touch; /* Enable momentum scrolling on iOS */
   overscroll-behavior: contain; /* Optional: prevents scroll chaining */
+}
+
+
+/* TOASTIFY CUSTOM CONTAINER STYLES */
+
+.toastify-container .Toastify__toast {
+  font-family: 'Pixelify Sans', sans-serif;
 }
