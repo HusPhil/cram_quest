@@ -87,11 +87,12 @@ export default function CheckIn() {
 						fps={getPlayerAnimationParams().fps}
 						frameCount={getPlayerAnimationParams().frameCount}
 						currentScreenSize={currentScreenSize}
-						currentExp={player?.experience}
+						currentExp={isLoading ? 0 : player?.experience}
 						nextLvlExp={39792}
 						playerTitle={isLoading ? 'Loading...' : player?.title}
 						playerName={currentUserId?.toString() || 'Noobie'}
-						currentLevel={player?.level}
+						isLoading={isLoading}
+						currentLevel={isLoading ? 0 : player?.level}
 						onClick={handlePlayerClick}
 						onAnimationComplete={handleAnimationComplete}
 					/>

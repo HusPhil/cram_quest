@@ -9,11 +9,12 @@ interface PlayerCardProps {
 	fps: number;
 	frameCount: number;
 	currentScreenSize: string;
-	playerTitle: string;
-	playerName: string;
-	currentExp: number;
-	nextLvlExp: number;
-	currentLevel: number;
+	playerTitle: string | undefined;
+	playerName: string | undefined;
+	isLoading: boolean;
+	currentExp: number | undefined;
+	nextLvlExp: number | undefined;
+	currentLevel: number | undefined;
 	onAnimationComplete?: () => void;
 	onClick?: () => void;
 }
@@ -26,6 +27,7 @@ export function PlayerCard({
 	currentScreenSize,
 	playerTitle,
 	playerName,
+	isLoading,
 	currentExp,
 	nextLvlExp,
 	currentLevel,
@@ -48,6 +50,7 @@ export function PlayerCard({
 						fps={fps}
 						frameCount={frameCount}
 						currentScreenSize={currentScreenSize}
+						isLoading={isLoading}
 						onAnimationComplete={onAnimationComplete}
 						onClick={onClick}
 					/>
