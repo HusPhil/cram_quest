@@ -41,7 +41,6 @@ export default function SignInForm() {
 			</div>
 			<button
 				type="submit"
-				disabled={!validation.valid}
 				className="w-full py-3 rounded-lg font-bold transition-colors relative group overflow-hidden
         bg-accent/90 text-white hover:bg-accent
         disabled:bg-accent/30 disabled:hover:bg-accent/30 disabled:text-white/70 disabled:cursor-not-allowed"

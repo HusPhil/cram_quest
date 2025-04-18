@@ -1,6 +1,6 @@
 import { PlayerClass } from '../features/Battle/configs/spritesheetConfig';
 
-interface ParsedPlayerAvatar {
+export interface ParsedPlayerAvatar {
 	playerClass: PlayerClass;
 	playerSkin: string;
 }

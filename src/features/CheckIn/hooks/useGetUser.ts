@@ -1,13 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import { getUser } from '../../../services/api/crud/user_crud';
 
-export const useGetUser = (playerId: number) => {
-	const playerQuery = useQuery({
-		queryKey: ['players', playerId],
-		queryFn: () => getUser(playerId),
+export const useGetUser = (userId: number) => {
+	const userQuery = useQuery({
+		queryKey: ['users', userId],
+		queryFn: () => getUser(userId),
 	});
 
-	console.log('playerQuery', playerQuery);
+	console.log('userQuery', userQuery);
 
-	return playerQuery;
+	return userQuery;
 };

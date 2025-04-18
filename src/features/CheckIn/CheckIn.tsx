@@ -8,7 +8,11 @@ import RankParticles from '../../components/RankParticle';
 import { useGetUserPlayer } from './hooks/useGetUserPlayer';
 import { useAuth } from '../../context/AuthContext';
 import { useGetPlayerProfile } from './hooks/useGetPlayerProfile';
-import { parsePlayerAvatar } from '../../utils/parsePlayerAvatar';
+import {
+	ParsedPlayerAvatar,
+	parsePlayerAvatar,
+} from '../../utils/parsePlayerAvatar';
+import { useGetUser } from './hooks/useGetUser';
 
 const mockWeeklyCheckInRecord = [
 	{
@@ -57,9 +61,16 @@ export default function CheckIn() {
 	);
 
 	const { data: profile, isLoading: profileIsLoading } = useGetPlayerProfile(
-		player?.id,
-		player?.id !== null
+		player?.id
 	);
+
+	const { data: user, isLoading: userIsLoading } = useGetUser(
+		currentUserId || -1
+	);
+
+	const parsedAvatar: ParsedPlayerAvatar = profile?.avatar_url
+		? parsePlayerAvatar(profile.avatar_url)
+		: { playerClass: 'default', playerSkin: 'default_1' };
 
 	return (
 		<div className="flex flex-col items-center justify-end flex-1 mx-4">
@@ -73,14 +84,12 @@ export default function CheckIn() {
 						playerClass={
 							profileIsLoading
 								? 'default'
-								: parsePlayerAvatar(profile?.avatar_url || '')
-										.playerClass
+								: parsedAvatar.playerClass
 						}
 						playerSkin={
 							profileIsLoading
 								? 'default_1'
-								: parsePlayerAvatar(profile?.avatar_url || '')
-										.playerSkin
+								: parsedAvatar.playerSkin
 						}
 						currentScreenSize={currentScreenSize}
 						currentExp={playerIsLoading ? 0 : player?.experience}
@@ -88,8 +97,12 @@ export default function CheckIn() {
 						playerTitle={
 							playerIsLoading ? 'Loading...' : player?.title
 						}
-						playerName={currentUserId?.toString() || 'Noobie'}
-						isLoading={playerIsLoading}
+						playerName={
+							userIsLoading ? 'Loading...' : user?.username
+						}
+						isLoading={
+							playerIsLoading || userIsLoading || profileIsLoading
+						}
 						currentLevel={playerIsLoading ? 0 : player?.level}
 					/>
 				</RpgCard>
