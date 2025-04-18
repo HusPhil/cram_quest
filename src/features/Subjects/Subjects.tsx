@@ -1,43 +1,13 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useFloatingScreen } from '../../context/FloatingScreenContext';
 import SubjectScreen from './components/SubjectScreen/SubjectScreen';
 import { useGetSubject } from './hooks/useGetSubjects';
-
-const mockDataSubjects = [
-	{
-		code_name: 'Math 101',
-		description: 'Mathematics for beginners and advanced users to learn',
-		difficulty: 1,
-		id: 0,
-	},
-	{
-		code_name: 'CS 401',
-		description: 'Design and Analysis of Algorithms',
-		difficulty: 1,
-		id: 7,
-	},
-	{
-		code_name: 'Chemistry 101',
-		description: 'Chemistry',
-		difficulty: 2,
-		id: 1,
-	},
-	{
-		code_name: 'Physics 101',
-		description: 'Physics',
-		difficulty: 3,
-		id: 2,
-	},
-	{
-		code_name: 'Biology 101',
-		description: 'Biology',
-		difficulty: 4,
-		id: 3,
-	},
-];
+import Modal from '../../components/Modal';
+import AddNewSubjectModal from './components/Modals/AddNewSubjectModal';
 
 export default function Subjects() {
 	const { openScreen, setContent } = useFloatingScreen();
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const subjectQuery = useGetSubject(22);
 
@@ -71,36 +41,16 @@ export default function Subjects() {
 				</p>
 			</div>
 
+			<button onClick={() => setIsModalOpen(true)}>Open Modal</button>
+
+			<AddNewSubjectModal
+				isModalOpen={isModalOpen}
+				setIsModalOpen={setIsModalOpen}
+			/>
+
 			{/* Scrollable grid section */}
 			<div className="flex-1 overflow-auto flex">
-				<div className="w-full max-h-3.5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-					{mockDataSubjects.map((subject) => (
-						<div
-							key={subject.id}
-							className="bg-white p-4 rounded-lg transition-all duration-150 shadow-md 
-                         hover:shadow-lg active:scale-95 active:bg-accent/5 active:shadow-inner 
-                         touch-action-manipulation"
-							onClick={() =>
-								handleOpenScreen(
-									subject.id,
-									subject.code_name,
-									subject.description,
-									subject.difficulty
-								)
-							}
-						>
-							<h2 className="text-xl font-bold">
-								{subject.code_name}
-							</h2>
-							<p className="text-gray-700">
-								{subject.description}
-							</p>
-							<p className="text-gray-500">
-								Difficulty: {subject.difficulty}
-							</p>
-						</div>
-					))}
-				</div>
+				<div className="w-full max-h-3.5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4"></div>
 			</div>
 		</div>
 	);
