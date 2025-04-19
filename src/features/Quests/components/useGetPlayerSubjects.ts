@@ -2,13 +2,13 @@ import { useQuery } from '@tanstack/react-query';
 import { getPlayerSubjects } from '../../../services/api/crud/player_crud';
 
 export const useGetPlayerSubjects = (player_id: number | undefined) => {
-	const questQuery = useQuery({
-		queryKey: ['quests'],
+	const subjectQuery = useQuery({
+		queryKey: ['players', player_id, 'subjects'],
 		queryFn: () => getPlayerSubjects(player_id!),
 		enabled: player_id != null,
 	});
 
-	console.log('questQuery', questQuery);
+	console.log('subjectQuery: ', subjectQuery);
 
-	return questQuery;
+	return subjectQuery;
 };

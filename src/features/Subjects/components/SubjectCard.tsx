@@ -1,47 +1,74 @@
-import React from 'react'
+import React from 'react';
+import { FaStar} from 'react-icons/fa';
 
 interface SubjectCardProps {
-    code_name: string;
-    description: string;
-    difficulty: string;
-    id: number;
+	code_name: string;
+	description: string;
+	difficulty: number;
+	onClick: () => void;
 }
 
 export default function SubjectCard({
-    code_name,
-    description,
-    difficulty,
-    id,
+	code_name,
+	description,
+	difficulty,
+	onClick,
 }: SubjectCardProps) {
-  return (
-    <div 
-        className="group bg-card rounded-xl p-6 transition-all duration-200
-                border border-border hover:border-primary/20
-                shadow-sm hover:shadow-lg hover:shadow-primary/5
-                active:scale-[0.98] cursor-pointer
-                relative overflow-hidden"
-    >
-        {/* Gradient overlay on hover */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-        
-        {/* Content with improved typography and spacing */}
-        <div className="relative z-10">
-        <h2 className="text-2xl font-bold text-primary mb-3">{description}</h2>
-        <p className="text-muted-foreground mb-4 line-clamp-2">{code_name}</p>
-        
-        {/* Difficulty indicator with dynamic styling */}
-        <div className="flex items-center gap-2 text-sm">
-            <span className="text-muted-foreground">Difficulty:</span>
-            <span className={`font-medium ${
-            difficulty === 'Easy' ? 'text-green-500' :
-            difficulty === 'Medium' ? 'text-yellow-500' :
-            'text-red-500'
-            }`}>
-            {difficulty}
-            </span>
-        </div>
-        </div>
-    </div>
-  )
-}
+	// Function to determine glow effect based on difficulty
+	const getDifficultyGlow = () => {
+		if (difficulty >= 7) return 'animate-glow-red';
+		if (difficulty >= 4) return 'animate-glow-orange';
+		return 'animate-glow-purple';
+	};
+	
+	// Function to render difficulty stars
+	const renderDifficultyStars = () => {
+		const stars = [];
+		for (let i = 0; i < difficulty; i++) {
+			stars.push(
+				<FaStar 
+					key={i} 
+					className={`text-accent ${i < 3 ? 'opacity-100' : i < 5 ? 'opacity-80' : 'opacity-60'}`} 
+				/>
+			);
+		}
+		return stars;
+	};
 
+	return (
+		<div
+			onClick={onClick}
+			className={`
+				relative p-4 rounded-lg border border-crystal-border/30
+				bg-secondary/80 backdrop-blur-sm
+				transition-all duration-300 hover:scale-105 cursor-pointer
+				shadow-lg hover:shadow-xl
+				flex flex-col gap-3 h-[200px] w-full 
+			`}
+		>
+			{/* Subject Code Name */}
+			<div className="flex items-center justify-between">
+				<h3 className="text-xl font-rpg text-crystal-light font-bold tracking-wider">
+					{code_name}
+				</h3>
+			</div>
+			
+			{/* Divider */}
+			<div className="h-0.5 w-full bg-gradient-to-r from-transparent via-crystal-border/30 to-transparent" />
+			
+			{/* Description */}
+			<p className="text-text/90 text-sm flex-grow overflow-hidden">
+				{description}
+			</p>
+			
+			{/* Difficulty Indicator */}
+			<div className="flex items-center gap-1 mt-auto">
+				<span className="text-xs text-text/70 mr-2">Difficulty:</span>
+				<div className="flex gap-1">
+					{renderDifficultyStars()}
+				</div>
+			</div>
+
+		</div>
+	);
+}

@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { axiosInstance } from '../../../lib/axios/axiosInstance';
 import { getCreateSubjectEndRoute } from '../../../services/api/routes/subject_routes';
 
-export const useCreateSubject = (setIsModalopen: (open: boolean) => void) => {
+export const useCreateSubject = () => {
 	return useMutation({
 		mutationFn: createSubject,
 		onSuccess(data, variables, context) {
@@ -12,7 +12,6 @@ export const useCreateSubject = (setIsModalopen: (open: boolean) => void) => {
 			console.log('variables: ', variables);
 			console.log('context: ', context);
 			toast.success('Subject created successfully');
-			setIsModalopen(false);
 		},
 		onError(error, variables, context) {
 			// alert('An ERROR OCCURED: ' + error.response.data.detail);

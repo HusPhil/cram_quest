@@ -41,21 +41,13 @@ export function SubjectScreenBody({
 				);
 			case PAGE_TITLES.QUESTS:
 				return <QuestsPage />;
-			case PAGE_TITLES.EDIT:
-				return (
-					<EditPage
-						subjectId={subjectId}
-						subjectDescription={subjectDescription}
-						subjectCodeName={subjectCodeName}
-					/>
-				);
 			default:
 				return <p>404 Not Found</p>;
 		}
 	}, [activeTab, subjectDifficulty, subjectId]);
 
 	useEffect(() => {
-		setActiveTab(PAGE_TITLES.LEARNING);
+		setActiveTab(PAGE_TITLES.QUESTS);
 		// alert(subjectDifficulty)
 	}, [subjectId]);
 

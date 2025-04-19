@@ -6,6 +6,8 @@ import { useBattleSetup } from './hooks/useBattleSetup';
 import { BattleUIProvider } from './context/BattleUIContext';
 
 export const Battle = () => {
+	// document.documentElement.requestFullscreen();
+
 	const { battleEngineProps, arenaProps, battleUIProviderProps } =
 		useBattleSetup();
 

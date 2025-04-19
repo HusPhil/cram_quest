@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import Modal from '../../../../components/Modal';
 import StarRating from '../StarRating';
 import { useCreateSubject } from '../../hooks/useCreateSubject';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface AddNewSubjectModalProps {
 	playerId: number;
@@ -20,7 +21,8 @@ export default function AddNewSubjectModal({
 
 	const [difficulty, setDifficulty] = useState(3);
 
-	const createSubjectMutate = useCreateSubject(setIsModalOpen);
+	const queryClient = useQueryClient();
+	const createSubjectMutate = useCreateSubject();
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -35,6 +37,12 @@ export default function AddNewSubjectModal({
 			},
 		});
 
+		if (!createSubjectMutate.isError) {
+			queryClient.invalidateQueries({
+				queryKey: ['players', playerId, 'subjects'],
+			});
+			setIsModalOpen(false);
+		}
 		formRef?.current?.reset();
 	};
 

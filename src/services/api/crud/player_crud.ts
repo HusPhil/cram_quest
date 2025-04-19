@@ -6,8 +6,12 @@ import {
 	getPlayerSubjectsEndRoute,
 } from '../routes/player_routes';
 import { ProfileRead } from '../schema/profile_schema';
+import { UserRead } from '../schema/user_schema';
+import { SubjectRead } from '../schema/subject_schema';
 
-export const getPlayerSubjects = async (playerId: number) => {
+export const getPlayerSubjects = async (
+	playerId: number
+): Promise<SubjectRead[]> => {
 	const response = await fetcher(getPlayerSubjectsEndRoute(playerId));
 
 	console.log('GetSubects: ', response.headers);
