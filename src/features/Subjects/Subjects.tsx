@@ -58,6 +58,7 @@ export default function Subjects() {
 				<div className="w-full max-h-3.5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
 					{(subjects ?? []).map((subject) => (
 						<SubjectCard
+							subjectId={subject.id}
 							key={subject.id}
 							code_name={subject.code_name}
 							description={subject.description}

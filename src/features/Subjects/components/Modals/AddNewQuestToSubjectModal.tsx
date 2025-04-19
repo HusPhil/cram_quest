@@ -3,6 +3,7 @@ import Modal from '../../../../components/Modal';
 import StarRating from '../StarRating';
 // import { useCreateQuest } from '../../hooks/useCreateQuest';
 import { useQueryClient } from '@tanstack/react-query';
+import { useCreateQuest } from '../../hooks/useCreateQuest';
 
 interface AddNewQuestToSubjectModalProps {
 	subjectId: number;
@@ -16,136 +17,87 @@ export default function AddNewQuestToSubjectModal({
 	setIsModalOpen,
 }: AddNewQuestToSubjectModalProps) {
 	const formRef = useRef<HTMLFormElement>(null);
-	const titleRef = useRef<HTMLInputElement>(null);
-	const descriptionRef = useRef<HTMLTextAreaElement>(null);
+	const descriptionRef = useRef<HTMLInputElement>(null);
 
 	const [difficulty, setDifficulty] = useState(3);
-	const [expReward, setExpReward] = useState(50); // Default EXP reward
 
 	const queryClient = useQueryClient();
-	// const createQuestMutate = useCreateQuest();
+	const createQuestMutate = useCreateQuest();
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		const formData = new FormData(formRef?.current!);
 
-		// await createQuestMutate.mutateAsync({
-		// 	subjectId: subjectId,
-		// 	questCreate: {
-		// 		title: formData.get('title') as string,
-		// 		description: formData.get('description') as string,
-		// 		difficulty,
-		// 		exp_reward: expReward,
-		// 	},
-		// });
+		const questCreate = {
+			subject_id: subjectId,
+			difficulty,
+			description: formData.get('description') as string,
+			status: 'in_progress',
+		};
 
-		// if (!createQuestMutate.isError) {
-		// 	queryClient.invalidateQueries({
-		// 		queryKey: ['subjects', subjectId, 'quests'],
-		// 	});
-		// 	setIsModalOpen(false);
-		// }
-		// formRef?.current?.reset();
+		console.log('questCreate', questCreate);
+
+		await createQuestMutate.mutateAsync({
+			questCreate: questCreate,
+		});
+
+		if (!createQuestMutate.isError) {
+			setIsModalOpen(false);
+			queryClient.invalidateQueries({
+				queryKey: ['subjects', subjectId, 'quests'],
+			});
+		}
+		formRef?.current?.reset();
 	};
 
 	return (
 		<Modal
 			isOpen={isModalOpen}
 			onClose={() => setIsModalOpen(false)}
-			title="Forge a New Quest!"
+			title="Add a new Quest!"
 		>
 			<form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
 				<div className="space-y-2">
 					<label
-						htmlFor="title"
-						className="block font-rpg text-crystal-light text-sm"
+						htmlFor="description"
+						className="block font-rpg text-accent text-sm"
 					>
-						Quest Title
+						Quest description
 					</label>
 					<input
 						required
-						id="title"
-						name="title"
+						id="description"
+						name="description"
 						type="text"
-						ref={titleRef}
-						className="w-full rounded-lg bg-secondary/50 border-2 border-crystal-border p-2 
-                                 text-text placeholder-text/50 focus:border-crystal-light focus:outline-none
-                                 transition-all duration-200 hover:border-crystal-light/50"
-						placeholder="Name your quest..."
+						ref={descriptionRef}
+						className="w-full rounded-lg bg-secondary/50 border border-accent/30 p-2 
+                                 text-text placeholder-text/50 focus:border-accent/60 focus:outline-none
+                                 transition-colors"
+						placeholder="Create flashcards..."
 					/>
 				</div>
 
 				<div className="space-y-2">
 					<label
-						htmlFor="description"
-						className="block font-rpg text-crystal-light text-sm"
+						htmlFor="difficulty"
+						className="block font-rpg text-accent text-sm"
 					>
-						Quest Description
+						Challenge Level
 					</label>
-					<textarea
-						required
-						id="description"
-						name="description"
-						ref={descriptionRef}
-						className="w-full rounded-lg bg-secondary/50 border-2 border-crystal-border p-2 
-                                 text-text placeholder-text/50 focus:border-crystal-light focus:outline-none
-                                 transition-all duration-200 hover:border-crystal-light/50
-                                 min-h-[120px] resize-none"
-						placeholder="Detail your quest objectives..."
+					<StarRating
+						value={difficulty}
+						onChange={(rating: number) => setDifficulty(rating)}
 					/>
-				</div>
-
-				<div className="grid grid-cols-2 gap-4">
-					<div className="space-y-2">
-						<label
-							htmlFor="difficulty"
-							className="block font-rpg text-crystal-light text-sm"
-						>
-							Challenge Level
-						</label>
-						<StarRating
-							value={difficulty}
-							onChange={(rating: number) => setDifficulty(rating)}
-						/>
-					</div>
-
-					<div className="space-y-2">
-						<label
-							htmlFor="expReward"
-							className="block font-rpg text-crystal-light text-sm"
-						>
-							EXP Reward
-						</label>
-						<input
-							type="number"
-							id="expReward"
-							name="expReward"
-							value={expReward}
-							onChange={(e) =>
-								setExpReward(Number(e.target.value))
-							}
-							min="10"
-							max="1000"
-							step="10"
-							className="w-full rounded-lg bg-secondary/50 border-2 border-crystal-border p-2 
-                                     text-text placeholder-text/50 focus:border-crystal-light focus:outline-none
-                                     transition-all duration-200 hover:border-crystal-light/50"
-						/>
-					</div>
 				</div>
 
 				<div className="flex justify-end pt-4">
 					<button
 						type="submit"
-						className="px-6 py-3 bg-crystal-light/20 hover:bg-crystal-light/30 
-                                 text-crystal-light border-2 border-crystal-light/50 
-                                 rounded-lg font-rpg text-sm
-                                 transition-all duration-200 
-                                 hover:scale-105 active:scale-95 
-                                 focus:outline-none focus:ring-2 
-                                 focus:ring-crystal-light/50 
-                                 focus:ring-offset-2 focus:ring-offset-background
-                                 shadow-lg shadow-crystal-light/10"
+						className="px-4 py-2 bg-accent/20 hover:bg-accent/30 text-accent 
+                                 border border-accent rounded-lg font-rpg text-sm
+                                 transition-all duration-200 focus:outline-none
+                                 focus:ring-offset-background
+                                 active:scale-95 hover:scale-100"
 					>
 						Begin Quest
 					</button>

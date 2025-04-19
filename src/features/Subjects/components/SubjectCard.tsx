@@ -2,6 +2,7 @@ import React from 'react';
 import { FaStar } from 'react-icons/fa';
 
 interface SubjectCardProps {
+	subjectId: number;
 	code_name: string;
 	description: string;
 	difficulty: number;
@@ -9,6 +10,7 @@ interface SubjectCardProps {
 }
 
 export default function SubjectCard({
+	subjectId,
 	code_name,
 	description,
 	difficulty,

@@ -40,7 +40,7 @@ export function SubjectScreenBody({
 					/>
 				);
 			case PAGE_TITLES.QUESTS:
-				return <QuestsPage />;
+				return <QuestsPage subjectId={subjectId} />;
 			default:
 				return <p>404 Not Found</p>;
 		}
