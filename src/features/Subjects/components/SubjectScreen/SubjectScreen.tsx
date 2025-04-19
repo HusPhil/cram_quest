@@ -37,7 +37,7 @@ export function SubjectScreen({
 				/>
 			</div>
 			{/* Scrollable Body */}
-			<div className="flex-1 min-h-0">
+			<div className="flex-1 min-h-0 px-2">
 				<SubjectScreenBody
 					subjectId={subjectId}
 					subjectCodeName={subjectCodeName}

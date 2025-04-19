@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaStar} from 'react-icons/fa';
+import { FaStar } from 'react-icons/fa';
 
 interface SubjectCardProps {
 	code_name: string;
@@ -20,15 +20,21 @@ export default function SubjectCard({
 		if (difficulty >= 4) return 'animate-glow-orange';
 		return 'animate-glow-purple';
 	};
-	
+
 	// Function to render difficulty stars
 	const renderDifficultyStars = () => {
 		const stars = [];
 		for (let i = 0; i < difficulty; i++) {
 			stars.push(
-				<FaStar 
-					key={i} 
-					className={`text-accent ${i < 3 ? 'opacity-100' : i < 5 ? 'opacity-80' : 'opacity-60'}`} 
+				<FaStar
+					key={i}
+					className={`text-accent ${
+						i < 3
+							? 'opacity-100'
+							: i < 5
+							? 'opacity-80'
+							: 'opacity-60'
+					}`}
 				/>
 			);
 		}
@@ -52,23 +58,20 @@ export default function SubjectCard({
 					{code_name}
 				</h3>
 			</div>
-			
+
 			{/* Divider */}
 			<div className="h-0.5 w-full bg-gradient-to-r from-transparent via-crystal-border/30 to-transparent" />
-			
+
 			{/* Description */}
 			<p className="text-text/90 text-sm flex-grow overflow-hidden">
 				{description}
 			</p>
-			
+
 			{/* Difficulty Indicator */}
 			<div className="flex items-center gap-1 mt-auto">
 				<span className="text-xs text-text/70 mr-2">Difficulty:</span>
-				<div className="flex gap-1">
-					{renderDifficultyStars()}
-				</div>
+				<div className="flex gap-1">{renderDifficultyStars()}</div>
 			</div>
-
 		</div>
 	);
 }

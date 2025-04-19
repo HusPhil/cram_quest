@@ -1,4 +1,3 @@
-import { FaEllipsisV } from 'react-icons/fa';
 import { Quest } from './QuestsPage';
 import { FaEllipsisVertical } from 'react-icons/fa6';
 import { GiRoundStar } from 'react-icons/gi';
@@ -8,8 +7,9 @@ interface QuestCardProps {
 }
 
 export default function QuestCard({ quest }: QuestCardProps) {
+	// document.documentElement.requestFullscreen();
 	return (
-		<div className="bg-secondary rounded-lg pt-3 pb-1 px-3 fade-in-on-view">
+		<div className="border  bg-secondary rounded-lg pt-3 pb-1 px-3 fade-in-on-view">
 			<div className="flex justify-between">
 				<div className="flex gap-3 items-start">
 					<input
