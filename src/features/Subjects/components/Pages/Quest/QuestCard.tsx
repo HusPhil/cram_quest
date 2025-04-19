@@ -27,10 +27,8 @@ export default function QuestCard({ quest }: QuestCardProps) {
 			<div>
 				<div className="flex gap-2 items-center">
 					{[...Array(quest.difficulty)].map((_, i) => (
-						<GiRoundStar className="w-3 h-3 text-accent" />
+						<GiRoundStar className="mt-2 mb-1 w-3 h-3 text-accent" />
 					))}
-					<p className="text-xl">•</p>
-					<small className="text-xs">{quest.deadline}</small>
 				</div>
 			</div>
 		</div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import QuestListHeader from './QuestListHeader';
 import QuestList from './QuestList';
+import { useGetSubjectQuests } from '../../../hooks/useGetSubjectQuests';
 
 export type Quest = {
 	id: number;
@@ -22,15 +23,28 @@ const mockQuests: Quest[] = Array(10)
 	);
 
 export default function QuestsPage({ subjectId }: { subjectId: number }) {
+	const {
+		data: subjectQuests,
+		isLoading: subjectQuestsLoading,
+		isError: subjectQuestsError,
+	} = useGetSubjectQuests(subjectId);
+
 	return (
 		<div className="flex flex-1 h-full flex-col">
-			<div className="shrink-0">
-				<QuestListHeader quests={mockQuests} subjectId={subjectId} />
-			</div>
+			{!subjectQuestsLoading && (
+				<>
+					<div className="shrink-0">
+						<QuestListHeader
+							quests={subjectQuests}
+							subjectId={subjectId}
+						/>
+					</div>
 
-			<div className="flex-1 min-h-0 overflow-auto space-y-4 mt-4 no-scrollbar">
-				<QuestList quests={mockQuests} />
-			</div>
+					<div className="flex-1 min-h-0 overflow-auto space-y-4 mt-4 no-scrollbar">
+						<QuestList quests={subjectQuests} />
+					</div>
+				</>
+			)}
 		</div>
 	);
 }

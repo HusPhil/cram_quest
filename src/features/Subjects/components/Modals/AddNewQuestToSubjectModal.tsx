@@ -1,7 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Modal from '../../../../components/Modal';
 import StarRating from '../StarRating';
-// import { useCreateQuest } from '../../hooks/useCreateQuest';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCreateQuest } from '../../hooks/useCreateQuest';
 
@@ -18,6 +17,12 @@ export default function AddNewQuestToSubjectModal({
 }: AddNewQuestToSubjectModalProps) {
 	const formRef = useRef<HTMLFormElement>(null);
 	const descriptionRef = useRef<HTMLInputElement>(null);
+
+	useEffect(() => {
+		if (isModalOpen && descriptionRef.current) {
+			descriptionRef.current.focus();
+		}
+	}, [isModalOpen]);
 
 	const [difficulty, setDifficulty] = useState(3);
 
@@ -71,8 +76,8 @@ export default function AddNewQuestToSubjectModal({
 						type="text"
 						ref={descriptionRef}
 						className="w-full rounded-lg bg-secondary/50 border border-accent/30 p-2 
-                                 text-text placeholder-text/50 focus:border-accent/60 focus:outline-none
-                                 transition-colors"
+								 text-text placeholder-text/50 focus:border-accent/60 focus:outline-none
+								 transition-colors"
 						placeholder="Create flashcards..."
 					/>
 				</div>
@@ -94,10 +99,10 @@ export default function AddNewQuestToSubjectModal({
 					<button
 						type="submit"
 						className="px-4 py-2 bg-accent/20 hover:bg-accent/30 text-accent 
-                                 border border-accent rounded-lg font-rpg text-sm
-                                 transition-all duration-200 focus:outline-none
-                                 focus:ring-offset-background
-                                 active:scale-95 hover:scale-100"
+								 border border-accent rounded-lg font-rpg text-sm
+								 transition-all duration-200 focus:outline-none
+								 focus:ring-offset-background
+								 active:scale-95 hover:scale-100"
 					>
 						Begin Quest
 					</button>
