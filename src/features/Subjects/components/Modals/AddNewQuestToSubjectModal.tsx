@@ -98,13 +98,18 @@ export default function AddNewQuestToSubjectModal({
 				<div className="flex justify-end pt-4">
 					<button
 						type="submit"
+						disabled={createQuestMutate.isPending}
 						className="px-4 py-2 bg-accent/20 hover:bg-accent/30 text-accent 
 								 border border-accent rounded-lg font-rpg text-sm
 								 transition-all duration-200 focus:outline-none
-								 focus:ring-offset-background
+								 focus:ring-2 focus:ring-accent/50 focus:ring-offset-background
+								 focus:bg-accent/40
+								 disabled:opacity-50 disabled:cursor-not-allowed 
 								 active:scale-95 hover:scale-100"
 					>
-						Begin Quest
+						{createQuestMutate.isPending
+							? 'Creating...'
+							: 'Create Quest'}
 					</button>
 				</div>
 			</form>

@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { axiosInstance } from '../../../lib/axios/axiosInstance';
 import { getCreateSubjectEndRoute } from '../../../services/api/routes/subject_routes';
 import { QuestCreate } from '../../../services/api/schema/quest_schema';
-import { getCreateQuestEndRoute } from '../../../services/api/routes/quest_routes';
+import { getBaseQuestEndRoute } from '../../../services/api/routes/quest_routes';
 
 export const useCreateQuest = () => {
 	return useMutation({
@@ -28,7 +28,7 @@ export const useCreateQuest = () => {
 const createQuest = async ({ questCreate }: { questCreate: QuestCreate }) => {
 	console.log('questCreate: ', questCreate);
 	const response = await axiosInstance.post(
-		getCreateQuestEndRoute(),
+		getBaseQuestEndRoute(),
 		questCreate,
 		{ withCredentials: true }
 	);

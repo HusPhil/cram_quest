@@ -2,6 +2,10 @@ import { BASE_URL } from '../../../data/api';
 
 const baseQuesttRoute = 'quests';
 
-export const getCreateQuestEndRoute = () => {
+export const getBaseQuestEndRoute = () => {
 	return `${BASE_URL}/${baseQuesttRoute}/`;
+};
+
+export const getDeleteQuestEndRoute = (questId: number) => {
+	return `${BASE_URL}/${baseQuesttRoute}/${questId}/`;
 };

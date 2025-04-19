@@ -10,3 +10,9 @@ export interface QuestRead extends QuestBase {
 	id: number;
 	player_id: number;
 }
+
+export interface QuestUpdate {
+	description?: string;
+	difficulty?: number;
+	status?: string;
+}
