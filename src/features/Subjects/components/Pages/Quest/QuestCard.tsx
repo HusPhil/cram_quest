@@ -39,6 +39,18 @@ export default function QuestCard({ quest }: QuestCardProps) {
 
 	useEffect(() => {
 		if (isEditEnabled && descriptionRef.current) {
+			const length = descriptionRef.current.textContent?.length ?? 0;
+			const range = document.createRange();
+			const selection = window.getSelection();
+
+			range.setStart(
+				descriptionRef.current.firstChild || descriptionRef.current,
+				length
+			);
+			range.collapse(true);
+			selection?.removeAllRanges();
+			selection?.addRange(range);
+
 			descriptionRef.current.focus();
 		}
 	}, [isEditEnabled]);
@@ -70,7 +82,7 @@ export default function QuestCard({ quest }: QuestCardProps) {
 				descriptionRef.current.textContent = 'My empty quest';
 				return;
 			}
-
+			handleUpdateQuest();
 			setIsEditEnabled(false);
 			descriptionRef.current?.blur();
 		} else if (e.key === 'Escape') {
@@ -119,11 +131,18 @@ export default function QuestCard({ quest }: QuestCardProps) {
 	};
 
 	const handleUpdateQuest = async () => {
-		// await updateQuestMutate.mutateAsync()
+		await updateQuestMutate.mutateAsync({
+			questId: quest.id,
+			questUpdate: {
+				difficulty: currentDifficulty,
+				description: descriptionRef.current?.textContent ?? '',
+			},
+		});
 
 		queryClient.invalidateQueries({
 			queryKey: SUBJECT_QUESTS_QUERY_KEY,
 		});
+
 		toast.success('Quest updated successfully');
 	};
 
@@ -153,13 +172,22 @@ export default function QuestCard({ quest }: QuestCardProps) {
 								? 'bg-yellow-100 border-yellow-400 text-background'
 								: 'border-transparent'
 						} 
-						break-all`}
+						break-words`}
 					>
 						{quest.description}
 					</p>
 				</div>
 				<button
-					onClick={() => setIsEditEnabled(!isEditEnabled)}
+					onClick={async () => {
+						if (!isEditEnabled) {
+							setIsEditEnabled(true);
+							return;
+						}
+
+						await handleUpdateQuest();
+						setIsEditEnabled(false);
+					}}
+					disabled={updateQuestMutate.isPending}
 					className="mt-1"
 				>
 					{isEditEnabled ? (

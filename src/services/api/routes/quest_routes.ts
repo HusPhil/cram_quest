@@ -6,6 +6,6 @@ export const getBaseQuestEndRoute = () => {
 	return `${BASE_URL}/${baseQuesttRoute}/`;
 };
 
-export const getDeleteQuestEndRoute = (questId: number) => {
+export const getBaseQuestWithIdEndRoute = (questId: number) => {
 	return `${BASE_URL}/${baseQuesttRoute}/${questId}/`;
 };

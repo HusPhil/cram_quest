@@ -6,7 +6,7 @@ import { getCreateSubjectEndRoute } from '../../../services/api/routes/subject_r
 import { QuestCreate } from '../../../services/api/schema/quest_schema';
 import {
 	getBaseQuestEndRoute,
-	getDeleteQuestEndRoute,
+	getBaseQuestWithIdEndRoute,
 } from '../../../services/api/routes/quest_routes';
 
 export const useDeleteQuest = () => {
@@ -20,7 +20,7 @@ export const useDeleteQuest = () => {
 
 const deleteQuest = async ({ questId }: { questId: number }) => {
 	const response = await axiosInstance.delete(
-		getDeleteQuestEndRoute(questId),
+		getBaseQuestWithIdEndRoute(questId),
 		{ withCredentials: true }
 	);
 

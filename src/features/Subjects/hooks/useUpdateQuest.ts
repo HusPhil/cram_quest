@@ -1,13 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
-import { SubjectCreate } from '../../../services/api/schema/subject_schema';
-import { toast } from 'react-toastify';
 import { axiosInstance } from '../../../lib/axios/axiosInstance';
-import { getCreateSubjectEndRoute } from '../../../services/api/routes/subject_routes';
+import { QuestUpdate } from '../../../services/api/schema/quest_schema';
 import {
-	QuestCreate,
-	QuestUpdate,
-} from '../../../services/api/schema/quest_schema';
-import { getBaseQuestEndRoute } from '../../../services/api/routes/quest_routes';
+	getBaseQuestEndRoute,
+	getBaseQuestWithIdEndRoute,
+} from '../../../services/api/routes/quest_routes';
 
 export const useUpdateQuest = () => {
 	return useMutation({
@@ -15,10 +12,16 @@ export const useUpdateQuest = () => {
 	});
 };
 
-const updateQuest = async ({ questUpdate }: { questUpdate: QuestUpdate }) => {
+const updateQuest = async ({
+	questId,
+	questUpdate,
+}: {
+	questId: number;
+	questUpdate: QuestUpdate;
+}) => {
 	console.log('questUpdate: ', questUpdate);
 	const response = await axiosInstance.patch(
-		getBaseQuestEndRoute(),
+		getBaseQuestWithIdEndRoute(questId),
 		questUpdate,
 		{ withCredentials: true }
 	);
