@@ -170,7 +170,6 @@ export function QuestInputs({
 }
 
 interface EditButtonProps {
-	test: string;
 	isEditEnabled: boolean;
 	setIsEditEnabled: (isEditEnabled: boolean) => void;
 	setIsLoading: (isLoading: boolean) => void;
