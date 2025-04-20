@@ -1,5 +1,9 @@
 // src/lib/axios/token.ts
-import { useAuth } from '../../context/AuthContext';
+import {
+	getExternalCurrentUserIdSetter,
+	getExternalTokenSetter,
+	useAuth,
+} from '../../context/AuthContext';
 import { BASE_URL } from '../../data/api';
 import { RefreshTokenResponse } from '../../services/api/schema/auth_schema';
 import { axiosInstance } from './axiosInstance';
@@ -19,6 +23,16 @@ export async function refreshAccessToken(): Promise<RefreshTokenResponse> {
 		});
 
 		const data = await response.json();
+
+		if (!response.ok) {
+			throw new Error(data.message || 'Failed to refresh token');
+		}
+
+		const setToken = getExternalTokenSetter();
+		if (setToken) setToken(data.access_token);
+
+		const setCurrentUSerId = getExternalCurrentUserIdSetter();
+		if (setCurrentUSerId) setCurrentUSerId(data.user_id);
 
 		return data;
 	} catch (error) {

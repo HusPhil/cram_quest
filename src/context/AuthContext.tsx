@@ -8,7 +8,8 @@ type AuthContextType = {
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
-
+let externalSetToken: ((token: string) => void) | null = null;
+let externalSetCurrentUserId: ((userId: number) => void) | null = null;
 interface CurrentUser {
 	id: number;
 	email: string;
@@ -22,6 +23,9 @@ export default function AuthProvider({
 }) {
 	const [accessToken, setAccessToken] = useState('');
 	const [currentUserId, setCurrentUserId] = useState<number>();
+
+	externalSetToken = setAccessToken;
+	externalSetCurrentUserId = setCurrentUserId;
 
 	return (
 		<AuthContext.Provider
@@ -43,4 +47,12 @@ export function useAuth() {
 		throw new Error('useAuth must be used within a AuthProvider');
 	}
 	return context;
+}
+
+export function getExternalTokenSetter() {
+	return externalSetToken;
+}
+
+export function getExternalCurrentUserIdSetter() {
+	return externalSetCurrentUserId;
 }

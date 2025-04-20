@@ -143,12 +143,15 @@ export default function QuestCard({ quest }: QuestCardProps) {
 			queryKey: SUBJECT_QUESTS_QUERY_KEY,
 		});
 
-		toast.success('Quest updated successfully');
+		toast.success('Quest updated successfully', {
+			toastId: 'quest-update-success',
+			onClose: () => {},
+		});
 	};
 
 	return (
 		<div
-			className={`border bg-secondary rounded-lg pt-3 pb-1 px-3 fade-in-on-view ${
+			className={`bg-secondary rounded-lg pt-3 pb-1 px-3 fade-in-on-view ${
 				deleteQuestMutate.isPending || updateQuestMutate.isPending
 					? 'opacity-30 pointer-events-none'
 					: ''
