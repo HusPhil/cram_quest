@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Modal from '../../../../components/Modal';
 import StarRating from '../StarRating';
 import { useCreateSubject } from '../../hooks/useCreateSubject';
@@ -45,6 +45,12 @@ export default function AddNewSubjectModal({
 		}
 		formRef?.current?.reset();
 	};
+
+	useEffect(() => {
+		if (codeNameRef.current) {
+			codeNameRef.current.focus();
+		}
+	}, [isModalOpen]);
 
 	return (
 		<Modal

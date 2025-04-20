@@ -157,8 +157,8 @@ export default function QuestCard({ quest }: QuestCardProps) {
 					: ''
 			}`}
 		>
-			<div className="flex justify-between items-start gap-x-2">
-				<div className="flex gap-3 items-start">
+			<div className="flex justify-between items-start ">
+				<div className="flex gap-3 items-start grow-0 max-w-[92%]">
 					<input
 						type="checkbox"
 						className="appearance-none shrink-0 w-4 h-4 rounded-sm accent-accent 
@@ -169,7 +169,7 @@ export default function QuestCard({ quest }: QuestCardProps) {
 						contentEditable={isEditEnabled}
 						suppressContentEditableWarning
 						onKeyDown={handleKeyDown}
-						className={`overflow-hidden overflow-ellipsis
+						className={`overflow-hidden 
 						${
 							isEditEnabled
 								? 'bg-yellow-100 border-yellow-400 text-background'
@@ -180,28 +180,30 @@ export default function QuestCard({ quest }: QuestCardProps) {
 						{quest.description}
 					</p>
 				</div>
-				<button
-					onClick={async () => {
-						if (!isEditEnabled) {
-							setIsEditEnabled(true);
-							return;
-						}
+				<div className="shrink-0">
+					<button
+						onClick={async () => {
+							if (!isEditEnabled) {
+								setIsEditEnabled(true);
+								return;
+							}
 
-						await handleUpdateQuest();
-						setIsEditEnabled(false);
-					}}
-					disabled={updateQuestMutate.isPending}
-					className="mt-1"
-				>
-					{isEditEnabled ? (
-						<FaFloppyDisk
-							className="text-accent"
-							onClick={handleUpdateQuest}
-						/>
-					) : (
-						<FaPenToSquare />
-					)}
-				</button>
+							await handleUpdateQuest();
+							setIsEditEnabled(false);
+						}}
+						disabled={updateQuestMutate.isPending}
+						className="mt-1 shrink-0"
+					>
+						{isEditEnabled ? (
+							<FaFloppyDisk
+								className="text-accent"
+								onClick={handleUpdateQuest}
+							/>
+						) : (
+							<FaPenToSquare />
+						)}
+					</button>
+				</div>
 			</div>
 
 			<hr className="flex-1 mt-2 border-text/50" />
@@ -214,7 +216,7 @@ export default function QuestCard({ quest }: QuestCardProps) {
 								? 'bg-yellow-100 border-yellow-400 border-2 p-1 scale-110'
 								: 'scale-100'
 						}`}
-						starClassName="mx-[1.5px]"
+						starClassName="mx-[1.5px] w-3 h-3"
 						onKeyDown={handleKeyDown}
 						value={currentDifficulty}
 						onChange={(rating: number) =>

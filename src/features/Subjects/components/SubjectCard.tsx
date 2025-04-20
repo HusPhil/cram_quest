@@ -47,7 +47,7 @@ export default function SubjectCard({
 		<div
 			onClick={onClick}
 			className={`
-				relative p-4 rounded-lg border border-crystal-border/30
+				relative p-4 rounded-lg 
 				bg-secondary/80 backdrop-blur-sm
 				transition-all duration-300 hover:scale-105 cursor-pointer
 				shadow-lg hover:shadow-xl
@@ -56,13 +56,13 @@ export default function SubjectCard({
 		>
 			{/* Subject Code Name */}
 			<div className="flex items-center justify-between">
-				<h3 className="text-xl font-rpg text-crystal-light font-bold tracking-wider">
+				<h3 className="text-xl font-rpg text-accent font-bold tracking-wider">
 					{code_name}
 				</h3>
 			</div>
 
 			{/* Divider */}
-			<div className="h-0.5 w-full bg-gradient-to-r from-transparent via-crystal-border/30 to-transparent" />
+			<div className="h-0.5 w-full bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
 
 			{/* Description */}
 			<p className="text-text/90 text-sm flex-grow overflow-hidden">
