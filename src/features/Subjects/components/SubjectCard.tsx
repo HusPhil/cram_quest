@@ -1,5 +1,6 @@
-import React from 'react';
 import { FaStar } from 'react-icons/fa';
+import NamedGiIcon from '../../../components/NamedGiIcon';
+import StarRating from './StarRating';
 
 interface SubjectCardProps {
 	subjectId: number;
@@ -23,26 +24,6 @@ export default function SubjectCard({
 		return 'animate-glow-purple';
 	};
 
-	// Function to render difficulty stars
-	const renderDifficultyStars = () => {
-		const stars = [];
-		for (let i = 0; i < difficulty; i++) {
-			stars.push(
-				<FaStar
-					key={i}
-					className={`text-accent ${
-						i < 3
-							? 'opacity-100'
-							: i < 5
-							? 'opacity-80'
-							: 'opacity-60'
-					}`}
-				/>
-			);
-		}
-		return stars;
-	};
-
 	return (
 		<div
 			onClick={onClick}
@@ -51,7 +32,7 @@ export default function SubjectCard({
 				bg-secondary/80 backdrop-blur-sm
 				transition-all duration-300 hover:scale-105 cursor-pointer
 				shadow-lg hover:shadow-xl
-				flex flex-col gap-3 h-[200px] w-full 
+				flex flex-col gap-3 w-full 
 			`}
 		>
 			{/* Subject Code Name */}
@@ -60,19 +41,22 @@ export default function SubjectCard({
 					{code_name}
 				</h3>
 			</div>
-
-			{/* Divider */}
-			<div className="h-0.5 w-full bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
-
 			{/* Description */}
 			<p className="text-text/90 text-sm flex-grow overflow-hidden">
 				{description}
 			</p>
 
+			{/* Divider */}
+			<div className="h-0.5 w-full bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
+
 			{/* Difficulty Indicator */}
 			<div className="flex items-center gap-1 mt-auto">
-				<span className="text-xs text-text/70 mr-2">Difficulty:</span>
-				<div className="flex gap-1">{renderDifficultyStars()}</div>
+				<StarRating
+					value={2}
+					onChange={() => {}}
+					className="gap-[1.5px]"
+					starClassName="w-3 h-3"
+				/>
 			</div>
 		</div>
 	);

@@ -3,6 +3,9 @@ import Modal from '../../../../components/Modal';
 import StarRating from '../StarRating';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCreateQuest } from '../../hooks/useCreateQuest';
+import { IconPicker } from '../../../../components/IconPicker';
+import * as GiIcons from 'react-icons/gi';
+import * as FaIcons from 'react-icons/fa';
 
 interface AddNewQuestToSubjectModalProps {
 	subjectId: number;
@@ -54,7 +57,6 @@ export default function AddNewQuestToSubjectModal({
 		}
 		formRef?.current?.reset();
 	};
-
 	return (
 		<Modal
 			isOpen={isModalOpen}
