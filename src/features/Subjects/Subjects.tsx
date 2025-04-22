@@ -3,7 +3,7 @@ import { useFloatingScreen } from '../../context/FloatingScreenContext';
 import SubjectHeader from './components/SubjectHeader';
 import { useGetUserPlayer } from '../CheckIn/hooks/useGetUserPlayer';
 import { useAuth } from '../../context/AuthContext';
-import { useGetPlayerSubjects } from '../Quests/components/useGetPlayerSubjects';
+import { useGetPlayerSubjects } from './hooks/useGetPlayerSubjects';
 import SubjectCard from './components/SubjectCard';
 import { SubjectRead } from '../../services/api/schema/subject_schema';
 
@@ -58,6 +58,7 @@ export default function Subjects() {
 				<div className="w-full max-h-3.5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
 					{(subjects ?? []).map((subject) => (
 						<SubjectCard
+							playerId={player?.id ?? -1}
 							subjectId={subject.id}
 							key={subject.id}
 							code_name={subject.code_name}

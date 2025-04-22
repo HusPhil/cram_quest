@@ -7,22 +7,11 @@ import { useUpdateQuest } from '../../../hooks/useUpdateQuest';
 import StarRating from '../../StarRating';
 import DeleteWithConfirm from './DeleteWithConfirm';
 import EditButton from './EditButton';
+import { putCursorToFront } from '../../../../../utils/putCursorToFront';
 
 interface QuestCardProps {
 	quest: QuestRead;
 }
-
-const putCursorToFront = (element: HTMLElement) => {
-	const length = element.textContent?.length ?? 0;
-	const range = document.createRange();
-	const selection = window.getSelection();
-
-	range.setStart(element.firstChild || element, length);
-
-	range.collapse(true);
-	selection?.removeAllRanges();
-	selection?.addRange(range);
-};
 
 const preventEmptyElementUpdate = (
 	element: HTMLElement,

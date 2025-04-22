@@ -25,7 +25,9 @@ export function SubjectScreenHeader({
 				</button>
 			</div>
 			<div>
-				<h2 className="text-xl font-bold">{subjectDescription}</h2>
+				<h2 className="line-clamp-2  text-xl font-bold">
+					{subjectDescription}
+				</h2>
 				<small className="text-text/40">{`${subjectCodeName}`}</small>
 			</div>
 		</div>

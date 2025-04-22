@@ -1,4 +1,4 @@
-import { useGetPlayerSubjects } from './components/useGetPlayerSubjects';
+import { useGetPlayerSubjects } from '../Subjects/hooks/useGetPlayerSubjects';
 import { useAuth } from '../../context/AuthContext';
 import { useGetUserPlayer } from '../CheckIn/hooks/useGetUserPlayer';
 
