@@ -1,18 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import { FaFloppyDisk, FaPenToSquare } from 'react-icons/fa6';
 import { toast } from 'react-toastify';
-import { FaTrash } from 'react-icons/fa';
-import {
-	QuestRead,
-	QuestUpdate,
-} from '../../../../../services/api/schema/quest_schema';
+import { QuestRead } from '../../../../../services/api/schema/quest_schema';
 import { useQueryClient } from '@tanstack/react-query';
 import { useDeleteQuest } from '../../../hooks/useDeleteQuest';
 import { useUpdateQuest } from '../../../hooks/useUpdateQuest';
 import StarRating from '../../StarRating';
 import DeleteWithConfirm from './DeleteWithConfirm';
-
-const DELETE_CONFIRMATION_TIME = 3; // Semantic constant for delete confirmation timer
+import EditButton from './EditButton';
 
 interface QuestCardProps {
 	quest: QuestRead;
@@ -49,7 +43,10 @@ const preventEmptyElementUpdate = (
 };
 
 export default function QuestCard({ quest }: QuestCardProps) {
+	const queryClient = useQueryClient();
+
 	const SUBJECT_QUESTS_QUERY_KEY = ['subjects', quest.subject_id, 'quests'];
+
 	const [isLoading, setIsLoading] = useState(false);
 	const [isEditEnabled, setIsEditEnabled] = useState(false);
 
@@ -58,10 +55,64 @@ export default function QuestCard({ quest }: QuestCardProps) {
 		quest.difficulty
 	);
 
+	const deleteQuestMutate = useDeleteQuest();
+	const updateQuestMutate = useUpdateQuest();
+
 	const handleUpdateDifficulty = (rating: number) => {
 		if (!isEditEnabled) return;
 
 		setCurrentDifficulty(rating);
+	};
+
+	const handleDeleteConfirmed = async () => {
+		await deleteQuestMutate.mutateAsync({ questId: quest.id });
+
+		if (!deleteQuestMutate.isError) {
+			queryClient.invalidateQueries({
+				queryKey: SUBJECT_QUESTS_QUERY_KEY,
+			});
+			toast.success('Quest deleted successfully');
+		}
+	};
+
+	const handleQuestUpdate = async () => {
+		await updateQuestMutate.mutateAsync({
+			questId: quest.id,
+			questUpdate: {
+				description: descriptionRef.current?.textContent ?? '',
+				difficulty: currentDifficulty,
+			},
+		});
+
+		if (!updateQuestMutate.isError) {
+			queryClient.invalidateQueries({
+				queryKey: SUBJECT_QUESTS_QUERY_KEY,
+			});
+			toast.success('Quest updated successfully', {
+				toastId: 'quest-update-success-' + quest.id,
+			});
+		}
+	};
+
+	const handleKeyDown = (e: React.KeyboardEvent) => {
+		if (e.key === 'Escape') {
+			let prevented: boolean;
+			if (!descriptionRef.current) return;
+
+			prevented = preventEmptyElementUpdate(
+				descriptionRef.current,
+				'Description must not be empty'
+			);
+
+			// revert previous content
+			descriptionRef.current.textContent = quest.description;
+			setCurrentDifficulty(quest.difficulty);
+
+			setIsEditEnabled(prevented);
+		} else if (e.key === 'Enter') {
+			handleQuestUpdate();
+			setIsEditEnabled(false);
+		}
 	};
 
 	return (
@@ -75,15 +126,14 @@ export default function QuestCard({ quest }: QuestCardProps) {
 					quest={quest}
 					descriptionRef={descriptionRef}
 					isEditEnabled={isEditEnabled}
+					handleKeyDown={handleKeyDown}
 				/>
 				<EditButton
 					isEditEnabled={isEditEnabled}
+					isEditing={isLoading}
 					setIsEditEnabled={setIsEditEnabled}
-					questId={quest.id}
-					descriptionRef={descriptionRef}
-					currentDifficulty={currentDifficulty}
-					queryKey={SUBJECT_QUESTS_QUERY_KEY}
-					setIsLoading={setIsLoading}
+					setIsEditing={setIsLoading}
+					updateFn={handleQuestUpdate}
 				/>
 			</div>
 
@@ -96,27 +146,14 @@ export default function QuestCard({ quest }: QuestCardProps) {
 							? 'bg-yellow-100 border-yellow-400 border-2 p-1 scale-110'
 							: 'scale-100'
 					}`}
-					onKeyDown={(e: React.KeyboardEvent) => {
-						// toast.warn('natawag naman');
-						if (e.key !== 'Escape') return;
-						let prevented: boolean;
-						if (descriptionRef.current) {
-							prevented = preventEmptyElementUpdate(
-								descriptionRef.current,
-								'Description must not be empty',
-								quest.description
-							);
-							setIsEditEnabled(prevented);
-						}
-					}}
+					onKeyDown={handleKeyDown}
 					starClassName="mx-[1.5px] w-3 h-3"
 					value={currentDifficulty}
 					onChange={handleUpdateDifficulty}
 				/>
 				<DeleteWithConfirm
-					quest={quest}
-					setIsLoading={setIsLoading}
-					queryKey={SUBJECT_QUESTS_QUERY_KEY}
+					setIsDeleting={setIsLoading}
+					deleteFn={handleDeleteConfirmed}
 				/>
 			</div>
 		</div>
@@ -127,12 +164,14 @@ interface QuestInputsProps {
 	quest: QuestRead;
 	isEditEnabled: boolean;
 	descriptionRef: React.RefObject<HTMLParagraphElement | null>;
+	handleKeyDown: (e: React.KeyboardEvent) => void;
 }
 
 export function QuestInputs({
 	quest,
 	isEditEnabled,
 	descriptionRef,
+	handleKeyDown,
 }: QuestInputsProps) {
 	useEffect(() => {
 		if (isEditEnabled && descriptionRef.current) {
@@ -140,8 +179,6 @@ export function QuestInputs({
 			descriptionRef.current.focus();
 		}
 	}, [isEditEnabled]);
-
-	const handleKeyDown = () => {};
 
 	return (
 		<div className="flex gap-3 items-start grow-0 max-w-[92%]">
@@ -165,78 +202,6 @@ export function QuestInputs({
 			>
 				{quest.description}
 			</p>
-		</div>
-	);
-}
-
-interface EditButtonProps {
-	isEditEnabled: boolean;
-	setIsEditEnabled: (isEditEnabled: boolean) => void;
-	setIsLoading: (isLoading: boolean) => void;
-	descriptionRef: React.RefObject<HTMLParagraphElement | null>;
-	currentDifficulty: number;
-	questId: number;
-	queryKey: (string | number)[];
-}
-
-export function EditButton({
-	isEditEnabled,
-	setIsEditEnabled,
-	setIsLoading,
-	descriptionRef,
-	currentDifficulty,
-	questId,
-	queryKey,
-}: EditButtonProps) {
-	const queryClient = useQueryClient();
-
-	const updateQuestMutate = useUpdateQuest();
-
-	const handleUpdateQuest = async () => {
-		setIsLoading(true);
-		await updateQuestMutate.mutateAsync({
-			questId,
-			questUpdate: {
-				description: descriptionRef.current?.textContent ?? '',
-				difficulty: currentDifficulty,
-			},
-		});
-
-		if (!updateQuestMutate.isError) {
-			queryClient.invalidateQueries({
-				queryKey,
-			});
-			toast.success('Quest updated successfully', {
-				toastId: 'quest-update-success',
-			});
-		}
-		setIsLoading(false);
-	};
-
-	return (
-		<div className="shrink-0">
-			<button
-				onClick={async () => {
-					if (!isEditEnabled) {
-						setIsEditEnabled(true);
-						return;
-					}
-
-					await handleUpdateQuest();
-					setIsEditEnabled(false);
-				}}
-				disabled={updateQuestMutate.isPending}
-				className="mt-1 shrink-0"
-			>
-				{isEditEnabled ? (
-					<FaFloppyDisk
-						className="text-accent"
-						onClick={handleUpdateQuest}
-					/>
-				) : (
-					<FaPenToSquare />
-				)}
-			</button>
 		</div>
 	);
 }

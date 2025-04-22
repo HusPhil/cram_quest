@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import TagLabel from '../../../../../components/TagLabel';
 import { FaPlus } from 'react-icons/fa';
-import { Quest } from './QuestsPage';
 import AddNewQuestToSubjectModal from '../../Modals/AddNewQuestToSubjectModal';
+import { QuestRead } from '../../../../../services/api/schema/quest_schema';
 
 export default function QuestListHeader({
 	quests,
 	subjectId,
 }: {
-	quests: Quest[];
+	quests: QuestRead[];
 	subjectId: number;
 }) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,7 +16,6 @@ export default function QuestListHeader({
 	return (
 		<div className="flex items-center justify-between my-1">
 			<span className="flex gap-2">
-				<h1 className="text-md font-bold">Quests</h1>
 				<TagLabel className="flex items-center rounded-full px-2">
 					<p className="text-xs">All: {quests.length.toString()}</p>
 				</TagLabel>

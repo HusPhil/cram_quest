@@ -1,28 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaTrash } from 'react-icons/fa';
-import { useDeleteQuest } from '../../../hooks/useDeleteQuest';
-import { toast } from 'react-toastify';
-import { useQueryClient } from '@tanstack/react-query';
-import { QuestRead } from '../../../../../services/api/schema/quest_schema';
 
 const DELETE_CONFIRMATION_SEC = 3;
 
 interface DeleteWithConfirmProps {
-	quest: QuestRead;
-	setIsLoading: (isLoading: boolean) => void;
-	queryKey: (string | number)[];
+	deleteFn: () => Promise<void>;
+	setIsDeleting: (isLoading: boolean) => void;
 }
 
 export default function DeleteWithConfirm({
-	quest,
-	setIsLoading,
-	queryKey,
+	deleteFn,
+	setIsDeleting,
 }: DeleteWithConfirmProps) {
-	const queryClient = useQueryClient();
-
 	const [timer, setTimer] = useState(DELETE_CONFIRMATION_SEC);
 	const [isConfirming, setIsConfirming] = useState(false);
-	const deleteQuestMutate = useDeleteQuest();
 
 	const handleDeleteClick = () => {
 		if (isConfirming) {
@@ -36,20 +27,11 @@ export default function DeleteWithConfirm({
 	};
 
 	const handleDeleteConfirmed = async () => {
-		setIsLoading(true);
+		setIsDeleting(true);
 
-		await deleteQuestMutate.mutateAsync({ questId: quest.id });
+		await deleteFn();
 
-		if (deleteQuestMutate.isSuccess) toast.success('success at natawag');
-
-		if (!deleteQuestMutate.isError) {
-			queryClient.invalidateQueries({
-				queryKey,
-			});
-			toast.success('Quest deleted successfully');
-		}
-
-		setIsLoading(false);
+		setIsDeleting(false);
 	};
 
 	useEffect(() => {
