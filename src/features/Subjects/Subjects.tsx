@@ -1,4 +1,4 @@
-import { lazy, useCallback } from 'react';
+import { lazy, useCallback, useState } from 'react';
 import { useFloatingScreen } from '../../context/FloatingScreenContext';
 import SubjectHeader from './components/SubjectHeader';
 import { useGetUserPlayer } from '../CheckIn/hooks/useGetUserPlayer';
@@ -6,6 +6,9 @@ import { useAuth } from '../../context/AuthContext';
 import { useGetPlayerSubjects } from './hooks/useGetPlayerSubjects';
 import SubjectCard from './components/SubjectCard';
 import { SubjectRead } from '../../services/api/schema/subject_schema';
+import ViewSettingsModal, {
+	InitialSettingConfig,
+} from './components/Modals/ViewSettingsModal';
 
 const SubjectScreen = lazy(
 	() => import('./components/SubjectScreen/SubjectScreen')
@@ -14,25 +17,22 @@ const SubjectScreen = lazy(
 export default function Subjects() {
 	const { openScreen, setContent } = useFloatingScreen();
 
-	const handleOpenScreen = useCallback(
-		(
-			subjectId: number,
-			subjectCodeName: string,
-			subjectDescription: string,
-			subjectDifficulty: number
-		) => {
-			setContent(
-				<SubjectScreen
-					subjectId={subjectId}
-					subjectCodeName={subjectCodeName}
-					subjectDescription={subjectDescription}
-					subjectDifficulty={subjectDifficulty}
-				/>
-			);
-			openScreen();
-		},
-		[]
-	);
+	const handleOpenScreen = (
+		subjectId: number,
+		subjectCodeName: string,
+		subjectDescription: string,
+		subjectDifficulty: number
+	) => {
+		setContent(
+			<SubjectScreen
+				subjectId={subjectId}
+				subjectCodeName={subjectCodeName}
+				subjectDescription={subjectDescription}
+				subjectDifficulty={subjectDifficulty}
+			/>
+		);
+		openScreen();
+	};
 
 	const { currentUserId } = useAuth();
 
@@ -73,11 +73,6 @@ export default function Subjects() {
 									subject.description,
 									subject.difficulty
 								)
-							}
-							className={
-								index === (subjects?.length ?? 0) - 1
-									? 'mb-6'
-									: ''
 							}
 						/>
 					))}

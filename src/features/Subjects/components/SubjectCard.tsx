@@ -8,6 +8,8 @@ import EditButton from './Pages/Quest/EditButton';
 import { putCursorToFront } from '../../../utils/putCursorToFront';
 import { useDeleteSubject } from '../hooks/useDeleteSubject';
 import { useQueryClient } from '@tanstack/react-query';
+import { FaGear, FaSliders } from 'react-icons/fa6';
+import ViewSettingsModal from './Modals/ViewSettingsModal';
 
 interface SubjectCardProps {
 	playerId: number;
@@ -16,6 +18,7 @@ interface SubjectCardProps {
 	description: string;
 	difficulty: number;
 	onClick: () => void;
+	onShowSettings?: (subjectId: number) => void;
 	className?: string;
 }
 
@@ -26,11 +29,10 @@ export default function SubjectCard({
 	description,
 	difficulty,
 	onClick,
+	onShowSettings,
 	className,
 }: SubjectCardProps) {
 	// Function to determine glow effect based on difficulty
-
-	const SUBJECTS_QUERY_KEY = ['players', playerId, 'subjects'];
 
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -39,36 +41,6 @@ export default function SubjectCard({
 	const codeNameRef = useRef<HTMLHeadingElement | null>(null);
 	const descriptionRef = useRef<HTMLElement>(null);
 
-	const queryClient = useQueryClient();
-
-	const deleteSubjectMutate = useDeleteSubject();
-
-	const handleDeleteConfirmed = async () => {
-		await deleteSubjectMutate.mutateAsync({ subjectId: subjectId });
-
-		if (!deleteSubjectMutate.isError) {
-			queryClient.invalidateQueries({
-				queryKey: SUBJECTS_QUERY_KEY,
-			});
-			toast.success('Quest deleted successfully');
-		}
-	};
-
-	const [currentDifficulty, setCurrentDifficulty] = useState(difficulty);
-
-	const handleUpdateDifficulty = (rating: number) => {
-		if (!isEditEnabled) return;
-
-		setCurrentDifficulty(rating);
-	};
-	const handleSubjectUpdate = async () => {
-		await new Promise((resolve) => setTimeout(resolve, 1000));
-
-		toast.info('Subject updated successfully', {
-			toastId: 'subject-update-success-' + subjectId,
-		});
-	};
-
 	useEffect(() => {
 		if (isEditEnabled && codeNameRef.current) {
 			putCursorToFront(codeNameRef.current);
@@ -76,15 +48,18 @@ export default function SubjectCard({
 		}
 	}, [isEditEnabled]);
 
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
 	return (
-		<div
-			tabIndex={0}
-			onKeyDown={(e) => {
-				if (e.key === 'Enter' && !isEditEnabled) {
-					onClick();
-				}
-			}}
-			className={`
+		<>
+			<div
+				tabIndex={0}
+				onKeyDown={(e) => {
+					if (e.key === 'Enter' && !isEditEnabled) {
+						onClick();
+					}
+				}}
+				className={`
 				focus:ring-2 focus:ring-amber-400
 				relative rounded-lg 
 				bg-secondary/80 backdrop-blur-sm
@@ -94,68 +69,86 @@ export default function SubjectCard({
 				${isLoading ? 'opacity-30 pointer-events-none' : ''}
 				${className} 
 			`}
-		>
-			{/* Subject Code Name */}
-			<div
-				onClick={isEditEnabled ? undefined : onClick}
-				className="flex justify-between  items-start pt-4 px-4 cursor-pointer"
 			>
-				<div className="flex-1">
-					<div className="flex items-center justify-between">
-						<h3
-							ref={codeNameRef}
-							contentEditable={isEditEnabled}
-							className={`text-xl font-rpg text-accent font-bold tracking-wider
+				{/* Subject Code Name */}
+				<div
+					onClick={isEditEnabled ? undefined : onClick}
+					className="flex justify-between  items-start pt-4 px-4 cursor-pointer"
+				>
+					<div className="flex-1">
+						<div className="flex items-center justify-between">
+							<h3
+								ref={codeNameRef}
+								contentEditable={isEditEnabled}
+								className={`text-xl font-rpg text-accent font-bold tracking-wider
 								${
 									isEditEnabled
 										? 'bg-yellow-100 p-1 border-yellow-400 text-background'
 										: 'border-transparent'
 								} `}
-						>
-							{code_name}
-						</h3>
-					</div>
-					{/* Description */}
-					<p
-						contentEditable={isEditEnabled}
-						className={` text-sm flex-grow overflow-hidden
+							>
+								{code_name}
+							</h3>
+						</div>
+						{/* Description */}
+						<p
+							contentEditable={isEditEnabled}
+							className={` text-sm flex-grow overflow-hidden
 						${
 							isEditEnabled
 								? 'bg-yellow-100 border-yellow-400 p-1 text-background'
 								: 'border-transparent text-text/90'
 						}
 						`}
-					>
-						{description}
-					</p>
+						>
+							{description}
+						</p>
+					</div>
 				</div>
-			</div>
 
-			{/* Divider */}
-			<div
-				onClick={onClick}
-				className="h-0.5 w-full bg-gradient-to-r from-transparent via-accent/30 to-transparent"
-			/>
-
-			{/* Difficulty Indicator */}
-			<div className="flex items-center justify-between gap-1 cursor-pointer">
+				{/* Divider */}
 				<div
-					className={`${isEditEnabled ? '' : 'flex-1'} pb-4 px-4 `}
-					onClick={isEditEnabled ? undefined : onClick}
-				>
-					<StarRating
-						value={currentDifficulty}
-						onChange={() => {}}
-						editable={false}
-						className={`transition-all duration-300 ease-in-out ${
-							isEditEnabled
-								? 'bg-yellow-100 gap-x-1 border-yellow-400 border-2 p-1 scale-125'
-								: 'scale-100'
-						}`}
-						starClassName="w-3 h-3"
-					/>
+					onClick={onClick}
+					className="h-0.5 w-full bg-gradient-to-r from-transparent via-accent/30 to-transparent"
+				/>
+
+				{/* Difficulty Indicator */}
+				<div className="flex items-center justify-between gap-1 cursor-pointer">
+					<div
+						className={`${
+							isEditEnabled ? '' : 'flex-1'
+						} pb-4 px-4 `}
+						onClick={isEditEnabled ? undefined : onClick}
+					>
+						<StarRating
+							value={difficulty}
+							className={`transition-all duration-300 ease-in-out ${
+								isEditEnabled
+									? 'bg-yellow-100 gap-x-1 border-yellow-400 border-2 p-1 scale-125'
+									: 'scale-100'
+							}`}
+							starClassName="w-3 h-3"
+						/>
+					</div>
+					<div
+						className="pb-4 px-4"
+						onClick={() => setIsModalOpen(true)}
+					>
+						<FaSliders className="w-4 h-4 " />
+					</div>
 				</div>
 			</div>
-		</div>
+			<ViewSettingsModal
+				playerId={playerId}
+				subjectId={subjectId}
+				isModalOpen={isModalOpen}
+				initialSettingConfig={{
+					codeName: code_name,
+					description,
+					difficulty,
+				}}
+				setIsModalOpen={setIsModalOpen}
+			/>
+		</>
 	);
 }

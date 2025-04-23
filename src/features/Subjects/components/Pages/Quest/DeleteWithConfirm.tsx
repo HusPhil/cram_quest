@@ -6,11 +6,17 @@ const DELETE_CONFIRMATION_SEC = 3;
 interface DeleteWithConfirmProps {
 	deleteFn: () => Promise<void>;
 	setIsDeleting: (isLoading: boolean) => void;
+	confirmClassName?: string;
+	iconClassName?: string;
+	className?: string;
 }
 
 export default function DeleteWithConfirm({
 	deleteFn,
 	setIsDeleting,
+	confirmClassName,
+	iconClassName,
+	className,
 }: DeleteWithConfirmProps) {
 	const [timer, setTimer] = useState(DELETE_CONFIRMATION_SEC);
 	const [isConfirming, setIsConfirming] = useState(false);
@@ -53,17 +59,22 @@ export default function DeleteWithConfirm({
 
 	return (
 		<button
-			className={`group px-1 flex items-center gap-1 text-xs 
+			className={`group px-1 flex items-center gap-1
                     transition-width duration-300 ease-in-out
-                    ${isConfirming ? 'text-primary px-3 py-1 mt-1' : ''}`}
+                    ${isConfirming ? 'text-primary px-3 py-1 mt-1' : ''}
+					${className}`}
 			onClick={handleDeleteClick}
 		>
 			{isConfirming ? (
 				<div className="flex items-center gap-2">
-					<p className="text-primary px-3 py-1  bg-primary/20 rounded-md">{`Confirm (${timer}s)`}</p>
+					<p
+						className={`text-primary px-3 py-1 rounded-md ${confirmClassName}`}
+					>{`Confirm (${timer}s)`}</p>
 				</div>
 			) : (
-				<FaTrash className="w-3 h-3 text-primary/80" />
+				<FaTrash
+					className={`w-3 h-3 text-primary/80 ${iconClassName}`}
+				/>
 			)}
 		</button>
 	);

@@ -2,7 +2,7 @@ import { GiRoundStar } from 'react-icons/gi';
 
 interface StarRatingProps {
 	value: number;
-	onChange: (value: number) => void;
+	onChange?: (value: number) => void;
 	editable?: boolean;
 	max?: number;
 	className?: string;
@@ -36,7 +36,7 @@ export default function StarRating({
 							if (!editable) return;
 							if (e.key === 'Enter' || e.key === ' ') {
 								e.preventDefault();
-								onChange(rating);
+								onChange?.(rating);
 							} else if (e.key === 'Escape') {
 								e.preventDefault();
 								onKeyDown?.(e);
@@ -48,7 +48,7 @@ export default function StarRating({
 							name="rating"
 							value={rating}
 							hidden
-							onChange={() => editable && onChange(rating)}
+							onChange={() => editable && onChange?.(rating)}
 							checked={value === rating}
 							className="sr-only"
 							disabled={!editable}

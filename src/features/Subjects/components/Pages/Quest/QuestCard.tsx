@@ -143,6 +143,7 @@ export default function QuestCard({ quest }: QuestCardProps) {
 				<DeleteWithConfirm
 					setIsDeleting={setIsLoading}
 					deleteFn={handleDeleteConfirmed}
+					confirmClassName={`bg-primary/20 p-1 text-xs`}
 				/>
 			</div>
 		</div>
