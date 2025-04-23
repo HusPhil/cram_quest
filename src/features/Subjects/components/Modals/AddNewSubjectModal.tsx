@@ -28,22 +28,27 @@ export default function AddNewSubjectModal({
 		e.preventDefault();
 		const formData = new FormData(formRef?.current!);
 
-		await createSubjectMutate.mutateAsync({
-			playerId: playerId,
-			subjectCreate: {
-				code_name: formData.get('codeName') as string,
-				description: formData.get('description') as string,
-				difficulty,
+		createSubjectMutate.mutate(
+			{
+				playerId: playerId,
+				subjectCreate: {
+					code_name: formData.get('codeName') as string,
+					description: formData.get('description') as string,
+					difficulty,
+				},
 			},
-		});
-
-		if (!createSubjectMutate.isError) {
-			queryClient.invalidateQueries({
-				queryKey: ['players', playerId, 'subjects'],
-			});
-			setIsModalOpen(false);
-		}
-		formRef?.current?.reset();
+			{
+				onSuccess: () => {
+					queryClient.invalidateQueries({
+						queryKey: ['players', playerId, 'subjects'],
+					});
+				},
+				onSettled: () => {
+					setIsModalOpen(false);
+					formRef?.current?.reset();
+				},
+			}
+		);
 	};
 
 	useEffect(() => {

@@ -20,7 +20,7 @@ export function SubjectScreenHeader({
 	return (
 		<div className="flex justify-start items-center mr-2 h-full">
 			<div className="h-full">
-				<button onClick={closeScreen} className="px-7 py-2 h-full">
+				<button onClick={closeScreen} className="pl-2 pr-7 py-2 h-full">
 					<FaArrowLeft />
 				</button>
 			</div>

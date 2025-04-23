@@ -16,6 +16,7 @@ interface SubjectCardProps {
 	description: string;
 	difficulty: number;
 	onClick: () => void;
+	className?: string;
 }
 
 export default function SubjectCard({
@@ -25,6 +26,7 @@ export default function SubjectCard({
 	description,
 	difficulty,
 	onClick,
+	className,
 }: SubjectCardProps) {
 	// Function to determine glow effect based on difficulty
 
@@ -76,21 +78,29 @@ export default function SubjectCard({
 
 	return (
 		<div
+			tabIndex={0}
+			onKeyDown={(e) => {
+				if (e.key === 'Enter' && !isEditEnabled) {
+					onClick();
+				}
+			}}
 			className={`
-				relative p-4 rounded-lg 
+				focus:ring-2 focus:ring-amber-400
+				relative rounded-lg 
 				bg-secondary/80 backdrop-blur-sm
-				transition-all duration-300 cursor-pointer
+				transition-all duration-300 
 				shadow-lg hover:shadow-xl
 				flex flex-col gap-3 w-full
-				${isLoading ? 'opacity-30 pointer-events-none' : ''} 
+				${isLoading ? 'opacity-30 pointer-events-none' : ''}
+				${className} 
 			`}
 		>
 			{/* Subject Code Name */}
-			<div className="flex justify-between  items-start">
-				<div
-					className="flex-1"
-					onClick={isEditEnabled ? undefined : onClick}
-				>
+			<div
+				onClick={isEditEnabled ? undefined : onClick}
+				className="flex justify-between  items-start pt-4 px-4 cursor-pointer"
+			>
+				<div className="flex-1">
 					<div className="flex items-center justify-between">
 						<h3
 							ref={codeNameRef}
@@ -128,34 +138,21 @@ export default function SubjectCard({
 			/>
 
 			{/* Difficulty Indicator */}
-			<div className="flex items-center justify-between gap-1">
+			<div className="flex items-center justify-between gap-1 cursor-pointer">
 				<div
-					className={`${isEditEnabled ? '' : 'flex-1'}`}
+					className={`${isEditEnabled ? '' : 'flex-1'} pb-4 px-4 `}
 					onClick={isEditEnabled ? undefined : onClick}
 				>
 					<StarRating
 						value={currentDifficulty}
-						onChange={handleUpdateDifficulty}
-						className={`transition-all duration-300 ease-in-out my-2 ${
+						onChange={() => {}}
+						editable={false}
+						className={`transition-all duration-300 ease-in-out ${
 							isEditEnabled
 								? 'bg-yellow-100 gap-x-1 border-yellow-400 border-2 p-1 scale-125'
 								: 'scale-100'
 						}`}
 						starClassName="w-3 h-3"
-					/>
-				</div>
-
-				<div className="flex gap-x-3">
-					<EditButton
-						isEditEnabled={isEditEnabled}
-						isEditing={isLoading}
-						setIsEditEnabled={setIsEditEnabled}
-						setIsEditing={setIsLoading}
-						updateFn={handleSubjectUpdate}
-					/>
-					<DeleteWithConfirm
-						deleteFn={handleDeleteConfirmed}
-						setIsDeleting={setIsLoading}
 					/>
 				</div>
 			</div>

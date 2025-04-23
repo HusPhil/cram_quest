@@ -6,12 +6,12 @@ const Home = () => {
 	return (
 		<div className="h-full w-full flex flex-col relative">
 			{/* Main Display Area */}
-			<div className="flex-1 w-full flex justify-center items-center">
-				<Outlet />
-			</div>
+			<Outlet />
 
 			{/* Bottom Navigation Container */}
-			<BottomNav />
+			<div className="bottom-0 w-full">
+				<BottomNav />
+			</div>
 			<FloatingScreen className="px-3 pt-3" />
 		</div>
 	);

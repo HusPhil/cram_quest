@@ -3,6 +3,7 @@ import { GiRoundStar } from 'react-icons/gi';
 interface StarRatingProps {
 	value: number;
 	onChange: (value: number) => void;
+	editable?: boolean;
 	max?: number;
 	className?: string;
 	starClassName?: string;
@@ -15,6 +16,7 @@ export default function StarRating({
 	value,
 	onChange,
 	onKeyDown,
+	editable = true,
 	max = 5,
 }: StarRatingProps) {
 	return (
@@ -26,9 +28,12 @@ export default function StarRating({
 				return (
 					<label
 						key={rating}
-						className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-400"
-						tabIndex={0}
+						className={`cursor-pointer focus:outline-none ${
+							editable ? 'focus:ring-2 focus:ring-amber-400' : ''
+						}`}
+						tabIndex={editable ? 0 : -1}
 						onKeyDown={(e) => {
+							if (!editable) return;
 							if (e.key === 'Enter' || e.key === ' ') {
 								e.preventDefault();
 								onChange(rating);
@@ -41,16 +46,12 @@ export default function StarRating({
 						<input
 							type="radio"
 							name="rating"
-							onKeyDown={(e: React.KeyboardEvent) => {
-								if (e.key === 'Esape') {
-									onKeyDown?.(e);
-								}
-							}}
 							value={rating}
 							hidden
-							onChange={() => onChange(rating)}
+							onChange={() => editable && onChange(rating)}
 							checked={value === rating}
 							className="sr-only"
+							disabled={!editable}
 						/>
 
 						<GiRoundStar

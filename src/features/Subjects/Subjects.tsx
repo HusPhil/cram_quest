@@ -49,14 +49,16 @@ export default function Subjects() {
 	} = useGetPlayerSubjects(player?.id);
 
 	return (
-		<div className="flex flex-col h-full w-full relative">
-			{/* Header section - fixed at top */}
-			<SubjectHeader playerId={player?.id} />
+		<div className="h-full flex flex-col">
+			{/* Header section with fixed height */}
+			<div className="flex-none">
+				<SubjectHeader playerId={player?.id} />
+			</div>
 
-			{/* Scrollable grid section */}
-			<div className="flex-1 overflow-auto flex">
-				<div className="w-full max-h-3.5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-					{(subjects ?? []).map((subject) => (
+			{/* Grid container with controlled height and scroll */}
+			<div className="flex-1 overflow-auto my-4">
+				<div className="max-h-3.5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5  pb-4 px-4">
+					{(subjects ?? []).map((subject, index) => (
 						<SubjectCard
 							playerId={player?.id ?? -1}
 							subjectId={subject.id}
@@ -71,6 +73,11 @@ export default function Subjects() {
 									subject.description,
 									subject.difficulty
 								)
+							}
+							className={
+								index === (subjects?.length ?? 0) - 1
+									? 'mb-6'
+									: ''
 							}
 						/>
 					))}
