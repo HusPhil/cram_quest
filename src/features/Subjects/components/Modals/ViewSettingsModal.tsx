@@ -6,6 +6,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useDeleteQuest } from '../../hooks/useDeleteQuest';
 import { useDeleteSubject } from '../../hooks/useDeleteSubject';
 import { toast } from 'react-toastify';
+import { useUpdateSubject } from '../../hooks/useUpdateSubject';
+import { Update } from 'vite/types/hmrPayload.js';
 
 export type InitialSettingConfig = {
 	codeName: string;
@@ -40,20 +42,25 @@ export default function ViewSettingsModal({
 				playerId={playerId}
 				subjectId={subjectId}
 				initialSettingConfig={initialSettingConfig}
+				setIsModalOpen={setIsModalOpen}
 			/>
 		</Modal>
 	);
+}
+
+interface UpdateSubjectSection {
+	playerId: number;
+	subjectId: number;
+	initialSettingConfig: InitialSettingConfig;
+	setIsModalOpen: (open: boolean) => void;
 }
 
 const UpdateSubjectSection = ({
 	playerId,
 	subjectId,
 	initialSettingConfig,
-}: {
-	playerId: number;
-	subjectId: number;
-	initialSettingConfig: InitialSettingConfig;
-}) => {
+	setIsModalOpen,
+}: UpdateSubjectSection) => {
 	const formRef = useRef<HTMLFormElement>(null);
 	const subjectNameRef = useRef<HTMLInputElement>(null);
 	const descriptionRef = useRef<HTMLTextAreaElement>(null);
@@ -65,15 +72,35 @@ const UpdateSubjectSection = ({
 
 	const deleteSubjectMutate = useDeleteSubject();
 
+	const updateSubjectMutate = useUpdateSubject();
+
 	const SUBJECTS_QUERY_KEY = ['players', playerId, 'subjects'];
 
 	const [isDeleting, setIsDeleting] = useState(false);
 
 	const handleSubmit = (event: React.FormEvent) => {
 		event.preventDefault();
-		const formData = new FormData(formRef?.current!);
-		// Handle form submission logic here
-		console.log('Form submitted for subject:', subjectId);
+		updateSubjectMutate.mutate(
+			{
+				subjectId,
+				subjectUpdate: {
+					code_name: subjectNameRef.current?.value ?? '',
+					description: descriptionRef.current?.value ?? '',
+					difficulty,
+				},
+			},
+			{
+				onSuccess(data, variables, context) {
+					queryClient.invalidateQueries({
+						queryKey: ['players', playerId, 'subjects'],
+					});
+					toast.success('Subject updated successfully');
+				},
+				onSettled(data, error, variables, context) {
+					setIsModalOpen(false);
+				},
+			}
+		);
 	};
 
 	const handleDeleteConfirmed = async () => {
@@ -85,14 +112,6 @@ const UpdateSubjectSection = ({
 			});
 			toast.success('Quest deleted successfully');
 		}
-	};
-
-	const handleSubjectUpdate = async () => {
-		await new Promise((resolve) => setTimeout(resolve, 1000));
-
-		toast.info('Subject updated successfully', {
-			toastId: 'subject-update-success-' + subjectId,
-		});
 	};
 
 	return (
@@ -115,11 +134,11 @@ const UpdateSubjectSection = ({
 					type="text"
 					id="subjectName"
 					name="subjectName"
+					defaultValue={initialSettingConfig.codeName}
 					ref={subjectNameRef}
-					value={initialSettingConfig.codeName}
 					className="w-full rounded-lg bg-secondary/50 border border-accent/30 p-2 
-                             text-text placeholder-text/50 focus:border-accent/60 focus:outline-none
-                             transition-colors"
+							 text-text placeholder-text/50 focus:border-accent/60 focus:outline-none
+							 transition-colors"
 					placeholder="Enter subject name..."
 				/>
 			</div>
@@ -135,12 +154,11 @@ const UpdateSubjectSection = ({
 					required
 					id="description"
 					name="description"
-					value={initialSettingConfig.description}
-					onChange={(e) => console.log(e.target.value)}
+					defaultValue={initialSettingConfig.description}
 					ref={descriptionRef}
 					className="w-full rounded-lg bg-secondary/50 border border-accent/30 p-2 
-                             text-text placeholder-text/50 focus:border-accent/60 focus:outline-none
-                             transition-colors min-h-[100px] resize-none"
+							 text-text placeholder-text/50 focus:border-accent/60 focus:outline-none
+							 transition-colors min-h-[100px] resize-none"
 					placeholder="Describe your subject..."
 				/>
 			</div>
@@ -167,12 +185,14 @@ const UpdateSubjectSection = ({
 					confirmClassName="text-sm"
 				/>
 				<button
-					type="submit"
+					// type="submit"
+					type="button"
+					onClick={handleSubmit}
 					className="px-4 py-2 bg-accent/20 hover:bg-accent/30 text-accent 
-                             border border-accent rounded-lg font-rpg text-sm
-                             transition-all duration-200 focus:outline-none
-                             focus:ring-offset-background
-                             active:scale-95 hover:scale-100"
+							 border border-accent rounded-lg font-rpg text-sm
+							 transition-all duration-200 focus:outline-none
+							 focus:ring-offset-background
+							 active:scale-95 hover:scale-100"
 				>
 					Save Changes
 				</button>

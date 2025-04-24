@@ -10,3 +10,9 @@ export interface SubjectRead extends SubjectBase {
 	id: number;
 	player_id: number;
 }
+
+export interface SubjectUpdate {
+	code_name?: string;
+	description?: string;
+	difficulty?: number;
+}
