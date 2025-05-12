@@ -22,7 +22,11 @@ export default function SignInForm() {
 						toastId: 'authenticate-user-error',
 					});
 				},
-				onSuccess: () => {},
+				onSuccess: () => {
+					toast.success('Login success!', {
+						toastId: 'authenticate-user-success',
+					});
+				},
 			}
 		);
 		e.preventDefault();

@@ -1,15 +1,21 @@
 import { useState } from 'react';
 import { useFloatingScreen } from '../../../../context/FloatingScreenContext';
 import AddNewSubjectModal from '../Modals/AddNewSubjectModal';
+import { useGetSubjectQuests } from '../../hooks/useGetSubjectQuests';
 
 interface SubjectScreenFooterProps {
-	subjectId: Number;
+	subjectId: number;
 }
 
 export default function SubjectScreenFooter({
 	subjectId,
 }: SubjectScreenFooterProps) {
-	const { closeScreen } = useFloatingScreen();
+	const {
+		data: subjectQuests,
+		isLoading: subjectQuestsLoading,
+		isError: subjectQuestsError,
+	} = useGetSubjectQuests(subjectId);
+
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const handleStartBattleSession = () => {
@@ -23,10 +29,11 @@ export default function SubjectScreenFooter({
 				<hr className="flex-1 mt-2 border-text/50" />
 
 				<button
+					disabled={subjectQuestsLoading}
 					onClick={handleStartBattleSession}
 					className="px-4 py-2 mb-2 bg-accent text-white rounded"
 				>
-					Start Battle for subject: {subjectId.toString()}
+					START BATTLE
 				</button>
 			</div>
 			<AddNewSubjectModal

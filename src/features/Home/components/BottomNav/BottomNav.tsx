@@ -25,7 +25,7 @@ const tabs = [
 		label: 'Subjects',
 		icon: <GiBookCover className="w-6 h-6" />,
 	},
-	// {
+	// { for prodV1 disable non-working tabs
 	//   path: '/home/battle',
 	//   label: 'Battle',
 	//   icon: <GiSwordClash className="w-6 h-6" />
@@ -79,8 +79,8 @@ export default function BottomNav() {
 								>
 									{icon}
 								</span>
-
-								{currentScreenSize != 'SMALL' ? (
+								{/* for prodV1 temporarily make the label visible */}
+								{currentScreenSize != 'SMALL' || true ? (
 									<span className="line-clamp-1 mt-1 text-xs font-medium tracking-wide">
 										{label}
 									</span>
