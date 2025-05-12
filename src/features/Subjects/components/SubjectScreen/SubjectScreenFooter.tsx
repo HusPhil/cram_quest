@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useFloatingScreen } from '../../../../context/FloatingScreenContext';
 import AddNewSubjectModal from '../Modals/AddNewSubjectModal';
 import { useGetSubjectQuests } from '../../hooks/useGetSubjectQuests';
+import BattleStartModal from '../Modals/BattleStartModal';
 
 interface SubjectScreenFooterProps {
 	subjectId: number;
@@ -36,10 +37,10 @@ export default function SubjectScreenFooter({
 					START BATTLE
 				</button>
 			</div>
-			<AddNewSubjectModal
+			<BattleStartModal
 				isModalOpen={isModalOpen}
 				setIsModalOpen={setIsModalOpen}
-				playerId={23}
+				subjectQuests={subjectQuests}
 			/>
 		</>
 	);

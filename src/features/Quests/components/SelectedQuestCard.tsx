@@ -1,10 +1,10 @@
 import { GiRoundStar } from 'react-icons/gi';
-import { Quest } from '../../Subjects/components/Pages/Quest/QuestsPage';
 import { killEnemyScene } from '../../Battle/battleEngine/scenes/killEnemy/killEnemyScene';
 import { memo, useState, useCallback, useMemo, ChangeEvent } from 'react';
 import { useBattleUI } from '../../Battle/context/BattleUIContext';
+import { QuestRead } from '../../../services/api/schema/quest_schema';
 
-export const SelectedQuestCard = ({ quest }: { quest: Quest }) => {
+export const SelectedQuestCard = ({ quest }: { quest: QuestRead }) => {
 	const [isCompleted, setIsCompleted] = useState(false);
 	// Add a state variable to track the customSceneActive value
 
@@ -86,11 +86,6 @@ export const SelectedQuestCard = ({ quest }: { quest: Quest }) => {
 			</div>
 
 			<hr className="flex-1 mt-2 border-text/50" />
-
-			<div className="flex gap-2 items-center">
-				{difficultyStars}
-				<small className="text-xs my-4">{quest.deadline}</small>
-			</div>
 		</div>
 	);
 };
