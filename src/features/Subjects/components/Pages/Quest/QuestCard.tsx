@@ -128,7 +128,7 @@ export default function QuestCard({ quest }: QuestCardProps) {
 
 			<hr className="flex-1 mt-4 border-text/50 " />
 
-			<div className="flex justify-between transition-all duration-200 ease-in-out">
+			<div className="flex justify-between items-center transition-all duration-200 ease-in-out">
 				<StarRating
 					className={`transition-all duration-300 ease-in-out my-2 ${
 						isEditEnabled
@@ -143,6 +143,7 @@ export default function QuestCard({ quest }: QuestCardProps) {
 				<DeleteWithConfirm
 					setIsDeleting={setIsLoading}
 					deleteFn={handleDeleteConfirmed}
+					className="mt-1"
 					confirmClassName={`bg-primary/20 p-1 text-xs`}
 				/>
 			</div>

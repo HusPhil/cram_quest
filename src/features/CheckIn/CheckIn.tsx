@@ -76,10 +76,11 @@ export default function CheckIn() {
 		: { playerClass: 'default', playerSkin: 'default_1' };
 
 	return (
-		<div className="flex flex-col items-center justify-end flex-1 mx-4">
+		<div className="flex flex-col items-center justify-center flex-1 mx-4">
 			<RpgCard
 				hoverable={false}
-				className="w-full mb-2 py-5 max-w-sm md:max-w-xl lg:max-w-2xl lg:mb-5"
+				glowEffect={false}
+				className="w-[80%] mb-2 py-5 max-w-sm md:w-full md:max-w-xl lg:max-w-2xl lg:mb-5"
 			>
 				<PlayerCard
 					playerClass={parsedAvatar.playerClass}
@@ -99,9 +100,9 @@ export default function CheckIn() {
 				/>
 			</RpgCard>
 
-			{/* <div className="mx-3">
+			<div className="mx-3">
 				<WeeklyRecord weeklyCheckInRecord={mockWeeklyCheckInRecord} />
-			</div> */}
+			</div>
 		</div>
 	);
 }

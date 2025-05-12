@@ -180,7 +180,7 @@ const UpdateSubjectSection = ({
 				<DeleteWithConfirm
 					deleteFn={handleDeleteConfirmed}
 					setIsDeleting={setIsDeleting}
-					className={`px-3 rounded-md bg-primary/20`}
+					className={`px-3 rounded-md bg-primary/20 border border-primary/50`}
 					iconClassName="w-4 h-4 "
 					confirmClassName="text-sm"
 				/>

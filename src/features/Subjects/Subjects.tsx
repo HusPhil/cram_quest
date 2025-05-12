@@ -1,14 +1,10 @@
-import { lazy, useCallback, useState } from 'react';
+import { lazy } from 'react';
 import { useFloatingScreen } from '../../context/FloatingScreenContext';
 import SubjectHeader from './components/SubjectHeader';
 import { useGetUserPlayer } from '../CheckIn/hooks/useGetUserPlayer';
 import { useAuth } from '../../context/AuthContext';
 import { useGetPlayerSubjects } from './hooks/useGetPlayerSubjects';
 import SubjectCard from './components/SubjectCard';
-import { SubjectRead } from '../../services/api/schema/subject_schema';
-import ViewSettingsModal, {
-	InitialSettingConfig,
-} from './components/Modals/ViewSettingsModal';
 
 const SubjectScreen = lazy(
 	() => import('./components/SubjectScreen/SubjectScreen')

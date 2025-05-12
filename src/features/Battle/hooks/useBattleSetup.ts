@@ -20,7 +20,7 @@ export const useBattleSetup = () => {
 	] as CharacterType[];
 
 	// Character setup
-	const playerProfileAvatarUrl = 'default/default_3.png';
+	const playerProfileAvatarUrl = 'worker/police.png';
 	const { playerClass, playerSkin } = parsePlayerAvatar(
 		playerProfileAvatarUrl
 	);
@@ -28,7 +28,8 @@ export const useBattleSetup = () => {
 	const [selectedQuests, setSelectedQuests] = useState<Quest[]>([]);
 	const [completedQuestIds, setCompletedQuestIds] = useState<number[]>([]);
 
-	const [currentEnemy, setCurrentEnemy] = useState<CharacterType>('orc');
+	const [currentEnemy, setCurrentEnemy] =
+		useState<CharacterType>('dark_knight');
 
 	// Player animation
 	const {

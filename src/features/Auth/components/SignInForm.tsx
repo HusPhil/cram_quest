@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { FormValidationResult } from '../../../pages/Authentication';
 import { useSignIn } from '../hooks/useSignIn';
+import { toast } from 'react-toastify';
 
 export default function SignInForm() {
 	const [username, setUsername] = useState('');
@@ -13,7 +14,17 @@ export default function SignInForm() {
 	const signInMutate = useSignIn();
 
 	const handleSubmit = (e: React.FormEvent) => {
-		signInMutate.mutate({ username, password });
+		signInMutate.mutate(
+			{ username, password },
+			{
+				onError: (e: Error) => {
+					toast.error('Failed to authenticate user: ' + e.message, {
+						toastId: 'authenticate-user-error',
+					});
+				},
+				onSuccess: () => {},
+			}
+		);
 		e.preventDefault();
 	};
 
@@ -41,9 +52,11 @@ export default function SignInForm() {
 			</div>
 			<button
 				type="submit"
-				className="w-full py-3 rounded-lg font-bold transition-colors relative group overflow-hidden
-        bg-accent/90 text-white hover:bg-accent
-        disabled:bg-accent/30 disabled:hover:bg-accent/30 disabled:text-white/70 disabled:cursor-not-allowed"
+				className={`w-full py-3 rounded-lg font-bold transition-colors relative group overflow-hidden
+        bg-accent/90 text-white hover:bg-accent ${
+			signInMutate.isPending ? 'animate-pulse' : ''
+		}
+        disabled:bg-accent/30 disabled:hover:bg-accent/30 disabled:text-white/70 disabled:cursor-not-allowed`}
 			>
 				<span className="relative z-10">Begin Quest</span>
 				<div className="absolute inset-0 bg-gradient-to-r from-accent via-accent/80 to-accent opacity-0 group-hover:opacity-100 transition-opacity group-disabled:opacity-0" />

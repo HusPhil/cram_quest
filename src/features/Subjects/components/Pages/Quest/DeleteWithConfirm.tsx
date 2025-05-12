@@ -61,7 +61,6 @@ export default function DeleteWithConfirm({
 		<button
 			type="button"
 			className={`group px-1 flex items-center gap-1
-                    duration-300 ease-in-out border border-primary/50
                     ${isConfirming ? 'text-primary px-3 py-1' : ''}
 					${className}`}
 			onClick={handleDeleteClick}

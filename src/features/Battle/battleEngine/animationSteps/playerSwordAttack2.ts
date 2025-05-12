@@ -1,23 +1,21 @@
-import { BattleStepFn } from "../types";
-
+import { BattleStepFn } from '../types';
 
 export const playerSwordAttack2: BattleStepFn = ({
-    next,
-    setPlayerAction,
-    setPlayerLoop,
-    setEnemyAction,
-    adjustZValues
+	next,
+	setPlayerAction,
+	setPlayerLoop,
+	setEnemyAction,
+	adjustZValues,
 }) => {
-    
-    adjustZValues('player');
-    setPlayerAction('attack_2');
-    setPlayerLoop(false);
-    setEnemyAction('idle');
+	adjustZValues('player');
+	setPlayerAction('attack_2');
+	setPlayerLoop(false);
+	setEnemyAction('idle');
 
-    const cleanup = setTimeout(() => {
-        setPlayerAction('idle');
-        next()
-    }, 350);
+	const cleanup = setTimeout(() => {
+		setPlayerAction('idle');
+		next();
+	}, 350);
 
-    return () => clearTimeout(cleanup);
-}
+	return () => clearTimeout(cleanup);
+};
