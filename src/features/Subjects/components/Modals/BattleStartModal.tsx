@@ -240,7 +240,7 @@ function WriteSteps({ subjectQuests, selectedQuest }: StepComponentProps) {
 
 	return (
 		<div className="space-y-4 max-h-80 overflow-auto">
-			<h3 className="text-lg font-medium">Write your battle steps</h3>
+			<h3 className="text-lg font-medium">Write your battle plan!</h3>
 			<p className="text-sm text-text/70">
 				Create a checklist of steps you'll take to complete this quest.
 				Press Enter to add a new step.
