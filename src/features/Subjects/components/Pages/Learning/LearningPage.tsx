@@ -14,7 +14,7 @@ export type SubjectMaterial = {
   created_at: string;
 };
 
-export type MaterialType = "note" | "video" | "flashcard";
+export type MaterialType = "Note" | "Video" | "Flashcard";
 
 const data = {
   subject_status: "I feel great about this subject",
@@ -116,9 +116,11 @@ export default function LearningPage({
         />
 
         <div className="mt-4">
-          <SubjectMaterials materials={data.materials as SubjectMaterial[]} />
+          <SubjectMaterials
+            subjectId={subjectId}
+            materials={data.materials as SubjectMaterial[]}
+          />
         </div>
-
       </div>
     </>
   );

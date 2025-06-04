@@ -2,12 +2,24 @@ import TagLabel from "../../../../../components/TagLabel";
 import { FaPlus } from "react-icons/fa";
 import { SubjectMaterial } from "./LearningPage";
 import SubjectMaterialCard from "./SubjectMaterialCard";
+import { useState } from "react";
+import AddNewMaterialModal from "../../Modals/AddNewMaterialModal";
 
 interface SubjectMaterialsProps {
+  subjectId: number;
   materials: SubjectMaterial[];
 }
 
-export default function SubjectMaterials({ materials }: SubjectMaterialsProps) {
+export default function SubjectMaterials({
+  subjectId,
+  materials,
+}: SubjectMaterialsProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  function handleShowAddNewMaterialModal() {
+    setIsModalOpen(true);
+  }
+
   return (
     <>
       {/* Header */}
@@ -19,7 +31,10 @@ export default function SubjectMaterials({ materials }: SubjectMaterialsProps) {
           </TagLabel>
         </span>
         <span className="flex text-sm items-center bg-accent text-white p-1 rounded-md px-3">
-          <button className="flex items-center gap-1">
+          <button
+            className="flex items-center gap-1"
+            onClick={handleShowAddNewMaterialModal}
+          >
             Add <FaPlus className="w-3 h-3" />
           </button>
         </span>
@@ -29,6 +44,12 @@ export default function SubjectMaterials({ materials }: SubjectMaterialsProps) {
       {materials.map((material, index) => (
         <SubjectMaterialCard key={index} material={material} />
       ))}
+
+      <AddNewMaterialModal
+        subjectId={subjectId}
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+      />
     </>
   );
 }
