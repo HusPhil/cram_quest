@@ -53,14 +53,16 @@ export default function AddNewMaterialModal({
     console.log("Link:", formData.get("materialLink"));
     console.log("Type:", selectedType);
 
+    const materialCreate = {
+      title: formData.get("newMaterialTitle") as string,
+      link: formData.get("materialLink") as string,
+      type: selectedType,
+    };
+
     createMaterialMutate.mutate(
       {
         subjectId,
-        materialCreate: {
-          title: formData.get("newMaterialTitle") as string,
-          link: formData.get("materialLink") as string,
-          type: selectedType,
-        },
+        materialCreate,
       },
       {
         onSuccess: () => {
