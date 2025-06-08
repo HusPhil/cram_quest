@@ -8,13 +8,6 @@ interface LearningPageProps {
   subjectDifficulty: number;
 }
 
-export type SubjectMaterial = {
-  type: MaterialType;
-  title: string;
-  link: string;
-  created_at: string;
-};
-
 export type MaterialType = "Note" | "Video" | "Flashcard";
 
 export default function LearningPage({
@@ -27,11 +20,7 @@ export default function LearningPage({
     setRating(subjectDifficulty);
   }, [subjectDifficulty]);
 
-  const {
-    data: materials = [],
-    isLoading,
-    isError,
-  } = useGetMaterial(subjectId);
+  const { data: materials, isLoading, isError } = useGetMaterial(subjectId);
 
   const subjectStatus = "I feel great about this subject"; // replace if needed
 
@@ -48,11 +37,8 @@ export default function LearningPage({
         <div className="mt-4">
           {isLoading && <p>Loading materials...</p>}
           {isError && <p>Failed to load materials</p>}
-          {!isLoading && !isError && (
-            <SubjectMaterials
-              subjectId={subjectId}
-              materials={materials as SubjectMaterial[]}
-            />
+          {!isLoading && !isError && materials && (
+            <SubjectMaterials subjectId={subjectId} materials={materials} />
           )}
         </div>
       </div>

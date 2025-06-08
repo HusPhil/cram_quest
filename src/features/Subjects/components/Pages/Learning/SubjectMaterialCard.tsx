@@ -1,22 +1,32 @@
 import { useCallback } from "react";
 import TagLabel from "../../../../../components/TagLabel";
-import { FaCirclePlay, FaEllipsis, FaEllipsisVertical, FaNoteSticky, FaRug } from "react-icons/fa6";
-import { MaterialType, SubjectMaterial } from "./LearningPage";
+import {
+  FaCirclePlay,
+  FaEllipsisVertical,
+  FaNoteSticky,
+  FaRug,
+} from "react-icons/fa6";
+import { MaterialType } from "./LearningPage";
+import { MaterialRead } from "../../../../../services/api/schema/material_schema";
 
 interface SubjectMaterialCardProps {
-  material: SubjectMaterial;
+  material: MaterialRead;
+  subjectId: number;
+  handleShowEditModal: (materialId: number) => void;
 }
 
 export default function SubjectMaterialCard({
   material,
+  subjectId,
+  handleShowEditModal,
 }: SubjectMaterialCardProps) {
   const getIconFromMaterialType = useCallback((type: MaterialType) => {
     switch (type) {
-      case "note":
+      case "Note":
         return <FaNoteSticky className="w-4 h-4" />;
-      case "video":
+      case "Video":
         return <FaCirclePlay className="w-4 h-4" />;
-      case "flashcard":
+      case "Flashcard":
         return <FaRug className="w-4 h-4" />;
       default:
         return null;
@@ -36,12 +46,15 @@ export default function SubjectMaterialCard({
           <a href={material.link} className="hover:text-accent">
             <p className="line-clamp-1 text-sm">{material.title}</p>
           </a>
-          <small className="text-text/40 text-xs">{`${material.type} • ${material.created_at}`}</small>
+          <small className="text-text/40 text-xs">{`${material.type} • <TBI>`}</small>
         </div>
       </div>
       <span className="flex items-center justify-center h-full">
         <button>
-          <FaEllipsisVertical className="w-4 h-4" />
+          <FaEllipsisVertical
+            className="w-4 h-4"
+            onClick={() => handleShowEditModal(material.id)}
+          ></FaEllipsisVertical>
         </button>
       </span>
     </div>

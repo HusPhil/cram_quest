@@ -29,14 +29,17 @@ export const getSubjectQuests = async ({
 };
 
 
+
 export const getSubjectMaterials = async (
-	subject_id: number
-): Promise <MaterialRead> => {
+	subject_id: number 
+): Promise <MaterialRead[]> => {
 	const response = await fetcher(getMaterialEndRoute(subject_id));
 
 	if (response.status !== 200) {
 		throw new Error('Failed to fetch subject materials');
 	}
+
+	console.log('getSubjectMaterials response: ', response.data);
 
 	return response.data;
 }

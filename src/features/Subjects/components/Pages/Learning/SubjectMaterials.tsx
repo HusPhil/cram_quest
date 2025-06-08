@@ -1,13 +1,13 @@
 import TagLabel from "../../../../../components/TagLabel";
 import { FaPlus } from "react-icons/fa";
-import { SubjectMaterial } from "./LearningPage";
 import SubjectMaterialCard from "./SubjectMaterialCard";
 import { useState } from "react";
 import AddNewMaterialModal from "../../Modals/AddNewMaterialModal";
+import { MaterialRead } from "../../../../../services/api/schema/material_schema";
 
 interface SubjectMaterialsProps {
   subjectId: number;
-  materials: SubjectMaterial[];
+  materials: MaterialRead[];
 }
 
 export default function SubjectMaterials({
@@ -18,6 +18,14 @@ export default function SubjectMaterials({
 
   function handleShowAddNewMaterialModal() {
     setIsModalOpen(true);
+  }
+
+  function handleShowEditModal(materialId: number) {
+    console.log("materialId:", materialId);
+    const pressedMaterial = materials.find(
+      (material) => material.id === materialId
+    );
+    console.log("pressedMaterial:", pressedMaterial);
   }
 
   return (
@@ -42,7 +50,12 @@ export default function SubjectMaterials({
 
       {/* Materials */}
       {materials.map((material, index) => (
-        <SubjectMaterialCard key={index} material={material} />
+        <SubjectMaterialCard
+          subjectId={subjectId}
+          key={index}
+          handleShowEditModal={handleShowEditModal}
+          material={material}
+        />
       ))}
 
       <AddNewMaterialModal
