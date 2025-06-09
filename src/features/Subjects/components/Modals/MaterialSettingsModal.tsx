@@ -4,23 +4,38 @@ import { useCreateMaterial } from "../../hooks/useCreateMaterial";
 import { useQueryClient } from "@tanstack/react-query";
 import { FaCirclePlay, FaNoteSticky, FaRug } from "react-icons/fa6";
 import { MaterialType } from "../Pages/Learning/LearningPage";
+import { MaterialRead } from "../../../../services/api/schema/material_schema";
+
+export type InitialSettingConfig = {
+  newMaterialTitle: string;
+  materialLink: string;
+  materialType: string;
+};
 
 interface MaterialSettingsModalProps {
   subjectId: number;
   isModalOpen: boolean;
   setIsModalOpen: (open: boolean) => void;
+  material: MaterialRead | undefined;
 }
 
 export default function MaterialSettingsModal({
   subjectId,
   isModalOpen,
   setIsModalOpen,
+  material,
 }: MaterialSettingsModalProps) {
   const formRef = useRef<HTMLFormElement>(null);
   const codeNameRef = useRef<HTMLInputElement>(null);
   const linkRef = useRef<HTMLInputElement>(null);
 
   const [selectedType, setSelectedType] = useState<MaterialType>("Video"); // default
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  if (isModalOpen && !isInitialized && material) {
+    setSelectedType(material.type);
+    setIsInitialized(true);
+  }
 
   const queryClient = useQueryClient();
   const createMaterialMutate = useCreateMaterial();
@@ -88,7 +103,10 @@ export default function MaterialSettingsModal({
   return (
     <Modal
       isOpen={isModalOpen}
-      onClose={() => setIsModalOpen(false)}
+      onClose={() => {
+        setIsModalOpen(false);
+        setIsInitialized(false); // reset tracker so next open reinitializes
+      }}
       title="Edit a new material!"
     >
       <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
@@ -103,6 +121,7 @@ export default function MaterialSettingsModal({
             id="newMaterialTitle"
             required
             name="newMaterialTitle"
+            defaultValue={material?.title}
             type="text"
             ref={codeNameRef}
             className="w-full rounded-lg bg-secondary/50 border border-accent/30 p-2 
@@ -123,6 +142,7 @@ export default function MaterialSettingsModal({
             id="materialLink"
             required
             name="materialLink"
+            defaultValue={material?.link}
             type="text"
             ref={linkRef}
             className="w-full rounded-lg bg-secondary/50 border border-accent/30 p-2 
@@ -143,7 +163,10 @@ export default function MaterialSettingsModal({
             {materialOptions.map(({ type, label, icon }) => (
               <label
                 key={type}
-                className="flex items-center gap-2 cursor-pointer"
+                className={`flex items-center gap-2 cursor-pointer px-2 py-1 rounded-md transition-colors
+        ${selectedType === type ? "bg-accent/10 text-accent" : "text-gray-500"}
+      `}
+                onClick={() => setSelectedType(type)}
               >
                 <input
                   type="radio"
@@ -151,19 +174,20 @@ export default function MaterialSettingsModal({
                   value={type}
                   checked={selectedType === type}
                   onChange={() => setSelectedType(type)}
-                  className="accent-accent"
+                  className="hidden"
                 />
-                <span className="flex items-center gap-1 text-text text-sm capitalize">
+                <span className="flex items-center gap-1 text-sm capitalize">
                   <span
-                    className={`rounded-full p-0.5 border w-6 h-6 flex items-center justify-center text-base ${
-                      selectedType === type
-                        ? "border-accent text-accent"
-                        : "border-gray-300 text-gray-500"
-                    }`}
+                    className={`rounded-full p-0.5 border w-6 h-6 flex items-center justify-center text-base
+            ${
+              selectedType === type
+                ? "border-accent text-accent"
+                : "border-gray-300 text-gray-500"
+            }`}
                   >
                     {icon}
                   </span>
-                  {label}
+                  <span>{label}</span>
                 </span>
               </label>
             ))}
@@ -179,7 +203,7 @@ export default function MaterialSettingsModal({
                          focus:ring-offset-background
                         active:scale-95 hover:scale-100"
           >
-            Add New Material
+            Save Changes
           </button>
         </div>
       </form>
