@@ -1,14 +1,12 @@
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import useCharacterAnimation, {
 	AnimationStateType,
 } from '../../Battle/hooks/useCharacterAnimation';
 import { useBattleEngine } from './useBattleEngine';
 import { defaultBattleScene } from '../battleEngine/scenes/default/defaultBattleScene';
 import { parsePlayerAvatar } from '../../../utils/parsePlayerAvatar';
-import { Quest } from '../../Subjects/components/Pages/Quest/QuestsPage';
-import { useBattleUI } from '../context/BattleUIContext';
-import { sceneName } from '../battleEngine/scenes/sceneNames';
 import { CharacterType } from '../configs/spritesheetConfig';
+import { QuestRead } from '../../../services/api/schema/quest_schema';
 
 export const useBattleSetup = () => {
 	const enemyTypes = [
@@ -20,12 +18,12 @@ export const useBattleSetup = () => {
 	] as CharacterType[];
 
 	// Character setup
-	const playerProfileAvatarUrl = 'worker/police.png';
+	const playerProfileAvatarUrl = 'worker/prince.png';
 	const { playerClass, playerSkin } = parsePlayerAvatar(
 		playerProfileAvatarUrl
 	);
 
-	const [selectedQuests, setSelectedQuests] = useState<Quest[]>([]);
+	const [selectedQuests, setSelectedQuests] = useState<QuestRead[]>([]);
 	const [completedQuestIds, setCompletedQuestIds] = useState<number[]>([]);
 
 	const [currentEnemy, setCurrentEnemy] =
@@ -65,36 +63,31 @@ export const useBattleSetup = () => {
 			// mimic network delay
 			await new Promise((resolve) => setTimeout(resolve, 300));
 
-			const mockResponse: Quest[] = [
+			const mockResponse: QuestRead[] = [
 				{
 					id: 1,
 					description: '[NEW] Study React Hooks',
 					difficulty: 2,
-					deadline: '',
+					subject_id: 1,
+					player_id: 1,
+					status: 'in_progress',
 				},
 				{
 					id: 2,
 					description: '[NEW] Complete TypeScript Tutorial',
 					difficulty: 2,
-					deadline: '',
+					player_id: 1,
+					status: 'in_progress',
+					subject_id: 1,
+					
 				},
 				{
 					id: 3,
 					description: '[NEW] Practice CSS Grid',
 					difficulty: 2,
-					deadline: '',
-				},
-				{
-					id: 4,
-					description: '[NEW] Learn Redux',
-					difficulty: 3,
-					deadline: '',
-				},
-				{
-					id: 5,
-					description: '[NEW] Build a Portfolio Website',
-					difficulty: 4,
-					deadline: '',
+					player_id: 1,
+					status: 'in_progress',
+					subject_id: 1,
 				},
 			];
 

@@ -25,11 +25,12 @@ const tabs = [
 		label: 'Subjects',
 		icon: <GiBookCover className="w-6 h-6" />,
 	},
-	// { for prodV1 disable non-working tabs
-	//   path: '/home/battle',
-	//   label: 'Battle',
-	//   icon: <GiSwordClash className="w-6 h-6" />
-	// },
+	{
+		//for prodV1 disable non-working tabs
+		path: '/home/battle',
+		label: 'Battle',
+		icon: <GiSwordClash className="w-6 h-6" />,
+	},
 	// {
 	//   path: '/home/quests',
 	//   label: 'Quests',

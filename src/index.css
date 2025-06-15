@@ -148,3 +148,10 @@ body {
   animation-timeline: view();
   animation-range: entry 0;
 }
+
+.pixel-perfect {
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}

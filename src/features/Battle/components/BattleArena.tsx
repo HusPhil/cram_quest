@@ -44,7 +44,7 @@ export const BattleArena = ({
 						position: 'absolute',
 						zIndex: playerZ,
 						left: `${playerPosX}px`,
-						bottom: 30,
+						bottom: -15,
 					}}
 					src={getPlayerAnimation().characterAsset}
 					frameHeight={48}
@@ -54,7 +54,6 @@ export const BattleArena = ({
 					frameRow={getPlayerAnimation().row}
 					scale={2.5}
 					loop={playerLoop}
-					offsetY={13}
 				/>
 
 				{/* Enemy (can move horizontally) */}
@@ -64,16 +63,15 @@ export const BattleArena = ({
 						zIndex: enemyZ,
 						left: `${enemyPosX}px`,
 						transform: 'scaleX(-1)',
-						bottom: 30,
+						bottom: 20,
 					}}
 					src={getEnemyAnimation().characterAsset}
-					frameWidth={64}
 					frameHeight={48}
+					frameWidth={64}
 					frameCount={getEnemyAnimation().frameCount}
 					fps={getEnemyAnimation().fps}
 					frameRow={getEnemyAnimation().row}
 					scale={2.5}
-					offsetY={-0.5}
 					loop={enemyLoop}
 				/>
 			</div>

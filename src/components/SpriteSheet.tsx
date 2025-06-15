@@ -1,14 +1,11 @@
 import React, {
-	useState,
-	useEffect,
 	useRef,
+	useEffect,
 	useCallback,
 	memo,
 	CSSProperties,
 } from 'react';
-import { AnimationConfig } from '../features/Battle/configs/spritesheetConfig';
 
-const loaderPath = '/cramquest/assets/images/player/loader.png';
 interface SpriteSheetProps {
 	src: string;
 	frameWidth: number;
@@ -25,7 +22,6 @@ interface SpriteSheetProps {
 	offsetY?: number;
 	isLoading?: boolean;
 	isError?: boolean;
-	animationConfig?: AnimationConfig;
 	onComplete?: () => void;
 	onAnimationCycleComplete?: () => void;
 }
@@ -49,74 +45,107 @@ const SpriteSheet: React.FC<SpriteSheetProps> = ({
 	onComplete,
 	onAnimationCycleComplete,
 }) => {
-	const [currentFrame, setCurrentFrame] = useState(0);
-	const containerRef = useRef<HTMLDivElement>(null);
-	const imgRef = useRef<HTMLImageElement>(null);
+	const canvasRef = useRef<HTMLCanvasElement | null>(null);
+	const imageRef = useRef<HTMLImageElement | null>(null);
+	const frameRef = useRef(0);
+	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-	// Reset animation when key props change
+	// Load sprite image
 	useEffect(() => {
-		setCurrentFrame(0);
-	}, [src, frameRow]);
+		const img = new Image();
+		img.src =
+			isLoading || isError
+				? '/cramquest/assets/images/player/loader.png'
+				: src;
+		img.onload = () => {
+			imageRef.current = img;
+			drawFrame(0); // draw first frame
+		};
+	}, [src, isLoading, isError]);
 
-	// Handle frame updates
-	const updateFrame = useCallback(() => {
-		setCurrentFrame((prev) => {
-			if (prev === frameCount - 2) {
-				onAnimationCycleComplete?.();
+	const drawFrame = (frameIndex: number) => {
+		const canvas = canvasRef.current;
+		const ctx = canvas?.getContext('2d');
+		const img = imageRef.current;
+
+		if (!canvas || !ctx || !img) return;
+
+		// Clear canvas before drawing
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+		ctx.imageSmoothingEnabled = false;
+
+		const sx = frameIndex * frameWidth + offsetX;
+		const sy = frameRow * frameHeight + offsetY;
+
+		ctx.drawImage(
+			img,
+			sx,
+			sy,
+			frameWidth,
+			frameHeight,
+			0,
+			0,
+			frameWidth * scale,
+			frameHeight * scale
+		);
+	};
+
+	// Animation loop
+	const animate = useCallback(() => {
+		frameRef.current += 1;
+
+		if (frameRef.current === frameCount - 1) {
+			onAnimationCycleComplete?.();
+		}
+
+		if (frameRef.current >= frameCount) {
+			if (loop) {
+				frameRef.current = 0;
+			} else {
+				frameRef.current = frameCount - 1;
+				onComplete?.();
+				stop();
+				return;
 			}
-			if (prev >= frameCount - 1) {
-				if (loop) {
-					return 0;
-				} else {
-					onComplete?.();
-					return prev;
-				}
-			}
-			return prev + 1;
-		});
+		}
+		drawFrame(frameRef.current);
 	}, [frameCount, loop, onComplete, onAnimationCycleComplete]);
 
-	// Handle animation
+	const start = useCallback(() => {
+		stop();
+		frameRef.current = 0;
+		drawFrame(0);
+		intervalRef.current = setInterval(() => {
+			animate();
+		}, 1000 / fps);
+	}, [fps, animate]);
+
+	const stop = () => {
+		if (intervalRef.current) {
+			clearInterval(intervalRef.current);
+			intervalRef.current = null;
+		}
+	};
+
 	useEffect(() => {
-		if (!playing) return;
-
-		const interval = setInterval(updateFrame, 1000 / fps);
-		return () => clearInterval(interval);
-	}, [playing, fps, updateFrame]);
-
-	// Calculate the correct position, now including offsets
-	const posX = -(currentFrame * frameWidth);
-	const posY = -(frameRow * frameHeight);
+		if (playing) start();
+		else stop();
+		return () => stop();
+	}, [playing, start]);
 
 	return (
-		<div
-			ref={containerRef}
+		<canvas
+			ref={canvasRef}
+			width={frameWidth * scale}
+			height={frameHeight * scale}
 			className={className}
 			style={{
-				width: frameWidth * scale,
-				height: frameHeight * scale,
-				overflow: 'hidden',
-				position: 'relative',
 				imageRendering: 'pixelated',
+				display: 'block',
 				...style,
 			}}
-		>
-			<img
-				ref={imgRef}
-				src={isLoading || isError ? loaderPath : src}
-				alt="Sprite"
-				style={{
-					position: 'absolute',
-					left: posX * scale + offsetX * scale,
-					top: posY * scale + offsetY * scale,
-					width: 'auto',
-					height: 'auto',
-					maxWidth: 'none',
-					transformOrigin: 'top left',
-					transform: `scale(${scale})`,
-				}}
-			/>
-		</div>
+		/>
 	);
 };
 
