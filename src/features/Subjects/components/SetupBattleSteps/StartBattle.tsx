@@ -23,6 +23,14 @@ export default function StartBattle({
 		(state) => state.getCleanedQuestSteps
 	);
 
+	const setGlobalBattleDuration = useSetupBattleStore(
+		(state) => state.setDuration
+	);
+
+	const setIsBattleActive = useSetupBattleStore(
+		(state) => state.setIsBattleActive
+	);
+
 	const handleStartBattle = () => {
 		if (getCleanedQuestSteps().length > 0) {
 			if (battleDuration > MAX_BATTLE_DURATION_MINS) {
@@ -49,13 +57,15 @@ export default function StartBattle({
 				toast.error(
 					`Battle duration cannot be more than ${MAX_BATTLE_DURATION_MINS} minutes`,
 					{
-						toastId: 'max	-battle-duration',
+						toastId: 'max-battle-duration',
 					}
 				);
 				return;
 			}
 
 			// Pass the duration to the parent component
+			setIsBattleActive(true);
+			setGlobalBattleDuration(battleDuration);
 			onStartBattle?.();
 			toast.success(`Battle started for ${battleDuration} minutes!`, {
 				toastId: 'start-battle',
@@ -157,7 +167,7 @@ export default function StartBattle({
 						type="button"
 						onClick={handleDecrement}
 						disabled={battleDuration <= MIN_BATTLE_DURATION_MINS}
-						className="px-3 py-2 bg-accent/75 border border-gray-300 rounded-md hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed text-white"
+						className="px-3 py-2 bg-accent/75 border border-gray-300 rounded-md hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed text-background"
 					>
 						−
 					</button>
@@ -174,20 +184,20 @@ export default function StartBattle({
 						type="button"
 						onClick={handleIncrement}
 						disabled={battleDuration >= MAX_BATTLE_DURATION_MINS}
-						className="px-3 py-2 bg-accent/75 border border-gray-300 rounded-md hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed text-white"
+						className="px-3 py-2 bg-accent/75 border border-gray-300 rounded-md hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed text-background"
 					>
 						+
 					</button>
 				</div>
 				<p className="text-xs text-gray-500">
-					Recommended: 25-90 minutes
+					Recommended: 30-90 minutes
 				</p>
 			</div>
 
 			<button
 				disabled={isValidating}
 				onClick={handleStartBattle}
-				className="px-6 py-3 bg-accent disabled:opacity-50 text-white rounded-md hover:bg-accent/90 mt-4"
+				className="px-6 py-3 bg-accent disabled:opacity-50 rounded-md hover:bg-accent/90 mt-4 text-background"
 			>
 				Begin battle!
 			</button>

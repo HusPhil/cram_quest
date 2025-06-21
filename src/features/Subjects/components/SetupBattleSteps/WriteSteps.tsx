@@ -60,8 +60,11 @@ export default function WriteSteps() {
 			<h3 className="text-lg font-medium">Write your battle plan!</h3>
 			<p className="text-sm text-text/70">
 				Create a checklist of steps you'll take to complete this quest.
-				Press Enter to add a new step.
 			</p>
+
+			<small className="text-accent/75">
+				Press Enter to add a new step.
+			</small>
 
 			<div className="space-y-2">
 				{questSteps.map((step, index) => (
@@ -76,7 +79,7 @@ export default function WriteSteps() {
 								updateQuestStep(index, e.target.value)
 							}
 							onKeyDown={handleKeyDown}
-							className="flex-grow p-2 border border-text/20 rounded-md focus:border-accent focus:outline-none"
+							className="flex-grow p-2 text-background border border-text/20 rounded-md focus:border-accent focus:outline-none"
 							placeholder={`Step ${index + 1}: What will you do?`}
 							ref={(el) => {
 								inputRefs.current[index] = el;

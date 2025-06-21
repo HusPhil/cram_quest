@@ -23,9 +23,6 @@ export const useBattleSetup = () => {
 		playerProfileAvatarUrl
 	);
 
-	const [selectedQuests, setSelectedQuests] = useState<QuestRead[]>([]);
-	const [completedQuestIds, setCompletedQuestIds] = useState<number[]>([]);
-
 	const [currentEnemy, setCurrentEnemy] =
 		useState<CharacterType>('dark_knight');
 
@@ -57,45 +54,6 @@ export const useBattleSetup = () => {
 		startBattle,
 	} = useBattleEngine(defaultBattleScene);
 
-	// mock fetch of quests
-	useEffect(() => {
-		const mockFetch = async () => {
-			// mimic network delay
-			await new Promise((resolve) => setTimeout(resolve, 300));
-
-			const mockResponse: QuestRead[] = [
-				{
-					id: 1,
-					description: '[NEW] Study React Hooks',
-					difficulty: 2,
-					subject_id: 1,
-					player_id: 1,
-					status: 'in_progress',
-				},
-				{
-					id: 2,
-					description: '[NEW] Complete TypeScript Tutorial',
-					difficulty: 2,
-					player_id: 1,
-					status: 'in_progress',
-					subject_id: 1,
-					
-				},
-				{
-					id: 3,
-					description: '[NEW] Practice CSS Grid',
-					difficulty: 2,
-					player_id: 1,
-					status: 'in_progress',
-					subject_id: 1,
-				},
-			];
-
-			setSelectedQuests(mockResponse);
-		};
-
-		mockFetch();
-	}, []);
 
 	// Initialize battle
 	useEffect(() => {
@@ -131,12 +89,8 @@ export const useBattleSetup = () => {
 				const newEnemy = getRandomChoice(enemyTypes, prevEnemy);
 				return newEnemy;
 			});
-			setCompletedQuestIds((prev) => {
-				if (prev.length >= selectedQuests.length) return prev;
-				return [...prev, questId];
-			});
 		},
-		[selectedQuests]
+		[]
 	);
 
 	// Organize props for components
@@ -163,8 +117,6 @@ export const useBattleSetup = () => {
 	};
 
 	const battleUIProviderProps = {
-		selectedQuests,
-		completedQuestIds,
 		handleQuestComplete,
 	};
 

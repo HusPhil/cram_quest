@@ -4,6 +4,8 @@ import { SetupBattleStep } from '../components/Modals/StartBattleModal';
 
 
 interface SetupBattleState {
+  // State
+  isBattleActive: boolean;
   selectedQuest: QuestRead | null;
   questSteps: string[];
   durationMinutes: number;
@@ -14,6 +16,7 @@ interface SetupBattleState {
   removeQuestStep: (index: number) => void;
   updateQuestStep: (index: number, step: string) => void;
   setDuration: (minutes: number) => void;
+  setIsBattleActive: (isActive: boolean) => void;
   resetSetup: () => void;
 
   // Derived
@@ -22,9 +25,10 @@ interface SetupBattleState {
 }
 
 export const useSetupBattleStore = create<SetupBattleState>((set, get) => ({
+  isBattleActive: false,
   selectedQuest: null,
   questSteps: [],
-  durationMinutes: 25,
+  durationMinutes: 30,
 
   selectQuest: (quest: QuestRead) =>
     set(() => ({ selectedQuest: quest})),
@@ -49,6 +53,11 @@ export const useSetupBattleStore = create<SetupBattleState>((set, get) => ({
   setDuration: (minutes) =>
     set(() => ({
       durationMinutes: minutes,
+    })),
+
+  setIsBattleActive: (isActive) =>
+    set(() => ({
+      isBattleActive: isActive,
     })),
 
   resetSetup: () =>

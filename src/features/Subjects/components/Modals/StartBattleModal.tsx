@@ -6,6 +6,8 @@ import PickAQuest from '../SetupBattleSteps/PickAQuest';
 import WriteSteps from '../SetupBattleSteps/WriteSteps';
 import { useSetupBattleStore } from '../../stores/setupBattleStore';
 import StartBattle from '../SetupBattleSteps/StartBattle';
+import { Battle } from '../../../Battle/Battle';
+import BattleScreen from '../Battle/BattleScreen';
 
 export interface StepComponentProps {
 	subjectQuests: QuestRead[];
@@ -52,10 +54,14 @@ export default function StartBattleModal({
 }: StartBattleModalProps) {
 	const [currentStep, setCurrentStep] = useState(0);
 	const CurrentStepComponent = steps[currentStep].component;
+	const isBattleActive = useSetupBattleStore((state) => state.isBattleActive);
+	const battleDuration = useSetupBattleStore(
+		(state) => state.durationMinutes
+	);
 
 	const handleStartBattle = () => {
 		console.log(
-			'start battle with steps: ',
+			'start battle with steps: ' + isBattleActive,
 			useSetupBattleStore.getState().getCleanedQuestSteps()
 		);
 	};
@@ -63,23 +69,29 @@ export default function StartBattleModal({
 	return (
 		<Modal
 			isOpen={isModalOpen}
-			title="Start Battle!"
+			title={isBattleActive ? 'Battle in Progress' : 'Start Battle!'}
 			onClose={() => setIsModalOpen(false)}
 		>
-			<StepProgress currentStep={currentStep} steps={steps} />
+			{!isBattleActive ? (
+				<>
+					<StepProgress currentStep={currentStep} steps={steps} />
 
-			{/* Step Content */}
-			<div className="mt-4">
-				<CurrentStepComponent
-					subjectQuests={subjectQuests}
-					onStartBattle={handleStartBattle}
-				/>
-			</div>
+					{/* Step Content */}
+					<div className="mt-4">
+						<CurrentStepComponent
+							subjectQuests={subjectQuests}
+							onStartBattle={handleStartBattle}
+						/>
+					</div>
 
-			<StepNavigation
-				currentStep={currentStep}
-				setCurrentStep={setCurrentStep}
-			/>
+					<StepNavigation
+						currentStep={currentStep}
+						setCurrentStep={setCurrentStep}
+					/>
+				</>
+			) : (
+				<BattleScreen battleDuration={battleDuration} />
+			)}
 		</Modal>
 	);
 }

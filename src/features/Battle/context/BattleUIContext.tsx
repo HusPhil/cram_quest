@@ -1,10 +1,10 @@
 import { createContext, useContext, useMemo, ReactNode } from 'react';
-import { Quest } from '../../Subjects/components/Pages/Quest/QuestsPage';
 import { QueueCustomSceneFn } from '../hooks/useBattleEngine';
+import { QuestRead } from '../../../services/api/schema/quest_schema';
 
 // Define the context type
 export type BattleUIContextType = {
-	selectedQuests: Quest[];
+	selectedQuests: QuestRead[];
 	completedQuestIds: number[];
 	customSceneActive: boolean;
 	handleQuestComplete: (questId: number) => void;

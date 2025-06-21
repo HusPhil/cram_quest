@@ -173,11 +173,11 @@ export function QuestInputs({
 
 	return (
 		<div className="flex gap-3 items-start grow-0 max-w-[92%]">
-			<input
+			{/* <input
 				type="checkbox"
 				className="appearance-none shrink-0 w-4 h-4 rounded-sm accent-accent 
 		  bg-secondary checked:appearance-auto border border-accent mt-1"
-			/>
+			/> */}
 			<p
 				ref={descriptionRef}
 				contentEditable={isEditEnabled}
