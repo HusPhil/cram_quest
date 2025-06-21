@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useGetSubjectQuests } from '../../hooks/useGetSubjectQuests';
 import StartBattleModal from '../Modals/StartBattleModal';
-import BattleStartModal from '../Modals/BattleStartModal';
 
 interface SubjectScreenFooterProps {
 	subjectId: number;

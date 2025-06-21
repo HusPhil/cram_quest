@@ -155,3 +155,27 @@ body {
   image-rendering: pixelated;
   image-rendering: crisp-edges;
 }
+
+/* Force show number input spinner arrows */
+.number-input-with-spinners {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+.number-input-with-spinners::-webkit-outer-spin-button,
+.number-input-with-spinners::-webkit-inner-spin-button {
+  -webkit-appearance: auto !important;
+  opacity: 1 !important;
+  margin: 0;
+  height: auto;
+  cursor: pointer;
+}
+
+/* Optional: Make spinners more visible */
+.number-input-with-spinners::-webkit-outer-spin-button {
+  background: #000000;
+  border-radius: 0 4px 4px 0;
+}
+
+.number-input-with-spinners::-webkit-inner-spin-button {
+  background: #000000;
+}

@@ -10,7 +10,7 @@ import StartBattle from '../SetupBattleSteps/StartBattle';
 export interface StepComponentProps {
 	subjectQuests: QuestRead[];
 	selectedQuest?: QuestRead;
-	handleStartBattle?: () => void;
+	onStartBattle?: () => void;
 }
 
 export interface SetupBattleStep {
@@ -18,7 +18,7 @@ export interface SetupBattleStep {
 	component: ({
 		subjectQuests,
 		selectedQuest,
-		handleStartBattle,
+		onStartBattle,
 	}: StepComponentProps) => JSX.Element;
 }
 
@@ -52,6 +52,14 @@ export default function StartBattleModal({
 }: StartBattleModalProps) {
 	const [currentStep, setCurrentStep] = useState(0);
 	const CurrentStepComponent = steps[currentStep].component;
+
+	const handleStartBattle = () => {
+		console.log(
+			'start battle with steps: ',
+			useSetupBattleStore.getState().getCleanedQuestSteps()
+		);
+	};
+
 	return (
 		<Modal
 			isOpen={isModalOpen}
@@ -64,14 +72,7 @@ export default function StartBattleModal({
 			<div className="mt-4">
 				<CurrentStepComponent
 					subjectQuests={subjectQuests}
-					handleStartBattle={() => {
-						console.log(
-							'start battle with steps: ',
-							useSetupBattleStore
-								.getState()
-								.getCleanedQuestSteps()
-						);
-					}}
+					onStartBattle={handleStartBattle}
 				/>
 			</div>
 
