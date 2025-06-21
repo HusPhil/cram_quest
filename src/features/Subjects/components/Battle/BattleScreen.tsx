@@ -2,12 +2,18 @@ import React from 'react';
 import { useBattleSetup } from '../../../Battle/hooks/useBattleSetup';
 import BattleArena from './BattleArena';
 import { GiSwordHilt } from 'react-icons/gi';
+import { killEnemyScene } from '../../../Battle/battleEngine/scenes/killEnemy/killEnemyScene';
+import { QuestRead } from '../../../../services/api/schema/quest_schema';
+
+interface BattleScreenProps {
+	currentQuest: QuestRead;
+	battleDuration: number;
+}
 
 export default function BattleScreen({
+	currentQuest,
 	battleDuration,
-}: {
-	battleDuration: number;
-}) {
+}: BattleScreenProps) {
 	const { battleEngineProps, arenaProps, battleUIProviderProps } =
 		useBattleSetup();
 
@@ -18,15 +24,25 @@ export default function BattleScreen({
 		'Define database schemas' + long
 	);
 
-	const [currentQuest, setCurrentQuest] = React.useState(
-		'Setup the db of cramquest'
-	);
+	const handleKillEnemyAnimationEnd = () => {
+		battleUIProviderProps.handleQuestComplete('task');
+	};
+
+	const handleKillEnemy = () => {
+		battleEngineProps.queueCustomScene(
+			killEnemyScene,
+			'killEnemyScene',
+			handleKillEnemyAnimationEnd
+		);
+	};
 
 	return (
 		<div className="flex items-center flex-col">
 			<div className="w-full border border-accent p-2 bg-accent/15 rounded-md mb-3 flex gap-2 px-5 items-center justify-center">
 				<GiSwordHilt className="w-6 h-6 shrink-0" color="#fbbf24" />
-				<p className=" line-clamp-2 text-accent">{currentQuest}</p>
+				<p className=" line-clamp-2 text-accent">
+					{currentQuest.description}
+				</p>
 			</div>
 			<div className="shrink-0 mt-2">
 				<BattleArena {...arenaProps} duration={battleDuration} />
@@ -37,9 +53,11 @@ export default function BattleScreen({
 					{currentTask}
 				</p>
 			</div>
-			<button className="p-3 mt-3 bg-accent text-background flex justify-center items-center rounded-md">
-				<GiSwordHilt />
-				Slay this Task!
+			<button
+				onClick={handleKillEnemy}
+				className="p-3 mt-3 bg-accent text-background flex justify-center items-center rounded-md"
+			>
+				Task Slayed!
 			</button>
 		</div>
 	);

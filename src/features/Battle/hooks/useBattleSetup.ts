@@ -6,7 +6,6 @@ import { useBattleEngine } from './useBattleEngine';
 import { defaultBattleScene } from '../battleEngine/scenes/default/defaultBattleScene';
 import { parsePlayerAvatar } from '../../../utils/parsePlayerAvatar';
 import { CharacterType } from '../configs/spritesheetConfig';
-import { QuestRead } from '../../../services/api/schema/quest_schema';
 
 export const useBattleSetup = () => {
 	const enemyTypes = [
@@ -84,7 +83,7 @@ export const useBattleSetup = () => {
 	}
 
 	const handleQuestComplete = useCallback(
-		(questId: number) => {
+		(task: string) => {
 			setCurrentEnemy((prevEnemy) => {
 				const newEnemy = getRandomChoice(enemyTypes, prevEnemy);
 				return newEnemy;

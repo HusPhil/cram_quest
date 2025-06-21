@@ -58,6 +58,7 @@ export default function StartBattleModal({
 	const battleDuration = useSetupBattleStore(
 		(state) => state.durationMinutes
 	);
+	const selectedQuest = useSetupBattleStore((state) => state.selectedQuest);
 
 	const handleStartBattle = () => {
 		console.log(
@@ -85,27 +86,32 @@ export default function StartBattleModal({
 					</div>
 
 					<StepNavigation
+						selectedQuest={selectedQuest || undefined}
 						currentStep={currentStep}
 						setCurrentStep={setCurrentStep}
 					/>
 				</>
 			) : (
-				<BattleScreen battleDuration={battleDuration} />
+				<BattleScreen
+					battleDuration={battleDuration}
+					currentQuest={selectedQuest!}
+				/>
 			)}
 		</Modal>
 	);
 }
 
 interface StepNavigationProps {
+	selectedQuest?: QuestRead;
 	currentStep: number;
 	setCurrentStep: (stepNum: number) => void;
 }
 
 const StepNavigation = ({
+	selectedQuest,
 	currentStep,
 	setCurrentStep,
 }: StepNavigationProps) => {
-	const selectedQuest = useSetupBattleStore((state) => state.selectedQuest);
 	const questSteps = useSetupBattleStore((state) => state.questSteps);
 
 	const canGoNext = () => {
