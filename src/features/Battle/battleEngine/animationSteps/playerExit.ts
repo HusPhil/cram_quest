@@ -30,11 +30,12 @@ export const playerExit: BattleStepFn = ({
 			setPlayerPosX(0);
 			setPlayerAction('idle');
 			next();
-			// end();
+			
 		}
 	}, 50);
 
 	return () => {
 		clearInterval(walkInterval);
+		end();
 	};
 };

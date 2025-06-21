@@ -17,7 +17,7 @@ interface SetupBattleState {
   updateQuestStep: (index: number, step: string) => void;
   setDuration: (minutes: number) => void;
   setIsBattleActive: (isActive: boolean) => void;
-  resetSetup: () => void;
+  resetBattleSetup: () => void;
 
   // Derived
   canStartBattle: () => boolean;
@@ -60,22 +60,24 @@ export const useSetupBattleStore = create<SetupBattleState>((set, get) => ({
       isBattleActive: isActive,
     })),
 
-  resetSetup: () =>
+  resetBattleSetup: () =>
     set(() => ({
-      selectedTaskId: null,
-      taskTitle: '',
+      isBattleActive: false,
+      selectedQuest: null,
       questSteps: [],
-      durationMinutes: 25,
+      durationMinutes: 30,
     })),
 
  canStartBattle: () => {
-  const { selectedQuest, questSteps, durationMinutes } = get();
-  return !!selectedQuest && questSteps.length > 0 && durationMinutes > 0;
-},
+    const { selectedQuest, questSteps, durationMinutes } = get();
+    return !!selectedQuest && questSteps.length > 0 && durationMinutes > 0;
+  },
 
-getCleanedQuestSteps: () => {
-  const { questSteps } = get();
-  return questSteps.filter((step) => step.trim() !== '');
-},
+  getCleanedQuestSteps: () => {
+    const { questSteps } = get();
+    return questSteps.filter((step) => step.trim() !== '');
+  },
+
+
 
 }));

@@ -54,17 +54,28 @@ export default function StartBattleModal({
 }: StartBattleModalProps) {
 	const [currentStep, setCurrentStep] = useState(0);
 	const CurrentStepComponent = steps[currentStep].component;
+
+	// Battle setup store usage
 	const isBattleActive = useSetupBattleStore((state) => state.isBattleActive);
 	const battleDuration = useSetupBattleStore(
 		(state) => state.durationMinutes
 	);
 	const selectedQuest = useSetupBattleStore((state) => state.selectedQuest);
+	const resetBattleSetup = useSetupBattleStore(
+		(state) => state.resetBattleSetup
+	);
 
 	const handleStartBattle = () => {
 		console.log(
 			'start battle with steps: ' + isBattleActive,
 			useSetupBattleStore.getState().getCleanedQuestSteps()
 		);
+	};
+
+	const handleCleanupBattlefield = () => {
+		setCurrentStep(0);
+		resetBattleSetup();
+		setIsModalOpen(false);
 	};
 
 	return (
@@ -93,6 +104,7 @@ export default function StartBattleModal({
 				</>
 			) : (
 				<BattleScreen
+					battleCleanup={handleCleanupBattlefield}
 					battleDuration={battleDuration}
 					currentQuest={selectedQuest!}
 				/>
