@@ -8,7 +8,8 @@ import { toast } from 'react-toastify';
 export type QueueCustomSceneFn = (
 	sceneSteps: BattleStepFn[],
 	sceneName?: sceneName,
-	onComplete?: (sceneName?: sceneName) => void
+	onComplete?: (sceneName?: sceneName) => void,
+	onLastStepIndex?: (sceneName?: sceneName) => void
 ) => void;
 
 export const useBattleEngine = (scene: BattleStepFn[]) => {
@@ -35,7 +36,9 @@ export const useBattleEngine = (scene: BattleStepFn[]) => {
 	);
 
 	const currentSceneNameRef = useRef<sceneName>('defaultBattleScence');
-	const onSceneCompleteRef =
+	const onCustomSceneAnimationCompleteRef =
+		useRef<(sceneName?: sceneName) => void>(undefined);
+	const onCustomScenceLastStepIndexRef =
 		useRef<(sceneName?: sceneName) => void>(undefined);
 
 	const cleanupRef = useRef<() => void | undefined>(undefined);
@@ -75,9 +78,7 @@ export const useBattleEngine = (scene: BattleStepFn[]) => {
 
 	const end = useCallback(() => {
 		if (currentSceneNameRef.current === 'killEnemyScene') {
-			toast.info('tawag d2')
-
-			onSceneCompleteRef.current?.(currentSceneNameRef.current);
+			onCustomSceneAnimationCompleteRef.current?.(currentSceneNameRef.current);
 			currentSceneNameRef.current = 'defaultBattleScence';
 			setCurrentSteps(defaultBattleScene);
 		}
@@ -87,13 +88,15 @@ export const useBattleEngine = (scene: BattleStepFn[]) => {
 		(
 			sceneSteps: BattleStepFn[],
 			sceneName?: sceneName,
-			onComplete?: (sceneName?: sceneName) => void
+			onAnimationComplete?: (sceneName?: sceneName) => void,
+			onLastStepIndex?: (sceneName?: sceneName) => void
 		) => {
 			if (customSceneActiveRef.current) return;
 
 			cleanupRef.current?.();
 			currentSceneNameRef.current = sceneName ?? 'defaultBattleScence';
-			onSceneCompleteRef.current = onComplete;
+			onCustomSceneAnimationCompleteRef.current = onAnimationComplete;
+			onCustomScenceLastStepIndexRef.current = onLastStepIndex;
 
 			setCustomSceneActive(true);
 			setCurrentSteps(sceneSteps);
@@ -142,17 +145,13 @@ export const useBattleEngine = (scene: BattleStepFn[]) => {
 		}
 	}, [customSceneActive]);
 
-	// useEffect(() => {
-	// 	const isLast = stepIndex + 1 >= currentSteps.length;
+	useEffect(() => {
+		const isLast = stepIndex + 1 >= currentSteps.length;
 
-	// 	if (currentSceneNameRef.current === 'killEnemyScene' && isLast) {
-	// 		toast.info('tawag')
-
-	// 		onSceneCompleteRef.current?.(currentSceneNameRef.current);
-	// 		currentSceneNameRef.current = 'defaultBattleScence';
-	// 		setCurrentSteps(defaultBattleScene);
-	// 	}
-	// }, [stepIndex]);
+		if (currentSceneNameRef.current === 'killEnemyScene' && isLast) {
+			onCustomScenceLastStepIndexRef.current?.(currentSceneNameRef.current);
+		}
+	}, [stepIndex]);
 
 	return {
 		startBattle: start,

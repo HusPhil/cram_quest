@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { 
   EnemyAnimationState,
   PlayerAnimationState,
@@ -29,7 +29,6 @@ export function useCharacterAnimation(
   // Track the current animation state with proper type based on character type
   const [currentAction, setCurrentAction] = useState<AnimationStateType>('idle');
   
-
   // Use the mergeAnimationConfig utility to get a complete animation config
   const animationConfig = useMemo(() => {
     return mergeAnimationConfig(characterType, playerClass, playerSkin);
@@ -45,7 +44,7 @@ export function useCharacterAnimation(
     }
   }, [characterType, playerClass, playerSkin]);
 
-  const getAnimationParams = (state?: AnimationStateType): AnimationParams => {
+  const getAnimationParams = useCallback((state?: AnimationStateType): AnimationParams => {
     // If no state is provided, use currentAction
     const animState = state || currentAction;
     
@@ -59,7 +58,7 @@ export function useCharacterAnimation(
       const animConfig = enemyConfig[animState as EnemyAnimationState] || enemyConfig.idle;
       return { ...animConfig, characterAsset };
     }
-  };
+  }, [currentAction, characterType, playerClass, playerSkin])
 
   return { 
     currentAction,

@@ -1,12 +1,12 @@
 import { memo, useEffect, useState } from 'react';
 
 interface BattleTimerProps {
-	duration?: number; // in minutes
+	duration?: number; // in minutes [seconds for now for debug]
 	onTimeUp?: () => void;
 }
 
 export const BattleTimer = ({ duration = 60, onTimeUp }: BattleTimerProps) => {
-	const [timeLeft, setTimeLeft] = useState(duration * 60);
+	const [timeLeft, setTimeLeft] = useState(duration); // seconds for now [debug only]
 
 	useEffect(() => {
 		if (timeLeft <= 0) {

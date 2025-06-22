@@ -54,13 +54,13 @@ export default function Sidebar() {
 			{/* Mobile Overlay */}
 			{isMobileOpen && (
 				<div
-					className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 md:hidden"
+					className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden"
 					onClick={() => setIsMobileOpen(false)}
 				/>
 			)}
 
 			{/* Mobile Menu Toggle with Current Tab */}
-			<div className="relative md:hidden flex items-center gap-3 p-2 bg-gray-900/95">
+			<div className="relative lg:hidden flex items-center gap-3 p-2 bg-gray-900/95">
 				<button
 					onClick={() => handleSetIsMobileOpen()}
 					className="p-2.5 rounded-xl self-end
@@ -83,11 +83,11 @@ export default function Sidebar() {
 			{/* Sidebar */}
 			<aside
 				className={`
-        fixed md:sticky top-0 h-screen z-[777]
+        fixed lg:sticky top-0 h-screen z-[777]
         bg-gray-900/95 backdrop-blur-md w-64
         transition-all duration-300 ease-out
-        ${isMobileOpen ? 'left-0' : '-left-64 md:left-0'}
-        ${isCollapsed ? 'md:w-20' : 'md:w-64'}
+        ${isMobileOpen ? 'left-0' : '-left-64 lg:left-0'}
+        ${isCollapsed ? 'lg:w-20' : 'lg:w-64'}
       `}
 			>
 				{/* Header */}

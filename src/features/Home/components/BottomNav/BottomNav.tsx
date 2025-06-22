@@ -53,12 +53,12 @@ export default function BottomNav() {
 	return (
 		<div
 			className={`w-full bg-secondary/95 backdrop-blur-md border-t border-amber-500/20  
-                      md:bg-transparent md:border-none md:mx-2 md:static`}
+                      lg:bg-transparent lg:border-none lg:mx-2 lg:static`}
 		>
 			{/* Bottom Navigation Tabs */}
 			<div
 				className="flex-shrink-0 h-full max-w-2xl mx-auto p-3 flex justify-around 
-                      md:justify-around md:gap-8 md:bg-secondary md:rounded-xl"
+                      lg:justify-around lg:gap-8 lg:bg-secondary lg:rounded-xl"
 			>
 				{tabs.map(({ path, label, icon }) => (
 					<NavLink

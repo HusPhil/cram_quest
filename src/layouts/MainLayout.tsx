@@ -10,11 +10,11 @@ import FloatingScreen from '../components/FloatingScreen.tsx/FloatingScreen';
 const MainLayout = () => {
 	const { isScreenOpen } = useFloatingScreen();
 	return (
-		<div className="flex h-[100dvh] bg-background text-text flex-col md:flex-row">
+		<div className="flex h-[100dvh] bg-background text-text flex-col lg:flex-row">
 			{/* Sidebar */}
 			<div
 				className={`transition-[max-height] duration-500 overflow-hidden ${
-					isScreenOpen ? 'max-h-0 md:max-h-[100vh]' : 'max-h-[100vh]'
+					isScreenOpen ? 'max-h-0 lg:max-h-[100vh]' : 'max-h-[100vh]'
 				}`}
 			>
 				<Sidebar />
