@@ -24,7 +24,7 @@ export const useBattleSetup = () => {
 		playerProfileAvatarUrl
 	);
 	const [currentEnemy, setCurrentEnemy] =
-		useState<CharacterType>('dark_knight');
+		useState<CharacterType>('skeleton_lord');
 
 	// Player animation
 	const {
@@ -40,18 +40,11 @@ export const useBattleSetup = () => {
 
 	// Battle engine
 	const {
-		enemyPosX,
-		enemyLoop,
-		enemyZ,
-		playerPosX,
-		playerLoop,
-		playerZ,
 		setEnemyActionRef,
 		setPlayerActionRef,
-		customSceneActiveRef,
-		queueCustomScene,
 		setLoop,
 		startBattle,
+		queueCustomScene,
 	} = useBattleEngine(defaultBattleScene);
 
 	function getRandomChoice<T>(
@@ -70,8 +63,6 @@ export const useBattleSetup = () => {
 	}
 
 	const handleGetNewEnemy = useCallback(() => {
-		toast.info('Gawa na ng bagong enemy dine!');
-
 		setCurrentEnemy((prevEnemy) => {
 			const newEnemy = getRandomChoice(enemyTypes, prevEnemy);
 			return newEnemy;
@@ -79,11 +70,12 @@ export const useBattleSetup = () => {
 	}, []);
 
 	useBattleEngineStore.setState({
-		setPlayerActionRef: setPlayerActionRef,
-		setEnemyActionRef: setEnemyActionRef,
+		getNewEnemy: handleGetNewEnemy,
+		setPlayerActionRef,
+		setEnemyActionRef,
 		getPlayerAnimation,
 		getEnemyAnimation,
-		getNewEnemy: handleGetNewEnemy,
+		queueCustomScene,
 	});
 
 	// Initialize battle
@@ -98,38 +90,4 @@ export const useBattleSetup = () => {
 		setLoop(true);
 		startBattle();
 	}, []);
-
-	// Organize props for components
-	const arenaProps = {
-		playerZ,
-		playerLoop,
-		playerPosX,
-		getPlayerAnimation,
-
-		enemyZ,
-		enemyLoop,
-		enemyPosX,
-		getEnemyAnimation,
-	};
-
-	const questListProps = {
-		queueCustomScene,
-		customSceneActive: !!customSceneActiveRef.current,
-	};
-
-	const battleEngineProps = {
-		customSceneActiveRef,
-		queueCustomScene,
-		startBattle,
-	};
-
-	const battleUIProviderProps = {
-		handleGetNewEnemy,
-	};
-
-	return {
-		arenaProps,
-		battleEngineProps,
-		battleUIProviderProps,
-	};
 };

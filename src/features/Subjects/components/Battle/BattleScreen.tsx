@@ -1,11 +1,13 @@
-import React, { useEffect, useCallback, useMemo } from 'react';
+import React, { useEffect, useCallback, useMemo, useRef } from 'react';
 import { useBattleSetup } from '../../../Battle/hooks/useBattleSetup';
 import BattleArena from './BattleArena';
-import { GiSwordHilt } from 'react-icons/gi';
+import { TbTargetArrow } from 'react-icons/tb';
 import { killEnemyScene } from '../../../Battle/battleEngine/scenes/killEnemy/killEnemyScene';
 import { QuestRead } from '../../../../services/api/schema/quest_schema';
 import { useSetupBattleStore } from '../../stores/setupBattleStore';
 import { toast } from 'react-toastify';
+import { useBattleEngineStore } from '../../stores/battleEngineStore';
+import { QueueCustomSceneFn } from '../../../Battle/hooks/useBattleEngine';
 
 interface BattleScreenProps {
 	battleCleanup: () => void;
@@ -13,18 +15,21 @@ interface BattleScreenProps {
 	battleDuration: number;
 }
 
+export interface BattleEngineControllers {
+	queueCustomSceneFn: QueueCustomSceneFn;
+	getNewEnemyFn: () => void;
+}
+
 export default function BattleScreen({
 	battleCleanup,
 	currentQuest,
 	battleDuration,
 }: BattleScreenProps) {
-	const { battleEngineProps, arenaProps, battleUIProviderProps } =
-		useBattleSetup();
+	// const { battleEngineProps, battleUIProviderProps } = useBattleSetup();
 
-	const battleArenaComponent = useMemo(
-		() => <BattleArena {...arenaProps} duration={battleDuration} />,
-		[arenaProps, battleDuration]
-	);
+	// const getNewEnemy = useBattleEngineStore((state) => state.getNewEnemy);
+	const queueCustomSceneRef = useRef<QueueCustomSceneFn>(null);
+	const getNewEnemyRef = useRef<() => void>(null);
 
 	// Memoize the selector to prevent unnecessary re-renders
 	const getSelectedTasks = useSetupBattleStore(
@@ -54,8 +59,8 @@ export default function BattleScreen({
 	}, [selectedTasks, currentTaskIndex, handleCompleteTask]);
 
 	const handleAnimationLastStepIndex = useCallback(() => {
-		battleUIProviderProps.handleGetNewEnemy();
-	}, [battleUIProviderProps]);
+		getNewEnemyRef.current?.();
+	}, []);
 
 	const handleQuestComplete = useCallback(() => {
 		toast.success('Quest completed!', {
@@ -78,17 +83,33 @@ export default function BattleScreen({
 	}, [isQuestComplete, handleQuestComplete]);
 
 	const handleKillEnemy = useCallback(() => {
-		battleEngineProps.queueCustomScene(
+		queueCustomSceneRef.current?.(
 			killEnemyScene,
 			'killEnemyScene',
 			handleKillEnemyAnimationComplete,
 			handleAnimationLastStepIndex
 		);
-	}, [
-		battleEngineProps,
-		handleKillEnemyAnimationComplete,
-		handleAnimationLastStepIndex,
-	]);
+	}, [handleKillEnemyAnimationComplete, handleAnimationLastStepIndex]);
+
+	const initializeBattleEngineControllers = useCallback(
+		({ queueCustomSceneFn, getNewEnemyFn }: BattleEngineControllers) => {
+			queueCustomSceneRef.current = queueCustomSceneFn;
+			getNewEnemyRef.current = getNewEnemyFn;
+		},
+		[]
+	);
+
+	const battleArenaComponent = useMemo(
+		() => (
+			<BattleArena
+				duration={battleDuration}
+				initializeBattleEngineControllers={
+					initializeBattleEngineControllers
+				}
+			/>
+		),
+		[battleDuration]
+	);
 
 	// Memoize derived values
 	const completedTasksCount = completedTasks.length;
@@ -125,10 +146,25 @@ export default function BattleScreen({
 	return (
 		<div className="flex items-center flex-col">
 			<div className="w-full border border-accent p-2 bg-accent/15 rounded-md mb-3 flex gap-2 px-5 items-center justify-center">
-				<GiSwordHilt className="w-6 h-6 shrink-0" color="#fbbf24" />
-				<p className="line-clamp-2 text-accent">
-					{currentQuest.description}
-				</p>
+				<TbTargetArrow className="w-6 h-6 shrink-0" color="#fbbf24" />
+
+				<div className="flex flex-col justify-center items-center">
+					{/* <div>
+						{Array.from(
+							{ length: currentQuest.difficulty },
+							(_, index) => (
+								<small key={index} className="text-xs">
+									⭐
+								</small>
+							)
+						)}
+					</div> */}
+					<p className="line-clamp-2 text-accent text-center">
+						{currentQuest.description}
+					</p>
+				</div>
+
+				<TbTargetArrow className="w-6 h-6 shrink-0" color="#fbbf24" />
 			</div>
 			<div className="shrink-0 mt-2">
 				{/* <BattleArena {...arenaProps} duration={battleDuration} /> */}

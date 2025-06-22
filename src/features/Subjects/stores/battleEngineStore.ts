@@ -4,6 +4,7 @@ import {
 	AnimationStateType,
 } from '../../Battle/hooks/useCharacterAnimation';
 import React from 'react';
+import { QueueCustomSceneFn } from '../../Battle/hooks/useBattleEngine';
 
 interface BattleEngineState {
 	// player management
@@ -26,6 +27,7 @@ interface BattleEngineState {
 
 	isCustomSceneActive: boolean;
 	getNewEnemy: () => void;
+	queueCustomScene: QueueCustomSceneFn;
 }
 
 interface BattleEngineActions {
@@ -58,6 +60,7 @@ export const useBattleEngineStore = create<
 
 	isCustomSceneActive: false,
 	getNewEnemy: () => {},
+	queueCustomScene: () => {},
 
 	// Actions
 	setPlayerPosX: (x) => set({ playerPosX: x }),

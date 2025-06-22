@@ -1,30 +1,28 @@
-import { memo, RefObject } from 'react';
-import { AnimationParams } from '../../../Battle/hooks/useCharacterAnimation';
+import { memo, useEffect } from 'react';
 import BattleTimer from './BattleTimer';
 import CornerDecoration from '../../../../components/CornerDecoration';
 import SpriteSheet from '../../../../components/SpriteSheet';
 import { useBattleEngineStore } from '../../stores/battleEngineStore';
+import { QueueCustomSceneFn } from '../../../Battle/hooks/useBattleEngine';
+import { useBattleSetup } from '../../../Battle/hooks/useBattleSetup';
+import { BattleEngineControllers } from './BattleScreen';
 
 export const enemyPosOffSetX = 16;
 export const arenaMiddle = 6 * 12;
 
 interface BattleArenaProps {
-	playerZ: number;
-	playerPosX: number;
-	playerLoop: boolean;
-	enemyZ: number;
-	enemyPosX: number;
-	enemyLoop: boolean;
+	initializeBattleEngineControllers: (
+		battleControllers: BattleEngineControllers
+	) => void;
 	duration: number;
-	getEnemyAnimation: () => AnimationParams;
-	getPlayerAnimation: () => AnimationParams;
 }
 
 export const BattleArena = ({
+	initializeBattleEngineControllers,
 	duration,
-	getEnemyAnimation,
-	getPlayerAnimation,
 }: BattleArenaProps) => {
+	useBattleSetup();
+
 	const playerPosX = useBattleEngineStore((state) => state.playerPosX);
 	const playerZ = useBattleEngineStore((state) => state.playerZ);
 	const playerLoop = useBattleEngineStore((state) => state.playerLoop);
@@ -32,6 +30,21 @@ export const BattleArena = ({
 	const enemyPosX = useBattleEngineStore((state) => state.enemyPosX);
 	const enemyZ = useBattleEngineStore((state) => state.enemyZ);
 	const enemyLoop = useBattleEngineStore((state) => state.enemyLoop);
+
+	const getPlayerAnimation = useBattleEngineStore(
+		(state) => state.getPlayerAnimation
+	);
+	const getEnemyAnimation = useBattleEngineStore(
+		(state) => state.getEnemyAnimation
+	);
+
+	useEffect(() => {
+		initializeBattleEngineControllers({
+			getNewEnemyFn: useBattleEngineStore.getState().getNewEnemy,
+			queueCustomSceneFn:
+				useBattleEngineStore.getState().queueCustomScene,
+		});
+	}, []);
 
 	return (
 		<div className={`flex flex-col w-[280px] items-center gap-4`}>
