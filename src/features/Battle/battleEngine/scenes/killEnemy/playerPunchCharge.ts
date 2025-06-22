@@ -3,6 +3,7 @@ import { BattleStepFn } from '../../types';
 
 export const playerPunchCharge: BattleStepFn = ({
 	next,
+	getPlayerPosX,
 	setPlayerAction,
 	setPlayerLoop,
 	setPlayerPosX,
@@ -26,13 +27,18 @@ export const playerPunchCharge: BattleStepFn = ({
 
 	// Move player toward enemy
 	const walkInterval = setInterval(() => {
-		setPlayerPosX((prev) => {
-			if (prev >= chargeTargetX) {
-				chargeReached = true;
-				return chargeTargetX;
-			}
-			return prev + 10; // Movement speed
-		});
+		// setPlayerPosX((prev) => {
+		// 	if (prev >= chargeTargetX) {
+		// 		chargeReached = true;
+		// 		return chargeTargetX;
+		// 	}
+		// 	return prev + 10; // Movement speed
+		// });
+
+		if (getPlayerPosX() >= chargeTargetX) {
+			chargeReached = true;
+			setPlayerPosX(chargeTargetX);
+		} else setPlayerPosX(getPlayerPosX() + 10); // Movement speed
 
 		// Proceed to next step when target position is reached
 		if (chargeReached) {

@@ -7,6 +7,7 @@ import { defaultBattleScene } from '../battleEngine/scenes/default/defaultBattle
 import { parsePlayerAvatar } from '../../../utils/parsePlayerAvatar';
 import { CharacterType } from '../configs/spritesheetConfig';
 import { toast } from 'react-toastify';
+import { useBattleEngineStore } from '../../Subjects/stores/battleEngineStore';
 
 export const useBattleSetup = () => {
 	const enemyTypes = [
@@ -22,7 +23,6 @@ export const useBattleSetup = () => {
 	const { playerClass, playerSkin } = parsePlayerAvatar(
 		playerProfileAvatarUrl
 	);
-
 	const [currentEnemy, setCurrentEnemy] =
 		useState<CharacterType>('dark_knight');
 
@@ -54,20 +54,6 @@ export const useBattleSetup = () => {
 		startBattle,
 	} = useBattleEngine(defaultBattleScene);
 
-
-	// Initialize battle
-	useEffect(() => {
-		// Connect action refs
-		setPlayerActionRef.current = (action: AnimationStateType) =>
-			setPlayerCurrentAction(action);
-		setEnemyActionRef.current = (action: AnimationStateType) =>
-			setEnemyCurrentAction(action);
-
-		// Initialize and start
-		setLoop(true);
-		startBattle();
-	}, []);
-
 	function getRandomChoice<T>(
 		choices: T[],
 		currentChoice: T,
@@ -83,31 +69,46 @@ export const useBattleSetup = () => {
 		return pool[randomIndex];
 	}
 
-	const handleQuestComplete = useCallback(
-		(task: string) => {
-			toast.success(`Task ${task} completed!`);
-		},
-		[]
-	);
-
 	const handleGetNewEnemy = useCallback(() => {
-		toast.info('Gawa na ng bagong enemy dine!')
+		toast.info('Gawa na ng bagong enemy dine!');
 
 		setCurrentEnemy((prevEnemy) => {
-				const newEnemy = getRandomChoice(enemyTypes, prevEnemy);
-				return newEnemy;
-			});
-	}, [])
+			const newEnemy = getRandomChoice(enemyTypes, prevEnemy);
+			return newEnemy;
+		});
+	}, []);
+
+	useBattleEngineStore.setState({
+		setPlayerActionRef: setPlayerActionRef,
+		setEnemyActionRef: setEnemyActionRef,
+		getPlayerAnimation,
+		getEnemyAnimation,
+		getNewEnemy: handleGetNewEnemy,
+	});
+
+	// Initialize battle
+	useEffect(() => {
+		// Connect action refs
+		setPlayerActionRef.current = (action: AnimationStateType) =>
+			setPlayerCurrentAction(action);
+		setEnemyActionRef.current = (action: AnimationStateType) =>
+			setEnemyCurrentAction(action);
+
+		// Initialize and start
+		setLoop(true);
+		startBattle();
+	}, []);
 
 	// Organize props for components
 	const arenaProps = {
 		playerZ,
 		playerLoop,
 		playerPosX,
+		getPlayerAnimation,
+
 		enemyZ,
 		enemyLoop,
 		enemyPosX,
-		getPlayerAnimation,
 		getEnemyAnimation,
 	};
 
@@ -117,19 +118,17 @@ export const useBattleSetup = () => {
 	};
 
 	const battleEngineProps = {
-		queueCustomScene,
 		customSceneActiveRef,
+		queueCustomScene,
 		startBattle,
 	};
 
 	const battleUIProviderProps = {
-		handleQuestComplete,
-		handleGetNewEnemy
+		handleGetNewEnemy,
 	};
 
 	return {
 		arenaProps,
-		questListProps,
 		battleEngineProps,
 		battleUIProviderProps,
 	};

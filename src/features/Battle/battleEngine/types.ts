@@ -1,5 +1,4 @@
 import { AnimationStateType } from '../hooks/useCharacterAnimation';
-import { sceneName } from './scenes/sceneNames';
 
 export type BattleStepFn = (ctx: BattleContext) => (() => void) | void;
 
@@ -14,8 +13,8 @@ export type BattleContext = {
 	setEnemyLoop: (loop: boolean) => void;
 
 	// Movement
-	setPlayerPosX: React.Dispatch<React.SetStateAction<number>>;
-	setEnemyPosX: React.Dispatch<React.SetStateAction<number>>;
+	setPlayerPosX: (x: number) => void;
+	setEnemyPosX: (x: number) => void;
 	getPlayerPosX: () => number;
 	getEnemyPosX: () => number;
 

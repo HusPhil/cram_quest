@@ -7,10 +7,10 @@ import { walkToMiddle } from './walkToMiddle';
 import { BattleStepFn } from '../../types';
 
 export const defaultBattleScene: BattleStepFn[] = [
-  walkToMiddle,
-  enemyAttack,
-  playerHurt,
-  playerSwordCharge,
-  playerSwordAttack2,
-  enemyHurt,
+	walkToMiddle,
+	enemyAttack,
+	playerHurt,
+	playerSwordCharge,
+	playerSwordAttack2,
+	enemyHurt,
 ];

@@ -1,0 +1,72 @@
+import { create } from 'zustand';
+import {
+	AnimationParams,
+	AnimationStateType,
+} from '../../Battle/hooks/useCharacterAnimation';
+import React from 'react';
+
+interface BattleEngineState {
+	// player management
+	setPlayerActionRef: React.RefObject<
+		(action: AnimationStateType) => void
+	> | null;
+	playerPosX: number;
+	playerZ: number;
+	playerLoop: boolean;
+	getPlayerAnimation: () => AnimationParams;
+
+	// enemy management
+	setEnemyActionRef: React.RefObject<
+		(action: AnimationStateType) => void
+	> | null;
+	enemyPosX: number;
+	enemyZ: number;
+	enemyLoop: boolean;
+	getEnemyAnimation: () => AnimationParams;
+
+	isCustomSceneActive: boolean;
+	getNewEnemy: () => void;
+}
+
+interface BattleEngineActions {
+	setPlayerPosX: (x: number) => void;
+	setPlayerZ: (z: number) => void;
+	setPlayerLoop: (loop: boolean) => void;
+
+	setEnemyPosX: (x: number) => void;
+	setEnemyZ: (z: number) => void;
+	setEnemyLoop: (loop: boolean) => void;
+
+	setIsCustomSceneActive: (active: boolean) => void;
+}
+
+export const useBattleEngineStore = create<
+	BattleEngineState & BattleEngineActions
+>((set) => ({
+	// Initial state
+	setPlayerActionRef: null,
+	playerPosX: 0,
+	playerZ: 0,
+	playerLoop: false,
+	getPlayerAnimation: () => ({} as AnimationParams),
+
+	setEnemyActionRef: null,
+	enemyPosX: 48 * 3,
+	enemyZ: 0,
+	enemyLoop: false,
+	getEnemyAnimation: () => ({} as AnimationParams),
+
+	isCustomSceneActive: false,
+	getNewEnemy: () => {},
+
+	// Actions
+	setPlayerPosX: (x) => set({ playerPosX: x }),
+	setPlayerZ: (z) => set({ playerZ: z }),
+	setPlayerLoop: (loop) => set({ playerLoop: loop }),
+
+	setEnemyPosX: (x) => set({ enemyPosX: x }),
+	setEnemyZ: (z) => set({ enemyZ: z }),
+	setEnemyLoop: (loop) => set({ enemyLoop: loop }),
+
+	setIsCustomSceneActive: (active) => set({ isCustomSceneActive: active }),
+}));

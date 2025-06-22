@@ -1,39 +1,43 @@
-import startKnockback from "../../utils/startKnockback";
-import { BattleStepFn } from "../types";
+import startKnockback from '../../utils/startKnockback';
+import { BattleStepFn } from '../types';
 
 export const enemyHurt: BattleStepFn = ({
-    next,
-    setPlayerLoop,
-    setPlayerAction,
-    setEnemyAction,
-    setEnemyLoop,
-    getEnemyPosX,
-    setEnemyPosX
+	next,
+	setPlayerLoop,
+	setPlayerAction,
+	setEnemyAction,
+	setEnemyLoop,
+	getEnemyPosX,
+	adjustZValues,
+	setEnemyPosX,
 }) => {
-    setPlayerLoop(true);
-    setEnemyAction('hurt');
-    setPlayerAction('idle');
-    setEnemyLoop(false);
-    let cleanup: (() => void) | undefined;
+	setPlayerLoop(true);
+	setEnemyAction('hurt');
+	setPlayerAction('idle');
+	setEnemyLoop(false);
+	let cleanup: (() => void) | undefined;
 
-    const handleKnockbackDone = () => {
-        const transitionDelay = setTimeout(() => {
-            next()
-        }, 500);
-        return () => clearTimeout(transitionDelay);
-    }
+	adjustZValues('enemy');
 
-    cleanup = startKnockback({
-        fromX: getEnemyPosX(),
-        setX: setEnemyPosX,
-        direction: 'right',
-        knockbackDmg: 60,
-        onDone: () => next(),
-    });
+	const handleKnockbackDone = () => {
+		const transitionDelay = setTimeout(() => {
+			adjustZValues('player');
+			next();
+		}, 500);
+		return () => clearTimeout(transitionDelay);
+	};
 
-    return () => {
-        if (cleanup) {
-            cleanup();
-        }
-    };
-}
+	cleanup = startKnockback({
+		fromX: getEnemyPosX(),
+		setX: setEnemyPosX,
+		direction: 'right',
+		knockbackDmg: 50,
+		onDone: () => next(),
+	});
+
+	return () => {
+		if (cleanup) {
+			cleanup();
+		}
+	};
+};

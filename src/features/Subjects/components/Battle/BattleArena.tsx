@@ -3,6 +3,7 @@ import { AnimationParams } from '../../../Battle/hooks/useCharacterAnimation';
 import BattleTimer from './BattleTimer';
 import CornerDecoration from '../../../../components/CornerDecoration';
 import SpriteSheet from '../../../../components/SpriteSheet';
+import { useBattleEngineStore } from '../../stores/battleEngineStore';
 
 export const enemyPosOffSetX = 16;
 export const arenaMiddle = 6 * 12;
@@ -20,16 +21,18 @@ interface BattleArenaProps {
 }
 
 export const BattleArena = ({
-	playerZ,
-	playerPosX,
-	playerLoop,
-	enemyZ,
-	enemyPosX,
-	enemyLoop,
 	duration,
 	getEnemyAnimation,
 	getPlayerAnimation,
 }: BattleArenaProps) => {
+	const playerPosX = useBattleEngineStore((state) => state.playerPosX);
+	const playerZ = useBattleEngineStore((state) => state.playerZ);
+	const playerLoop = useBattleEngineStore((state) => state.playerLoop);
+
+	const enemyPosX = useBattleEngineStore((state) => state.enemyPosX);
+	const enemyZ = useBattleEngineStore((state) => state.enemyZ);
+	const enemyLoop = useBattleEngineStore((state) => state.enemyLoop);
+
 	return (
 		<div className={`flex flex-col w-[280px] items-center gap-4`}>
 			<div className="flex relative w-full h-[200px] overflow-hidden">

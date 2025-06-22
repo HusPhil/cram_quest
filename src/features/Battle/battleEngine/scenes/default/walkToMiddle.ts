@@ -11,34 +11,43 @@ export const walkToMiddle: BattleStepFn = ({
 	next,
 }) => {
 	// Define target positions
-	const targetPlayerX = arenaMiddle - enemyPosOffSetX;
-	const targetEnemyX = arenaMiddle + enemyPosOffSetX;
+	const targetPlayerX = arenaMiddle - (enemyPosOffSetX + enemyPosOffSetX / 2);
+	const targetEnemyX = arenaMiddle + enemyPosOffSetX / 2;
 	const movementSpeed = 6;
 	const movementInterval = 50; // ms
 
 	// Initial animations
 	setPlayerAction(getPlayerPosX() >= targetPlayerX ? 'idle' : 'walk');
 	setEnemyAction('walk');
-	setEnemyPosX(48 * 3);
+	// setEnemyPosX(48 * 3);
 
 	let positionsReached = false;
 
 	// Handle movement of both characters
 	const interval = setInterval(() => {
 		// Update player position
-		setPlayerPosX((prev) => {
-			if (prev >= targetPlayerX) {
-				setPlayerAction('idle');
-				return targetPlayerX;
-			}
-			return prev + movementSpeed;
-		});
+		// setPlayerPosX((prev) => {
+		// 	if (prev >= targetPlayerX) {
+		// 		setPlayerAction('idle');
+		// 		return targetPlayerX;
+		// 	}
+		// 	return prev + movementSpeed;
+		// });
+
+		if (getPlayerPosX() >= targetPlayerX) {
+			setPlayerAction('idle');
+			setPlayerPosX(targetPlayerX);
+		} else setPlayerPosX(getPlayerPosX() + movementSpeed);
 
 		// Update enemy position
-		setEnemyPosX((prev) => {
-			if (prev <= targetEnemyX) return targetEnemyX;
-			return prev - movementSpeed;
-		});
+		// setEnemyPosX((prev) => {
+		// 	if (prev <= targetEnemyX) return targetEnemyX;
+		// 	return prev - movementSpeed;
+		// });
+
+		if (getEnemyPosX() <= targetEnemyX) {
+			setEnemyPosX(targetEnemyX);
+		} else setEnemyPosX(getEnemyPosX() - movementSpeed);
 
 		// Check if both characters have reached their targets
 		const playerReachedTarget = getPlayerPosX() >= targetPlayerX;
