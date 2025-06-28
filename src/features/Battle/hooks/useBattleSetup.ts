@@ -23,8 +23,9 @@ export const useBattleSetup = () => {
 	const { playerClass, playerSkin } = parsePlayerAvatar(
 		playerProfileAvatarUrl
 	);
-	const [currentEnemy, setCurrentEnemy] =
-		useState<CharacterType>('skeleton_lord');
+	const [currentEnemy, setCurrentEnemy] = useState<CharacterType>(
+		getRandomChoice(enemyTypes, 'orc', false)
+	);
 
 	// Player animation
 	const {

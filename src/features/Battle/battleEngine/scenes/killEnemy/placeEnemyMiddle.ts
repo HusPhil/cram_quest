@@ -14,12 +14,12 @@ export const placeEnemyMiddle: BattleStepFn = ({
 	setEnemyAction('walk');
 	const targetX = arenaMiddle + enemyPosOffSetX;
 	const checkIfEnemyInTargetX = setInterval(() => {
-		setEnemyPosX(getEnemyPosX() - 6);
-
 		if (getEnemyPosX() <= targetX) {
 			setEnemyAction('idle');
-			setEnemyPosX(getEnemyPosX() + 6);
+			// setEnemyPosX(getEnemyPosX() + 6);
 			next();
+		} else {
+			setEnemyPosX(getEnemyPosX() - 6);
 		}
 	}, 50);
 

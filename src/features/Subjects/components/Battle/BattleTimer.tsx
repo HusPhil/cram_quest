@@ -6,7 +6,7 @@ interface BattleTimerProps {
 }
 
 export const BattleTimer = ({ duration = 60, onTimeUp }: BattleTimerProps) => {
-	const [timeLeft, setTimeLeft] = useState(duration); // seconds for now [debug only]
+	const [timeLeft, setTimeLeft] = useState(duration * 60); // seconds for now [debug only]
 
 	useEffect(() => {
 		if (timeLeft <= 0) {

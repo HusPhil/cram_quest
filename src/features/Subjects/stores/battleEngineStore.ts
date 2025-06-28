@@ -28,6 +28,8 @@ interface BattleEngineState {
 	isCustomSceneActive: boolean;
 	getNewEnemy: () => void;
 	queueCustomScene: QueueCustomSceneFn;
+
+	resetBattleEngine: () => void;
 }
 
 interface BattleEngineActions {
@@ -72,4 +74,12 @@ export const useBattleEngineStore = create<
 	setEnemyLoop: (loop) => set({ enemyLoop: loop }),
 
 	setIsCustomSceneActive: (active) => set({ isCustomSceneActive: active }),
+
+	resetBattleEngine: () =>
+		set(() => ({
+			playerPosX: 0,
+			playerZ: 1,
+			enemyPosX: 48 * 3,
+			enemyZ: 0,
+		})),
 }));

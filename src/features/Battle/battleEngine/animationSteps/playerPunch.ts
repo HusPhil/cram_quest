@@ -1,16 +1,16 @@
-import { BattleStepFn } from "../types";
+import { BattleStepFn } from '../types';
 
 export const playerPunch: BattleStepFn = ({
-    next,
-    setPlayerAction,
-    adjustZValues
+	next,
+	setPlayerAction,
+	adjustZValues,
 }) => {
-    adjustZValues("player");
-    setPlayerAction("attack_3")
+	adjustZValues('player');
+	setPlayerAction('attack_3');
 
-    const transitionDelay = setTimeout(() => {
-        next()
-    }, 300)
+	const transitionDelay = setTimeout(() => {
+		next();
+	}, 300);
 
-    return () => clearTimeout(transitionDelay)
-}
+	return () => clearTimeout(transitionDelay);
+};

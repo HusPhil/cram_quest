@@ -1,13 +1,20 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface ModalProps {
 	isOpen: boolean;
 	onClose: () => void;
 	title: string;
 	children: React.ReactNode;
+	customHeader?: React.ReactNode;
 }
 
-const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
+const Modal = ({
+	isOpen,
+	onClose,
+	title,
+	children,
+	customHeader,
+}: ModalProps) => {
 	const modalRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -38,29 +45,31 @@ const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
 				<div className="relative rounded-lg bg-gradient-to-br from-background via-secondary to-background p-1">
 					<div className="rounded-lg bg-background/95 p-6">
 						{/* Header */}
-						<div className="mb-4 flex items-center justify-between">
-							<h3 className="font-rpg text-xl text-accent">
-								{title}
-							</h3>
-							<button
-								onClick={onClose}
-								className="rounded-full p-1 text-text hover:bg-primary/20 hover:text-primary transition-colors"
-							>
-								<svg
-									className="h-6 w-6"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke="currentColor"
+						{customHeader || (
+							<div className="mb-4 flex items-center justify-between">
+								<h3 className="font-rpg text-xl text-accent">
+									{title}
+								</h3>
+								<button
+									onClick={onClose}
+									className="rounded-full p-1 text-text hover:bg-primary/20 hover:text-primary transition-colors"
 								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth={2}
-										d="M6 18L18 6M6 6l12 12"
-									/>
-								</svg>
-							</button>
-						</div>
+									<svg
+										className="h-6 w-6"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke="currentColor"
+									>
+										<path
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											strokeWidth={2}
+											d="M6 18L18 6M6 6l12 12"
+										/>
+									</svg>
+								</button>
+							</div>
+						)}
 
 						{/* Content */}
 						<div className="text-text">{children}</div>

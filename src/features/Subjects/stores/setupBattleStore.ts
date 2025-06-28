@@ -1,83 +1,83 @@
 import { create } from 'zustand';
 import { QuestRead } from '../../../services/api/schema/quest_schema';
 import { SetupBattleStep } from '../components/Modals/StartBattleModal';
-
+import { SubjectRead } from '../../../services/api/schema/subject_schema';
 
 interface SetupBattleState {
-  // State
-  isBattleActive: boolean;
-  selectedQuest: QuestRead | null;
-  questSteps: string[];
-  durationMinutes: number;
+	// State
+	isBattleActive: boolean;
+	selectedQuest: QuestRead | null;
+	selectedSubject: SubjectRead | null;
+	questSteps: string[];
+	durationMinutes: number;
 
-  // Actions
-  selectQuest: (quest: QuestRead) => void;
-  addQuestStep: (step: string) => void;
-  removeQuestStep: (index: number) => void;
-  updateQuestStep: (index: number, step: string) => void;
-  setDuration: (minutes: number) => void;
-  setIsBattleActive: (isActive: boolean) => void;
-  resetBattleSetup: () => void;
+	// Actions
+	selectQuest: (quest: QuestRead) => void;
+	addQuestStep: (step: string) => void;
+	removeQuestStep: (index: number) => void;
+	updateQuestStep: (index: number, step: string) => void;
+	setDuration: (minutes: number) => void;
+	setIsBattleActive: (isActive: boolean) => void;
+	resetBattleSetup: () => void;
 
-  // Derived
-  canStartBattle: () => boolean;
-  getCleanedQuestSteps: () => string[];
+	// Derived
+	canStartBattle: () => boolean;
+	getCleanedQuestSteps: () => string[];
 }
 
 export const useSetupBattleStore = create<SetupBattleState>((set, get) => ({
-  isBattleActive: false,
-  selectedQuest: null,
-  questSteps: [],
-  durationMinutes: 30,
+	isBattleActive: false,
+	selectedSubject: null,
+	selectedQuest: null,
+	questSteps: [],
+	durationMinutes: 30,
 
-  selectQuest: (quest: QuestRead) =>
-    set(() => ({ selectedQuest: quest})),
+	selectQuest: (quest: QuestRead) => set(() => ({ selectedQuest: quest })),
+	selectSubject: (subject: SubjectRead) => set({ selectedSubject: subject }),
 
-  addQuestStep: (step: string) =>
-    set((state) => ({
-      questSteps: [...state.questSteps, step],
-    })),
+	addQuestStep: (step: string) =>
+		set((state) => ({
+			questSteps: [...state.questSteps, step],
+		})),
 
-  removeQuestStep: (index: number) =>
-    set((state) => ({
-      questSteps: state.questSteps.filter((_, i) => i !== index),
-    })),
+	removeQuestStep: (index: number) =>
+		set((state) => ({
+			questSteps: state.questSteps.filter((_, i) => i !== index),
+		})),
 
-  updateQuestStep: (index: number, step: string) =>
-    set((state) => {
-      const newSteps = [...state.questSteps];
-      newSteps[index] = step;
-      return { questSteps: newSteps };
-    }),
+	updateQuestStep: (index: number, step: string) =>
+		set((state) => {
+			const newSteps = [...state.questSteps];
+			newSteps[index] = step;
+			return { questSteps: newSteps };
+		}),
 
-  setDuration: (minutes) =>
-    set(() => ({
-      durationMinutes: minutes,
-    })),
+	setDuration: (minutes) =>
+		set(() => ({
+			durationMinutes: minutes,
+		})),
 
-  setIsBattleActive: (isActive) =>
-    set(() => ({
-      isBattleActive: isActive,
-    })),
+	setIsBattleActive: (isActive) =>
+		set(() => ({
+			isBattleActive: isActive,
+		})),
 
-  resetBattleSetup: () =>
-    set(() => ({
-      isBattleActive: false,
-      selectedQuest: null,
-      questSteps: [],
-      durationMinutes: 30,
-    })),
+	resetBattleSetup: () =>
+		set(() => ({
+			isBattleActive: false,
+			selectedQuest: null,
+			selectedSubject: null,
+			questSteps: [],
+			durationMinutes: 30,
+		})),
 
- canStartBattle: () => {
-    const { selectedQuest, questSteps, durationMinutes } = get();
-    return !!selectedQuest && questSteps.length > 0 && durationMinutes > 0;
-  },
+	canStartBattle: () => {
+		const { selectedQuest, questSteps, durationMinutes } = get();
+		return !!selectedQuest && questSteps.length > 0 && durationMinutes > 0;
+	},
 
-  getCleanedQuestSteps: () => {
-    const { questSteps } = get();
-    return questSteps.filter((step) => step.trim() !== '');
-  },
-
-
-
+	getCleanedQuestSteps: () => {
+		const { questSteps } = get();
+		return questSteps.filter((step) => step.trim() !== '');
+	},
 }));

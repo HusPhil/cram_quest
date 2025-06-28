@@ -3,9 +3,12 @@ import { StepComponentProps } from '../Modals/StartBattleModal';
 import { useSetupBattleStore } from '../../stores/setupBattleStore';
 import { toast } from 'react-toastify';
 import debounce from 'just-debounce-it';
+import { useStartBattleSession } from '../../hooks/useStartBattleSession';
+import { usePlayerInformationStore } from '../../../Auth/store/playerInformationStore';
 
 const MAX_BATTLE_DURATION_MINS = 60 * 2;
-const MIN_BATTLE_DURATION_MINS = Math.floor(60 * 0.5);
+// const MIN_BATTLE_DURATION_MINS = Math.floor(60 * 0.5);
+const MIN_BATTLE_DURATION_MINS = 3;
 
 export default function StartBattle({
 	selectedQuest,
@@ -19,6 +22,10 @@ export default function StartBattle({
 		MIN_BATTLE_DURATION_MINS.toString()
 	); // For immediate input display
 
+	const currentPlayerId = usePlayerInformationStore(
+		(state) => state.player_id
+	);
+
 	const getCleanedQuestSteps = useSetupBattleStore(
 		(state) => state.getCleanedQuestSteps
 	);
@@ -30,6 +37,8 @@ export default function StartBattle({
 	const setIsBattleActive = useSetupBattleStore(
 		(state) => state.setIsBattleActive
 	);
+
+	const startBattleMutate = useStartBattleSession();
 
 	const handleStartBattle = () => {
 		if (getCleanedQuestSteps().length > 0) {
@@ -63,15 +72,51 @@ export default function StartBattle({
 				return;
 			}
 
-			// Pass the duration to the parent component
-			setIsBattleActive(true);
-			setGlobalBattleDuration(battleDuration);
-			onStartBattle?.();
-			toast.success(`Battle started for ${battleDuration} minutes!`, {
-				toastId: 'start-battle',
-			});
+			if (
+				!currentPlayerId ||
+				!selectedQuest?.subject_id ||
+				!selectedQuest.id
+			) {
+				toast.error('Something is wrong with the quest you selected!', {
+					toastId: 'invalid-selected-quest',
+				});
+				console.log('selectedQuest', selectedQuest);
+				return;
+			}
+
+			startBattleMutate.mutate(
+				{
+					startBattleSession: {
+						duration_mins: battleDuration,
+						player_id: currentPlayerId,
+						quest_id: selectedQuest.id,
+						subject_id: selectedQuest.subject_id,
+						tasks_to_create: getCleanedQuestSteps(),
+					},
+				},
+				{
+					onSuccess: () => {
+						// Pass the duration to the parent component
+						setIsBattleActive(true);
+						setGlobalBattleDuration(battleDuration);
+						onStartBattle?.();
+						toast.success(
+							`Battle started for ${battleDuration} minutes!`,
+							{
+								toastId: 'start-battle',
+							}
+						);
+					},
+					onError: () => {
+						toast.error('Failed to start the battle', {
+							toastId: 'start-battle',
+						});
+					},
+				}
+			);
 			return;
 		}
+
 		console.log('Please plan your approach before starting the battle.');
 		toast.error('Plan your approach first', {
 			toastId: 'setup-battle-zero-steps',

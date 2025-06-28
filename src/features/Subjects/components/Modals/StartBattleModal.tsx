@@ -6,8 +6,8 @@ import PickAQuest from '../SetupBattleSteps/PickAQuest';
 import WriteSteps from '../SetupBattleSteps/WriteSteps';
 import { useSetupBattleStore } from '../../stores/setupBattleStore';
 import StartBattle from '../SetupBattleSteps/StartBattle';
-import { Battle } from '../../../Battle/Battle';
 import BattleScreen from '../Battle/BattleScreen';
+import { useBattleEngineStore } from '../../stores/battleEngineStore';
 
 export interface StepComponentProps {
 	subjectQuests: QuestRead[];
@@ -60,6 +60,9 @@ export default function StartBattleModal({
 	const battleDuration = useSetupBattleStore(
 		(state) => state.durationMinutes
 	);
+	const resetBattleEngine = useBattleEngineStore(
+		(state) => state.resetBattleEngine
+	);
 	const selectedQuest = useSetupBattleStore((state) => state.selectedQuest);
 	const resetBattleSetup = useSetupBattleStore(
 		(state) => state.resetBattleSetup
@@ -75,14 +78,16 @@ export default function StartBattleModal({
 	const handleCleanupBattlefield = () => {
 		setCurrentStep(0);
 		resetBattleSetup();
+		resetBattleEngine();
 		setIsModalOpen(false);
 	};
 
 	return (
 		<Modal
-			isOpen={isModalOpen}
+			isOpen={isBattleActive || isModalOpen}
 			title={isBattleActive ? 'Battle in Progress' : 'Start Battle!'}
 			onClose={() => setIsModalOpen(false)}
+			customHeader={isBattleActive ? <></> : undefined}
 		>
 			{!isBattleActive ? (
 				<>
@@ -91,6 +96,7 @@ export default function StartBattleModal({
 					{/* Step Content */}
 					<div className="mt-4">
 						<CurrentStepComponent
+							selectedQuest={selectedQuest || undefined}
 							subjectQuests={subjectQuests}
 							onStartBattle={handleStartBattle}
 						/>

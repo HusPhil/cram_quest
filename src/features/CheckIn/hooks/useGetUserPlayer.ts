@@ -8,10 +8,11 @@ export const useGetUserPlayer = (userId: number) => {
 		queryFn: () => getUserPlayer(userId),
 	});
 
-	if (playerQuery.isError)
+	if (playerQuery.isError) {
 		toast.error('Failed to load player', {
 			toastId: 'user-player-error',
 		});
+	}
 
 	return playerQuery;
 };

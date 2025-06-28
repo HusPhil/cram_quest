@@ -6,8 +6,5 @@ export const useGetSubject = (subject_id: number) => {
 		queryKey: ['subjects', subject_id],
 		queryFn: () => getSubject({ subject_id }),
 	});
-
-	console.log('subjectQuery', subjectQuery);
-
 	return subjectQuery;
 };

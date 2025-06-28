@@ -1,13 +1,14 @@
 import React, { useEffect, useCallback, useMemo, useRef } from 'react';
 import { useBattleSetup } from '../../../Battle/hooks/useBattleSetup';
 import BattleArena from './BattleArena';
-import { TbTargetArrow } from 'react-icons/tb';
+import { TbSword, TbTargetArrow } from 'react-icons/tb';
 import { killEnemyScene } from '../../../Battle/battleEngine/scenes/killEnemy/killEnemyScene';
 import { QuestRead } from '../../../../services/api/schema/quest_schema';
 import { useSetupBattleStore } from '../../stores/setupBattleStore';
 import { toast } from 'react-toastify';
 import { useBattleEngineStore } from '../../stores/battleEngineStore';
 import { QueueCustomSceneFn } from '../../../Battle/hooks/useBattleEngine';
+import colors from '../../../../data/colors';
 
 interface BattleScreenProps {
 	battleCleanup: () => void;
@@ -145,7 +146,7 @@ export default function BattleScreen({
 
 	return (
 		<div className="flex items-center flex-col">
-			<div className="w-full border border-accent p-2 bg-accent/15 rounded-md mb-3 flex gap-2 px-5 items-center justify-center">
+			<div className="w-full border border-accent p-2 bg-accent/15 rounded-md mb-3 flex gap-2 px-5 items-center justify-between">
 				<TbTargetArrow className="w-6 h-6 shrink-0" color="#fbbf24" />
 
 				<div className="flex flex-col justify-center items-center">
@@ -175,8 +176,13 @@ export default function BattleScreen({
 			<button
 				disabled={isAllTasksCompleted}
 				onClick={handleKillEnemy}
-				className="p-3 mt-3 bg-accent text-background flex justify-center items-center rounded-md"
+				className={`p-3 mt-3 bg-accent text-background flex justify-center items-center rounded-md ${
+					isAllTasksCompleted
+						? 'opacity-50 cursor-not-allowed'
+						: 'hover:bg-accent/90'
+				}`}
 			>
+				<TbSword className="w-5 h-5 mr-2" color={colors.secondary} />
 				Task Slayed!
 			</button>
 		</div>

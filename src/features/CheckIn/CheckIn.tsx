@@ -10,6 +10,8 @@ import {
 	parsePlayerAvatar,
 } from '../../utils/parsePlayerAvatar';
 import { useGetUser } from './hooks/useGetUser';
+import { useEffect } from 'react';
+import { usePlayerInformationStore } from '../Auth/store/playerInformationStore';
 
 const mockWeeklyCheckInRecord = [
 	{
@@ -70,6 +72,15 @@ export default function CheckIn() {
 		isLoading: userIsLoading,
 		error: userError,
 	} = useGetUser(currentUserId!);
+
+	useEffect(() => {
+		if (!playerIsLoading && player?.id) {
+			console.log('player id: ', player.id);
+			const setGloabalPlayerId =
+				usePlayerInformationStore.getState().setPlayerId;
+			setGloabalPlayerId(player.id);
+		}
+	}, [playerIsLoading]);
 
 	const parsedAvatar: ParsedPlayerAvatar = profile?.avatar_url
 		? parsePlayerAvatar(profile.avatar_url)
