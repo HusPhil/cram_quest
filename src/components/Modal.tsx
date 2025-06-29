@@ -6,7 +6,20 @@ interface ModalProps {
 	title: string;
 	children: React.ReactNode;
 	customHeader?: React.ReactNode;
+	variant?: 'primary' | 'success' | 'danger';
 }
+
+const getBorderFromVariant = (variant: 'primary' | 'success' | 'danger') => {
+	switch (variant) {
+		case 'success':
+			return 'border-success';
+		case 'danger':
+			return 'border-danger';
+		case 'primary':
+		default:
+			return 'border-accent';
+	}
+};
 
 const Modal = ({
 	isOpen,
@@ -14,6 +27,7 @@ const Modal = ({
 	title,
 	children,
 	customHeader,
+	variant = 'primary',
 }: ModalProps) => {
 	const modalRef = useRef<HTMLDivElement>(null);
 
@@ -39,7 +53,9 @@ const Modal = ({
 			{/* Modal Container */}
 			<div
 				ref={modalRef}
-				className="relative z-50 w-11/12 max-w-md transform rounded-lg border-2 border-accent "
+				className={`relative z-50 w-11/12 max-w-md transform rounded-lg border-2 ${getBorderFromVariant(
+					variant
+				)}`}
 			>
 				{/* accent-like gradient background */}
 				<div className="relative rounded-lg bg-gradient-to-br from-background via-secondary to-background p-1">
@@ -52,7 +68,7 @@ const Modal = ({
 								</h3>
 								<button
 									onClick={onClose}
-									className="rounded-full p-1 text-text hover:bg-primary/20 hover:text-primary transition-colors"
+									className="rounded-full p-1 text-text hover:bg-danger/20 hover:text-danger transition-colors"
 								>
 									<svg
 										className="h-6 w-6"

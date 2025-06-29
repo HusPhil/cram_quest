@@ -46,6 +46,7 @@ export const useBattleSetup = () => {
 		setLoop,
 		startBattle,
 		queueCustomScene,
+		customSceneActiveRef,
 	} = useBattleEngine(defaultBattleScene);
 
 	function getRandomChoice<T>(
@@ -77,6 +78,7 @@ export const useBattleSetup = () => {
 		getPlayerAnimation,
 		getEnemyAnimation,
 		queueCustomScene,
+		isCustomSceneActive: customSceneActiveRef.current,
 	});
 
 	// Initialize battle

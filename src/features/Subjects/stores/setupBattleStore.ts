@@ -2,22 +2,27 @@ import { create } from 'zustand';
 import { QuestRead } from '../../../services/api/schema/quest_schema';
 import { SetupBattleStep } from '../components/Modals/StartBattleModal';
 import { SubjectRead } from '../../../services/api/schema/subject_schema';
+import { TaskRead } from '../../../services/api/schema/task_schema';
 
 interface SetupBattleState {
 	// State
 	isBattleActive: boolean;
+	battleResult: 'defeat' | 'victory' | null;
 	selectedQuest: QuestRead | null;
 	selectedSubject: SubjectRead | null;
 	questSteps: string[];
+	generatedTasks: TaskRead[];
 	durationMinutes: number;
 
 	// Actions
 	selectQuest: (quest: QuestRead) => void;
 	addQuestStep: (step: string) => void;
 	removeQuestStep: (index: number) => void;
+	setGeneratedTasks: (tasks: TaskRead[]) => void;
 	updateQuestStep: (index: number, step: string) => void;
 	setDuration: (minutes: number) => void;
 	setIsBattleActive: (isActive: boolean) => void;
+	setBattleResult: (result: 'defeat' | 'victory' | null) => void;
 	resetBattleSetup: () => void;
 
 	// Derived
@@ -27,10 +32,12 @@ interface SetupBattleState {
 
 export const useSetupBattleStore = create<SetupBattleState>((set, get) => ({
 	isBattleActive: false,
+	battleResult: null,
 	selectedSubject: null,
 	selectedQuest: null,
 	questSteps: [],
-	durationMinutes: 30,
+	generatedTasks: [],
+	durationMinutes: 3,
 
 	selectQuest: (quest: QuestRead) => set(() => ({ selectedQuest: quest })),
 	selectSubject: (subject: SubjectRead) => set({ selectedSubject: subject }),
@@ -44,6 +51,8 @@ export const useSetupBattleStore = create<SetupBattleState>((set, get) => ({
 		set((state) => ({
 			questSteps: state.questSteps.filter((_, i) => i !== index),
 		})),
+
+	setGeneratedTasks: (tasks: TaskRead[]) => set({ generatedTasks: tasks }),
 
 	updateQuestStep: (index: number, step: string) =>
 		set((state) => {
@@ -62,13 +71,17 @@ export const useSetupBattleStore = create<SetupBattleState>((set, get) => ({
 			isBattleActive: isActive,
 		})),
 
+	setBattleResult: (result) => set(() => ({ battleResult: result })),
+
 	resetBattleSetup: () =>
 		set(() => ({
 			isBattleActive: false,
+			battleResult: null,
 			selectedQuest: null,
 			selectedSubject: null,
 			questSteps: [],
-			durationMinutes: 30,
+			generatedTasks: [],
+			durationMinutes: 3,
 		})),
 
 	canStartBattle: () => {

@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import debounce from 'just-debounce-it';
 import { useStartBattleSession } from '../../hooks/useStartBattleSession';
 import { usePlayerInformationStore } from '../../../Auth/store/playerInformationStore';
+import { BattleSessionRead } from '../../../../services/api/schema/battle_session_schema';
 
 const MAX_BATTLE_DURATION_MINS = 60 * 2;
 // const MIN_BATTLE_DURATION_MINS = Math.floor(60 * 0.5);
@@ -29,6 +30,12 @@ export default function StartBattle({
 	const getCleanedQuestSteps = useSetupBattleStore(
 		(state) => state.getCleanedQuestSteps
 	);
+
+	const setGeneratedTasks = useSetupBattleStore(
+		(state) => state.setGeneratedTasks
+	);
+
+	const generatedTasks = useSetupBattleStore((state) => state.generatedTasks);
 
 	const setGlobalBattleDuration = useSetupBattleStore(
 		(state) => state.setDuration
@@ -95,8 +102,12 @@ export default function StartBattle({
 					},
 				},
 				{
-					onSuccess: () => {
+					onSuccess: (response) => {
 						// Pass the duration to the parent component
+						const newBattleSession: BattleSessionRead =
+							response.data;
+						console.log('tasks: ', newBattleSession.tasks);
+						setGeneratedTasks(newBattleSession.tasks);
 						setIsBattleActive(true);
 						setGlobalBattleDuration(battleDuration);
 						onStartBattle?.();
@@ -193,12 +204,12 @@ export default function StartBattle({
 			<h3 className="text-lg font-medium">Ready to start your battle?</h3>
 			<p>You've selected your quest and planned your approach.</p>
 
-			{selectedQuest && (
+			{/* {selectedQuest && (
 				<div className="mt-4 p-3 bg-accent/10 rounded-md text-left">
 					<h4 className="font-medium">QuestID: {selectedQuest.id}</h4>
 					<p className="text-sm">{selectedQuest.description}</p>
 				</div>
-			)}
+			)} */}
 
 			<div className="mt-4 space-y-2">
 				<label

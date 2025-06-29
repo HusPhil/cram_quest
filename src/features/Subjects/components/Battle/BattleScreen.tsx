@@ -1,14 +1,17 @@
 import React, { useEffect, useCallback, useMemo, useRef } from 'react';
-import { useBattleSetup } from '../../../Battle/hooks/useBattleSetup';
 import BattleArena from './BattleArena';
 import { TbSword, TbTargetArrow } from 'react-icons/tb';
 import { killEnemyScene } from '../../../Battle/battleEngine/scenes/killEnemy/killEnemyScene';
 import { QuestRead } from '../../../../services/api/schema/quest_schema';
 import { useSetupBattleStore } from '../../stores/setupBattleStore';
 import { toast } from 'react-toastify';
-import { useBattleEngineStore } from '../../stores/battleEngineStore';
 import { QueueCustomSceneFn } from '../../../Battle/hooks/useBattleEngine';
 import colors from '../../../../data/colors';
+import { TaskRead } from '../../../../services/api/schema/task_schema';
+import { useStartTask } from '../../hooks/useStartTask';
+import { useEndTask } from '../../hooks/useEndTask';
+import { useTaskTimingsStorage } from '../../../CheckIn/hooks/useTaskTimingsStorage';
+import { useBattleEngineStore } from '../../stores/battleEngineStore';
 
 interface BattleScreenProps {
 	battleCleanup: () => void;
@@ -26,71 +29,78 @@ export default function BattleScreen({
 	currentQuest,
 	battleDuration,
 }: BattleScreenProps) {
-	// const { battleEngineProps, battleUIProviderProps } = useBattleSetup();
-
-	// const getNewEnemy = useBattleEngineStore((state) => state.getNewEnemy);
 	const queueCustomSceneRef = useRef<QueueCustomSceneFn>(null);
 	const getNewEnemyRef = useRef<() => void>(null);
 
-	// Memoize the selector to prevent unnecessary re-renders
-	const getSelectedTasks = useSetupBattleStore(
-		useCallback((state) => state.getCleanedQuestSteps, [])
+	const { saveStartTime, saveEndTime, clearTimings } =
+		useTaskTimingsStorage();
+
+	const isCustomSceneActive = useBattleEngineStore(
+		(state) => state.isCustomSceneActive
 	);
 
-	// Memoize the selected tasks array to prevent recalculation
-	const selectedTasks = useMemo(() => getSelectedTasks(), [getSelectedTasks]);
+	// Memoize the selector to prevent unnecessary re-renders
+	// const getSelectedTasks = useSetupBattleStore(
+	// 	useCallback((state) => state.getCleanedQuestSteps, [])
+	// );
+	const generatedTasks = useSetupBattleStore((state) => state.generatedTasks);
 
-	const [completedTasks, setCompletedTasks] = React.useState<string[]>([]);
+	const battleResult = useSetupBattleStore((state) => state.battleResult);
+
+	// Memoize the selected tasks array to prevent recalculation
+
+	const [completedTasks, setCompletedTasks] = React.useState<TaskRead[]>([]);
 	const [currentTaskIndex, setCurrentTaskIndex] = React.useState(0);
 
 	// Memoize handlers to prevent child re-renders
 	const handleCompleteTask = useCallback(
-		(completedTask: string) => {
+		(completedTask: TaskRead) => {
 			setCompletedTasks((prev) => [...prev, completedTask]);
 			setCurrentTaskIndex((prev) => {
-				return prev < selectedTasks.length ? prev + 1 : prev;
+				return prev < generatedTasks.length ? prev + 1 : prev;
 			});
 		},
-		[selectedTasks.length]
+		[generatedTasks.length]
 	);
 
 	const handleKillEnemyAnimationComplete = useCallback(() => {
-		const completedTask = selectedTasks[currentTaskIndex];
+		const completedTask = generatedTasks[currentTaskIndex];
 		handleCompleteTask(completedTask);
-	}, [selectedTasks, currentTaskIndex, handleCompleteTask]);
+	}, [generatedTasks, currentTaskIndex, handleCompleteTask]);
 
 	const handleAnimationLastStepIndex = useCallback(() => {
+		const nextTaskIndex = currentTaskIndex + 1;
+		if (nextTaskIndex >= generatedTasks.length) return;
+		const taskToSave = generatedTasks[nextTaskIndex];
+		saveStartTime(taskToSave);
+
 		getNewEnemyRef.current?.();
-	}, []);
+	}, [currentTaskIndex]);
 
 	const handleQuestComplete = useCallback(() => {
 		toast.success('Quest completed!', {
 			toastId: 'quest-completed',
 		});
+
 		setTimeout(() => {
 			battleCleanup();
+			clearTimings();
 		}, 1000 * 3);
 	}, [battleCleanup]);
 
-	// Memoize the quest completion check
-	const isQuestComplete = useMemo(() => {
-		return currentTaskIndex >= selectedTasks.length;
-	}, [currentTaskIndex, selectedTasks.length]);
-
-	useEffect(() => {
-		if (isQuestComplete) {
-			handleQuestComplete();
-		}
-	}, [isQuestComplete, handleQuestComplete]);
-
-	const handleKillEnemy = useCallback(() => {
+	const handleKillEnemy = useCallback(async () => {
+		saveEndTime(generatedTasks[currentTaskIndex]);
 		queueCustomSceneRef.current?.(
 			killEnemyScene,
 			'killEnemyScene',
 			handleKillEnemyAnimationComplete,
 			handleAnimationLastStepIndex
 		);
-	}, [handleKillEnemyAnimationComplete, handleAnimationLastStepIndex]);
+	}, [
+		handleKillEnemyAnimationComplete,
+		handleAnimationLastStepIndex,
+		currentTaskIndex,
+	]);
 
 	const initializeBattleEngineControllers = useCallback(
 		({ queueCustomSceneFn, getNewEnemyFn }: BattleEngineControllers) => {
@@ -99,6 +109,17 @@ export default function BattleScreen({
 		},
 		[]
 	);
+
+	// Memoize the quest completion check
+	const isQuestComplete = useMemo(() => {
+		return currentTaskIndex >= generatedTasks.length;
+	}, [currentTaskIndex, generatedTasks.length]);
+
+	useEffect(() => {
+		if (isQuestComplete) {
+			handleQuestComplete();
+		}
+	}, [isQuestComplete, handleQuestComplete]);
 
 	const battleArenaComponent = useMemo(
 		() => (
@@ -114,14 +135,14 @@ export default function BattleScreen({
 
 	// Memoize derived values
 	const completedTasksCount = completedTasks.length;
-	const totalTasksCount = selectedTasks.length;
+	const totalTasksCount = generatedTasks.length;
 	const isAllTasksCompleted = completedTasksCount === totalTasksCount;
-	const currentTask = selectedTasks[currentTaskIndex];
+	const currentTask = generatedTasks[currentTaskIndex];
 
 	// Memoize the progress display
 	const progressDisplay = useMemo(
 		() => (
-			<p>
+			<p className="mt-3 opacity-50 text-white">
 				{completedTasksCount}/{totalTasksCount}
 			</p>
 		),
@@ -135,56 +156,70 @@ export default function BattleScreen({
 		}
 
 		return (
-			<div className="flex flex-col items-center w-full my-3">
-				<p className="text-xs">{'< Current Task >'}</p>
+			<div className="flex flex-col items-center w-full">
 				<p className="line-clamp-2 text-white text-center">
-					{currentTask}
+					{currentTask.description}
 				</p>
 			</div>
 		);
 	}, [isAllTasksCompleted, currentTask]);
 
+	useEffect(() => {
+		if (generatedTasks.length > 0) {
+			const firstTask = generatedTasks[0];
+			saveStartTime(firstTask);
+		}
+	}, [generatedTasks]);
+
 	return (
 		<div className="flex items-center flex-col">
-			<div className="w-full border border-accent p-2 bg-accent/15 rounded-md mb-3 flex gap-2 px-5 items-center justify-between">
-				<TbTargetArrow className="w-6 h-6 shrink-0" color="#fbbf24" />
+			{true ? (
+				<>
+					<div
+						className={`w-full border rounded-md mb-3 p-2 flex gap-2 px-5 items-center justify-between border-accent bg-accent/15`}
+					>
+						<TbTargetArrow
+							className="w-6 h-6 shrink-0"
+							color="#fbbf24"
+						/>
 
-				<div className="flex flex-col justify-center items-center">
-					{/* <div>
-						{Array.from(
-							{ length: currentQuest.difficulty },
-							(_, index) => (
-								<small key={index} className="text-xs">
-									⭐
-								</small>
-							)
-						)}
-					</div> */}
-					<p className="line-clamp-2 text-accent text-center">
-						{currentQuest.description}
-					</p>
-				</div>
+						<div className="flex flex-col justify-center items-center">
+							<p
+								className={`line-clamp-2 text-center text-accent`}
+							>
+								{currentQuest.description}
+							</p>
+						</div>
 
-				<TbTargetArrow className="w-6 h-6 shrink-0" color="#fbbf24" />
-			</div>
-			<div className="shrink-0 mt-2">
-				{/* <BattleArena {...arenaProps} duration={battleDuration} /> */}
-				{battleArenaComponent}
-			</div>
-			{progressDisplay}
-			{currentTaskDisplay}
-			<button
-				disabled={isAllTasksCompleted}
-				onClick={handleKillEnemy}
-				className={`p-3 mt-3 bg-accent text-background flex justify-center items-center rounded-md ${
-					isAllTasksCompleted
-						? 'opacity-50 cursor-not-allowed'
-						: 'hover:bg-accent/90'
-				}`}
-			>
-				<TbSword className="w-5 h-5 mr-2" color={colors.secondary} />
-				Task Slayed!
-			</button>
+						<TbTargetArrow
+							className="w-6 h-6 shrink-0"
+							color="#fbbf24"
+						/>
+					</div>
+					<div className="shrink-0 mt-2"> {battleArenaComponent}</div>
+					{progressDisplay}
+					{currentTaskDisplay}
+					<button
+						disabled={isAllTasksCompleted || isCustomSceneActive}
+						onClick={handleKillEnemy}
+						className={`p-3 mt-3 bg-accent text-background flex justify-center items-center rounded-md disabled:cursor-not-allowed disabled:opacity-35 ${
+							isAllTasksCompleted
+								? 'opacity-50 cursor-not-allowed'
+								: 'hover:bg-accent/90'
+						}`}
+					>
+						<TbSword
+							className="w-5 h-5 mr-2"
+							color={colors.secondary}
+						/>
+						Task Slayed!
+					</button>
+				</>
+			) : battleResult === 'victory' ? (
+				<></>
+			) : (
+				<></>
+			)}
 		</div>
 	);
 }

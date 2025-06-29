@@ -10,17 +10,10 @@ export const useCreateQuest = () => {
 	return useMutation({
 		mutationFn: createQuest,
 		onSuccess(data, variables, context) {
-			// console.log('data: ', data);
-			// console.log('variables: ', variables);
-			// console.log('context: ', context);
 			toast.success('Quest created successfully');
 		},
 		onError(error, variables, context) {
 			toast.error('Failed to create quest: ' + error.message);
-			// console.log("errorMessage: ", error.response.data.detail);
-			// console.log('error: ', error);
-			// console.log('variables: ', variables);
-			// console.log('context: ', context);
 		},
 	});
 };

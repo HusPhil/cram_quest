@@ -61,7 +61,7 @@ export default function DeleteWithConfirm({
 		<button
 			type="button"
 			className={`group px-1 flex items-center gap-1
-                    ${isConfirming ? 'text-primary px-3 py-1' : ''}
+                    ${isConfirming ? 'text-danger px-3 py-1' : ''}
 					${className}`}
 			onClick={handleDeleteClick}
 		>
@@ -70,13 +70,13 @@ export default function DeleteWithConfirm({
 			>
 				{isConfirming && (
 					<p
-						className={`text-primary px-3 py-1 rounded-md  ${
+						className={`text-danger px-3 py-1 rounded-md  ${
 							isConfirming ? 'opacity-100' : 'w-0 opacity-0'
 						} ${confirmClassName}`}
 					>{`Confirm (${timer}s)`}</p>
 				)}
 				<FaTrash
-					className={`w-3 h-3 text-primary/80 ${
+					className={`w-3 h-3 text-danger/80 ${
 						isConfirming ? 'hidden' : ''
 					} ${iconClassName}`}
 				/>

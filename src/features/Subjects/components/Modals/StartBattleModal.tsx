@@ -68,6 +68,8 @@ export default function StartBattleModal({
 		(state) => state.resetBattleSetup
 	);
 
+	const battleResult = useSetupBattleStore((state) => state.battleResult);
+
 	const handleStartBattle = () => {
 		console.log(
 			'start battle with steps: ' + isBattleActive,
@@ -82,12 +84,19 @@ export default function StartBattleModal({
 		setIsModalOpen(false);
 	};
 
+	const getVariantFromResult = (result: 'defeat' | 'victory' | null) => {
+		if (result === 'defeat') return 'danger';
+		if (result === 'victory') return 'success';
+		return 'primary';
+	};
+
 	return (
 		<Modal
 			isOpen={isBattleActive || isModalOpen}
 			title={isBattleActive ? 'Battle in Progress' : 'Start Battle!'}
 			onClose={() => setIsModalOpen(false)}
 			customHeader={isBattleActive ? <></> : undefined}
+			variant={getVariantFromResult(battleResult)}
 		>
 			{!isBattleActive ? (
 				<>
@@ -153,7 +162,7 @@ const StepNavigation = ({
 				className={`px-4 py-2 rounded-md ${
 					currentStep === 0
 						? 'bg-text/20 text-text/50 cursor-not-allowed'
-						: 'bg-primary/20 text-primary hover:bg-primary/30'
+						: 'bg-danger/20 text-danger hover:bg-danger/30'
 				}`}
 			>
 				Back

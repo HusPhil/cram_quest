@@ -1,30 +1,52 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
+import { useSetupBattleStore } from '../../stores/setupBattleStore';
 
 interface BattleTimerProps {
-	duration?: number; // in minutes [seconds for now for debug]
+	duration?: number; // in seconds (debug)
 	onTimeUp?: () => void;
 }
 
 export const BattleTimer = ({ duration = 60, onTimeUp }: BattleTimerProps) => {
-	const [timeLeft, setTimeLeft] = useState(duration * 60); // seconds for now [debug only]
+	const [timeLeft, setTimeLeft] = useState(duration);
+	const setBattleResult = useSetupBattleStore(
+		(state) => state.setBattleResult
+	);
+
+	const startTimeRef = useRef<number | null>(null);
 
 	useEffect(() => {
-		if (timeLeft <= 0) {
-			onTimeUp?.();
-			alert('timer ended');
-			return;
-		}
+		startTimeRef.current = Date.now();
 
-		const timer = setInterval(() => {
-			setTimeLeft((prev) => prev - 1);
-		}, 1000);
+		const tick = () => {
+			if (!startTimeRef.current) return;
+
+			const elapsed = Math.floor(
+				(Date.now() - startTimeRef.current) / 1000
+			);
+			const remaining = Math.max(duration - elapsed, 0);
+
+			setTimeLeft(remaining);
+
+			if (remaining === 0) {
+				onTimeUp?.();
+				alert('timer ended');
+				setBattleResult('defeat');
+				clearInterval(timer);
+			}
+		};
+
+		const timer = setInterval(tick, 1000);
 
 		return () => clearInterval(timer);
-	}, [timeLeft, onTimeUp]);
+	}, [duration, onTimeUp, setBattleResult]);
 
 	return (
 		<div className="flex items-center justify-center p-2 rounded-lg">
-			<span className="text-xl font-bold text-accent">
+			<span
+				className={`text-xl font-bold ${
+					timeLeft <= 10 ? 'text-danger' : 'text-accent'
+				}`}
+			>
 				{Math.floor(timeLeft / 60)}:
 				{(timeLeft % 60).toString().padStart(2, '0')}
 			</span>
