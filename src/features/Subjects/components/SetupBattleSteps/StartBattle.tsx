@@ -35,7 +35,9 @@ export default function StartBattle({
 		(state) => state.setGeneratedTasks
 	);
 
-	const generatedTasks = useSetupBattleStore((state) => state.generatedTasks);
+	const setBattleSessionId = useSetupBattleStore(
+		(state) => state.setBattleSessionId
+	);
 
 	const setGlobalBattleDuration = useSetupBattleStore(
 		(state) => state.setDuration
@@ -102,14 +104,13 @@ export default function StartBattle({
 					},
 				},
 				{
-					onSuccess: (response) => {
+					onSuccess: (newBattleSession: BattleSessionRead) => {
 						// Pass the duration to the parent component
-						const newBattleSession: BattleSessionRead =
-							response.data;
 						console.log('tasks: ', newBattleSession.tasks);
 						setGeneratedTasks(newBattleSession.tasks);
 						setIsBattleActive(true);
 						setGlobalBattleDuration(battleDuration);
+						setBattleSessionId(newBattleSession.id);
 						onStartBattle?.();
 						toast.success(
 							`Battle started for ${battleDuration} minutes!`,

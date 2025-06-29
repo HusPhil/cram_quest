@@ -7,7 +7,7 @@ interface TaskTiming {
 	description: string;
 }
 
-type TaskTimingsStore = Record<number, TaskTiming>;
+export type TaskTimingsStore = Record<number, TaskTiming>;
 
 const STORAGE_KEY = 'task_timings';
 

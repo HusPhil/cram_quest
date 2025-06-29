@@ -9,3 +9,5 @@ export const getStartTaskEndRoute = (taskId: number) => {
 export const getEndTaskEndRoute = (taskId: number) => {
 	return `${BASE_URL}/${baseTaskRoute}/${taskId}/end`;
 };
+
+export const syncTaskTimingsEndRoute = `${BASE_URL}/${baseTaskRoute}/sync_task_timings`;

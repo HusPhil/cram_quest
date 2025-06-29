@@ -1,17 +1,27 @@
 import React, { useEffect, useCallback, useMemo, useRef } from 'react';
 import BattleArena from './BattleArena';
-import { TbSword, TbTargetArrow } from 'react-icons/tb';
+import {
+	TbFlame,
+	TbLoader2,
+	TbSword,
+	TbTargetArrow,
+	TbTrophy,
+} from 'react-icons/tb';
 import { killEnemyScene } from '../../../Battle/battleEngine/scenes/killEnemy/killEnemyScene';
 import { QuestRead } from '../../../../services/api/schema/quest_schema';
 import { useSetupBattleStore } from '../../stores/setupBattleStore';
 import { toast } from 'react-toastify';
-import { QueueCustomSceneFn } from '../../../Battle/hooks/useBattleEngine';
+import {
+	QueueCustomSceneFn,
+	useBattleEngine,
+} from '../../../Battle/hooks/useBattleEngine';
 import colors from '../../../../data/colors';
 import { TaskRead } from '../../../../services/api/schema/task_schema';
-import { useStartTask } from '../../hooks/useStartTask';
-import { useEndTask } from '../../hooks/useEndTask';
-import { useTaskTimingsStorage } from '../../../CheckIn/hooks/useTaskTimingsStorage';
+import { useTaskTimingsStorage } from '../../hooks/useTaskTimingsStorage';
 import { useBattleEngineStore } from '../../stores/battleEngineStore';
+import SpriteSheet from '../../../../components/SpriteSheet';
+import { useEndBattleSession } from '../../hooks/useEndBattleSession';
+import { useSyncTaskTimings } from '../../hooks/useSyncTaskTimings';
 
 interface BattleScreenProps {
 	battleCleanup: () => void;
@@ -32,22 +42,33 @@ export default function BattleScreen({
 	const queueCustomSceneRef = useRef<QueueCustomSceneFn>(null);
 	const getNewEnemyRef = useRef<() => void>(null);
 
-	const { saveStartTime, saveEndTime, clearTimings } =
+	const endBattleSessionMutate = useEndBattleSession();
+	const syncTaskTimingsMutate = useSyncTaskTimings();
+
+	const { saveStartTime, saveEndTime, clearTimings, getAllTimings } =
 		useTaskTimingsStorage();
 
 	const isCustomSceneActive = useBattleEngineStore(
 		(state) => state.isCustomSceneActive
 	);
 
-	// Memoize the selector to prevent unnecessary re-renders
-	// const getSelectedTasks = useSetupBattleStore(
-	// 	useCallback((state) => state.getCleanedQuestSteps, [])
-	// );
+	const getPlayerAnimation = useBattleEngineStore(
+		(state) => state.getPlayerAnimation
+	);
+
+	const setPlayerActionRef = useBattleEngineStore(
+		(state) => state.setPlayerActionRef
+	);
+
 	const generatedTasks = useSetupBattleStore((state) => state.generatedTasks);
+	const battleSessionId = useSetupBattleStore(
+		(state) => state.battleSessionId
+	);
 
 	const battleResult = useSetupBattleStore((state) => state.battleResult);
-
-	// Memoize the selected tasks array to prevent recalculation
+	const setBattleResult = useSetupBattleStore(
+		(state) => state.setBattleResult
+	);
 
 	const [completedTasks, setCompletedTasks] = React.useState<TaskRead[]>([]);
 	const [currentTaskIndex, setCurrentTaskIndex] = React.useState(0);
@@ -78,14 +99,45 @@ export default function BattleScreen({
 	}, [currentTaskIndex]);
 
 	const handleQuestComplete = useCallback(() => {
-		toast.success('Quest completed!', {
-			toastId: 'quest-completed',
-		});
+		// battleCleanup();
+		// clearTimings();
+		const taskTimingStore = getAllTimings();
 
-		setTimeout(() => {
-			battleCleanup();
-			clearTimings();
-		}, 1000 * 3);
+		console.log('taskTimingStore: ', taskTimingStore);
+
+		if (battleResult !== 'defeat') {
+			setBattleResult('victory');
+		}
+		syncTaskTimingsMutate.mutate(
+			{
+				taskTimingStore,
+			},
+			{
+				onSuccess: () => {
+					if (!battleSessionId) return;
+
+					endBattleSessionMutate.mutate(
+						{
+							battleSessionId,
+						},
+						{
+							onSuccess: () => {
+								setPlayerActionRef?.current('idle');
+								clearTimings();
+								toast.success('Quest completed!', {
+									toastId: 'quest-completed',
+								});
+							},
+						}
+					);
+				},
+				onError: () => {
+					toast.error('Failed to sync task timings', {
+						toastId: 'sync-task-timings-error',
+					});
+				},
+			}
+		);
 	}, [battleCleanup]);
 
 	const handleKillEnemy = useCallback(async () => {
@@ -173,14 +225,14 @@ export default function BattleScreen({
 
 	return (
 		<div className="flex items-center flex-col">
-			{true ? (
+			{!isAllTasksCompleted ? (
 				<>
 					<div
 						className={`w-full border rounded-md mb-3 p-2 flex gap-2 px-5 items-center justify-between border-accent bg-accent/15`}
 					>
 						<TbTargetArrow
 							className="w-6 h-6 shrink-0"
-							color="#fbbf24"
+							color={colors.accent}
 						/>
 
 						<div className="flex flex-col justify-center items-center">
@@ -193,7 +245,7 @@ export default function BattleScreen({
 
 						<TbTargetArrow
 							className="w-6 h-6 shrink-0"
-							color="#fbbf24"
+							color={colors.accent}
 						/>
 					</div>
 					<div className="shrink-0 mt-2"> {battleArenaComponent}</div>
@@ -216,9 +268,79 @@ export default function BattleScreen({
 					</button>
 				</>
 			) : battleResult === 'victory' ? (
-				<></>
+				<>
+					<div
+						className={`w-full border rounded-md mb-3 p-2 flex gap-2 px-5 items-center justify-between border-success bg-success/15`}
+					>
+						<TbTrophy
+							className="w-6 h-6 shrink-0"
+							color={colors.success}
+						/>
+
+						<div className="flex flex-col justify-center items-center">
+							<p
+								className={`line-clamp-2 text-center text-xl text-success`}
+							>
+								{'VICTORY'}
+							</p>
+						</div>
+
+						<TbTrophy
+							className="w-6 h-6 shrink-0"
+							color={colors.success}
+						/>
+					</div>
+					<SpriteSheet
+						src={getPlayerAnimation().characterAsset}
+						frameHeight={48}
+						frameWidth={48}
+						frameCount={getPlayerAnimation().frameCount}
+						fps={getPlayerAnimation().fps}
+						frameRow={getPlayerAnimation().row}
+						scale={2.5}
+						loop={true}
+					/>
+
+					<div
+						className={`w-full border rounded-md mb-3 p-2 flex gap-2 px-5 items-center justify-between border-success bg-success/15`}
+					>
+						<p>{endBattleSessionMutate.isPending.toString()}</p>
+					</div>
+				</>
 			) : (
-				<></>
+				<>
+					<div
+						className={`w-full border rounded-md mb-3 p-2 flex gap-2 px-5 items-center justify-between border-danger bg-danger/15`}
+					>
+						<TbFlame
+							className="w-6 h-6 shrink-0"
+							color={colors.danger}
+						/>
+
+						<div className="flex flex-col justify-center items-center">
+							<p
+								className={`line-clamp-2 text-center text-xl text-danger`}
+							>
+								{'DEFEAT'}
+							</p>
+						</div>
+
+						<TbFlame
+							className="w-6 h-6 shrink-0"
+							color={colors.danger}
+						/>
+					</div>
+					<SpriteSheet
+						src={getPlayerAnimation().characterAsset}
+						frameHeight={48}
+						frameWidth={48}
+						frameCount={getPlayerAnimation().frameCount}
+						fps={getPlayerAnimation().fps}
+						frameRow={getPlayerAnimation().row}
+						scale={2.5}
+						loop={true}
+					/>
+				</>
 			)}
 		</div>
 	);

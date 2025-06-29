@@ -12,6 +12,7 @@ interface SetupBattleState {
 	selectedSubject: SubjectRead | null;
 	questSteps: string[];
 	generatedTasks: TaskRead[];
+	battleSessionId: number | null;
 	durationMinutes: number;
 
 	// Actions
@@ -21,6 +22,7 @@ interface SetupBattleState {
 	setGeneratedTasks: (tasks: TaskRead[]) => void;
 	updateQuestStep: (index: number, step: string) => void;
 	setDuration: (minutes: number) => void;
+	setBattleSessionId: (id: number) => void;
 	setIsBattleActive: (isActive: boolean) => void;
 	setBattleResult: (result: 'defeat' | 'victory' | null) => void;
 	resetBattleSetup: () => void;
@@ -31,6 +33,7 @@ interface SetupBattleState {
 }
 
 export const useSetupBattleStore = create<SetupBattleState>((set, get) => ({
+	battleSessionId: null,
 	isBattleActive: false,
 	battleResult: null,
 	selectedSubject: null,
@@ -65,6 +68,12 @@ export const useSetupBattleStore = create<SetupBattleState>((set, get) => ({
 		set(() => ({
 			durationMinutes: minutes,
 		})),
+
+	setBattleSessionId(id) {
+		set(() => ({
+			battleSessionId: id,
+		}));
+	},
 
 	setIsBattleActive: (isActive) =>
 		set(() => ({

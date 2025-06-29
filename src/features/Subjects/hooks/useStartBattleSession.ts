@@ -22,8 +22,8 @@ const startBattleSession = async ({
 	);
 
 	if (response.status !== 200) {
-		throw new Error('Failed to create new subject');
+		throw new Error('Failed to start a new Battle Session');
 	}
 
-	return response;
+	return response.data;
 };
