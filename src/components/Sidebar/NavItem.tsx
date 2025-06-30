@@ -65,7 +65,7 @@ const NavItem = ({
 			{isActive && (
 				<div
 					className="absolute inset-0 rounded-lg
-                        bg-gradient-to-r from-amber-400/10 via-amber-400/5 to-transparent"
+                        bg-gradient-to-r from-accent/10 via-accent/5 to-transparent"
 				/>
 			)}
 		</Link>

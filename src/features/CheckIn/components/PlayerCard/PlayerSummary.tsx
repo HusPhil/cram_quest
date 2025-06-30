@@ -1,6 +1,5 @@
 import { memo } from 'react';
 import SpriteSheet from '../../../../components/SpriteSheet';
-import StatCard from '../../../../components/StatCard';
 import useCharacterAnimation from '../../../Battle/hooks/useCharacterAnimation';
 import {
 	PlayerClass,

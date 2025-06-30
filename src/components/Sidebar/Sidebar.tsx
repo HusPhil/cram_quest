@@ -2,13 +2,9 @@ import { useLocation } from 'react-router-dom';
 import { useState, useEffect, useCallback } from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import NavItem from './NavItem';
-import NavFooter from './NavFooter';
 import NavHeader from './NavHeader';
 import { useFloatingScreen } from '../../context/FloatingScreenContext';
-import { FaHome, FaQuestion } from 'react-icons/fa';
-import { FaRightFromBracket, FaShirt } from 'react-icons/fa6';
 import {
-	TbBooks,
 	TbBrowserCheck,
 	TbHelpHexagon,
 	TbLogout,
@@ -79,7 +75,7 @@ export default function Sidebar() {
 
 				{/* Current Tab Info */}
 				<div className="flex items-center gap-2">
-					<span className="font-medium text-amber-400">
+					<span className="font-medium text-amber-400 text-xl">
 						{navItems.find(
 							(item) => item.path === location.pathname
 						)?.label || 'Home'}
@@ -90,13 +86,13 @@ export default function Sidebar() {
 			{/* Sidebar */}
 			<aside
 				className={`
-		flex flex-col
-        fixed lg:sticky top-0 h-[100dvh] z-[777]
-        bg-gray-900/95 backdrop-blur-md w-64
-        transition-all duration-300 ease-out
-        ${isMobileOpen ? 'left-0' : '-left-64 lg:left-0'}
-        ${isCollapsed ? 'lg:w-20' : 'lg:w-64'}
-      `}
+					flex flex-col
+					fixed lg:sticky top-0 h-[100dvh] z-[777]
+					bg-gray-900/95 backdrop-blur-md w-64
+					transition-all duration-300 ease-out
+					${isMobileOpen ? 'left-0' : '-left-64 lg:left-0'}
+					${isCollapsed ? 'lg:w-20' : 'lg:w-64'}
+				`}
 			>
 				{/* Header */}
 				<NavHeader
@@ -105,7 +101,7 @@ export default function Sidebar() {
 					setIsMobileOpen={setIsMobileOpen}
 				/>
 
-				{isCollapsed && <hr className="mt-2 mx-2 border-accent/50" />}
+				{isCollapsed && <hr className="mx-2 border-accent/50" />}
 
 				{/* Navigation */}
 				<nav className="p-3 flex-1 flex flex-col justify-between">
@@ -137,7 +133,6 @@ export default function Sidebar() {
 						isActive={false}
 						isCollapsed={isCollapsed}
 						isMobileOpen={isMobileOpen}
-						otherClassname=""
 					/>
 				</nav>
 				{/* Footer */}
