@@ -1,6 +1,4 @@
-import React from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { IoClose } from 'react-icons/io5';
 
 interface NavHeaderProps {
 	isCollapsed: boolean;
@@ -22,13 +20,12 @@ export default function NavHeader({
 			} `}
 		>
 			{/* Desktop Collapse Toggle */}
-
 			<h1
 				className={`
-        font-bold text-xl bg-gradient-to-r from-amber-200 to-amber-400 
-        text-transparent bg-clip-text transition-all duration-300
-        ${isCollapsed ? 'lg:hidden lg:translate-x-4' : 'opacity-100'}
-        `}
+					font-bold text-xl bg-gradient-to-r from-amber-200 to-amber-400 
+					text-transparent bg-clip-text transition-all duration-300
+					${isCollapsed ? 'lg:hidden lg:translate-x-4' : 'opacity-100'}
+				`}
 			>
 				CramQuest
 			</h1>

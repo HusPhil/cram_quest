@@ -54,34 +54,11 @@ export default function Sidebar() {
 	// Close mobile menu on desktop view
 	return (
 		<>
-			{/* Mobile Overlay */}
-			{isMobileOpen && (
-				<div
-					className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden"
-					onClick={() => setIsMobileOpen(false)}
-				/>
-			)}
-
-			{/* Mobile Menu Toggle with Current Tab */}
-			<div className="relative lg:hidden flex items-center gap-3 p-2 bg-gray-900/95">
-				<button
-					onClick={() => handleSetIsMobileOpen()}
-					className="p-2.5 rounded-xl self-end
-                    bg-gray-900/95 backdrop-blur-sm border border-amber-500/20
-                    active:scale-95 transition-all duration-200"
-				>
-					<GiHamburgerMenu className="w-5 h-5 text-amber-400" />
-				</button>
-
-				{/* Current Tab Info */}
-				<div className="flex items-center gap-2">
-					<span className="font-medium text-amber-400 text-xl">
-						{navItems.find(
-							(item) => item.path === location.pathname
-						)?.label || 'Home'}
-					</span>
-				</div>
-			</div>
+			<MobileSidebar
+				isMobileOpen={isMobileOpen}
+				setIsMobileOpen={setIsMobileOpen}
+				handleSetIsMobileOpen={handleSetIsMobileOpen}
+			/>
 
 			{/* Sidebar */}
 			<aside
@@ -135,9 +112,50 @@ export default function Sidebar() {
 						isMobileOpen={isMobileOpen}
 					/>
 				</nav>
-				{/* Footer */}
-				{/* {!isCollapsed && <NavFooter />} */}
 			</aside>
 		</>
 	);
 }
+
+export const MobileSidebar = ({
+	isMobileOpen,
+	setIsMobileOpen,
+	handleSetIsMobileOpen,
+}: {
+	isMobileOpen: boolean;
+	setIsMobileOpen: React.Dispatch<React.SetStateAction<boolean>>;
+	handleSetIsMobileOpen: () => void;
+}) => {
+	return (
+		<>
+			{/* The overlay */}
+			{isMobileOpen && (
+				<div
+					className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden"
+					onClick={() => setIsMobileOpen(false)}
+				/>
+			)}
+
+			{/* Mobile Menu Toggle with Current Tab */}
+			<div className="relative lg:hidden flex items-center gap-3 p-2 bg-gray-900/95">
+				<button
+					onClick={handleSetIsMobileOpen}
+					className="p-2.5 rounded-xl self-end
+                    bg-gray-900/95 backdrop-blur-sm border border-amber-500/20
+                    active:scale-95 transition-all duration-200"
+				>
+					<GiHamburgerMenu className="w-5 h-5 text-amber-400" />
+				</button>
+
+				{/* Current Tab Info */}
+				<div className="flex items-center gap-2">
+					<span className="font-medium text-amber-400 text-xl">
+						{navItems.find(
+							(item) => item.path === location.pathname
+						)?.label || 'Home'}
+					</span>
+				</div>
+			</div>
+		</>
+	);
+};

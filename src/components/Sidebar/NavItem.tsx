@@ -34,30 +34,22 @@ const NavItem = ({
 		>
 			<div
 				className={`
-            transition-transform duration-200
-            group-hover:scale-110 group-active:scale-95
-            ${
-				isActive
-					? 'text-amber-400'
-					: 'text-gray-400 group-hover:text-amber-400'
-			}
-        `}
+					transition-transform duration-200
+					group-hover:scale-110 group-active:scale-95
+					${isActive ? 'text-amber-400' : 'text-gray-400 group-hover:text-amber-400'}
+				`}
 			>
 				{icon}
 			</div>
 
 			<span
 				className={`
-            font-medium tracking-wide whitespace-nowrap
-            transition-all duration-300
-            ${isCollapsed ? 'lg:hidden' : 'opacity-100 ml-3'}
-            ${isMobileOpen && 'ml-3'}
-            ${
-				isActive
-					? 'text-amber-400'
-					: 'text-gray-400 group-hover:text-amber-400'
-			}
-        `}
+					font-medium tracking-wide whitespace-nowrap
+					transition-all duration-300
+					${isCollapsed ? 'lg:hidden' : 'opacity-100 ml-3'}
+					${isMobileOpen && 'ml-3'}
+					${isActive ? 'text-amber-400' : 'text-gray-400 group-hover:text-amber-400'}
+				`}
 			>
 				{label}
 			</span>
