@@ -30,6 +30,10 @@ export const signUp = async ({
 	password,
 	avatar_url,
 }: SignUpRequest) => {
+	console.log('username: ', username);
+	console.log('email: ', email);
+	console.log('avatar_url: ', avatar_url);
+	console.log('password: ', password);
 	const { data: response } = await axiosInstance.post(
 		signUpEndRoute,
 		{

@@ -22,6 +22,7 @@ import { useBattleEngineStore } from '../../stores/battleEngineStore';
 import SpriteSheet from '../../../../components/SpriteSheet';
 import { useEndBattleSession } from '../../hooks/useEndBattleSession';
 import { useSyncTaskTimings } from '../../hooks/useSyncTaskTimings';
+import { BattleSessionRead } from '../../../../services/api/schema/battle_session_schema';
 
 interface BattleScreenProps {
 	battleCleanup: () => void;
@@ -121,8 +122,14 @@ export default function BattleScreen({
 							battleSessionId,
 						},
 						{
-							onSuccess: () => {
+							onSuccess: (
+								battleSessionResult: BattleSessionRead
+							) => {
 								setPlayerActionRef?.current('idle');
+								console.log(
+									'battleSessionResult: ',
+									battleSessionResult
+								);
 								clearTimings();
 								toast.success('Quest completed!', {
 									toastId: 'quest-completed',
