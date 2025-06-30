@@ -9,6 +9,7 @@ interface NavItemProps {
 	isActive: boolean;
 	isCollapsed: boolean;
 	isMobileOpen: boolean;
+	otherClassname?: string;
 }
 
 const NavItem = ({
@@ -18,6 +19,7 @@ const NavItem = ({
 	isActive,
 	isCollapsed,
 	isMobileOpen,
+	otherClassname,
 }: NavItemProps) => {
 	return (
 		<Link
@@ -27,6 +29,7 @@ const NavItem = ({
             transition-all duration-200 relative
             ${isCollapsed ? 'lg:justify-center px-2' : 'px-3'} py-2.5
             ${isActive ? 'bg-amber-400/10' : 'hover:bg-amber-400/5'}
+			${otherClassname}
         `}
 		>
 			<div

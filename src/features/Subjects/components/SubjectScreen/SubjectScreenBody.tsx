@@ -1,11 +1,11 @@
 import { lazy, memo, useCallback, useEffect, useMemo } from 'react';
 import PageTabs from '../PageTabs/PageTabs';
 import { PAGE_TITLES, PageTitle } from './SubjectScreen';
+import QuestsPage from '../Pages/Quest/QuestsPage';
 import LearningPage from '../Pages/Learning/LearningPage';
 
-// const LearningPage = lazy(() => import("../Pages/Learning/LearningPage"));
-const QuestsPage = lazy(() => import('../Pages/Quest/QuestsPage'));
-const EditPage = lazy(() => import('../Pages/EditPage'));
+// const LearningPage = lazy(() => import('../Pages/Learning/LearningPage'));
+// const QuestsPage = lazy(() => import('../Pages/Quest/QuestsPage'));
 
 interface SubjectScreenBodyProps {
 	subjectId: number;

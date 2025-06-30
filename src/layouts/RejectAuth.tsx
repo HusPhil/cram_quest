@@ -24,11 +24,7 @@ const RejectAuth = () => {
 	}, []);
 
 	if (!checkedAuth) return null; // Or a <Loading /> spinner
-	return isAuthenticated ? (
-		<Navigate to="/home/check-in" replace />
-	) : (
-		<Outlet />
-	);
+	return isAuthenticated ? <Navigate to="/check-in" replace /> : <Outlet />;
 };
 
 export default RejectAuth;

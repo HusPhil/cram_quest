@@ -15,10 +15,8 @@ const Home = lazy(() => import('./pages/Home'));
 
 // Tabs (children of Home)
 const CheckIn = lazy(() => import('./features/CheckIn/CheckIn'));
-const Quests = lazy(() => import('./features/Quests/Quests'));
 const Battle = lazy(() => import('./features/Battle/Battle'));
 const Subjects = lazy(() => import('./features/Subjects/Subjects'));
-const SessionLogs = lazy(() => import('./features/Home/tabs/SessionLogs'));
 
 const AppRouter = () => {
 	return (
@@ -46,10 +44,8 @@ const AppRouter = () => {
 									element={<Navigate to="check-in" replace />}
 								/>
 								<Route path="check-in" element={<CheckIn />} />
-								<Route path="quests" element={<Quests />} />
 								<Route path="battle" element={<Battle />} />
 								<Route path="subjects" element={<Subjects />} />
-								<Route path="logs" element={<SessionLogs />} />
 							</Route>
 						</Route>
 

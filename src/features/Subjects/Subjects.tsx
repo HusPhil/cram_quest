@@ -5,10 +5,7 @@ import { useGetUserPlayer } from '../CheckIn/hooks/useGetUserPlayer';
 import { useAuth } from '../../context/AuthContext';
 import { useGetPlayerSubjects } from './hooks/useGetPlayerSubjects';
 import SubjectCard from './components/SubjectCard';
-
-const SubjectScreen = lazy(
-	() => import('./components/SubjectScreen/SubjectScreen')
-);
+import { SubjectScreen } from './components/SubjectScreen/SubjectScreen';
 
 export default function Subjects() {
 	const { openScreen, setContent } = useFloatingScreen();
@@ -45,7 +42,7 @@ export default function Subjects() {
 	} = useGetPlayerSubjects(player?.id);
 
 	return (
-		<div className="h-full flex flex-col">
+		<div className="h-full w-full flex flex-col">
 			{/* Header section with fixed height */}
 			<div className="flex-none">
 				<SubjectHeader playerId={player?.id} />

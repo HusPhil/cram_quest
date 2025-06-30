@@ -7,29 +7,36 @@ import NavHeader from './NavHeader';
 import { useFloatingScreen } from '../../context/FloatingScreenContext';
 import { FaHome, FaQuestion } from 'react-icons/fa';
 import { FaRightFromBracket, FaShirt } from 'react-icons/fa6';
+import {
+	TbBooks,
+	TbBrowserCheck,
+	TbHelpHexagon,
+	TbLogout,
+	TbVocabulary,
+} from 'react-icons/tb';
 
 const navItems = [
 	{
-		path: '/home',
-		label: 'Home',
-		icon: <FaHome className="w-5 h-5" />,
+		path: '/home/check-in',
+		label: 'Check-in',
+		icon: <TbBrowserCheck className="w-[1.55rem] h-[1.55rem]" />,
+	},
+	{
+		path: '/home/subjects',
+		label: 'Subjects',
+		icon: <TbVocabulary className="w-[1.55rem] h-[1.55rem]" />,
 	},
 	{
 		path: '/about',
 		label: 'About',
-		icon: <FaQuestion className="w-5 h-5" />,
-	},
-	{
-		path: '/home/skins',
-		label: 'Skins',
-		icon: <FaShirt className="w-5 h-5" />,
+		icon: <TbHelpHexagon className="w-[1.55rem] h-[1.55rem]" />,
 	},
 ];
 
 const signOutNavItem = {
 	path: '/signOut',
 	label: 'Sign Out',
-	icon: <FaRightFromBracket className="w-5 h-5" />,
+	icon: <TbLogout className="w-5 h-5" />,
 };
 
 export default function Sidebar() {
@@ -83,7 +90,8 @@ export default function Sidebar() {
 			{/* Sidebar */}
 			<aside
 				className={`
-        fixed lg:sticky top-0 h-screen z-[777]
+		flex flex-col
+        fixed lg:sticky top-0 h-[100dvh] z-[777]
         bg-gray-900/95 backdrop-blur-md w-64
         transition-all duration-300 ease-out
         ${isMobileOpen ? 'left-0' : '-left-64 lg:left-0'}
@@ -100,26 +108,27 @@ export default function Sidebar() {
 				{isCollapsed && <hr className="mt-2 mx-2 border-accent/50" />}
 
 				{/* Navigation */}
-				<nav className="p-3 space-y-1">
-					{navItems.map(({ path, label, icon }) => {
-						const isActive =
-							path === '/home'
-								? location.pathname.startsWith('/home')
-								: location.pathname === path;
+				<nav className="p-3 flex-1 flex flex-col justify-between">
+					<div className="space-y-1">
+						{navItems.map(({ path, label, icon }) => {
+							const isActive =
+								path === '/home'
+									? location.pathname.startsWith('/home')
+									: location.pathname === path;
 
-						return (
-							<NavItem
-								key={path}
-								path={path}
-								label={label}
-								icon={icon}
-								isActive={isActive}
-								isCollapsed={isCollapsed}
-								isMobileOpen={isMobileOpen}
-							/>
-						);
-					})}
-
+							return (
+								<NavItem
+									key={path}
+									path={path}
+									label={label}
+									icon={icon}
+									isActive={isActive}
+									isCollapsed={isCollapsed}
+									isMobileOpen={isMobileOpen}
+								/>
+							);
+						})}
+					</div>
 					<NavItem
 						key={signOutNavItem.path}
 						path={signOutNavItem.path}
@@ -128,11 +137,11 @@ export default function Sidebar() {
 						isActive={false}
 						isCollapsed={isCollapsed}
 						isMobileOpen={isMobileOpen}
+						otherClassname=""
 					/>
 				</nav>
-
 				{/* Footer */}
-				{!isCollapsed && <NavFooter />}
+				{/* {!isCollapsed && <NavFooter />} */}
 			</aside>
 		</>
 	);
