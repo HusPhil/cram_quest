@@ -44,6 +44,7 @@ export default function Sidebar() {
 	// Close mobile menu on route change
 	useEffect(() => {
 		setIsMobileOpen(false);
+		closeScreen();
 	}, [location.pathname]);
 
 	const handleSetIsMobileOpen = useCallback(() => {
