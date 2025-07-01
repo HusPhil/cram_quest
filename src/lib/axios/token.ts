@@ -4,7 +4,7 @@ import {
 	getExternalTokenSetter,
 	useAuth,
 } from '../../context/AuthContext';
-import { BASE_URL } from '../../data/api';
+import { BASE_URL } from '../../services/api/api';
 import { RefreshTokenResponse } from '../../services/api/schema/auth_schema';
 import { axiosInstance } from './axiosInstance';
 

@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import useSignUp from '../../hooks/useSignUp';
-import SignUpStep1 from './SignUpStep1';
-import SignUpStep2 from './SignUpStep2';
+import { useRef, useState } from 'react';
+import useSignUp from '../hooks/useSignUp';
+import SignUpStep1 from './SignUpSteps/SignUpStep1';
+import SignUpStep2 from './SignUpSteps/SignUpStep2';
 
 export default function SignUpForm() {
 	const signUpMutate = useSignUp();

@@ -59,7 +59,7 @@ export function PlayerSummary({
 						(userError || playerError || profileError) !== null
 					}
 					onAnimationCycleComplete={handleAnimationComplete}
-					scale={currentScreenSize !== 'LARGE' ? 2 : 2.3}
+					scale={currentScreenSize !== 'LARGE' ? 2.3 : 2.5}
 				/>
 			</div>
 		</div>

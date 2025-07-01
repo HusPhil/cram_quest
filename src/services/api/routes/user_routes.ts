@@ -1,4 +1,4 @@
-import { BASE_URL } from '../../../data/api';
+import { BASE_URL } from '../api';
 
 const baseUserRoute = 'users';
 

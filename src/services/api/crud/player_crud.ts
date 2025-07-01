@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { BASE_URL } from '../../../data/api';
+import { BASE_URL } from '../api';
 import { fetcher } from '../fetcher';
 import {
 	getPlayerProfileEndRoute,

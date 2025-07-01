@@ -1,15 +1,10 @@
-import { useState, useEffect } from 'react';
-import { FormValidationResult } from '../../../pages/Authentication';
+import { useState } from 'react';
 import { useSignIn } from '../hooks/useSignIn';
 import { toast } from 'react-toastify';
 
 export default function SignInForm() {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
-	const [validation, setValidation] = useState<FormValidationResult>({
-		valid: false,
-		message: '',
-	});
 
 	const signInMutate = useSignIn();
 
