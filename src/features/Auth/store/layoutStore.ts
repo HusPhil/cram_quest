@@ -1,11 +1,12 @@
 import { create } from 'zustand';
+import { AuthTab } from '../types';
 
 interface LayoutState {
-	activeTab: 'signIn' | 'signUp';
-	setActiveTab: (tab: 'signIn' | 'signUp') => void;
+	activeTab: AuthTab;
+	setActiveTab: (tab: AuthTab) => void;
 }
 
 export const useLayoutStore = create<LayoutState>((set) => ({
 	activeTab: 'signIn',
-	setActiveTab: (tab: 'signIn' | 'signUp') => set({ activeTab: tab }),
+	setActiveTab: (tab: AuthTab) => set({ activeTab: tab }),
 }));
