@@ -8,7 +8,8 @@ function App() {
 		<AuthProvider>
 			<AppRouter />
 			<ToastContainer
-				position="bottom-left"
+				position="top-right"
+				draggableDirection="y"
 				theme="dark"
 				className="toastify-container"
 			/>

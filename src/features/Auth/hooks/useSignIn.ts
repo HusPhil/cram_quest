@@ -16,8 +16,6 @@ export const useSignIn = () => {
 			navigate('/home');
 		},
 		onError(error, variables, context) {
-			alert('An ERROR OCCURED: ' + error.response.data.detail);
-			// console.log("errorMessage: ", error.response.data.detail);
 			console.log('error: ', error);
 			console.log('variables: ', variables);
 			console.log('context: ', context);

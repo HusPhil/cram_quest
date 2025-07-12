@@ -7,7 +7,6 @@ interface QuestBase {
 export interface QuestCreate extends QuestBase {}
 
 export interface QuestRead extends QuestBase {
-	id: number;
 	player_id: number;
 }
 

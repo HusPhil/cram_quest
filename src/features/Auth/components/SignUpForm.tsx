@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import useSignUp from '../hooks/useSignUp';
 import SignUpStep1 from './SignUpSteps/SignUpStep1';
 import SignUpStep2 from './SignUpSteps/SignUpStep2';
+import { toast } from 'react-toastify';
 
 export default function SignUpForm() {
 	const signUpMutate = useSignUp();
@@ -17,10 +18,13 @@ export default function SignUpForm() {
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		// TODO: Handle sign-up logic (e.g., API call)
-		// alert(
-		// 	`username: ${usernameRef.current?.value}\nemail: ${emailRef.current?.value}\npassword: ${passwordRef.current?.value}\navatarUrl: ${avatarUrlRef.current?.value}`
-		// );
+
+		if (passwordRef.current?.value !== confirmPasswordRef.current?.value) {
+			toast.error('Passwords do not match!', {
+				toastId: 'passwords-do-not-match',
+			});
+			return;
+		}
 
 		if (
 			!usernameRef.current ||
@@ -32,12 +36,43 @@ export default function SignUpForm() {
 			return;
 		}
 
-		signUpMutate.mutate({
-			username: usernameRef.current?.value,
-			email: emailRef.current?.value,
-			password: passwordRef.current?.value,
-			avatar_url: avatarUrlRef.current?.value,
-		});
+		signUpMutate.mutate(
+			{
+				username: usernameRef.current?.value,
+				email: emailRef.current?.value,
+				password: passwordRef.current?.value,
+				avatar_url: avatarUrlRef.current?.value,
+			},
+			{
+				onSuccess: () => {
+					toast.success('Sign up success!', {
+						toastId: 'sign-up-success',
+					});
+				},
+				onError: (err: any) => {
+					const details = err?.response?.data?.detail;
+
+					if (Array.isArray(details)) {
+						details.forEach((issue: any, index: number) => {
+							// Extract field name from loc (e.g., ["body", "username"])
+							const field =
+								Array.isArray(issue.loc) && issue.loc.length > 1
+									? issue.loc[1]
+									: 'field';
+							const message = `${field}: ${issue.msg}`;
+
+							toast.error(message, {
+								toastId: `sign-up-error-${field}-${index}`,
+							});
+						});
+					} else {
+						toast.error('Failed to sign up: ' + err.message, {
+							toastId: 'sign-up-error-generic',
+						});
+					}
+				},
+			}
+		);
 	};
 
 	const handleNextStep = () => {
@@ -45,7 +80,7 @@ export default function SignUpForm() {
 	};
 
 	return (
-		<form className="">
+		<form>
 			<div
 				className={`space-y-5 mt-5 ${
 					signUpStep == 1 ? 'block' : 'hidden'

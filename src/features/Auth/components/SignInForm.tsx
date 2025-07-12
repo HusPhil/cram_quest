@@ -1,19 +1,25 @@
-import { useState } from 'react';
+import { useRef } from 'react';
 import { useSignIn } from '../hooks/useSignIn';
 import { toast } from 'react-toastify';
+import InputFieldWithRef from '../../../components/InputFieldWithRef';
 
 export default function SignInForm() {
-	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
+	const usernameRef = useRef<HTMLInputElement>(null);
+	const passwordRef = useRef<HTMLInputElement>(null);
 
-	const signInMutate = useSignIn();
+	const { mutate, isPending } = useSignIn();
 
-	const handleSubmit = (e: React.FormEvent) => {
-		signInMutate.mutate(
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		const username = usernameRef.current?.value || '';
+		const password = passwordRef.current?.value || '';
+
+		mutate(
 			{ username, password },
 			{
-				onError: (e: Error) => {
-					toast.error('Failed to authenticate user: ' + e.message, {
+				onError: (err: Error) => {
+					toast.error('Failed to authenticate user: ' + err.message, {
 						toastId: 'authenticate-user-error',
 					});
 				},
@@ -24,38 +30,37 @@ export default function SignInForm() {
 				},
 			}
 		);
-		e.preventDefault();
 	};
 
 	return (
 		<form onSubmit={handleSubmit} className="space-y-4 mt-5">
-			<div className="space-y-1">
-				<label className="text-sm text-text/70">Username</label>
-				<input
-					type="text"
-					placeholder="CramWarrior"
-					value={username}
-					onChange={(e) => setUsername(e.target.value)}
-					className="w-full px-4 py-3 rounded bg-background/50 border border-accent/30 focus:border-accent/60 focus:outline-none transition-colors placeholder:text-text/30 text-sm"
-				/>
-			</div>
-			<div className="space-y-1">
-				<label className="text-sm text-text/70">Password</label>
-				<input
-					type="password"
-					placeholder="sw0rdP@ssw0rd"
-					value={password}
-					onChange={(e) => setPassword(e.target.value)}
-					className="w-full px-4 py-3 rounded bg-background/50 border border-accent/30 focus:border-accent/60 focus:outline-none transition-colors placeholder:text-text/30 text-sm"
-				/>
-			</div>
+			<InputFieldWithRef
+				ref={usernameRef}
+				id="username"
+				label="Username"
+				type="text"
+				placeholder="CramWarrior"
+				autoComplete="username"
+				required
+			/>
+
+			<InputFieldWithRef
+				ref={passwordRef}
+				id="password"
+				label="Password"
+				type="password"
+				placeholder="sw0rdP@ssw0rd"
+				required
+			/>
+
 			<button
 				type="submit"
+				disabled={isPending}
 				className={`w-full py-3 rounded-lg font-bold transition-colors relative group overflow-hidden
-        bg-accent/90 text-white hover:bg-accent ${
-			signInMutate.isPending ? 'animate-pulse' : ''
-		}
-        disabled:bg-accent/30 disabled:hover:bg-accent/30 disabled:text-white/70 disabled:cursor-not-allowed`}
+					bg-accent/90 text-white hover:bg-accent
+					${isPending ? 'animate-pulse' : ''}
+					disabled:bg-accent/30 disabled:hover:bg-accent/30
+					disabled:text-white/70 disabled:cursor-not-allowed`}
 			>
 				<span className="relative z-10">Begin Quest</span>
 				<div className="absolute inset-0 bg-gradient-to-r from-accent via-accent/80 to-accent opacity-0 group-hover:opacity-100 transition-opacity group-disabled:opacity-0" />
