@@ -13,7 +13,7 @@ export default function SignInForm() {
 		e.preventDefault();
 
 		const username = usernameRef.current?.value.trim() || '';
-		const password = passwordRef.current?.value.trim() || '';
+		const password = passwordRef.current?.value || '';
 
 		mutate(
 			{ username, password },

@@ -4,6 +4,12 @@ import SignUpStep1 from './SignUpSteps/SignUpStep1';
 import SignUpStep2 from './SignUpSteps/SignUpStep2';
 import { toast } from 'react-toastify';
 import { useAuthLayoutStore } from '../store/authLayoutStore';
+import {
+	passwordsMatch,
+	showError,
+	hasRequiredFields,
+	handleMutationError,
+} from '../utils/pureAuthUtils';
 
 export default function SignUpForm() {
 	const signUpMutate = useSignUp();
@@ -15,40 +21,38 @@ export default function SignUpForm() {
 	const emailRef = useRef<HTMLInputElement>(null);
 	const passwordRef = useRef<HTMLInputElement>(null);
 	const confirmPasswordRef = useRef<HTMLInputElement>(null);
-
 	const avatarUrlRef = useRef<HTMLInputElement>(null);
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
+
+		const username = usernameRef.current?.value || '';
+		const email = emailRef.current?.value || '';
+		const password = passwordRef.current?.value || '';
+		const confirmPassword = confirmPasswordRef.current?.value || '';
+		const avatarUrl = avatarUrlRef.current?.value || '';
 
 		if (signUpStep === 1) {
 			setSignUpStep(2);
 			return;
 		}
 
-		if (passwordRef.current?.value !== confirmPasswordRef.current?.value) {
-			toast.error('Passwords do not match!', {
-				toastId: 'passwords-do-not-match',
-			});
+		if (!passwordsMatch(password, confirmPassword)) {
+			showError('Passwords do not match!', 'passwords-do-not-match');
 			return;
 		}
 
-		if (
-			!usernameRef.current ||
-			!emailRef.current ||
-			!passwordRef.current ||
-			!avatarUrlRef.current
-		) {
-			alert('Invalid inputs!');
+		if (!hasRequiredFields([username, email, password, avatarUrl])) {
+			showError('Please fill in all required fields.', 'invalid-inputs');
 			return;
 		}
 
 		signUpMutate.mutate(
 			{
-				username: usernameRef.current?.value,
-				email: emailRef.current?.value,
-				password: passwordRef.current?.value,
-				avatar_url: avatarUrlRef.current?.value,
+				username: username.trim(),
+				email: email.trim(),
+				password: password,
+				avatar_url: avatarUrl.trim(),
 			},
 			{
 				onSuccess: () => {
@@ -57,54 +61,26 @@ export default function SignUpForm() {
 					});
 					setActiveTab('signIn');
 				},
-				onError: (err: any) => {
-					const details = err?.response?.data?.detail;
-
-					if (Array.isArray(details)) {
-						details.forEach((issue: any, index: number) => {
-							const field =
-								Array.isArray(issue.loc) && issue.loc.length > 1
-									? issue.loc[1]
-									: 'field';
-							const message = `${field}: ${issue.msg}`;
-
-							toast.error(message, {
-								toastId: `sign-up-error-${field}-${index}`,
-							});
-						});
-					} else if (details) {
-						toast.error(details, {
-							toastId: 'sign-up-error-generic',
-						});
-					} else {
-						toast.error('Failed to sign up: ' + err.message, {
-							toastId: 'sign-up-error-generic',
-						});
-					}
-				},
+				onError: handleMutationError,
 			}
 		);
 	};
 
 	const handleNextStep = () => {
-		if (
-			!emailRef.current?.value.trim() ||
-			!passwordRef.current?.value.trim()
-		) {
-			toast.error('Email and password are required!', {
-				toastId: 'invalid-inputs',
-			});
+		const email = emailRef.current?.value || '';
+		const password = passwordRef.current?.value || '';
+		const confirmPassword = confirmPasswordRef.current?.value || '';
+
+		if (!hasRequiredFields([email, password])) {
+			showError('Email and password are required!', 'invalid-inputs');
 			return;
 		}
-		if (
-			passwordRef.current?.value.trim() !==
-			confirmPasswordRef.current?.value.trim()
-		) {
-			toast.error('Passwords do not match!', {
-				toastId: 'passwords-do-not-match',
-			});
+
+		if (!passwordsMatch(password, confirmPassword)) {
+			showError('Passwords do not match!', 'passwords-do-not-match');
 			return;
 		}
+
 		setSignUpStep(2);
 	};
 
@@ -112,7 +88,7 @@ export default function SignUpForm() {
 		<form>
 			<div
 				className={`space-y-5 mt-5 ${
-					signUpStep == 1 ? 'block' : 'hidden'
+					signUpStep === 1 ? 'block' : 'hidden'
 				}`}
 			>
 				<SignUpStep1
@@ -125,7 +101,7 @@ export default function SignUpForm() {
 
 			<div
 				className={`space-y-5 mt-5 ${
-					signUpStep == 2 ? 'block' : 'hidden'
+					signUpStep === 2 ? 'block' : 'hidden'
 				}`}
 			>
 				<SignUpStep2
