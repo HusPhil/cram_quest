@@ -1,4 +1,4 @@
-import { lazy, memo, useCallback, useEffect, useMemo } from 'react';
+import { memo, useCallback, useEffect, useMemo } from 'react';
 import PageTabs from '../PageTabs/PageTabs';
 import { PAGE_TITLES, PageTitle } from './SubjectScreen';
 import QuestsPage from '../Pages/Quest/QuestsPage';

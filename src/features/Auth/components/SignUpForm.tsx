@@ -3,7 +3,7 @@ import useSignUp from '../hooks/useSignUp';
 import SignUpStep1 from './SignUpSteps/SignUpStep1';
 import SignUpStep2 from './SignUpSteps/SignUpStep2';
 import { toast } from 'react-toastify';
-import { useAuthLayoutStore } from '../store/authLayoutStore';
+import { useAuthStore_UI } from '../store/authStore_UI';
 import {
 	passwordsMatch,
 	showError,
@@ -15,7 +15,7 @@ export default function SignUpForm() {
 	const signUpMutate = useSignUp();
 
 	const [signUpStep, setSignUpStep] = useState<number>(1);
-	const setActiveTab = useAuthLayoutStore((state) => state.setActiveTab);
+	const setActiveTab = useAuthStore_UI((state) => state.setActiveTab);
 
 	const usernameRef = useRef<HTMLInputElement>(null);
 	const emailRef = useRef<HTMLInputElement>(null);

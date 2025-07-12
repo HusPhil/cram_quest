@@ -6,7 +6,7 @@ interface AuthLayoutState {
 	setActiveTab: (tab: AuthTab) => void;
 }
 
-export const useAuthLayoutStore = create<AuthLayoutState>((set) => ({
+export const useAuthStore_UI = create<AuthLayoutState>((set) => ({
 	activeTab: 'signIn',
 	setActiveTab: (tab: AuthTab) => set({ activeTab: tab }),
 }));
