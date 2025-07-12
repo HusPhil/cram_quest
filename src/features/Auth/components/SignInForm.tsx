@@ -12,8 +12,8 @@ export default function SignInForm() {
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		const username = usernameRef.current?.value || '';
-		const password = passwordRef.current?.value || '';
+		const username = usernameRef.current?.value.trim() || '';
+		const password = passwordRef.current?.value.trim() || '';
 
 		mutate(
 			{ username, password },

@@ -2,11 +2,11 @@ import RpgCard from '../../components/RpgCard';
 import AuthTabHeader from './components/AuthTabHeader';
 import SignInForm from './components/SignInForm';
 import SignUpForm from './components/SignUpForm';
-import { useLayoutStore } from './store/layoutStore';
+import { useAuthLayoutStore } from './store/authLayoutStore';
 
 export default function Auth() {
-	const activeTab = useLayoutStore((state) => state.activeTab);
-	const setActiveTab = useLayoutStore((state) => state.setActiveTab);
+	const activeTab = useAuthLayoutStore((state) => state.activeTab);
+	const setActiveTab = useAuthLayoutStore((state) => state.setActiveTab);
 
 	return (
 		<div

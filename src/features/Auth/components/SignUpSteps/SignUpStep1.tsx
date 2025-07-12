@@ -1,5 +1,6 @@
 import { RefObject, useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import InputFieldWithRef from '../../../../components/InputFieldWithRef';
 
 interface SignUpStep1Props {
 	emailRef: RefObject<HTMLInputElement | null>;
@@ -16,57 +17,64 @@ export default function SignUpStep1({
 }: SignUpStep1Props) {
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
 	return (
 		<>
-			<div className="space-y-1">
-				<label className="text-sm text-text/70">Email</label>
-				<input
-					type="email"
-					required
-					ref={emailRef}
-					placeholder="cramwarrior@example.com"
-					className="w-full px-4 py-3 rounded bg-background/50 border border-accent/30 focus:border-accent/60 focus:outline-none transition-colors placeholder:text-text/30 text-sm"
-				/>
-			</div>
+			<InputFieldWithRef
+				label="Email"
+				id="email"
+				placeholder="cramwarrior@example.com"
+				wrapperClassName="space-y-1"
+				ref={emailRef}
+				required
+			/>
 
-			<div className="space-y-1">
-				<label className="text-sm text-text/70">Password</label>
-				<div className="relative">
-					<input
+			<div className="space-y-1  w-full">
+				<div className="flex flex-1 items-center">
+					<InputFieldWithRef
+						label="Password"
+						id="password"
+						placeholder="sw0rdP@ssw0rd"
 						type={showPassword ? 'text' : 'password'}
+						wrapperClassName="space-y-1 w-full"
 						ref={passwordRef}
-						placeholder="sw0rdP@ssw0rd"
-						className="w-full px-4 py-3 rounded bg-background/50 border border-accent/30 focus:border-accent/60 focus:outline-none transition-colors placeholder:text-text/30 text-sm pr-10"
+						required
+						button={
+							<button
+								type="button"
+								tabIndex={-1}
+								onClick={() => setShowPassword((prev) => !prev)}
+								className="absolute top-1/2 right-3 -translate-y-1/2 text-text/50 hover:text-accent transition-colors"
+							>
+								{showPassword ? <FaEyeSlash /> : <FaEye />}
+							</button>
+						}
 					/>
-					<button
-						type="button"
-						tabIndex={-1}
-						onClick={() => setShowPassword((prev) => !prev)}
-						className="absolute top-1/2 right-3 -translate-y-1/2 text-text/50 hover:text-accent transition-colors"
-					>
-						{showPassword ? <FaEyeSlash /> : <FaEye />}
-					</button>
 				</div>
 			</div>
 
 			<div className="space-y-1">
-				<label className="text-sm text-text/70">Confirm password</label>
-				<div className="relative">
-					<input
-						type={showConfirmPassword ? 'text' : 'password'}
-						ref={confirmPasswordRef}
-						placeholder="sw0rdP@ssw0rd"
-						className="w-full px-4 py-3 rounded bg-background/50 border border-accent/30 focus:border-accent/60 focus:outline-none transition-colors placeholder:text-text/30 text-sm pr-10"
-					/>
-					<button
-						type="button"
-						tabIndex={-1}
-						onClick={() => setShowConfirmPassword((prev) => !prev)}
-						className=" absolute top-1/2 right-3 -translate-y-1/2 text-text/50 hover:text-accent transition-colors"
-					>
-						{showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-					</button>
-				</div>
+				<InputFieldWithRef
+					label="Confirm Password"
+					id="confirm-password"
+					placeholder="sw0rdP@ssw0rd"
+					type={showConfirmPassword ? 'text' : 'password'}
+					wrapperClassName="space-y-1"
+					ref={confirmPasswordRef}
+					required
+					button={
+						<button
+							type="button"
+							tabIndex={-1}
+							onClick={() =>
+								setShowConfirmPassword((prev) => !prev)
+							}
+							className=" absolute top-1/2 right-3 -translate-y-1/2 text-text/50 hover:text-accent transition-colors"
+						>
+							{showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+						</button>
+					}
+				/>
 			</div>
 
 			<button

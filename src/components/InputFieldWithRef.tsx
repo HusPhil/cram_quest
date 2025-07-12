@@ -5,23 +5,30 @@ interface InputFieldWithRefProps extends InputHTMLAttributes<HTMLInputElement> {
 	label: string;
 	id: string;
 	wrapperClassName?: string;
+	button?: React.ReactNode;
 }
 
 const InputFieldWithRef = forwardRef<HTMLInputElement, InputFieldWithRefProps>(
-	({ label, id, wrapperClassName = '', className = '', ...rest }, ref) => (
+	(
+		{ label, id, wrapperClassName = '', className = '', button, ...rest },
+		ref
+	) => (
 		<div className={`space-y-1 ${wrapperClassName}`}>
 			<label htmlFor={id} className="text-sm text-text/70">
 				{label}
 			</label>
-			<input
-				ref={ref}
-				id={id}
-				aria-label={label}
-				className={`w-full px-4 py-3 rounded bg-background/50 border border-accent/30 
+			<div className="relative">
+				<input
+					ref={ref}
+					id={id}
+					aria-label={label}
+					className={`w-full px-4 py-3 rounded bg-background/50 border border-accent/30 
 					focus:border-accent/60 focus:outline-none transition-colors 
 					placeholder:text-text/30 text-sm ${className}`}
-				{...rest}
-			/>
+					{...rest}
+				/>
+				{button}
+			</div>
 		</div>
 	)
 );

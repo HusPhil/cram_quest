@@ -9,8 +9,6 @@ const useSignUp = () => {
 	return useMutation({
 		mutationFn: signUp,
 		onSuccess(data) {
-			alert('Successfully signed up');
-			console.log('signup data: ', data);
 			setCurrentUserId(data.user_id);
 		},
 		onError(error) {
