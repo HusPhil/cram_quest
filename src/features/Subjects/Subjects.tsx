@@ -1,8 +1,5 @@
-import { lazy } from 'react';
 import { useFloatingScreen } from '../../context/FloatingScreenContext';
 import SubjectHeader from './components/SubjectHeader';
-import { useGetUserPlayer } from '../CheckIn/hooks/useGetUserPlayer';
-import { useAuth } from '../../context/AuthContext';
 import { useGetPlayerSubjects } from './hooks/useGetPlayerSubjects';
 import SubjectCard from './components/SubjectCard';
 import { SubjectScreen } from './components/SubjectScreen/SubjectScreen';

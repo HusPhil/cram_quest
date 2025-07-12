@@ -3,7 +3,6 @@ import PlayerCard from './components/PlayerCard/PlayerCard';
 import WeeklyRecord from './components/WeeklyRecord.tsx/WeeklyRecord';
 import RpgCard from '../../components/RpgCard';
 import { useGetUserPlayer } from './hooks/useGetUserPlayer';
-import { useAuth } from '../../context/AuthContext';
 import { useGetPlayerProfile } from './hooks/useGetPlayerProfile';
 import {
 	ParsedPlayerAvatar,
@@ -54,7 +53,7 @@ const mockWeeklyCheckInRecord = [
 export default function CheckIn() {
 	const { currentScreenSize, currentHeightSize } = useScreenResize();
 
-	const { currentUserId } = useAuth();
+	const currentUserId = usePlayerInformationStore.getState().userId;
 	console.log('currentUserId', currentUserId);
 	const {
 		data: player,
@@ -77,10 +76,9 @@ export default function CheckIn() {
 
 	useEffect(() => {
 		if (!playerIsLoading && player?.id) {
-			console.log('player id: ', player.id);
-			const setGloabalPlayerId =
+			const setCurrentPlayerId =
 				usePlayerInformationStore.getState().setPlayerId;
-			setGloabalPlayerId(player.id);
+			setCurrentPlayerId(player.id);
 		}
 	}, [playerIsLoading]);
 

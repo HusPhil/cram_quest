@@ -9,12 +9,6 @@ import { BASE_URL } from '../../services/api/api';
 import { RefreshTokenResponse } from '../../services/api/schema/auth_schema';
 import { axiosInstance } from './axiosInstance';
 
-// Function to retrieve the auth token
-export function getAuthToken() {
-	const { accessToken } = useAuth();
-	return accessToken; // Replace with actual logic (e.g., from localStorage or context)
-}
-
 // Function to refresh the access token
 export async function refreshAccessToken(): Promise<RefreshTokenResponse> {
 	try {

@@ -84,7 +84,7 @@ export default function StartBattle({
 			if (
 				!currentPlayerId ||
 				!selectedQuest?.subject_id ||
-				!selectedQuest.id
+				!selectedQuest?.id
 			) {
 				toast.error('Something is wrong with the quest you selected!', {
 					toastId: 'invalid-selected-quest',

@@ -1,4 +1,5 @@
 interface QuestBase {
+	id: number;
 	subject_id: number;
 	description: string;
 	difficulty: number;

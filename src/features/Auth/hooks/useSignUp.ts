@@ -1,14 +1,14 @@
 // src/features/Auth/hooks/useSignIn.ts
 import { useMutation } from '@tanstack/react-query';
-import { useAuth } from '../../../context/AuthContext';
 import { signUp } from '../../../services/api/crud/auth_crud';
+import { usePlayerInformationStore } from '../store/playerInformationStore';
 
 const useSignUp = () => {
-	const { setCurrentUserId } = useAuth();
-
 	return useMutation({
 		mutationFn: signUp,
 		onSuccess(data) {
+			const setCurrentUserId =
+				usePlayerInformationStore.getState().setUserId;
 			setCurrentUserId(data.user_id);
 		},
 		onError(error) {
