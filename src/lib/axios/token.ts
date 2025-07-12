@@ -1,9 +1,4 @@
 // src/lib/axios/token.ts
-import {
-	getExternalCurrentUserIdSetter,
-	getExternalTokenSetter,
-	useAuth,
-} from '../../context/AuthContext';
 import { usePlayerInformationStore } from '../../features/Auth/store/playerInformationStore';
 import { BASE_URL } from '../../services/api/api';
 import { RefreshTokenResponse } from '../../services/api/schema/auth_schema';
@@ -23,22 +18,18 @@ export async function refreshAccessToken(): Promise<RefreshTokenResponse> {
 			throw new Error(data.message || 'Failed to refresh token');
 		}
 
-		console.log('data: ', data);
+		const setCurrentAccessToken =
+			usePlayerInformationStore.getState().setAcessToken;
 
-		const setToken = getExternalTokenSetter();
-		if (setToken) setToken(data.access_token);
-
-		const setCurrentUserId = getExternalCurrentUserIdSetter();
-		if (setCurrentUserId) setCurrentUserId(data.user_id);
-
-		const setPlayerCurrentUser =
+		const setPlayerCurrentUserId =
 			usePlayerInformationStore.getState().setUserId;
 
-		const setPlayerCurrentPlayer =
+		const setPlayerCurrentPlayerId =
 			usePlayerInformationStore.getState().setPlayerId;
 
-		setPlayerCurrentUser(data.user_id);
-		setPlayerCurrentPlayer(data.player_id);
+		setCurrentAccessToken(data.access_token);
+		setPlayerCurrentUserId(data.user_id);
+		setPlayerCurrentPlayerId(data.player_id);
 
 		return data;
 	} catch (error) {
@@ -53,7 +44,7 @@ export function setAuthHeader(token: string) {
 }
 
 // This can be used directly in interceptors to set the token from context dynamically.
-export const updateAuthHeaderFromContext = () => {
-	const { accessToken } = useAuth();
-	setAuthHeader(accessToken); // Set the token from context to the axios headers
+export const updateAuthHeaderFromStore = () => {
+	const currentAccessToken = usePlayerInformationStore.getState().accessToken;
+	setAuthHeader(currentAccessToken!); // Set the token from context to the axios headers
 };

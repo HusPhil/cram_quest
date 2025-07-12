@@ -10,11 +10,6 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | null>(null);
 let externalSetToken: ((token: string) => void) | null = null;
 let externalSetCurrentUserId: ((userId: number) => void) | null = null;
-interface CurrentUser {
-	id: number;
-	email: string;
-	username: string;
-}
 
 export default function AuthProvider({
 	children,
