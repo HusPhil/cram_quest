@@ -5,9 +5,9 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useDeleteQuest } from '../../../../hooks/useDeleteQuest';
 import { useUpdateQuest } from '../../../../hooks/useUpdateQuest';
 import StarRating from '../../../../components/StarRating';
-import DeleteWithConfirm from './DeleteWithConfirm';
-import EditButton from './EditButton';
+import DeleteWithConfirm from '../../../../components/DeleteWithConfirm';
 import { putCursorToFront } from '../../../../../../utils/putCursorToFront';
+import { FaFloppyDisk, FaPenToSquare } from 'react-icons/fa6';
 
 interface QuestCardProps {
 	quest: QuestRead;
@@ -173,11 +173,6 @@ export function QuestInputs({
 
 	return (
 		<div className="flex gap-3 items-start grow-0 max-w-[92%]">
-			{/* <input
-				type="checkbox"
-				className="appearance-none shrink-0 w-4 h-4 rounded-sm accent-accent 
-		  bg-secondary checked:appearance-auto border border-accent mt-1"
-			/> */}
 			<p
 				ref={descriptionRef}
 				contentEditable={isEditEnabled}
@@ -193,6 +188,57 @@ export function QuestInputs({
 			>
 				{quest.description}
 			</p>
+		</div>
+	);
+}
+
+interface EditButtonProps {
+	isEditEnabled: boolean;
+	isEditing: boolean;
+	setIsEditEnabled: (isEditEnabled: boolean) => void;
+	setIsEditing: (isLoading: boolean) => void;
+	updateFn: () => Promise<void>;
+}
+
+export function EditButton({
+	isEditEnabled,
+	isEditing,
+	setIsEditEnabled,
+	setIsEditing,
+	updateFn,
+}: EditButtonProps) {
+	const handleUpdateQuest = async () => {
+		setIsEditing(true);
+
+		await updateFn();
+
+		setIsEditing(false);
+	};
+
+	return (
+		<div className="shrink-0">
+			<button
+				onClick={async () => {
+					if (!isEditEnabled) {
+						setIsEditEnabled(true);
+						return;
+					}
+
+					await handleUpdateQuest();
+					setIsEditEnabled(false);
+				}}
+				disabled={isEditing}
+				className="mt-1 shrink-0"
+			>
+				{isEditEnabled ? (
+					<FaFloppyDisk
+						className="text-accent"
+						onClick={handleUpdateQuest}
+					/>
+				) : (
+					<FaPenToSquare />
+				)}
+			</button>
 		</div>
 	);
 }
