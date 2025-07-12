@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AddNewSubjectModal from './Modals/AddNewSubjectModal';
+import AddNewSubjectModal from '../modals/AddNewSubjectModal';
 import { FaPlus } from 'react-icons/fa';
 
 export default function SubjectHeader({

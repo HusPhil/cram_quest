@@ -2,7 +2,7 @@ import { useFloatingScreen } from '../../context/FloatingScreenContext';
 import SubjectHeader from './components/SubjectHeader';
 import { useGetPlayerSubjects } from './hooks/useGetPlayerSubjects';
 import SubjectCard from './components/SubjectCard';
-import { SubjectScreen } from './components/SubjectScreen/SubjectScreen';
+import SubjectScreen from './screens/SubjectScreen/SubjectScreen';
 import { useAuthInformationStore } from '../Auth/store/authInformationStore';
 
 export default function Subjects() {

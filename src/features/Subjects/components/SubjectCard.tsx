@@ -1,15 +1,8 @@
-import { FaStar } from 'react-icons/fa';
-import NamedGiIcon from '../../../components/NamedGiIcon';
 import StarRating from './StarRating';
-import DeleteWithConfirm from './Pages/Quest/DeleteWithConfirm';
 import { useEffect, useRef, useState } from 'react';
-import { toast } from 'react-toastify';
-import EditButton from './Pages/Quest/EditButton';
 import { putCursorToFront } from '../../../utils/putCursorToFront';
-import { useDeleteSubject } from '../hooks/useDeleteSubject';
-import { useQueryClient } from '@tanstack/react-query';
-import { FaGear, FaSliders } from 'react-icons/fa6';
-import ViewSettingsModal from './Modals/ViewSettingsModal';
+import ViewSettingsModal from '../modals/ViewSettingsModal';
+import { FaSliders } from 'react-icons/fa6';
 
 interface SubjectCardProps {
 	playerId: number;

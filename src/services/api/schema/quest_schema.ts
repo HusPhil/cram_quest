@@ -1,5 +1,4 @@
 interface QuestBase {
-	id: number;
 	subject_id: number;
 	description: string;
 	difficulty: number;
@@ -8,6 +7,7 @@ interface QuestBase {
 export interface QuestCreate extends QuestBase {}
 
 export interface QuestRead extends QuestBase {
+	id: number;
 	player_id: number;
 }
 
