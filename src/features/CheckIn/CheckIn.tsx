@@ -51,16 +51,14 @@ const mockWeeklyCheckInRecord = [
 ];
 
 export default function CheckIn() {
-	const { currentScreenSize, currentHeightSize } = useScreenResize();
+	const { currentScreenSize } = useScreenResize();
 
 	const currentUserId = useAuthInformationStore.getState().userId;
-	console.log('currentUserId', currentUserId);
 	const {
 		data: player,
 		isLoading: playerIsLoading,
 		error: playerError,
 	} = useGetUserPlayer(currentUserId!);
-	console.log('player', player?.id);
 
 	const {
 		data: profile,

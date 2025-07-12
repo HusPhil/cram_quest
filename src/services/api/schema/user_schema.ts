@@ -5,4 +5,6 @@ interface UserBase {
 
 export interface UserRead extends UserBase {
 	id: number;
+	is_active: boolean;
+	is_admin: boolean;
 }

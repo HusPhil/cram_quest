@@ -7,6 +7,7 @@ import { defaultBattleScene } from '../battleEngine/scenes/default/defaultBattle
 import { parsePlayerAvatar } from '../../../utils/parsePlayerAvatar';
 import { CharacterType } from '../configs/spritesheetConfig';
 import { useBattleEngineStore } from '../../Subjects/stores/battleEngineStore';
+import { useUserPlayerStore } from '../../Auth/store/userPlayerStore';
 
 export const useBattleSetup = () => {
 	const enemyTypes = [
@@ -18,9 +19,11 @@ export const useBattleSetup = () => {
 	] as CharacterType[];
 
 	// Character setup
-	const playerProfileAvatarUrl = 'worker/prince.png';
+	const playerProfileAvatarUrl = useUserPlayerStore(
+		(state) => state.avatarUrl
+	);
 	const { playerClass, playerSkin } = parsePlayerAvatar(
-		playerProfileAvatarUrl
+		playerProfileAvatarUrl!
 	);
 	const [currentEnemy, setCurrentEnemy] = useState<CharacterType>(
 		getRandomChoice(enemyTypes, 'orc', false)
