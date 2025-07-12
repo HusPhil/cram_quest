@@ -55,11 +55,13 @@ export default function CheckIn() {
 	const { currentScreenSize, currentHeightSize } = useScreenResize();
 
 	const { currentUserId } = useAuth();
+	console.log('currentUserId', currentUserId);
 	const {
 		data: player,
 		isLoading: playerIsLoading,
 		error: playerError,
 	} = useGetUserPlayer(currentUserId!);
+	console.log('player', player?.id);
 
 	const {
 		data: profile,

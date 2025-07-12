@@ -1,12 +1,4 @@
-import React, {
-	RefObject,
-	useCallback,
-	useEffect,
-	useMemo,
-	useRef,
-	useState,
-} from 'react';
-import CornerDecoration from '../../../../components/CornerDecoration';
+import React, { RefObject, useState } from 'react';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import SpriteSheet from '../../../../components/SpriteSheet';
 import {

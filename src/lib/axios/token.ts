@@ -4,6 +4,7 @@ import {
 	getExternalTokenSetter,
 	useAuth,
 } from '../../context/AuthContext';
+import { usePlayerInformationStore } from '../../features/Auth/store/playerInformationStore';
 import { BASE_URL } from '../../services/api/api';
 import { RefreshTokenResponse } from '../../services/api/schema/auth_schema';
 import { axiosInstance } from './axiosInstance';
@@ -28,11 +29,22 @@ export async function refreshAccessToken(): Promise<RefreshTokenResponse> {
 			throw new Error(data.message || 'Failed to refresh token');
 		}
 
+		console.log('data: ', data);
+
 		const setToken = getExternalTokenSetter();
 		if (setToken) setToken(data.access_token);
 
-		const setCurrentUSerId = getExternalCurrentUserIdSetter();
-		if (setCurrentUSerId) setCurrentUSerId(data.user_id);
+		const setCurrentUserId = getExternalCurrentUserIdSetter();
+		if (setCurrentUserId) setCurrentUserId(data.user_id);
+
+		const setPlayerCurrentUser =
+			usePlayerInformationStore.getState().setUserId;
+
+		const setPlayerCurrentPlayer =
+			usePlayerInformationStore.getState().setPlayerId;
+
+		setPlayerCurrentUser(data.user_id);
+		setPlayerCurrentPlayer(data.player_id);
 
 		return data;
 	} catch (error) {

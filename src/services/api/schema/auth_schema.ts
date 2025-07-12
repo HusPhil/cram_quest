@@ -13,4 +13,5 @@ export interface SignUpRequest {
 export interface RefreshTokenResponse {
 	access_token: string;
 	user_id: number;
+	player_id: number;
 }

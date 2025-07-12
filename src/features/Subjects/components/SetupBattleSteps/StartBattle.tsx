@@ -24,7 +24,7 @@ export default function StartBattle({
 	); // For immediate input display
 
 	const currentPlayerId = usePlayerInformationStore(
-		(state) => state.player_id
+		(state) => state.playerId
 	);
 
 	const getCleanedQuestSteps = useSetupBattleStore(
