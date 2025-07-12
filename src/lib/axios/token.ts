@@ -1,5 +1,5 @@
 // src/lib/axios/token.ts
-import { usePlayerInformationStore } from '../../features/Auth/store/playerInformationStore';
+import { useAuthInformationStore } from '../../features/Auth/store/authInformationStore';
 import { BASE_URL } from '../../services/api/api';
 import { RefreshTokenResponse } from '../../services/api/schema/auth_schema';
 import { axiosInstance } from './axiosInstance';
@@ -19,13 +19,13 @@ export async function refreshAccessToken(): Promise<RefreshTokenResponse> {
 		}
 
 		const setCurrentAccessToken =
-			usePlayerInformationStore.getState().setAcessToken;
+			useAuthInformationStore.getState().setAcessToken;
 
 		const setPlayerCurrentUserId =
-			usePlayerInformationStore.getState().setUserId;
+			useAuthInformationStore.getState().setUserId;
 
 		const setPlayerCurrentPlayerId =
-			usePlayerInformationStore.getState().setPlayerId;
+			useAuthInformationStore.getState().setPlayerId;
 
 		setCurrentAccessToken(data.access_token);
 		setPlayerCurrentUserId(data.user_id);
@@ -45,6 +45,6 @@ export function setAuthHeader(token: string) {
 
 // This can be used directly in interceptors to set the token from context dynamically.
 export const updateAuthHeaderFromStore = () => {
-	const currentAccessToken = usePlayerInformationStore.getState().accessToken;
+	const currentAccessToken = useAuthInformationStore.getState().accessToken;
 	setAuthHeader(currentAccessToken!); // Set the token from context to the axios headers
 };

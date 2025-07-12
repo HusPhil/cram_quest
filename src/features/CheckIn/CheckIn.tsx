@@ -10,7 +10,7 @@ import {
 } from '../../utils/parsePlayerAvatar';
 import { useGetUser } from './hooks/useGetUser';
 import { useEffect } from 'react';
-import { usePlayerInformationStore } from '../Auth/store/playerInformationStore';
+import { useAuthInformationStore } from '../Auth/store/authInformationStore';
 
 const mockWeeklyCheckInRecord = [
 	{
@@ -53,7 +53,7 @@ const mockWeeklyCheckInRecord = [
 export default function CheckIn() {
 	const { currentScreenSize, currentHeightSize } = useScreenResize();
 
-	const currentUserId = usePlayerInformationStore.getState().userId;
+	const currentUserId = useAuthInformationStore.getState().userId;
 	console.log('currentUserId', currentUserId);
 	const {
 		data: player,
@@ -77,7 +77,7 @@ export default function CheckIn() {
 	useEffect(() => {
 		if (!playerIsLoading && player?.id) {
 			const setCurrentPlayerId =
-				usePlayerInformationStore.getState().setPlayerId;
+				useAuthInformationStore.getState().setPlayerId;
 			setCurrentPlayerId(player.id);
 		}
 	}, [playerIsLoading]);

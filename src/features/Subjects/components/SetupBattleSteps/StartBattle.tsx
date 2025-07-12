@@ -4,7 +4,7 @@ import { useSetupBattleStore } from '../../stores/setupBattleStore';
 import { toast } from 'react-toastify';
 import debounce from 'just-debounce-it';
 import { useStartBattleSession } from '../../hooks/useStartBattleSession';
-import { usePlayerInformationStore } from '../../../Auth/store/playerInformationStore';
+import { useAuthInformationStore } from '../../../Auth/store/authInformationStore';
 import { BattleSessionRead } from '../../../../services/api/schema/battle_session_schema';
 
 const MAX_BATTLE_DURATION_MINS = 60 * 2;
@@ -23,9 +23,7 @@ export default function StartBattle({
 		MIN_BATTLE_DURATION_MINS.toString()
 	); // For immediate input display
 
-	const currentPlayerId = usePlayerInformationStore(
-		(state) => state.playerId
-	);
+	const currentPlayerId = useAuthInformationStore((state) => state.playerId);
 
 	const getCleanedQuestSteps = useSetupBattleStore(
 		(state) => state.getCleanedQuestSteps

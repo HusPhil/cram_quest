@@ -3,7 +3,7 @@ import SubjectHeader from './components/SubjectHeader';
 import { useGetPlayerSubjects } from './hooks/useGetPlayerSubjects';
 import SubjectCard from './components/SubjectCard';
 import { SubjectScreen } from './components/SubjectScreen/SubjectScreen';
-import { usePlayerInformationStore } from '../Auth/store/playerInformationStore';
+import { useAuthInformationStore } from '../Auth/store/authInformationStore';
 
 export default function Subjects() {
 	const { openScreen, setContent } = useFloatingScreen();
@@ -25,9 +25,7 @@ export default function Subjects() {
 		openScreen();
 	};
 
-	const currentPlayerId = usePlayerInformationStore(
-		(state) => state.playerId
-	);
+	const currentPlayerId = useAuthInformationStore((state) => state.playerId);
 
 	const {
 		data: subjects,
