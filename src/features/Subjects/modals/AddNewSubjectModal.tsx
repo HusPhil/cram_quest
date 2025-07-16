@@ -6,17 +6,23 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useSubjectStore_UI } from '../stores/subjectStore_UI';
 
 interface AddNewSubjectModalProps {
-	playerId: number;
-	isModalOpen?: boolean;
+	playerId?: number;
 }
 
 export default function AddNewSubjectModal({
 	playerId,
-	isModalOpen = true,
 }: AddNewSubjectModalProps) {
+	const activeModal = useSubjectStore_UI((state) => state.activeModal);
+
 	const closeActiveModal = useSubjectStore_UI(
 		(state) => state.closeActiveModal
 	);
+
+	useEffect(() => {
+		if (codeNameRef.current) {
+			codeNameRef.current.focus();
+		}
+	}, [activeModal]);
 
 	const formRef = useRef<HTMLFormElement>(null);
 	const codeNameRef = useRef<HTMLInputElement>(null);
@@ -26,6 +32,8 @@ export default function AddNewSubjectModal({
 
 	const queryClient = useQueryClient();
 	const createSubjectMutate = useCreateSubject();
+
+	if (!playerId || activeModal !== 'AddNewSubjectModal') return null;
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -54,15 +62,9 @@ export default function AddNewSubjectModal({
 		);
 	};
 
-	useEffect(() => {
-		if (codeNameRef.current) {
-			codeNameRef.current.focus();
-		}
-	}, [isModalOpen]);
-
 	return (
 		<Modal
-			isOpen={isModalOpen}
+			isOpen={true}
 			onClose={closeActiveModal}
 			title="Add a new subject!"
 		>

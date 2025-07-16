@@ -7,13 +7,9 @@ import { useSubjectStore_UI } from '../stores/subjectStore_UI';
 
 interface AddNewQuestModalProps {
 	subjectId: number;
-	isModalOpen?: boolean;
 }
 
-export default function AddNewQuestModal({
-	subjectId,
-	isModalOpen = true,
-}: AddNewQuestModalProps) {
+export default function AddNewQuestModal({ subjectId }: AddNewQuestModalProps) {
 	const formRef = useRef<HTMLFormElement>(null);
 	const descriptionRef = useRef<HTMLInputElement>(null);
 
@@ -21,16 +17,20 @@ export default function AddNewQuestModal({
 		(state) => state.closeActiveModal
 	);
 
-	useEffect(() => {
-		if (isModalOpen && descriptionRef.current) {
-			descriptionRef.current.focus();
-		}
-	}, [isModalOpen]);
-
 	const [difficulty, setDifficulty] = useState(3);
 
 	const queryClient = useQueryClient();
 	const createQuestMutate = useCreateQuest();
+
+	const activeModal = useSubjectStore_UI((state) => state.activeModal);
+
+	useEffect(() => {
+		if (descriptionRef.current) {
+			descriptionRef.current.focus();
+		}
+	}, [activeModal]);
+
+	if (!subjectId || activeModal !== 'AddNewQuestModal') return null;
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -59,7 +59,7 @@ export default function AddNewQuestModal({
 	};
 	return (
 		<Modal
-			isOpen={isModalOpen}
+			isOpen={true}
 			onClose={closeActiveModal}
 			title="Add a new Quest!"
 		>

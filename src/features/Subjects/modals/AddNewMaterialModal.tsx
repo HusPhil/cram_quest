@@ -4,18 +4,25 @@ import { useCreateMaterial } from '../hooks/useCreateMaterial';
 import { useQueryClient } from '@tanstack/react-query';
 import { FaCirclePlay, FaNoteSticky, FaRug } from 'react-icons/fa6';
 import { MaterialType } from '../screens/SubjectScreen/Tabs/Learning/LearningPage';
+import { useSubjectStore_UI } from '../stores/subjectStore_UI';
 
 interface AddNewMaterialModalProps {
 	subjectId: number;
-	isModalOpen: boolean;
-	setIsModalOpen: (open: boolean) => void;
 }
+
+type MaterialOption = {
+	type: MaterialType;
+	label: string;
+	icon: React.ReactNode;
+};
 
 export default function AddNewMaterialModal({
 	subjectId,
-	isModalOpen,
-	setIsModalOpen,
 }: AddNewMaterialModalProps) {
+	const closeActiveModal = useSubjectStore_UI(
+		(state) => state.closeActiveModal
+	);
+
 	const formRef = useRef<HTMLFormElement>(null);
 	const codeNameRef = useRef<HTMLInputElement>(null);
 	const linkRef = useRef<HTMLInputElement>(null);
@@ -25,11 +32,16 @@ export default function AddNewMaterialModal({
 	const queryClient = useQueryClient();
 	const createMaterialMutate = useCreateMaterial();
 
-	type MaterialOption = {
-		type: MaterialType;
-		label: string;
-		icon: React.ReactNode;
-	};
+	const activeModal = useSubjectStore_UI((state) => state.activeModal);
+
+	useEffect(() => {
+		if (codeNameRef.current) {
+			console.log('subjectId:', subjectId);
+			codeNameRef.current.focus();
+		}
+	}, [activeModal]);
+
+	if (!subjectId || activeModal !== 'AddNewMaterialModal') return null;
 
 	const materialOptions: MaterialOption[] = [
 		{
@@ -75,24 +87,17 @@ export default function AddNewMaterialModal({
 					});
 				},
 				onSettled: () => {
-					setIsModalOpen(false);
+					closeActiveModal();
 					formRef?.current?.reset();
 				},
 			}
 		);
 	};
 
-	useEffect(() => {
-		if (codeNameRef.current) {
-			console.log('subjectId:', subjectId);
-			codeNameRef.current.focus();
-		}
-	}, [isModalOpen]);
-
 	return (
 		<Modal
-			isOpen={isModalOpen}
-			onClose={() => setIsModalOpen(false)}
+			isOpen={true}
+			onClose={closeActiveModal}
 			title="Add a new material!"
 		>
 			<form ref={formRef} onSubmit={handleSubmit} className="space-y-4">

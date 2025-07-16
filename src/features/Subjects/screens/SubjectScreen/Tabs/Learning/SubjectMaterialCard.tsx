@@ -8,6 +8,7 @@ import {
 } from 'react-icons/fa6';
 import { MaterialType } from './LearningPage';
 import { MaterialRead } from '../../../../../../services/api/schema/material_schema';
+import { useSubjectStore_UI } from '../../../../stores/subjectStore_UI';
 
 interface SubjectMaterialCardProps {
 	material: MaterialRead;
@@ -17,6 +18,8 @@ interface SubjectMaterialCardProps {
 export default function SubjectMaterialCard({
 	material,
 }: SubjectMaterialCardProps) {
+	const setActiveModal = useSubjectStore_UI((state) => state.setActiveModal);
+
 	const getIconFromMaterialType = useCallback((type: MaterialType) => {
 		switch (type) {
 			case 'Note':
@@ -50,7 +53,15 @@ export default function SubjectMaterialCard({
 				<button>
 					<FaEllipsisVertical
 						className="w-4 h-4"
-						onClick={() => console.log('More options')}
+						onClick={() =>
+							setActiveModal('EditMaterialModal', {
+								id: material.id,
+								link: material.link,
+								subject_id: material.subject_id,
+								title: material.title,
+								type: material.type,
+							})
+						}
 					></FaEllipsisVertical>
 				</button>
 			</span>

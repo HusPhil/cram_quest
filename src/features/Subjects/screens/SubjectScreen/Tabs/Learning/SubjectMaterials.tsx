@@ -2,9 +2,8 @@ import TagLabel from '../../../../../../components/TagLabel';
 import { FaPlus } from 'react-icons/fa';
 import SubjectMaterialCard from './SubjectMaterialCard';
 import { useState } from 'react';
-import AddNewMaterialModal from '../../../../modals/AddNewMaterialModal';
 import { MaterialRead } from '../../../../../../services/api/schema/material_schema';
-import EditMaterialModal from '../../../../modals/EditMaterialModal';
+import { useSubjectStore_UI } from '../../../../stores/subjectStore_UI';
 
 interface SubjectMaterialsProps {
 	subjectId: number;
@@ -15,17 +14,7 @@ export default function SubjectMaterials({
 	subjectId,
 	materials,
 }: SubjectMaterialsProps) {
-	const [isAddNewMaterialModalOpen, setIsAddNewMaterialModalOpen] =
-		useState(false);
-	const [isMaterialSettingsModalOpen, setIsMaterialSettingsModalOpen] =
-		useState(false); //addnewmaterialmodal // edit //
-	const [pressedMaterial, setPressedMaterial] = useState<
-		MaterialRead | undefined
-	>();
-
-	function handleShowAddNewMaterialModal() {
-		setIsAddNewMaterialModalOpen(true);
-	}
+	const setActiveModal = useSubjectStore_UI((state) => state.setActiveModal);
 
 	return (
 		<>
@@ -40,7 +29,7 @@ export default function SubjectMaterials({
 				<span className="flex text-sm items-center bg-accent text-white p-1 rounded-md px-3">
 					<button
 						className="flex items-center gap-1"
-						onClick={handleShowAddNewMaterialModal}
+						onClick={() => setActiveModal('AddNewMaterialModal')}
 					>
 						Add <FaPlus className="w-3 h-3" />
 					</button>

@@ -1,30 +1,26 @@
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
+import { MaterialRead } from '../../../services/api/schema/material_schema';
+import { SubjectRead } from '../../../services/api/schema/subject_schema';
 
-type ModalObjectMap = {
-	AddNewSubjectModal: never; // doesn’t need an object
-	EditSubjectModal: { objectId: number };
+export type ModalObjectMap = {
+	AddNewSubjectModal: never;
+	EditSubjectModal: SubjectRead;
 	AddNewMaterialModal: never;
-	EditMaterialModal: { objectId: number };
+	EditMaterialModal: MaterialRead;
 	AddNewQuestModal: never;
 	StartBattleModal: { objectId: number };
 };
 
-type SubjectModals =
-	| 'AddNewSubjectModal'
-	| 'EditSubjectModal'
-	| 'AddNewQuestModal'
-	| 'AddNewMaterialModal'
-	| 'EditMaterialModal'
-	| 'StartBattleModal';
+export type ModalKey = keyof ModalObjectMap;
 
 interface SubjectLayoutState {
-	activeModal: SubjectModals | null;
-	activeModalObject: ModalObjectMap[SubjectModals] | null;
+	activeModal: ModalKey | null;
+	activeModalObject: ModalObjectMap[ModalKey] | null;
 }
 
 interface SubjectLayoutActions {
-	setActiveModal: <T extends SubjectModals>(
+	setActiveModal: <T extends ModalKey>(
 		modal: T,
 		modalObject?: ModalObjectMap[T]
 	) => void;

@@ -2,8 +2,13 @@ import { memo, useState } from 'react';
 import { SubjectScreenHeader } from '../../components/SubjectScreenHeader';
 import SubjectScreenBody from '../../components/SubjectScreenBody';
 import SubjectScreenFooter from '../../components/SubjectScreenFooter';
-import { useSubjectStore_UI } from '../../stores/subjectStore_UI';
+import {
+	ModalObjectMap,
+	useSubjectStore_UI,
+} from '../../stores/subjectStore_UI';
 import AddNewQuestModal from '../../modals/AddNewQuestModal';
+import AddNewMaterialModal from '../../modals/AddNewMaterialModal';
+import EditMaterialModal from '../../modals/EditMaterialModal';
 
 export const PAGE_TITLES = {
 	QUESTS: 'QUESTS',
@@ -25,7 +30,6 @@ export function SubjectScreen({
 	subjectDescription,
 	subjectDifficulty,
 }: SubjectScreenProps) {
-	const activeModal = useSubjectStore_UI((state) => state.activeModal);
 	const activeModalObject = useSubjectStore_UI(
 		(state) => state.activeModalObject
 	);
@@ -61,9 +65,15 @@ export function SubjectScreen({
 				</div>
 			</div>
 
-			{activeModal === 'AddNewQuestModal' && (
-				<AddNewQuestModal subjectId={subjectId} />
-			)}
+			<AddNewQuestModal subjectId={subjectId} />
+
+			<AddNewMaterialModal subjectId={subjectId} />
+
+			<EditMaterialModal
+				material={
+					activeModalObject as ModalObjectMap['EditMaterialModal']
+				}
+			/>
 		</>
 	);
 }

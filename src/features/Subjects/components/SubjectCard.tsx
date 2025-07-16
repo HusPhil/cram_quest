@@ -17,7 +17,7 @@ interface SubjectCardProps {
 }
 
 export default function SubjectCard({
-	index,
+	playerId,
 	subjectId,
 	code_name,
 	description,
@@ -121,7 +121,11 @@ export default function SubjectCard({
 						className="pb-4 px-4"
 						onClick={() =>
 							setActiveModal('EditSubjectModal', {
-								objectId: index,
+								code_name,
+								description,
+								difficulty,
+								player_id: playerId,
+								id: subjectId,
 							})
 						}
 					>

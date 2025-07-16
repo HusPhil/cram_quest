@@ -5,6 +5,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { FaCirclePlay, FaNoteSticky, FaRug } from 'react-icons/fa6';
 import { MaterialType } from '../screens/SubjectScreen/Tabs/Learning/LearningPage';
 import { MaterialRead } from '../../../services/api/schema/material_schema';
+import { useSubjectStore_UI } from '../stores/subjectStore_UI';
 
 export type InitialSettingConfig = {
 	newMaterialTitle: string;
@@ -13,18 +14,16 @@ export type InitialSettingConfig = {
 };
 
 interface EditMaterialModalProps {
-	subjectId: number;
-	isModalOpen: boolean;
-	setIsModalOpen: (open: boolean) => void;
 	material: MaterialRead | undefined;
 }
 
 export default function EditMaterialModal({
-	subjectId,
-	isModalOpen,
-	setIsModalOpen,
 	material,
 }: EditMaterialModalProps) {
+	const closeActiveModal = useSubjectStore_UI(
+		(state) => state.closeActiveModal
+	);
+
 	const formRef = useRef<HTMLFormElement>(null);
 	const codeNameRef = useRef<HTMLInputElement>(null);
 	const linkRef = useRef<HTMLInputElement>(null);
@@ -32,13 +31,23 @@ export default function EditMaterialModal({
 	const [selectedType, setSelectedType] = useState<MaterialType>('Video'); // default
 	const [isInitialized, setIsInitialized] = useState(false);
 
-	if (isModalOpen && !isInitialized && material) {
+	if (!isInitialized && material) {
 		setSelectedType(material.type);
 		setIsInitialized(true);
 	}
 
 	const queryClient = useQueryClient();
 	const createMaterialMutate = useCreateMaterial();
+
+	const activeModal = useSubjectStore_UI((state) => state.activeModal);
+
+	useEffect(() => {
+		if (codeNameRef.current) {
+			codeNameRef.current.focus();
+		}
+	}, [activeModal]);
+
+	if (!material || activeModal !== 'EditMaterialModal') return null;
 
 	type MaterialOption = {
 		type: MaterialType;
@@ -80,35 +89,32 @@ export default function EditMaterialModal({
 
 		createMaterialMutate.mutate(
 			{
-				subjectId,
+				subjectId: material?.subject_id,
 				materialCreate,
 			},
 			{
 				onSuccess: () => {
 					queryClient.invalidateQueries({
-						queryKey: ['players', subjectId, 'materials'],
+						queryKey: [
+							'players',
+							material?.subject_id,
+							'materials',
+						],
 					});
 				},
 				onSettled: () => {
-					setIsModalOpen(false);
+					closeActiveModal();
 					formRef?.current?.reset();
 				},
 			}
 		);
 	};
 
-	useEffect(() => {
-		if (codeNameRef.current) {
-			console.log('subjectId:', subjectId);
-			codeNameRef.current.focus();
-		}
-	}, [isModalOpen]);
-
 	return (
 		<Modal
-			isOpen={isModalOpen}
+			isOpen={true}
 			onClose={() => {
-				setIsModalOpen(false);
+				closeActiveModal();
 				setIsInitialized(false); // reset tracker so next open reinitializes
 			}}
 			title="Edit a new material!"

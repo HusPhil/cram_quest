@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { use, useEffect, useRef, useState } from 'react';
 import Modal from '../../../components/Modal';
 import StarRating from '../components/ui/StarRating';
 import DeleteWithConfirm from '../components/ui/DeleteWithConfirm';
@@ -7,42 +7,28 @@ import { useDeleteSubject } from '../hooks/useDeleteSubject';
 import { toast } from 'react-toastify';
 import { useUpdateSubject } from '../hooks/useUpdateSubject';
 import { useSubjectStore_UI } from '../stores/subjectStore_UI';
-
-export type InitialSettingConfig = {
-	codeName: string;
-	description: string;
-	difficulty: number;
-};
+import { SubjectRead } from '../../../services/api/schema/subject_schema';
 
 interface EditSubjectModalProps {
-	subjectId: number;
-	playerId: number;
-	isModalOpen?: boolean;
-	initialSettingConfig: InitialSettingConfig;
+	subject?: SubjectRead;
 }
 
-export default function EditSubjectModal({
-	subjectId,
-	playerId,
-	initialSettingConfig,
-	isModalOpen = true,
-}: EditSubjectModalProps) {
-	if (!isModalOpen) return null;
+export default function EditSubjectModal({ subject }: EditSubjectModalProps) {
+	const activeModal = useSubjectStore_UI((state) => state.activeModal);
 
 	const closeActiveModal = useSubjectStore_UI(
 		(state) => state.closeActiveModal
 	);
 
+	if (!subject || activeModal !== 'EditSubjectModal') return null;
 	return (
 		<Modal
-			isOpen={isModalOpen}
+			isOpen={true}
 			onClose={closeActiveModal}
 			title="Edit this Subject!"
 		>
 			<UpdateSubjectSection
-				playerId={playerId}
-				subjectId={subjectId}
-				initialSettingConfig={initialSettingConfig}
+				subject={subject}
 				handleCloseModal={closeActiveModal}
 			/>
 		</Modal>
@@ -50,24 +36,18 @@ export default function EditSubjectModal({
 }
 
 interface UpdateSubjectSection {
-	playerId: number;
-	subjectId: number;
-	initialSettingConfig: InitialSettingConfig;
+	subject: SubjectRead;
 	handleCloseModal: () => void;
 }
 
 const UpdateSubjectSection = ({
-	playerId,
-	subjectId,
-	initialSettingConfig,
+	subject,
 	handleCloseModal,
 }: UpdateSubjectSection) => {
 	const formRef = useRef<HTMLFormElement>(null);
 	const subjectNameRef = useRef<HTMLInputElement>(null);
 	const descriptionRef = useRef<HTMLTextAreaElement>(null);
-	const [difficulty, setDifficulty] = useState(
-		initialSettingConfig.difficulty
-	);
+	const [difficulty, setDifficulty] = useState(subject.difficulty);
 
 	const queryClient = useQueryClient();
 
@@ -75,7 +55,7 @@ const UpdateSubjectSection = ({
 
 	const updateSubjectMutate = useUpdateSubject();
 
-	const SUBJECTS_QUERY_KEY = ['players', playerId, 'subjects'];
+	const SUBJECTS_QUERY_KEY = ['players', subject.player_id, 'subjects'];
 
 	const [isDeleting, setIsDeleting] = useState(false);
 
@@ -83,7 +63,7 @@ const UpdateSubjectSection = ({
 		event.preventDefault();
 		updateSubjectMutate.mutate(
 			{
-				subjectId,
+				subjectId: subject.id,
 				subjectUpdate: {
 					code_name: subjectNameRef.current?.value ?? '',
 					description: descriptionRef.current?.value ?? '',
@@ -93,7 +73,7 @@ const UpdateSubjectSection = ({
 			{
 				onSuccess() {
 					queryClient.invalidateQueries({
-						queryKey: ['players', playerId, 'subjects'],
+						queryKey: ['players', subject.player_id, 'subjects'],
 					});
 					toast.success('Subject updated successfully');
 				},
@@ -105,7 +85,7 @@ const UpdateSubjectSection = ({
 	};
 
 	const handleDeleteConfirmed = async () => {
-		await deleteSubjectMutate.mutateAsync({ subjectId });
+		await deleteSubjectMutate.mutateAsync({ subjectId: subject.id });
 
 		if (!deleteSubjectMutate.isError) {
 			queryClient.invalidateQueries({
@@ -114,6 +94,12 @@ const UpdateSubjectSection = ({
 			toast.success('Quest deleted successfully');
 		}
 	};
+
+	useEffect(() => {
+		if (subjectNameRef.current) {
+			subjectNameRef.current.focus();
+		}
+	}, []);
 
 	return (
 		<form
@@ -135,7 +121,7 @@ const UpdateSubjectSection = ({
 					type="text"
 					id="subjectName"
 					name="subjectName"
-					defaultValue={initialSettingConfig.codeName}
+					defaultValue={subject.code_name}
 					ref={subjectNameRef}
 					className="w-full rounded-lg bg-secondary/50 border border-accent/30 p-2 
 							 text-text placeholder-text/50 focus:border-accent/60 focus:outline-none
@@ -155,7 +141,7 @@ const UpdateSubjectSection = ({
 					required
 					id="description"
 					name="description"
-					defaultValue={initialSettingConfig.description}
+					defaultValue={subject.description}
 					ref={descriptionRef}
 					className="w-full rounded-lg bg-secondary/50 border border-accent/30 p-2 
 							 text-text placeholder-text/50 focus:border-accent/60 focus:outline-none
