@@ -27,8 +27,6 @@ export function SubjectScreenBody({
 	subjectDifficulty,
 	setActiveTab,
 }: SubjectScreenBodyProps) {
-	const [isModalOpen, setIsModalOpen] = useState(false);
-
 	const CurrentPage = ({ activeTab }: { activeTab: PageTitle }) => {
 		switch (activeTab) {
 			case PAGE_TITLES.LEARNING:
@@ -81,11 +79,6 @@ export function SubjectScreenBody({
 					<CurrentPage activeTab={activeTab} />
 				</div>
 			</div>
-			<AddNewQuestModal
-				subjectId={subjectId}
-				isModalOpen={isModalOpen}
-				setIsModalOpen={setIsModalOpen}
-			/>
 		</>
 	);
 }

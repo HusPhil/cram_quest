@@ -4,7 +4,7 @@ import SubjectMaterialCard from './SubjectMaterialCard';
 import { useState } from 'react';
 import AddNewMaterialModal from '../../../../modals/AddNewMaterialModal';
 import { MaterialRead } from '../../../../../../services/api/schema/material_schema';
-import EditMaterialModal from '../../../../modals/MaterialSettingsModal';
+import EditMaterialModal from '../../../../modals/EditMaterialModal';
 
 interface SubjectMaterialsProps {
 	subjectId: number;
@@ -25,15 +25,6 @@ export default function SubjectMaterials({
 
 	function handleShowAddNewMaterialModal() {
 		setIsAddNewMaterialModalOpen(true);
-	}
-
-	function handleShowEditModal(materialId: number) {
-		console.log('materialId:', materialId);
-		const pressedMaterial = materials.find(
-			(material) => material.id === materialId
-		);
-		setPressedMaterial(pressedMaterial);
-		setIsMaterialSettingsModalOpen(true);
 	}
 
 	return (
@@ -59,25 +50,11 @@ export default function SubjectMaterials({
 			{/* Materials */}
 			{materials.map((material, index) => (
 				<SubjectMaterialCard
-					subjectId={subjectId}
 					key={index}
-					handleShowEditModal={handleShowEditModal}
+					subjectId={subjectId}
 					material={material}
 				/>
 			))}
-
-			<AddNewMaterialModal
-				subjectId={subjectId}
-				isModalOpen={isAddNewMaterialModalOpen}
-				setIsModalOpen={setIsAddNewMaterialModalOpen}
-			/>
-
-			<EditMaterialModal
-				isModalOpen={isMaterialSettingsModalOpen}
-				setIsModalOpen={setIsMaterialSettingsModalOpen}
-				subjectId={subjectId}
-				material={pressedMaterial}
-			/>
 		</>
 	);
 }

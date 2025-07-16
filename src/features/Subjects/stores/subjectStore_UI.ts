@@ -13,9 +13,9 @@ type ModalObjectMap = {
 type SubjectModals =
 	| 'AddNewSubjectModal'
 	| 'EditSubjectModal'
+	| 'AddNewQuestModal'
 	| 'AddNewMaterialModal'
 	| 'EditMaterialModal'
-	| 'AddNewQuestModal'
 	| 'StartBattleModal';
 
 interface SubjectLayoutState {

@@ -3,20 +3,23 @@ import Modal from '../../../components/Modal';
 import StarRating from '../components/ui/StarRating';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCreateQuest } from '../hooks/useCreateQuest';
+import { useSubjectStore_UI } from '../stores/subjectStore_UI';
 
 interface AddNewQuestModalProps {
 	subjectId: number;
-	isModalOpen: boolean;
-	setIsModalOpen: (open: boolean) => void;
+	isModalOpen?: boolean;
 }
 
 export default function AddNewQuestModal({
 	subjectId,
-	isModalOpen,
-	setIsModalOpen,
+	isModalOpen = true,
 }: AddNewQuestModalProps) {
 	const formRef = useRef<HTMLFormElement>(null);
 	const descriptionRef = useRef<HTMLInputElement>(null);
+
+	const closeActiveModal = useSubjectStore_UI(
+		(state) => state.closeActiveModal
+	);
 
 	useEffect(() => {
 		if (isModalOpen && descriptionRef.current) {
@@ -47,7 +50,7 @@ export default function AddNewQuestModal({
 		});
 
 		if (!createQuestMutate.isError) {
-			setIsModalOpen(false);
+			closeActiveModal();
 			queryClient.invalidateQueries({
 				queryKey: ['subjects', subjectId, 'quests'],
 			});
@@ -57,7 +60,7 @@ export default function AddNewQuestModal({
 	return (
 		<Modal
 			isOpen={isModalOpen}
-			onClose={() => setIsModalOpen(false)}
+			onClose={closeActiveModal}
 			title="Add a new Quest!"
 		>
 			<form ref={formRef} onSubmit={handleSubmit} className="space-y-4">

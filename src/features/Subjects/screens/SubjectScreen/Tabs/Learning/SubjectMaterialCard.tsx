@@ -12,12 +12,10 @@ import { MaterialRead } from '../../../../../../services/api/schema/material_sch
 interface SubjectMaterialCardProps {
 	material: MaterialRead;
 	subjectId: number;
-	handleShowEditModal: (materialId: number) => void;
 }
 
 export default function SubjectMaterialCard({
 	material,
-	handleShowEditModal,
 }: SubjectMaterialCardProps) {
 	const getIconFromMaterialType = useCallback((type: MaterialType) => {
 		switch (type) {
@@ -52,7 +50,7 @@ export default function SubjectMaterialCard({
 				<button>
 					<FaEllipsisVertical
 						className="w-4 h-4"
-						onClick={() => handleShowEditModal(material.id)}
+						onClick={() => console.log('More options')}
 					></FaEllipsisVertical>
 				</button>
 			</span>
