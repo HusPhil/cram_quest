@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import Modal from '../../../components/Modal';
-import StarRating from '../components/StarRating';
-import DeleteWithConfirm from '../components/DeleteWithConfirm';
+import StarRating from '../components/ui/StarRating';
+import DeleteWithConfirm from '../components/ui/DeleteWithConfirm';
 import { useQueryClient } from '@tanstack/react-query';
 import { useDeleteSubject } from '../hooks/useDeleteSubject';
 import { toast } from 'react-toastify';

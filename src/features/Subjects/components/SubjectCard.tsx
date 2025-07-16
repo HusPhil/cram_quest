@@ -1,4 +1,4 @@
-import StarRating from './StarRating';
+import StarRating from './ui/StarRating';
 import { useEffect, useRef, useState } from 'react';
 import { putCursorToFront } from '../../../utils/putCursorToFront';
 import ViewSettingsModal from '../modals/ViewSettingsModal';

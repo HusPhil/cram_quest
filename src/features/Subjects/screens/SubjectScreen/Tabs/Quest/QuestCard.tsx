@@ -4,8 +4,8 @@ import { QuestRead } from '../../../../../../services/api/schema/quest_schema';
 import { useQueryClient } from '@tanstack/react-query';
 import { useDeleteQuest } from '../../../../hooks/useDeleteQuest';
 import { useUpdateQuest } from '../../../../hooks/useUpdateQuest';
-import StarRating from '../../../../components/StarRating';
-import DeleteWithConfirm from '../../../../components/DeleteWithConfirm';
+import StarRating from '../../../../components/ui/StarRating';
+import DeleteWithConfirm from '../../../../components/ui/DeleteWithConfirm';
 import { putCursorToFront } from '../../../../../../utils/putCursorToFront';
 import { FaFloppyDisk, FaPenToSquare } from 'react-icons/fa6';
 

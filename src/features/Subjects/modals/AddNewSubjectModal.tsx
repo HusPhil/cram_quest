@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Modal from '../../../components/Modal';
-import StarRating from '../components/StarRating';
+import StarRating from '../components/ui/StarRating';
 import { useCreateSubject } from '../hooks/useCreateSubject';
 import { useQueryClient } from '@tanstack/react-query';
 

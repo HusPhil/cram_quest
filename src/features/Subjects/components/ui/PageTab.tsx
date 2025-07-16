@@ -1,4 +1,4 @@
-import { PageTitle } from '../screens/SubjectScreen/SubjectScreen';
+import { PageTitle } from '../../screens/SubjectScreen/SubjectScreen';
 interface PageTabProps {
 	label: PageTitle;
 	isActive: boolean;

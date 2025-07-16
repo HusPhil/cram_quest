@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import StarRating from '../../../../components/StarRating';
+import StarRating from '../../../../components/ui/StarRating';
 import { FaFloppyDisk } from 'react-icons/fa6';
 
 interface StatusUpdateProps {

@@ -1,5 +1,5 @@
 import { memo, useCallback, useEffect, useMemo } from 'react';
-import PageTabs from '../../components/PageTabs';
+import PageTabs from '../../components/ui/PageTabs';
 import { PAGE_TITLES, PageTitle } from './SubjectScreen';
 import QuestsPage from './Tabs/Quest/QuestsPage';
 import LearningPage from './Tabs/Learning/LearningPage';

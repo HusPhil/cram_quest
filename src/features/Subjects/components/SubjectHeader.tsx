@@ -11,6 +11,7 @@ export default function SubjectHeader({
 	return (
 		<>
 			<div className="flex-none px-6 py-4 bg-secondary/30 border-b-2 border-accent/30">
+				{/* CALL TO ACTION BUTTON AND THE HEADER TITLE */}
 				<div className="flex items-center justify-between mb-4">
 					<h1 className="text-3xl font-rpg text-accent">Subjects</h1>
 					<button
@@ -31,10 +32,14 @@ export default function SubjectHeader({
 						<span className="hidden md:block">New Subject</span>
 					</button>
 				</div>
+
+				{/* SHORT DESC */}
 				<p className="text-text/80 font-rpg text-sm">
 					Embark on your learning journey by creating and exploring
 					subjects.
 				</p>
+
+				{/* MODAL WOULD NOT BE RENDERED IF NOT PLAYER ID */}
 				{playerId && (
 					<AddNewSubjectModal
 						playerId={playerId}

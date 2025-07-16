@@ -1,5 +1,8 @@
 import React, { memo } from 'react';
-import { PageTitle, PAGE_TITLES } from '../screens/SubjectScreen/SubjectScreen';
+import {
+	PageTitle,
+	PAGE_TITLES,
+} from '../../screens/SubjectScreen/SubjectScreen';
 import PageTab from './PageTab';
 
 interface PageTabsProps {

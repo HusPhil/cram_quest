@@ -6,6 +6,7 @@ export default defineConfig({
 	plugins: [react()],
 	base: '/cramquest/',
 	server: {
+		allowedHosts: ['REDACTED_HOST'],
 		host: true, // or 'REDACTED_IP'
 		port: 5173,
 	},
