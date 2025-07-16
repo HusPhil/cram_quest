@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import AddNewSubjectModal from '../modals/AddNewSubjectModal';
 import { FaPlus } from 'react-icons/fa';
 

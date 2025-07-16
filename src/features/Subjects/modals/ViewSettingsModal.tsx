@@ -88,13 +88,13 @@ const UpdateSubjectSection = ({
 				},
 			},
 			{
-				onSuccess(data, variables, context) {
+				onSuccess() {
 					queryClient.invalidateQueries({
 						queryKey: ['players', playerId, 'subjects'],
 					});
 					toast.success('Subject updated successfully');
 				},
-				onSettled(data, error, variables, context) {
+				onSettled() {
 					setIsModalOpen(false);
 				},
 			}

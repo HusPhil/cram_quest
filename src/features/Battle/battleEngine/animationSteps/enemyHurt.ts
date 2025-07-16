@@ -19,14 +19,6 @@ export const enemyHurt: BattleStepFn = ({
 
 	adjustZValues('enemy');
 
-	const handleKnockbackDone = () => {
-		const transitionDelay = setTimeout(() => {
-			adjustZValues('player');
-			next();
-		}, 500);
-		return () => clearTimeout(transitionDelay);
-	};
-
 	cleanup = startKnockback({
 		fromX: getEnemyPosX(),
 		setX: setEnemyPosX,

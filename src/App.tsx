@@ -7,7 +7,7 @@ function App() {
 		<>
 			<AppRouter />
 			<ToastContainer
-				position="top-right"
+				position="top-left"
 				draggableDirection="y"
 				theme="dark"
 				className="toastify-container"

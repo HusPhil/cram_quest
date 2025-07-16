@@ -1,4 +1,4 @@
-import { memo, RefObject } from 'react';
+import { memo } from 'react';
 import BattleTimer from './BattleTimer';
 import SpriteSheet from '../../../components/SpriteSheet';
 import { AnimationParams } from '../hooks/useCharacterAnimation';

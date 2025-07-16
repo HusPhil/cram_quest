@@ -1,12 +1,9 @@
-import { toast } from 'react-toastify';
-import { BASE_URL } from '../api';
 import { fetcher } from '../fetcher';
 import {
 	getPlayerProfileEndRoute,
 	getPlayerSubjectsEndRoute,
 } from '../routes/player_routes';
 import { ProfileRead } from '../schema/profile_schema';
-import { UserRead } from '../schema/user_schema';
 import { SubjectRead } from '../schema/subject_schema';
 
 export const getPlayerSubjects = async (

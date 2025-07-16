@@ -18,13 +18,6 @@ export const enemyHurtWeak: BattleStepFn = ({
 	let cleanup: (() => void) | undefined;
 
 	adjustZValues('enemy');
-	const handleKnockbackDone = () => {
-		const transitionDelay = setTimeout(() => {
-			adjustZValues('player');
-			next();
-		}, 500);
-		return () => clearTimeout(transitionDelay);
-	};
 
 	cleanup = startKnockback({
 		fromX: getEnemyPosX(),

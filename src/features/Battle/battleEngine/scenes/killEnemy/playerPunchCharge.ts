@@ -1,4 +1,4 @@
-import { arenaMiddle, enemyPosOffSetX } from '../../../components/BattleArena';
+import { enemyPosOffSetX } from '../../../components/BattleArena';
 import { BattleStepFn } from '../../types';
 
 export const playerPunchCharge: BattleStepFn = ({

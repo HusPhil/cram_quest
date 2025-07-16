@@ -9,11 +9,8 @@ interface SubjectScreenFooterProps {
 export default function SubjectScreenFooter({
 	subjectId,
 }: SubjectScreenFooterProps) {
-	const {
-		data: subjectQuests,
-		isLoading: subjectQuestsLoading,
-		isError: subjectQuestsError,
-	} = useGetSubjectQuests(subjectId);
+	const { data: subjectQuests, isLoading: subjectQuestsLoading } =
+		useGetSubjectQuests(subjectId);
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 

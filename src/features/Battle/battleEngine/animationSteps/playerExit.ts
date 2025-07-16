@@ -1,4 +1,3 @@
-import { enemyPosOffSetX } from '../../components/BattleArena';
 import { BattleStepFn } from '../types';
 
 export const playerExit: BattleStepFn = ({

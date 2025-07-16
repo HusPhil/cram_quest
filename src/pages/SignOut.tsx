@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import useSignOut from '../features/Auth/hooks/useSignOut';
 
 export default function SignOut() {

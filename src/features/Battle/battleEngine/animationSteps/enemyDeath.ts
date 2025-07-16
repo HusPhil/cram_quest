@@ -4,7 +4,6 @@ import { BattleStepFn } from '../types';
 
 export const enemyDeath: BattleStepFn = ({
 	next,
-	end,
 	setPlayerLoop,
 	setPlayerAction,
 	setEnemyAction,

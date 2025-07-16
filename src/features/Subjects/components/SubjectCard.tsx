@@ -22,17 +22,15 @@ export default function SubjectCard({
 	description,
 	difficulty,
 	onClick,
-	onShowSettings,
 	className,
 }: SubjectCardProps) {
 	// Function to determine glow effect based on difficulty
 
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading] = useState(false);
 
-	const [isEditEnabled, setIsEditEnabled] = useState(false);
+	const [isEditEnabled] = useState(false);
 
 	const codeNameRef = useRef<HTMLHeadingElement | null>(null);
-	const descriptionRef = useRef<HTMLElement>(null);
 
 	useEffect(() => {
 		if (isEditEnabled && codeNameRef.current) {
@@ -53,11 +51,12 @@ export default function SubjectCard({
 					}
 				}}
 				className={`
-				focus:ring-2 focus:ring-amber-400
+				active:scale-90
+				focus:ring focus:ring-amber-400
 				relative rounded-lg 
-				bg-secondary/80 backdrop-blur-sm
+				bg-secondary/80 
 				transition-all duration-300 
-				shadow-lg hover:shadow-xl
+				hover:shadow-xl
 				flex flex-col gap-3 w-full
 				${isLoading ? 'opacity-30 pointer-events-none' : ''}
 				${className} 
@@ -86,13 +85,7 @@ export default function SubjectCard({
 						{/* Description */}
 						<p
 							contentEditable={isEditEnabled}
-							className={` text-sm flex-grow overflow-hidden
-						${
-							isEditEnabled
-								? 'bg-yellow-100 border-yellow-400 p-1 text-background'
-								: 'border-transparent text-text/90'
-						}
-						`}
+							className={` text-sm flex-grow overflow-hidden line-clamp-2`}
 						>
 							{description}
 						</p>

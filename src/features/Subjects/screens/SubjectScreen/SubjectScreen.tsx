@@ -1,4 +1,4 @@
-import { memo, use, useEffect, useState } from 'react';
+import { memo, useState } from 'react';
 import { SubjectScreenHeader } from './SubjectScreenHeader';
 import SubjectScreenBody from './SubjectScreenBody';
 import SubjectScreenFooter from './SubjectScreenFooter';
@@ -24,7 +24,7 @@ export function SubjectScreen({
 	subjectDifficulty,
 }: SubjectScreenProps) {
 	const [activeTab, setActiveTab] = useState<PageTitle>(PAGE_TITLES.QUESTS);
-	const [currentPage, setCurrentPage] = useState<React.ReactNode>(null);
+	const [_, setCurrentPage] = useState<React.ReactNode>(null);
 
 	return (
 		<div className="flex flex-1 flex-col h-full max-h-full">

@@ -1,5 +1,3 @@
-import { memo } from 'react';
-
 interface RankTitleProps {
 	text: String | undefined;
 	color?: 'gold' | 'silver' | 'bronze' | 'error';

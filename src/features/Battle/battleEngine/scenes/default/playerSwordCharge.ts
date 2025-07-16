@@ -6,7 +6,6 @@ export const playerSwordCharge: BattleStepFn = ({
 	setPlayerAction,
 	setPlayerLoop,
 	adjustZValues,
-	getEnemyPosX,
 	getPlayerPosX,
 	setPlayerPosX,
 }) => {

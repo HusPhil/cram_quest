@@ -1,7 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import Sidebar from '../components/Sidebar/Sidebar';
 import { useFloatingScreen } from '../context/FloatingScreenContext';
-import FloatingScreen from '../components/FloatingScreen.tsx/FloatingScreen';
 import { useSetupBattleStore } from '../features/Subjects/stores/setupBattleStore';
 
 const MainLayout = () => {

@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react';
+import React, { memo } from 'react';
 import { PageTitle, PAGE_TITLES } from '../screens/SubjectScreen/SubjectScreen';
 import PageTab from './PageTab';
 
@@ -9,12 +9,7 @@ interface PageTabsProps {
 	onPageChange: (pageTitle: PageTitle) => void;
 }
 
-export function PageTabs({
-	activeTab,
-	setActiveTab,
-	setCurrentPage,
-	onPageChange,
-}: PageTabsProps) {
+export function PageTabs({ activeTab, onPageChange }: PageTabsProps) {
 	return (
 		<div className="flex justify-between items-center bg-danger/0 py-3 text-sm">
 			{Object.entries(PAGE_TITLES).map(([key, value]) => (

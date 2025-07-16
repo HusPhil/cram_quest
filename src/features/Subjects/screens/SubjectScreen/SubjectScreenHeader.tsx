@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { useFloatingScreen } from '../../../../context/FloatingScreenContext';
-import { FaArrowLeft, FaBackspace } from 'react-icons/fa';
+import { FaArrowLeft } from 'react-icons/fa';
 
 interface SubjectScreenHeaderProps {
 	subjectId: Number;
@@ -10,10 +10,8 @@ interface SubjectScreenHeaderProps {
 }
 
 export function SubjectScreenHeader({
-	subjectId,
 	subjectCodeName,
 	subjectDescription,
-	subjectDifficulty,
 }: SubjectScreenHeaderProps) {
 	const { closeScreen } = useFloatingScreen();
 

@@ -3,7 +3,6 @@ import BattleTimer from './BattleTimer';
 import CornerDecoration from '../../../../../components/CornerDecoration';
 import SpriteSheet from '../../../../../components/SpriteSheet';
 import { useBattleEngineStore } from '../../../stores/battleEngineStore';
-import { QueueCustomSceneFn } from '../../../../Battle/hooks/useBattleEngine';
 import { useBattleSetup } from '../../../../Battle/hooks/useBattleSetup';
 import { BattleEngineControllers } from './BattleScreen';
 

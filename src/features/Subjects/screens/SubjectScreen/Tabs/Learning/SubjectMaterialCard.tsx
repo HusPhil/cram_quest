@@ -17,7 +17,6 @@ interface SubjectMaterialCardProps {
 
 export default function SubjectMaterialCard({
 	material,
-	subjectId,
 	handleShowEditModal,
 }: SubjectMaterialCardProps) {
 	const getIconFromMaterialType = useCallback((type: MaterialType) => {

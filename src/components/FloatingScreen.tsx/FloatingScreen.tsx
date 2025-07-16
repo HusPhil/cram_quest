@@ -7,7 +7,6 @@ interface FloatingScreenProps {
 }
 
 const FloatingScreen = React.memo(function FloatingScreen({
-	children,
 	className,
 }: FloatingScreenProps) {
 	const { isScreenOpen, screenContent } = useFloatingScreen();

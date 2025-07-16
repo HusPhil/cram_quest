@@ -27,40 +27,44 @@ export default function Subjects() {
 
 	const currentPlayerId = useAuthInformationStore((state) => state.playerId);
 
-	const {
-		data: subjects,
-		isLoading: subjectsLoading,
-		error: subjectsError,
-	} = useGetPlayerSubjects(currentPlayerId!);
+	const { data: subjects } = useGetPlayerSubjects(currentPlayerId!);
 
 	return (
-		<div className="h-full w-full flex flex-col">
+		<div className="h-full w-full flex flex-col ">
 			{/* Header section with fixed height */}
 			<div className="flex-none">
 				<SubjectHeader playerId={currentPlayerId!} />
 			</div>
 
 			{/* Grid container with controlled height and scroll */}
-			<div className="flex-1 overflow-auto my-4">
-				<div className="max-h-3.5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5  pb-4 px-4">
-					{(subjects ?? []).map((subject) => (
-						<SubjectCard
-							playerId={currentPlayerId!}
-							subjectId={subject.id}
-							key={subject.id}
-							code_name={subject.code_name}
-							description={subject.description}
-							difficulty={subject.difficulty}
-							onClick={() =>
-								handleOpenScreen(
-									subject.id,
-									subject.code_name,
-									subject.description,
-									subject.difficulty
-								)
-							}
-						/>
-					))}
+			<div className="flex-1 my-4 relative">
+				<div
+					className="absolute inset-0 overflow-y-auto overscroll-behavior-y-contain
+                  scroll-smooth -webkit-overflow-scrolling-touch"
+				>
+					<div
+						className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-4
+                    "
+					>
+						{(subjects ?? []).map((subject) => (
+							<SubjectCard
+								key={subject.id}
+								playerId={currentPlayerId!}
+								subjectId={subject.id}
+								code_name={subject.code_name}
+								description={subject.description}
+								difficulty={subject.difficulty}
+								onClick={() =>
+									handleOpenScreen(
+										subject.id,
+										subject.code_name,
+										subject.description,
+										subject.difficulty
+									)
+								}
+							/>
+						))}
+					</div>
 				</div>
 			</div>
 		</div>

@@ -1,20 +1,11 @@
 import React, { useEffect, useCallback, useMemo, useRef } from 'react';
 import BattleArena from './BattleArena';
-import {
-	TbFlame,
-	TbLoader2,
-	TbSword,
-	TbTargetArrow,
-	TbTrophy,
-} from 'react-icons/tb';
+import { TbFlame, TbSword, TbTargetArrow, TbTrophy } from 'react-icons/tb';
 import { killEnemyScene } from '../../../../Battle/battleEngine/scenes/killEnemy/killEnemyScene';
 import { QuestRead } from '../../../../../services/api/schema/quest_schema';
 import { useSetupBattleStore } from '../../../stores/setupBattleStore';
 import { toast } from 'react-toastify';
-import {
-	QueueCustomSceneFn,
-	useBattleEngine,
-} from '../../../../Battle/hooks/useBattleEngine';
+import { QueueCustomSceneFn } from '../../../../Battle/hooks/useBattleEngine';
 import colors from '../../../../../data/colors';
 import { TaskRead } from '../../../../../services/api/schema/task_schema';
 import { useTaskTimingsStorage } from '../../../hooks/useTaskTimingsStorage';

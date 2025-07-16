@@ -1,4 +1,4 @@
-import React, { memo, use, useMemo } from 'react';
+import React, { memo } from 'react';
 
 type CheckInRecord = {
 	day: string;

@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { QuestRead } from '../../../services/api/schema/quest_schema';
-import { SetupBattleStep } from '../modals/StartBattleModal';
 import { SubjectRead } from '../../../services/api/schema/subject_schema';
 import { TaskRead } from '../../../services/api/schema/task_schema';
 

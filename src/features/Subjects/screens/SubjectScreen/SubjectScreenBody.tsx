@@ -21,8 +21,6 @@ export function SubjectScreenBody({
 	subjectId,
 	activeTab,
 	subjectDifficulty,
-	subjectCodeName,
-	subjectDescription,
 	setActiveTab,
 	setCurrentPage,
 }: SubjectScreenBodyProps) {

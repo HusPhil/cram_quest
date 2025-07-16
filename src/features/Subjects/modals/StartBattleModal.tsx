@@ -1,4 +1,4 @@
-import { JSX, use, useState } from 'react';
+import { JSX, useState } from 'react';
 import { QuestRead } from '../../../services/api/schema/quest_schema';
 import Modal from '../../../components/Modal';
 import StepProgress from '../screens/SubjectScreen/Battle/SetupBattleSteps/StepProgress';
@@ -47,7 +47,6 @@ const steps: SetupBattleStep[] = [
 ];
 
 export default function StartBattleModal({
-	subjectId,
 	subjectQuests,
 	isModalOpen,
 	setIsModalOpen,
