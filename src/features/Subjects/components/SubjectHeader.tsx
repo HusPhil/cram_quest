@@ -1,13 +1,15 @@
-import { useState } from 'react';
-import AddNewSubjectModal from '../modals/AddNewSubjectModal';
 import { FaPlus } from 'react-icons/fa';
+import AddNewSubjectModal from '../modals/AddNewSubjectModal';
+import { useSubjectStore_UI } from '../stores/subjectStore_UI';
 
 export default function SubjectHeader({
 	playerId,
 }: {
 	playerId: number | undefined;
 }) {
-	const [isModalOpen, setIsModalOpen] = useState(false);
+	const activeModal = useSubjectStore_UI((state) => state.activeModal);
+	const setActiveModal = useSubjectStore_UI((state) => state.setActiveModal);
+
 	return (
 		<>
 			<div className="flex-none px-6 py-4 bg-secondary/30 border-b-2 border-accent/30">
@@ -26,7 +28,7 @@ export default function SubjectHeader({
                                  focus:ring-2 focus:ring-accent/50 
                                  focus:ring-offset-2 focus:ring-offset-background
                                  flex items-center gap-2"
-						onClick={() => setIsModalOpen(true)}
+						onClick={() => setActiveModal('AddNewSubjectModal')}
 					>
 						<FaPlus className={`w-3 h-3`} />
 						<span className="hidden md:block">New Subject</span>
@@ -38,15 +40,6 @@ export default function SubjectHeader({
 					Embark on your learning journey by creating and exploring
 					subjects.
 				</p>
-
-				{/* MODAL WOULD NOT BE RENDERED IF NOT PLAYER ID */}
-				{playerId && (
-					<AddNewSubjectModal
-						playerId={playerId}
-						isModalOpen={isModalOpen}
-						setIsModalOpen={setIsModalOpen}
-					/>
-				)}
 			</div>
 		</>
 	);

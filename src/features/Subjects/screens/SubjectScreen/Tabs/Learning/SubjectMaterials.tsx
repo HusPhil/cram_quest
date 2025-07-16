@@ -4,7 +4,7 @@ import SubjectMaterialCard from './SubjectMaterialCard';
 import { useState } from 'react';
 import AddNewMaterialModal from '../../../../modals/AddNewMaterialModal';
 import { MaterialRead } from '../../../../../../services/api/schema/material_schema';
-import MaterialSettingsModal from '../../../../modals/MaterialSettingsModal';
+import EditMaterialModal from '../../../../modals/MaterialSettingsModal';
 
 interface SubjectMaterialsProps {
 	subjectId: number;
@@ -72,7 +72,7 @@ export default function SubjectMaterials({
 				setIsModalOpen={setIsAddNewMaterialModalOpen}
 			/>
 
-			<MaterialSettingsModal
+			<EditMaterialModal
 				isModalOpen={isMaterialSettingsModalOpen}
 				setIsModalOpen={setIsMaterialSettingsModalOpen}
 				subjectId={subjectId}

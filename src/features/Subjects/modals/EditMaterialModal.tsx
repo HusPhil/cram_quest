@@ -12,19 +12,19 @@ export type InitialSettingConfig = {
 	materialType: string;
 };
 
-interface MaterialSettingsModalProps {
+interface EditMaterialModalProps {
 	subjectId: number;
 	isModalOpen: boolean;
 	setIsModalOpen: (open: boolean) => void;
 	material: MaterialRead | undefined;
 }
 
-export default function MaterialSettingsModal({
+export default function EditMaterialModal({
 	subjectId,
 	isModalOpen,
 	setIsModalOpen,
 	material,
-}: MaterialSettingsModalProps) {
+}: EditMaterialModalProps) {
 	const formRef = useRef<HTMLFormElement>(null);
 	const codeNameRef = useRef<HTMLInputElement>(null);
 	const linkRef = useRef<HTMLInputElement>(null);

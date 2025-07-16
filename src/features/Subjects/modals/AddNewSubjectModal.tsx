@@ -3,18 +3,21 @@ import Modal from '../../../components/Modal';
 import StarRating from '../components/ui/StarRating';
 import { useCreateSubject } from '../hooks/useCreateSubject';
 import { useQueryClient } from '@tanstack/react-query';
+import { useSubjectStore_UI } from '../stores/subjectStore_UI';
 
 interface AddNewSubjectModalProps {
 	playerId: number;
-	isModalOpen: boolean;
-	setIsModalOpen: (open: boolean) => void;
+	isModalOpen?: boolean;
 }
 
 export default function AddNewSubjectModal({
 	playerId,
-	isModalOpen,
-	setIsModalOpen,
+	isModalOpen = true,
 }: AddNewSubjectModalProps) {
+	const closeActiveModal = useSubjectStore_UI(
+		(state) => state.closeActiveModal
+	);
+
 	const formRef = useRef<HTMLFormElement>(null);
 	const codeNameRef = useRef<HTMLInputElement>(null);
 	const descriptionRef = useRef<HTMLTextAreaElement>(null);
@@ -44,7 +47,7 @@ export default function AddNewSubjectModal({
 					});
 				},
 				onSettled: () => {
-					setIsModalOpen(false);
+					closeActiveModal();
 					formRef?.current?.reset();
 				},
 			}
@@ -60,7 +63,7 @@ export default function AddNewSubjectModal({
 	return (
 		<Modal
 			isOpen={isModalOpen}
-			onClose={() => setIsModalOpen(false)}
+			onClose={closeActiveModal}
 			title="Add a new subject!"
 		>
 			<form ref={formRef} onSubmit={handleSubmit} className="space-y-4">

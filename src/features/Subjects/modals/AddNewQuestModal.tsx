@@ -4,17 +4,17 @@ import StarRating from '../components/ui/StarRating';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCreateQuest } from '../hooks/useCreateQuest';
 
-interface AddNewQuestToSubjectModalProps {
+interface AddNewQuestModalProps {
 	subjectId: number;
 	isModalOpen: boolean;
 	setIsModalOpen: (open: boolean) => void;
 }
 
-export default function AddNewQuestToSubjectModal({
+export default function AddNewQuestModal({
 	subjectId,
 	isModalOpen,
 	setIsModalOpen,
-}: AddNewQuestToSubjectModalProps) {
+}: AddNewQuestModalProps) {
 	const formRef = useRef<HTMLFormElement>(null);
 	const descriptionRef = useRef<HTMLInputElement>(null);
 

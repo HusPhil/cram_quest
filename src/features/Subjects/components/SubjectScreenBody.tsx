@@ -1,6 +1,7 @@
-import { lazy, memo, Suspense, useEffect, useMemo } from 'react';
+import { lazy, memo, Suspense, useEffect, useState } from 'react';
 import { PAGE_TITLES, PageTitle } from '../screens/SubjectScreen/SubjectScreen';
 import Tabs from '../../../components/Tabs';
+import AddNewQuestModal from '../modals/AddNewQuestModal';
 
 const LearningPage = lazy(
 	() => import('../screens/SubjectScreen/Tabs/Learning/LearningPage')
@@ -26,7 +27,9 @@ export function SubjectScreenBody({
 	subjectDifficulty,
 	setActiveTab,
 }: SubjectScreenBodyProps) {
-	const CurrentPage = useMemo(() => {
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
+	const CurrentPage = ({ activeTab }: { activeTab: PageTitle }) => {
 		switch (activeTab) {
 			case PAGE_TITLES.LEARNING:
 				return (
@@ -40,43 +43,50 @@ export function SubjectScreenBody({
 			case PAGE_TITLES.QUESTS:
 				return (
 					<Suspense fallback={<p>Loading quest page...</p>}>
-						<QuestsPage subjectId={subjectId} />;
+						<QuestsPage subjectId={subjectId} />
 					</Suspense>
 				);
 			default:
 				return <p>404 Not Found</p>;
 		}
-	}, [activeTab, subjectDifficulty, subjectId]);
+	};
 
 	useEffect(() => {
 		setActiveTab(PAGE_TITLES.QUESTS);
 	}, [subjectId]);
 
 	return (
-		<div className="flex flex-col h-full max-h-full">
-			{/* Tabs stay fixed */}
-			<Tabs
-				activeTab={activeTab}
-				setActiveTab={setActiveTab}
-				tabs={[
-					{
-						label: PAGE_TITLES.QUESTS,
-						value: PAGE_TITLES.QUESTS,
-					},
-					{
-						label: PAGE_TITLES.LEARNING,
-						value: PAGE_TITLES.LEARNING,
-					},
-				]}
-				className="my-2 text-sm"
-				activeClassName="font-bold border-accent text-accent"
-			/>
+		<>
+			<div className="flex flex-col h-full max-h-full">
+				{/* Tabs stay fixed */}
+				<Tabs
+					activeTab={activeTab}
+					setActiveTab={setActiveTab}
+					tabs={[
+						{
+							label: PAGE_TITLES.QUESTS,
+							value: PAGE_TITLES.QUESTS,
+						},
+						{
+							label: PAGE_TITLES.LEARNING,
+							value: PAGE_TITLES.LEARNING,
+						},
+					]}
+					className="my-2 text-sm"
+					activeClassName="font-bold border-accent text-accent"
+				/>
 
-			{/* Scrollable page content */}
-			<div className="flex-1 min-h-0 overflow-auto no-scrollbar">
-				{CurrentPage}
+				{/* Scrollable page content */}
+				<div className="flex-1 min-h-0 overflow-auto no-scrollbar">
+					<CurrentPage activeTab={activeTab} />
+				</div>
 			</div>
-		</div>
+			<AddNewQuestModal
+				subjectId={subjectId}
+				isModalOpen={isModalOpen}
+				setIsModalOpen={setIsModalOpen}
+			/>
+		</>
 	);
 }
 

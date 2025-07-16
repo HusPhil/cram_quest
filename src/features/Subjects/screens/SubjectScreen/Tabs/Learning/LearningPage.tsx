@@ -14,7 +14,7 @@ export default function LearningPage({
 	subjectId,
 	subjectDifficulty,
 }: LearningPageProps) {
-	const [rating, setRating] = useState(subjectDifficulty); // default to 3 stars
+	const [rating, setRating] = useState(subjectDifficulty);
 
 	useEffect(() => {
 		setRating(subjectDifficulty);
@@ -22,7 +22,7 @@ export default function LearningPage({
 
 	const { data: materials, isLoading, isError } = useGetMaterial(subjectId);
 
-	const subjectStatus = 'I feel great about this subject'; // replace if needed
+	const subjectStatus = 'I feel great about this subject'; // hardcoded for now
 
 	return (
 		<>

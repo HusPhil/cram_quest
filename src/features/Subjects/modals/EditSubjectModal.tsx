@@ -6,6 +6,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useDeleteSubject } from '../hooks/useDeleteSubject';
 import { toast } from 'react-toastify';
 import { useUpdateSubject } from '../hooks/useUpdateSubject';
+import { useSubjectStore_UI } from '../stores/subjectStore_UI';
 
 export type InitialSettingConfig = {
 	codeName: string;
@@ -13,34 +14,36 @@ export type InitialSettingConfig = {
 	difficulty: number;
 };
 
-interface ViewSettingsModalProps {
+interface EditSubjectModalProps {
 	subjectId: number;
 	playerId: number;
-	isModalOpen: boolean;
-	setIsModalOpen: (open: boolean) => void;
+	isModalOpen?: boolean;
 	initialSettingConfig: InitialSettingConfig;
 }
 
-export default function ViewSettingsModal({
+export default function EditSubjectModal({
 	subjectId,
 	playerId,
 	initialSettingConfig,
-	isModalOpen,
-	setIsModalOpen,
-}: ViewSettingsModalProps) {
+	isModalOpen = true,
+}: EditSubjectModalProps) {
 	if (!isModalOpen) return null;
+
+	const closeActiveModal = useSubjectStore_UI(
+		(state) => state.closeActiveModal
+	);
 
 	return (
 		<Modal
 			isOpen={isModalOpen}
-			onClose={() => setIsModalOpen(false)}
-			title="Subject Settings"
+			onClose={closeActiveModal}
+			title="Edit this Subject!"
 		>
 			<UpdateSubjectSection
 				playerId={playerId}
 				subjectId={subjectId}
 				initialSettingConfig={initialSettingConfig}
-				setIsModalOpen={setIsModalOpen}
+				handleCloseModal={closeActiveModal}
 			/>
 		</Modal>
 	);
@@ -50,14 +53,14 @@ interface UpdateSubjectSection {
 	playerId: number;
 	subjectId: number;
 	initialSettingConfig: InitialSettingConfig;
-	setIsModalOpen: (open: boolean) => void;
+	handleCloseModal: () => void;
 }
 
 const UpdateSubjectSection = ({
 	playerId,
 	subjectId,
 	initialSettingConfig,
-	setIsModalOpen,
+	handleCloseModal,
 }: UpdateSubjectSection) => {
 	const formRef = useRef<HTMLFormElement>(null);
 	const subjectNameRef = useRef<HTMLInputElement>(null);
@@ -95,7 +98,7 @@ const UpdateSubjectSection = ({
 					toast.success('Subject updated successfully');
 				},
 				onSettled() {
-					setIsModalOpen(false);
+					handleCloseModal();
 				},
 			}
 		);
@@ -183,7 +186,6 @@ const UpdateSubjectSection = ({
 					confirmClassName="text-sm"
 				/>
 				<button
-					// type="submit"
 					type="button"
 					onClick={handleSubmit}
 					className="px-4 py-2 bg-accent/20 hover:bg-accent/30 text-accent 

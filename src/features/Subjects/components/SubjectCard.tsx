@@ -1,10 +1,11 @@
 import StarRating from './ui/StarRating';
 import { useEffect, useRef, useState } from 'react';
 import { putCursorToFront } from '../../../utils/putCursorToFront';
-import ViewSettingsModal from '../modals/ViewSettingsModal';
 import { FaSliders } from 'react-icons/fa6';
+import { useSubjectStore_UI } from '../stores/subjectStore_UI';
 
 interface SubjectCardProps {
+	index: number;
 	playerId: number;
 	subjectId: number;
 	code_name: string;
@@ -16,7 +17,7 @@ interface SubjectCardProps {
 }
 
 export default function SubjectCard({
-	playerId,
+	index,
 	subjectId,
 	code_name,
 	description,
@@ -25,6 +26,8 @@ export default function SubjectCard({
 	className,
 }: SubjectCardProps) {
 	// Function to determine glow effect based on difficulty
+
+	const setActiveModal = useSubjectStore_UI((state) => state.setActiveModal);
 
 	const [isLoading] = useState(false);
 
@@ -38,8 +41,6 @@ export default function SubjectCard({
 			codeNameRef.current.focus();
 		}
 	}, [isEditEnabled]);
-
-	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	return (
 		<>
@@ -118,23 +119,16 @@ export default function SubjectCard({
 					</div>
 					<div
 						className="pb-4 px-4"
-						onClick={() => setIsModalOpen(true)}
+						onClick={() =>
+							setActiveModal('EditSubjectModal', {
+								objectId: index,
+							})
+						}
 					>
 						<FaSliders className="w-4 h-4 " />
 					</div>
 				</div>
 			</div>
-			<ViewSettingsModal
-				playerId={playerId}
-				subjectId={subjectId}
-				isModalOpen={isModalOpen}
-				initialSettingConfig={{
-					codeName: code_name,
-					description,
-					difficulty,
-				}}
-				setIsModalOpen={setIsModalOpen}
-			/>
 		</>
 	);
 }

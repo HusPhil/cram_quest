@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { SubjectRead } from '../../../services/api/schema/subject_schema';
 import SubjectCard from './SubjectCard';
 
@@ -11,11 +12,11 @@ interface SubjectListProps {
 		subjectDifficulty: number
 	) => void;
 }
-export default function SubjectList({
+const SubjectList = ({
 	subjects,
 	currentPlayerId,
 	handleOpenScreen,
-}: SubjectListProps) {
+}: SubjectListProps) => {
 	return (
 		<div className="flex-1 my-4 relative">
 			<div
@@ -26,9 +27,10 @@ export default function SubjectList({
 					className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-4
                     "
 				>
-					{(subjects ?? []).map((subject) => (
+					{(subjects ?? []).map((subject, index) => (
 						<SubjectCard
 							key={subject.id}
+							index={index}
 							playerId={currentPlayerId!}
 							subjectId={subject.id}
 							code_name={subject.code_name}
@@ -48,4 +50,6 @@ export default function SubjectList({
 			</div>
 		</div>
 	);
-}
+};
+
+export default memo(SubjectList);
