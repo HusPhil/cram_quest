@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { useFloatingScreen } from '../../../../context/FloatingScreenContext';
+import { useFloatingScreen } from '../../../context/FloatingScreenContext';
 import { FaArrowLeft } from 'react-icons/fa';
 
 interface SubjectScreenHeaderProps {

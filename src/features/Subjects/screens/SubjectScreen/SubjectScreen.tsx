@@ -1,7 +1,7 @@
 import { memo, useState } from 'react';
-import { SubjectScreenHeader } from './SubjectScreenHeader';
-import SubjectScreenBody from './SubjectScreenBody';
-import SubjectScreenFooter from './SubjectScreenFooter';
+import { SubjectScreenHeader } from '../../components/SubjectScreenHeader';
+import SubjectScreenBody from '../../components/SubjectScreenBody';
+import SubjectScreenFooter from '../../components/SubjectScreenFooter';
 
 export const PAGE_TITLES = {
 	QUESTS: 'QUESTS',

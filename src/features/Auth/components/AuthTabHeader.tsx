@@ -1,3 +1,4 @@
+import Tabs from '../../../components/Tabs';
 import { AuthTab } from '../types';
 
 interface AuthTabHeaderProps {
@@ -9,7 +10,15 @@ export default function ({ activeTab, setActiveTab }: AuthTabHeaderProps) {
 	return (
 		<>
 			<Header activeTab={activeTab} />
-			<TabSelection activeTab={activeTab} setActiveTab={setActiveTab} />
+			<Tabs
+				tabs={[
+					{ label: 'Sign In', value: 'signIn' },
+					{ label: 'Sign Up', value: 'signUp' },
+				]}
+				activeTab={activeTab}
+				setActiveTab={setActiveTab}
+				activeClassName="font-bold border-accent text-accent"
+			/>
 		</>
 	);
 }
@@ -23,36 +32,3 @@ const Header = ({ activeTab }: { activeTab: AuthTab }) => (
 		}`}
 	</h1>
 );
-
-const TabSelection = ({
-	activeTab,
-	setActiveTab,
-}: {
-	activeTab: AuthTab;
-	setActiveTab: (tab: AuthTab) => void;
-}) => {
-	return (
-		<div className="flex justify-around">
-			<button
-				className={`w-1/2 py-2 font-bold transition-all duration-300 border-b-2 ${
-					activeTab === 'signIn'
-						? 'border-accent text-accent'
-						: 'border-text/20 text-text/50 hover:text-text/70'
-				}`}
-				onClick={() => setActiveTab('signIn')}
-			>
-				Sign In
-			</button>
-			<button
-				className={`w-1/2 py-2 font-bold transition-all duration-300 border-b-2 ${
-					activeTab === 'signUp'
-						? 'border-accent text-accent'
-						: 'border-text/20 text-text/50 hover:text-text/70'
-				}`}
-				onClick={() => setActiveTab('signUp')}
-			>
-				Sign Up
-			</button>
-		</div>
-	);
-};

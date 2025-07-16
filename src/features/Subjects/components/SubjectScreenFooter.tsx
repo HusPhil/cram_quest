@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useGetSubjectQuests } from '../../hooks/useGetSubjectQuests';
-import StartBattleModal from '../../modals/StartBattleModal';
+import { useGetSubjectQuests } from '../hooks/useGetSubjectQuests';
+import StartBattleModal from '../modals/StartBattleModal';
 
 interface SubjectScreenFooterProps {
 	subjectId: number;
@@ -15,7 +15,6 @@ export default function SubjectScreenFooter({
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const handleStartBattleSession = () => {
-		// closeScreen();
 		setIsModalOpen(true);
 	};
 
@@ -38,11 +37,6 @@ export default function SubjectScreenFooter({
 				setIsModalOpen={setIsModalOpen}
 				subjectQuests={subjectQuests}
 			/>
-			{/* <BattleStartModal
-				isModalOpen={isModalOpen}
-				setIsModalOpen={setIsModalOpen}
-				subjectQuests={subjectQuests}
-			/> */}
 		</>
 	);
 }

@@ -66,7 +66,7 @@ export default function WriteSteps() {
 				Press Enter to add a new step.
 			</small>
 
-			<div className="space-y-2">
+			<div className="space-y-2 ">
 				{questSteps.map((step, index) => (
 					<div key={index} className="flex items-center space-x-2">
 						<div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
