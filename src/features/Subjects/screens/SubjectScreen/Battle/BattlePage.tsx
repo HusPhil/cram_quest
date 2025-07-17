@@ -22,7 +22,6 @@ export default function BattlePage({
 		completedTasks,
 		currentTaskIndex,
 		isCustomSceneActive,
-		saveStartTime,
 		handleKillEnemy,
 		handleQuestComplete,
 		initializeBattleEngineControllers,
@@ -32,7 +31,7 @@ export default function BattlePage({
 		if (currentTaskIndex >= generatedTasks.length) {
 			handleQuestComplete();
 		}
-	}, [currentTaskIndex, generatedTasks.length, handleQuestComplete]);
+	}, [currentTaskIndex, generatedTasks, handleQuestComplete]);
 
 	const battleArenaComponent = useMemo(
 		() => (
@@ -51,13 +50,6 @@ export default function BattlePage({
 	const totalTasksCount = generatedTasks.length;
 	const isAllTasksCompleted = completedTasksCount === totalTasksCount;
 	const currentTask = generatedTasks[currentTaskIndex];
-
-	useEffect(() => {
-		if (generatedTasks.length > 0) {
-			const firstTask = generatedTasks[0];
-			saveStartTime(firstTask);
-		}
-	}, [generatedTasks]);
 
 	return (
 		<div className="flex items-center flex-col">

@@ -92,6 +92,7 @@ const UpdateSubjectSection = ({
 				queryKey: SUBJECTS_QUERY_KEY,
 			});
 			toast.success('Quest deleted successfully');
+			handleCloseModal();
 		}
 	};
 

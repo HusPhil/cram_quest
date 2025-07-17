@@ -5,6 +5,7 @@ import { useBattleTaskProgress } from './useBattleTaskProgress';
 import { useBattleEngineControllers } from './useBattleEngineControllers';
 import { useBattleKillEnemyHandler } from './useBattleKillEnemyHandler';
 import { useBattleQuestCompletion } from './useBattleQuestCompletion';
+import { useEffect } from 'react';
 
 export const useTaskBattleFlow = (battleCleanup: () => void) => {
 	const { saveStartTime, saveEndTime, clearTimings, getAllTimings } =
@@ -39,6 +40,13 @@ export const useTaskBattleFlow = (battleCleanup: () => void) => {
 		getAllTimings,
 		battleResult,
 	});
+
+	useEffect(() => {
+		if (generatedTasks.length > 0) {
+			const firstTask = generatedTasks[0];
+			saveStartTime(firstTask);
+		}
+	}, [generatedTasks]);
 
 	return {
 		generatedTasks,
