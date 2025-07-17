@@ -1,7 +1,6 @@
-import { lazy, memo, Suspense, useEffect, useState } from 'react';
+import { lazy, memo, Suspense, useEffect } from 'react';
 import { PAGE_TITLES, PageTitle } from '../screens/SubjectScreen/SubjectScreen';
 import Tabs from '../../../components/Tabs';
-import AddNewQuestModal from '../modals/AddNewQuestModal';
 
 const LearningPage = lazy(
 	() => import('../screens/SubjectScreen/Tabs/Learning/LearningPage')

@@ -9,6 +9,7 @@ import {
 import AddNewQuestModal from '../../modals/AddNewQuestModal';
 import AddNewMaterialModal from '../../modals/AddNewMaterialModal';
 import EditMaterialModal from '../../modals/EditMaterialModal';
+import StartBattleModal from '../../modals/StartBattleModal';
 
 export const PAGE_TITLES = {
 	QUESTS: 'QUESTS',
@@ -36,6 +37,7 @@ export function SubjectScreen({
 
 	const [activeTab, setActiveTab] = useState<PageTitle>(PAGE_TITLES.QUESTS);
 	const [_, setCurrentPage] = useState<React.ReactNode>(null);
+	const subjectQuests = useSubjectStore_UI((state) => state.subjectQuests);
 
 	return (
 		<>
@@ -73,6 +75,11 @@ export function SubjectScreen({
 				material={
 					activeModalObject as ModalObjectMap['EditMaterialModal']
 				}
+			/>
+
+			<StartBattleModal
+				subjectId={subjectId}
+				subjectQuests={subjectQuests || undefined}
 			/>
 		</>
 	);

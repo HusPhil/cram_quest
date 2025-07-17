@@ -8,6 +8,9 @@ import { useBattleSetupStore } from '../stores/battleSetupStore';
 import StartBattle from '../screens/SubjectScreen/Battle/SetupBattleSteps/StartBattle';
 import BattlePage from '../screens/SubjectScreen/Battle/BattlePage';
 import { useBattleEngineStore } from '../stores/battleEngineStore';
+import { useSubjectStore_UI } from '../stores/subjectStore_UI';
+import { useUserPlayerStore } from '../../Auth/store/userPlayerStore';
+import { toast } from 'react-toastify';
 
 export interface StepComponentProps {
 	subjectQuests: QuestRead[];
@@ -26,9 +29,7 @@ export interface SetupBattleStep {
 
 interface StartBattleModalProps {
 	subjectId: number;
-	subjectQuests: QuestRead[];
-	isModalOpen: boolean;
-	setIsModalOpen: (open: boolean) => void;
+	subjectQuests?: QuestRead[];
 }
 
 const steps: SetupBattleStep[] = [
@@ -48,8 +49,6 @@ const steps: SetupBattleStep[] = [
 
 export default function StartBattleModal({
 	subjectQuests,
-	isModalOpen,
-	setIsModalOpen,
 }: StartBattleModalProps) {
 	const [currentStep, setCurrentStep] = useState(0);
 	const CurrentStepComponent = steps[currentStep].component;
@@ -80,7 +79,6 @@ export default function StartBattleModal({
 		setCurrentStep(0);
 		resetBattleSetup();
 		resetBattleEngine();
-		setIsModalOpen(false);
 	};
 
 	const getVariantFromResult = (result: 'defeat' | 'victory' | null) => {
@@ -89,11 +87,29 @@ export default function StartBattleModal({
 		return 'primary';
 	};
 
+	const activeModal = useSubjectStore_UI((state) => state.activeModal);
+	const closeActiveModal = useSubjectStore_UI(
+		(state) => state.closeActiveModal
+	);
+
+	const currentPlayerProfileId = useUserPlayerStore(
+		(state) => state.profileId
+	);
+
+	if (
+		(activeModal !== 'StartBattleModal' &&
+			!isBattleActive &&
+			!currentPlayerProfileId) ||
+		subjectQuests === undefined
+	) {
+		return null;
+	}
+
 	return (
 		<Modal
-			isOpen={isBattleActive || isModalOpen}
+			isOpen={isBattleActive || activeModal === 'StartBattleModal'}
 			title={isBattleActive ? 'Battle in Progress' : 'Start Battle!'}
-			onClose={() => setIsModalOpen(false)}
+			onClose={closeActiveModal}
 			customHeader={isBattleActive ? <></> : undefined}
 			variant={getVariantFromResult(battleResult)}
 		>

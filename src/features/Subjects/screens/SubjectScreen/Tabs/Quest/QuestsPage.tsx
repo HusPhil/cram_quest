@@ -2,10 +2,22 @@ import QuestListHeader from './QuestListHeader';
 import QuestList from './QuestList';
 import { useGetSubjectQuests } from '../../../../hooks/quest/useGetSubjectQuests';
 import { QuestRead } from '../../../../../../services/api/schema/quest_schema';
+import { useEffect } from 'react';
+import { useSubjectStore_UI } from '../../../../stores/subjectStore_UI';
 
 export default function QuestsPage({ subjectId }: { subjectId: number }) {
 	const { data: subjectQuests, isLoading: subjectQuestsLoading } =
 		useGetSubjectQuests(subjectId);
+
+	const setSubjectQuests = useSubjectStore_UI(
+		(state) => state.setSubjectQuests
+	);
+
+	useEffect(() => {
+		if (subjectQuests) {
+			setSubjectQuests(subjectQuests);
+		}
+	}, [subjectQuests]);
 
 	return (
 		<div className="flex flex-1 h-full flex-col">

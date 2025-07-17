@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { MaterialRead } from '../../../services/api/schema/material_schema';
+import { QuestRead } from '../../../services/api/schema/quest_schema';
 import { SubjectRead } from '../../../services/api/schema/subject_schema';
 
 export type ModalObjectMap = {
@@ -17,6 +18,8 @@ export type ModalKey = keyof ModalObjectMap;
 interface SubjectLayoutState {
 	activeModal: ModalKey | null;
 	activeModalObject: ModalObjectMap[ModalKey] | null;
+
+	subjectQuests: QuestRead[] | null;
 }
 
 interface SubjectLayoutActions {
@@ -26,6 +29,8 @@ interface SubjectLayoutActions {
 	) => void;
 
 	closeActiveModal: () => void;
+
+	setSubjectQuests: (quests: QuestRead[]) => void;
 }
 
 export const useSubjectStore_UI = create<
@@ -35,6 +40,8 @@ export const useSubjectStore_UI = create<
 		activeModal: null,
 		activeModalObject: null,
 
+		subjectQuests: null,
+
 		setActiveModal: (modal, modalObject) =>
 			set({
 				activeModal: modal,
@@ -43,5 +50,8 @@ export const useSubjectStore_UI = create<
 
 		closeActiveModal: () =>
 			set({ activeModal: null, activeModalObject: null }),
+
+		setSubjectQuests: (quests: QuestRead[]) =>
+			set({ subjectQuests: quests }),
 	}))
 );
