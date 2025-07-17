@@ -15,7 +15,7 @@ import { useEndBattleSession } from '../../../hooks/useEndBattleSession';
 import { useSyncTaskTimings } from '../../../hooks/useSyncTaskTimings';
 import { BattleSessionRead } from '../../../../../services/api/schema/battle_session_schema';
 
-interface BattleScreenProps {
+interface BattlePageProps {
 	battleCleanup: () => void;
 	currentQuest: QuestRead;
 	battleDuration: number;
@@ -26,11 +26,11 @@ export interface BattleEngineControllers {
 	getNewEnemyFn: () => void;
 }
 
-export default function BattleScreen({
+export default function BattlePage({
 	battleCleanup,
 	currentQuest,
 	battleDuration,
-}: BattleScreenProps) {
+}: BattlePageProps) {
 	const queueCustomSceneRef = useRef<QueueCustomSceneFn>(null);
 	const getNewEnemyRef = useRef<() => void>(null);
 
@@ -40,12 +40,12 @@ export default function BattleScreen({
 	const { saveStartTime, saveEndTime, clearTimings, getAllTimings } =
 		useTaskTimingsStorage();
 
-	const isCustomSceneActive = useBattleEngineStore(
-		(state) => state.isCustomSceneActive
-	);
-
 	const getPlayerAnimation = useBattleEngineStore(
 		(state) => state.getPlayerAnimation
+	);
+
+	const isCustomSceneActive = useBattleEngineStore(
+		(state) => state.isCustomSceneActive
 	);
 
 	const setPlayerActionRef = useBattleEngineStore(
@@ -65,7 +65,6 @@ export default function BattleScreen({
 	const [completedTasks, setCompletedTasks] = React.useState<TaskRead[]>([]);
 	const [currentTaskIndex, setCurrentTaskIndex] = React.useState(0);
 
-	// Memoize handlers to prevent child re-renders
 	const handleCompleteTask = useCallback(
 		(completedTask: TaskRead) => {
 			setCompletedTasks((prev) => [...prev, completedTask]);
@@ -91,8 +90,6 @@ export default function BattleScreen({
 	}, [currentTaskIndex]);
 
 	const handleQuestComplete = useCallback(() => {
-		// battleCleanup();
-		// clearTimings();
 		const taskTimingStore = getAllTimings();
 
 		console.log('taskTimingStore: ', taskTimingStore);
@@ -160,7 +157,6 @@ export default function BattleScreen({
 		[]
 	);
 
-	// Memoize the quest completion check
 	const isQuestComplete = useMemo(() => {
 		return currentTaskIndex >= generatedTasks.length;
 	}, [currentTaskIndex, generatedTasks.length]);

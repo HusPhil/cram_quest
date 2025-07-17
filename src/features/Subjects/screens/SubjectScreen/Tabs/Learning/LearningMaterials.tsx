@@ -1,11 +1,10 @@
 import TagLabel from '../../../../../../components/TagLabel';
 import { FaPlus } from 'react-icons/fa';
-import SubjectMaterialCard from './SubjectMaterialCard';
-import { useState } from 'react';
+import LearningMaterialCard from './LearningMaterialCard';
 import { MaterialRead } from '../../../../../../services/api/schema/material_schema';
 import { useSubjectStore_UI } from '../../../../stores/subjectStore_UI';
 
-interface SubjectMaterialsProps {
+interface LearningMaterialsProps {
 	subjectId: number;
 	materials: MaterialRead[];
 }
@@ -13,7 +12,7 @@ interface SubjectMaterialsProps {
 export default function SubjectMaterials({
 	subjectId,
 	materials,
-}: SubjectMaterialsProps) {
+}: LearningMaterialsProps) {
 	const setActiveModal = useSubjectStore_UI((state) => state.setActiveModal);
 
 	return (
@@ -38,7 +37,7 @@ export default function SubjectMaterials({
 
 			{/* Materials */}
 			{materials.map((material, index) => (
-				<SubjectMaterialCard
+				<LearningMaterialCard
 					key={index}
 					subjectId={subjectId}
 					material={material}

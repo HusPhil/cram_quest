@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import SubjectStatus from './SubjectStatus';
-import SubjectMaterials from './SubjectMaterials';
+import LearningStatus from './SubjectStatus';
+import SubjectMaterials from './LearningMaterials';
 import { useGetMaterial } from '../../../../hooks/useGetMaterial';
 
 interface LearningPageProps {
@@ -27,7 +27,7 @@ export default function LearningPage({
 	return (
 		<>
 			<div className="flex flex-1 flex-col">
-				<SubjectStatus
+				<LearningStatus
 					subjectId={subjectId}
 					rating={rating}
 					setRating={setRating}

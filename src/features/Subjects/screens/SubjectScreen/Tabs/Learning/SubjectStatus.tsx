@@ -2,19 +2,19 @@ import { useEffect, useRef } from 'react';
 import StarRating from '../../../../components/ui/StarRating';
 import { FaFloppyDisk } from 'react-icons/fa6';
 
-interface StatusUpdateProps {
+interface LearningStatusUpdateProps {
 	subjectId: number;
 	rating: number;
 	setRating: (rating: number) => void;
 	subjectStatus: string;
 }
 
-export default function SubjectStatus({
+export default function LearningStatus({
 	subjectId,
 	rating,
 	setRating,
 	subjectStatus,
-}: StatusUpdateProps) {
+}: LearningStatusUpdateProps) {
 	const statusRef = useRef<HTMLTextAreaElement>(null);
 
 	const handleSave = () => {

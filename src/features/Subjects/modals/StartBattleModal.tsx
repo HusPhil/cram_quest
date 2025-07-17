@@ -6,7 +6,7 @@ import PickAQuest from '../screens/SubjectScreen/Battle/SetupBattleSteps/PickAQu
 import WriteSteps from '../screens/SubjectScreen/Battle/SetupBattleSteps/WriteSteps';
 import { useSetupBattleStore } from '../stores/setupBattleStore';
 import StartBattle from '../screens/SubjectScreen/Battle/SetupBattleSteps/StartBattle';
-import BattleScreen from '../screens/SubjectScreen/Battle/BattleScreen';
+import BattlePage from '../screens/SubjectScreen/Battle/BattlePage';
 import { useBattleEngineStore } from '../stores/battleEngineStore';
 
 export interface StepComponentProps {
@@ -117,7 +117,7 @@ export default function StartBattleModal({
 					/>
 				</>
 			) : (
-				<BattleScreen
+				<BattlePage
 					battleCleanup={handleCleanupBattlefield}
 					battleDuration={battleDuration}
 					currentQuest={selectedQuest!}

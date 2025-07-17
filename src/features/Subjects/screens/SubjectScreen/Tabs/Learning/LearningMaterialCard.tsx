@@ -10,14 +10,14 @@ import { MaterialType } from './LearningPage';
 import { MaterialRead } from '../../../../../../services/api/schema/material_schema';
 import { useSubjectStore_UI } from '../../../../stores/subjectStore_UI';
 
-interface SubjectMaterialCardProps {
+interface LearningMaterialCardProps {
 	material: MaterialRead;
 	subjectId: number;
 }
 
-export default function SubjectMaterialCard({
+export default function LearningMaterialCard({
 	material,
-}: SubjectMaterialCardProps) {
+}: LearningMaterialCardProps) {
 	const setActiveModal = useSubjectStore_UI((state) => state.setActiveModal);
 
 	const getIconFromMaterialType = useCallback((type: MaterialType) => {
