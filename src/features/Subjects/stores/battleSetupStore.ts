@@ -3,7 +3,7 @@ import { QuestRead } from '../../../services/api/schema/quest_schema';
 import { SubjectRead } from '../../../services/api/schema/subject_schema';
 import { TaskRead } from '../../../services/api/schema/task_schema';
 
-interface SetupBattleState {
+interface BattleSetupState {
 	// State
 	isBattleActive: boolean;
 	battleResult: 'defeat' | 'victory' | null;
@@ -31,7 +31,7 @@ interface SetupBattleState {
 	getCleanedQuestSteps: () => string[];
 }
 
-export const useSetupBattleStore = create<SetupBattleState>((set, get) => ({
+export const useBattleSetupStore = create<BattleSetupState>((set, get) => ({
 	battleSessionId: null,
 	isBattleActive: false,
 	battleResult: null,

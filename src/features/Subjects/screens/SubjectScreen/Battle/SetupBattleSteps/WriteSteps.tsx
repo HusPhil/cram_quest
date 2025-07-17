@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
-import { useSetupBattleStore } from '../../../../stores/setupBattleStore';
+import { useBattleSetupStore } from '../../../../stores/battleSetupStore';
 
 export default function WriteSteps() {
-	const selectedQuest = useSetupBattleStore((state) => state.selectedQuest);
-	const questSteps = useSetupBattleStore((state) => state.questSteps);
-	const addQuestStep = useSetupBattleStore((state) => state.addQuestStep);
-	const removeQuestStep = useSetupBattleStore(
+	const selectedQuest = useBattleSetupStore((state) => state.selectedQuest);
+	const questSteps = useBattleSetupStore((state) => state.questSteps);
+	const addQuestStep = useBattleSetupStore((state) => state.addQuestStep);
+	const removeQuestStep = useBattleSetupStore(
 		(state) => state.removeQuestStep
 	);
-	const updateQuestStep = useSetupBattleStore(
+	const updateQuestStep = useBattleSetupStore(
 		(state) => state.updateQuestStep
 	);
 	// Create refs for input elements

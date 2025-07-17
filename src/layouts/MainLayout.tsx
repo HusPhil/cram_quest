@@ -1,11 +1,11 @@
 import { Outlet } from 'react-router-dom';
 import Sidebar from '../components/Sidebar/Sidebar';
 import { useFloatingScreen } from '../context/FloatingScreenContext';
-import { useSetupBattleStore } from '../features/Subjects/stores/setupBattleStore';
+import { useBattleSetupStore } from '../features/Subjects/stores/battleSetupStore';
 
 const MainLayout = () => {
 	const { isScreenOpen } = useFloatingScreen();
-	const isBattleActive = useSetupBattleStore((state) => state.isBattleActive);
+	const isBattleActive = useBattleSetupStore((state) => state.isBattleActive);
 
 	return (
 		<div className="flex h-[100dvh] bg-background text-text flex-col lg:flex-row">

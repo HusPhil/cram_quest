@@ -3,7 +3,7 @@ import BattleArena from './BattleArena';
 import { TbFlame, TbSword, TbTargetArrow, TbTrophy } from 'react-icons/tb';
 import { killEnemyScene } from '../../../../Battle/battleEngine/scenes/killEnemy/killEnemyScene';
 import { QuestRead } from '../../../../../services/api/schema/quest_schema';
-import { useSetupBattleStore } from '../../../stores/setupBattleStore';
+import { useBattleSetupStore } from '../../../stores/battleSetupStore';
 import { toast } from 'react-toastify';
 import { QueueCustomSceneFn } from '../../../../Battle/hooks/useBattleEngine';
 import colors from '../../../../../data/colors';
@@ -52,13 +52,13 @@ export default function BattlePage({
 		(state) => state.setPlayerActionRef
 	);
 
-	const generatedTasks = useSetupBattleStore((state) => state.generatedTasks);
-	const battleSessionId = useSetupBattleStore(
+	const generatedTasks = useBattleSetupStore((state) => state.generatedTasks);
+	const battleSessionId = useBattleSetupStore(
 		(state) => state.battleSessionId
 	);
 
-	const battleResult = useSetupBattleStore((state) => state.battleResult);
-	const setBattleResult = useSetupBattleStore(
+	const battleResult = useBattleSetupStore((state) => state.battleResult);
+	const setBattleResult = useBattleSetupStore(
 		(state) => state.setBattleResult
 	);
 

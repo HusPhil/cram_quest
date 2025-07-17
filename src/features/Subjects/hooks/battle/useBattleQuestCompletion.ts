@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { TaskRead } from '../../../../services/api/schema/task_schema';
 import { useBattleEngineStore } from '../../stores/battleEngineStore';
-import { useSetupBattleStore } from '../../stores/setupBattleStore';
+import { useBattleSetupStore } from '../../stores/battleSetupStore';
 import { useSyncTaskTimings } from '../task/useSyncTaskTimings';
 import { useEndBattleSession } from './useEndBattleSession';
 import { BattleSessionRead } from '../../../../services/api/schema/battle_session_schema';
@@ -21,10 +21,10 @@ export const useBattleQuestCompletion = ({
 	const syncTaskTimingsMutate = useSyncTaskTimings();
 	const endBattleSessionMutate = useEndBattleSession();
 
-	const battleSessionId = useSetupBattleStore(
+	const battleSessionId = useBattleSetupStore(
 		(state) => state.battleSessionId
 	);
-	const setBattleResult = useSetupBattleStore(
+	const setBattleResult = useBattleSetupStore(
 		(state) => state.setBattleResult
 	);
 

@@ -77,32 +77,8 @@ export const useBattleEngineStore = create<
 
 	resetBattleEngine: () =>
 		set(() => ({
-			setPlayerActionRef: null,
 			playerPosX: 0,
-			playerZ: 0,
-			playerLoop: false,
-			getPlayerAnimation: () => ({} as AnimationParams),
-
-			setEnemyActionRef: null,
 			enemyPosX: 48 * 3,
-			enemyZ: 0,
-			enemyLoop: false,
-			getEnemyAnimation: () => ({} as AnimationParams),
-
-			isCustomSceneActive: false,
-			getNewEnemy: () => {},
-			queueCustomScene: () => {},
-
-			// Actions
-			setPlayerPosX: (x) => set({ playerPosX: x }),
-			setPlayerZ: (z) => set({ playerZ: z }),
-			setPlayerLoop: (loop) => set({ playerLoop: loop }),
-
 			setEnemyPosX: (x) => set({ enemyPosX: x }),
-			setEnemyZ: (z) => set({ enemyZ: z }),
-			setEnemyLoop: (loop) => set({ enemyLoop: loop }),
-
-			setIsCustomSceneActive: (active) =>
-				set({ isCustomSceneActive: active }),
 		})),
 }));

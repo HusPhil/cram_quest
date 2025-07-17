@@ -1,10 +1,10 @@
 import { QuestRead } from '../../../../../../services/api/schema/quest_schema';
-import { useSetupBattleStore } from '../../../../stores/setupBattleStore';
+import { useBattleSetupStore } from '../../../../stores/battleSetupStore';
 import { StepComponentProps } from '../../../../modals/StartBattleModal';
 
 export default function PickAQuest({ subjectQuests }: StepComponentProps) {
-	const selectQuest = useSetupBattleStore((state) => state.selectQuest);
-	const selectedQuest = useSetupBattleStore((state) => state.selectedQuest);
+	const selectQuest = useBattleSetupStore((state) => state.selectQuest);
+	const selectedQuest = useBattleSetupStore((state) => state.selectedQuest);
 
 	return (
 		<div className="space-y-4 max-h-80 overflow-auto">

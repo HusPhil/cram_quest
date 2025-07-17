@@ -4,7 +4,7 @@ import Modal from '../../../components/Modal';
 import StepProgress from '../screens/SubjectScreen/Battle/SetupBattleSteps/StepProgress';
 import PickAQuest from '../screens/SubjectScreen/Battle/SetupBattleSteps/PickAQuest';
 import WriteSteps from '../screens/SubjectScreen/Battle/SetupBattleSteps/WriteSteps';
-import { useSetupBattleStore } from '../stores/setupBattleStore';
+import { useBattleSetupStore } from '../stores/battleSetupStore';
 import StartBattle from '../screens/SubjectScreen/Battle/SetupBattleSteps/StartBattle';
 import BattlePage from '../screens/SubjectScreen/Battle/BattlePage';
 import { useBattleEngineStore } from '../stores/battleEngineStore';
@@ -55,24 +55,24 @@ export default function StartBattleModal({
 	const CurrentStepComponent = steps[currentStep].component;
 
 	// Battle setup store usage
-	const isBattleActive = useSetupBattleStore((state) => state.isBattleActive);
-	const battleDuration = useSetupBattleStore(
+	const isBattleActive = useBattleSetupStore((state) => state.isBattleActive);
+	const battleDuration = useBattleSetupStore(
 		(state) => state.durationMinutes
 	);
 	const resetBattleEngine = useBattleEngineStore(
 		(state) => state.resetBattleEngine
 	);
-	const selectedQuest = useSetupBattleStore((state) => state.selectedQuest);
-	const resetBattleSetup = useSetupBattleStore(
+	const selectedQuest = useBattleSetupStore((state) => state.selectedQuest);
+	const resetBattleSetup = useBattleSetupStore(
 		(state) => state.resetBattleSetup
 	);
 
-	const battleResult = useSetupBattleStore((state) => state.battleResult);
+	const battleResult = useBattleSetupStore((state) => state.battleResult);
 
 	const handleStartBattle = () => {
 		console.log(
 			'start battle with steps: ' + isBattleActive,
-			useSetupBattleStore.getState().getCleanedQuestSteps()
+			useBattleSetupStore.getState().getCleanedQuestSteps()
 		);
 	};
 
@@ -138,7 +138,7 @@ const StepNavigation = ({
 	currentStep,
 	setCurrentStep,
 }: StepNavigationProps) => {
-	const questSteps = useSetupBattleStore((state) => state.questSteps);
+	const questSteps = useBattleSetupStore((state) => state.questSteps);
 
 	const canGoNext = () => {
 		if (currentStep === 0) {

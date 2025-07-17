@@ -1,5 +1,5 @@
 import { memo, useEffect, useRef, useState } from 'react';
-import { useSetupBattleStore } from '../../../stores/setupBattleStore';
+import { useBattleSetupStore } from '../../../stores/battleSetupStore';
 
 interface BattleTimerProps {
 	duration?: number; // in seconds (debug)
@@ -8,7 +8,7 @@ interface BattleTimerProps {
 
 export const BattleTimer = ({ duration = 60, onTimeUp }: BattleTimerProps) => {
 	const [timeLeft, setTimeLeft] = useState(duration * 60);
-	const setBattleResult = useSetupBattleStore(
+	const setBattleResult = useBattleSetupStore(
 		(state) => state.setBattleResult
 	);
 

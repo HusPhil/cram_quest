@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import NavItem from './NavItem';
 import NavHeader from './NavHeader';
@@ -41,10 +41,8 @@ export default function Sidebar() {
 	const { closeScreen } = useFloatingScreen();
 	const location = useLocation();
 
-	// Close mobile menu on route change
 	useEffect(() => {
 		setIsMobileOpen(false);
-		closeScreen();
 	}, [location.pathname]);
 
 	const handleSetIsMobileOpen = useCallback(() => {

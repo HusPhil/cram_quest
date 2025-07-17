@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { StepComponentProps } from '../../../../modals/StartBattleModal';
-import { useSetupBattleStore } from '../../../../stores/setupBattleStore';
+import { useBattleSetupStore } from '../../../../stores/battleSetupStore';
 import { toast } from 'react-toastify';
 import debounce from 'just-debounce-it';
 import { useStartBattleSession } from '../../../../hooks/battle/useStartBattleSession';
@@ -25,23 +25,23 @@ export default function StartBattle({
 
 	const currentPlayerId = useAuthInformationStore((state) => state.playerId);
 
-	const getCleanedQuestSteps = useSetupBattleStore(
+	const getCleanedQuestSteps = useBattleSetupStore(
 		(state) => state.getCleanedQuestSteps
 	);
 
-	const setGeneratedTasks = useSetupBattleStore(
+	const setGeneratedTasks = useBattleSetupStore(
 		(state) => state.setGeneratedTasks
 	);
 
-	const setBattleSessionId = useSetupBattleStore(
+	const setBattleSessionId = useBattleSetupStore(
 		(state) => state.setBattleSessionId
 	);
 
-	const setGlobalBattleDuration = useSetupBattleStore(
+	const setGlobalBattleDuration = useBattleSetupStore(
 		(state) => state.setDuration
 	);
 
-	const setIsBattleActive = useSetupBattleStore(
+	const setIsBattleActive = useBattleSetupStore(
 		(state) => state.setIsBattleActive
 	);
 

@@ -1,5 +1,5 @@
 import { useTaskTimingsStorage } from '../task/useTaskTimingsStorage';
-import { useSetupBattleStore } from '../../stores/setupBattleStore';
+import { useBattleSetupStore } from '../../stores/battleSetupStore';
 import { useBattleEngineStore } from '../../stores/battleEngineStore';
 import { useBattleTaskProgress } from './useBattleTaskProgress';
 import { useBattleEngineControllers } from './useBattleEngineControllers';
@@ -9,8 +9,8 @@ import { useBattleQuestCompletion } from './useBattleQuestCompletion';
 export const useTaskBattleFlow = (battleCleanup: () => void) => {
 	const { saveStartTime, saveEndTime, clearTimings, getAllTimings } =
 		useTaskTimingsStorage();
-	const generatedTasks = useSetupBattleStore((state) => state.generatedTasks);
-	const battleResult = useSetupBattleStore((state) => state.battleResult);
+	const generatedTasks = useBattleSetupStore((state) => state.generatedTasks);
+	const battleResult = useBattleSetupStore((state) => state.battleResult);
 	const isCustomSceneActive = useBattleEngineStore(
 		(state) => state.isCustomSceneActive
 	);

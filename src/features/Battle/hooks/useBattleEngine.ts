@@ -65,21 +65,21 @@ export const useBattleEngine = (scene: BattleStepFn[]) => {
 		useRef<(sceneName?: sceneName) => void>(undefined);
 	const cleanupRef = useRef<() => void | undefined>(undefined);
 
-	// Start battle
 	const start = () => setStepIndex(0);
+
 	const next = useCallback(() => {
 		setStepIndex((prevIndex) => {
 			const isLast = prevIndex + 1 >= currentSteps.length;
 
 			if (isLast) {
 				setCustomSceneActive(false);
-
 				return loop ? 0 : prevIndex + 1;
 			}
 
 			return prevIndex + 1;
 		});
-	}, [stepIndex]);
+	}, [currentSteps, loop]);
+
 	const end = useCallback(() => {
 		if (currentSceneNameRef.current === 'killEnemyScene') {
 			onCustomSceneAnimationCompleteRef.current?.(
@@ -90,7 +90,6 @@ export const useBattleEngine = (scene: BattleStepFn[]) => {
 		}
 	}, []);
 
-	// === Provide current context to steps ===
 	const context: BattleContext = {
 		next,
 		end,
@@ -106,17 +105,12 @@ export const useBattleEngine = (scene: BattleStepFn[]) => {
 	};
 
 	const queueCustomScene: QueueCustomSceneFn = useCallback(
-		(
-			sceneSteps: BattleStepFn[],
-			sceneName?: sceneName,
-			onAnimationComplete?: (sceneName?: sceneName) => void,
-			onLastStepIndex?: (sceneName?: sceneName) => void
-		) => {
+		(sceneSteps, sceneName, onComplete, onLastStepIndex) => {
 			if (customSceneActiveRef.current) return;
 
 			cleanupRef.current?.();
 			currentSceneNameRef.current = sceneName ?? 'defaultBattleScence';
-			onCustomSceneAnimationCompleteRef.current = onAnimationComplete;
+			onCustomSceneAnimationCompleteRef.current = onComplete;
 			onCustomScenceLastStepIndexRef.current = onLastStepIndex;
 
 			setCustomSceneActive(true);
@@ -126,34 +120,28 @@ export const useBattleEngine = (scene: BattleStepFn[]) => {
 		[]
 	);
 
-	// === Run current step ===
+	// Run current step
 	useEffect(() => {
 		if (stepIndex < 0 || stepIndex >= currentSteps.length) return;
-		cleanupRef.current?.();
 
+		cleanupRef.current?.();
 		const stepFn = currentSteps[stepIndex];
 		const cleanup = stepFn(context);
 		cleanupRef.current = cleanup ?? undefined;
 	}, [stepIndex, currentSteps]);
 
-	// update the player positionRef
 	useEffect(() => {
 		playerPosXRef.current = playerPosX;
 	}, [playerPosX]);
 
-	// update the enemy positionRef
 	useEffect(() => {
 		enemyPosXRef.current = enemyPosX;
 	}, [enemyPosX]);
 
-	// to track if there are still an custom scene that is active
 	useEffect(() => {
 		customSceneActiveRef.current = customSceneActive;
-		if (!customSceneActive) {
-		}
 	}, [customSceneActive]);
 
-	// called for when the animation enters the last step index (not the animation end)
 	useEffect(() => {
 		const isLast = stepIndex + 1 >= currentSteps.length;
 		if (currentSceneNameRef.current === 'killEnemyScene' && isLast) {
@@ -163,22 +151,40 @@ export const useBattleEngine = (scene: BattleStepFn[]) => {
 		}
 	}, [stepIndex]);
 
+	// ✅ Final cleanup for unmount/reset
+	const reset = useCallback(() => {
+		cleanupRef.current?.();
+		cleanupRef.current = undefined;
+		setStepIndex(-1);
+		setLoop(false);
+		setCustomSceneActive(false);
+		setCurrentSteps(defaultBattleScene);
+		currentSceneNameRef.current = 'defaultBattleScence';
+		customSceneActiveRef.current = false;
+		onCustomSceneAnimationCompleteRef.current = undefined;
+		onCustomScenceLastStepIndexRef.current = undefined;
+	}, []);
+
+	useEffect(() => {
+		return () => {
+			reset();
+		};
+	}, [reset]);
+
 	return {
 		customSceneActiveRef,
-
 		setPlayerActionRef,
 		playerPosX,
 		playerZ,
 		playerLoop,
-
 		setEnemyActionRef,
 		enemyPosX,
 		enemyZ,
 		enemyLoop,
-
 		isLooping: loop,
 		startBattle: start,
 		queueCustomScene,
 		setLoop,
+		reset,
 	};
 };
