@@ -9,8 +9,6 @@ import StartBattle from '../screens/SubjectScreen/Battle/SetupBattleSteps/StartB
 import BattlePage from '../screens/SubjectScreen/Battle/BattlePage';
 import { useBattleEngineStore } from '../stores/battleEngineStore';
 import { useSubjectStore_UI } from '../stores/subjectStore_UI';
-import { useUserPlayerStore } from '../../Auth/store/userPlayerStore';
-import { toast } from 'react-toastify';
 
 export interface StepComponentProps {
 	subjectQuests: QuestRead[];
@@ -82,6 +80,7 @@ export default function StartBattleModal({
 		setCurrentStep(0);
 		resetBattleSetup();
 		resetBattleEngine();
+		closeActiveModal();
 		setIsBattleActive(false);
 	};
 

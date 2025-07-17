@@ -28,10 +28,6 @@ export default function BattlePage({
 		initializeBattleEngineControllers,
 	} = useTaskBattleFlow(battleCleanup);
 
-	// const isQuestComplete = useMemo(() => {
-	// 	return ;
-	// }, [currentTaskIndex, generatedTasks.length]);
-
 	useEffect(() => {
 		if (currentTaskIndex >= generatedTasks.length) {
 			handleQuestComplete();
@@ -55,31 +51,6 @@ export default function BattlePage({
 	const totalTasksCount = generatedTasks.length;
 	const isAllTasksCompleted = completedTasksCount === totalTasksCount;
 	const currentTask = generatedTasks[currentTaskIndex];
-
-	// Memoize the progress display
-	const progressDisplay = useMemo(
-		() => (
-			<p className="mt-3 opacity-50 text-white">
-				{completedTasksCount}/{totalTasksCount}
-			</p>
-		),
-		[completedTasksCount, totalTasksCount]
-	);
-
-	// Memoize the current task display
-	const currentTaskDisplay = useMemo(() => {
-		if (isAllTasksCompleted) {
-			return <>COMPLETED!</>;
-		}
-
-		return (
-			<div className="flex flex-col items-center w-full">
-				<p className="line-clamp-2 text-white text-center">
-					{currentTask.description}
-				</p>
-			</div>
-		);
-	}, [isAllTasksCompleted, currentTask]);
 
 	useEffect(() => {
 		if (generatedTasks.length > 0) {
@@ -114,8 +85,14 @@ export default function BattlePage({
 						/>
 					</div>
 					<div className="shrink-0 mt-2"> {battleArenaComponent}</div>
-					{progressDisplay}
-					{currentTaskDisplay}
+					<p className="mt-3 opacity-50 text-white">
+						{completedTasksCount}/{totalTasksCount}
+					</p>
+					<div className="flex flex-col items-center w-full">
+						<p className="line-clamp-2 text-white text-center">
+							{currentTask.description}
+						</p>
+					</div>
 					<button
 						disabled={isAllTasksCompleted || isCustomSceneActive}
 						onClick={handleKillEnemy}
