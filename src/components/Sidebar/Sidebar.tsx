@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, memo } from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import NavItem from './NavItem';
 import NavHeader from './NavHeader';
@@ -10,6 +10,7 @@ import {
 	TbLogout,
 	TbVocabulary,
 } from 'react-icons/tb';
+import usePrevious from '../../hooks/usePrevious';
 
 const navItems = [
 	{
@@ -41,8 +42,14 @@ export default function Sidebar() {
 	const { closeScreen } = useFloatingScreen();
 	const location = useLocation();
 
+	const prevPath = usePrevious(location.pathname);
+
 	useEffect(() => {
-		setIsMobileOpen(false);
+		console.log('prevPath: ', prevPath);
+		if (prevPath != null && prevPath !== location.pathname) {
+			setIsMobileOpen(false);
+			closeScreen();
+		}
 	}, [location.pathname]);
 
 	const handleSetIsMobileOpen = useCallback(() => {

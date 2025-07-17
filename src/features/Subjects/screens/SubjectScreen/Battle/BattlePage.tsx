@@ -28,15 +28,15 @@ export default function BattlePage({
 		initializeBattleEngineControllers,
 	} = useTaskBattleFlow(battleCleanup);
 
-	const isQuestComplete = useMemo(() => {
-		return currentTaskIndex >= generatedTasks.length;
-	}, [currentTaskIndex, generatedTasks.length]);
+	// const isQuestComplete = useMemo(() => {
+	// 	return ;
+	// }, [currentTaskIndex, generatedTasks.length]);
 
 	useEffect(() => {
-		if (isQuestComplete) {
+		if (currentTaskIndex >= generatedTasks.length) {
 			handleQuestComplete();
 		}
-	}, [isQuestComplete, handleQuestComplete]);
+	}, [currentTaskIndex, generatedTasks.length, handleQuestComplete]);
 
 	const battleArenaComponent = useMemo(
 		() => (

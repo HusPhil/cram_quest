@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react';
 interface ModalProps {
 	isOpen: boolean;
 	onClose: () => void;
+	lock?: boolean;
 	title: string;
 	children: React.ReactNode;
 	customHeader?: React.ReactNode;
@@ -24,6 +25,7 @@ const getBorderFromVariant = (variant: 'primary' | 'success' | 'danger') => {
 const Modal = ({
 	isOpen,
 	onClose,
+	lock,
 	title,
 	children,
 	customHeader,
@@ -33,7 +35,7 @@ const Modal = ({
 
 	useEffect(() => {
 		const handleEscape = (e: KeyboardEvent) => {
-			if (e.key === 'Escape') onClose();
+			if (e.key === 'Escape' && !lock) onClose();
 		};
 
 		window.addEventListener('keydown', handleEscape);
@@ -47,7 +49,7 @@ const Modal = ({
 			{/* Backdrop */}
 			<div
 				className="fixed inset-0 bg-secondary/80 backdrop-blur-sm"
-				onClick={onClose}
+				onClick={!lock ? onClose : undefined}
 			/>
 
 			{/* Modal Container */}

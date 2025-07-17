@@ -55,6 +55,9 @@ export default function StartBattleModal({
 
 	// Battle setup store usage
 	const isBattleActive = useBattleSetupStore((state) => state.isBattleActive);
+	const setIsBattleActive = useBattleSetupStore(
+		(state) => state.setIsBattleActive
+	);
 	const battleDuration = useBattleSetupStore(
 		(state) => state.durationMinutes
 	);
@@ -79,6 +82,7 @@ export default function StartBattleModal({
 		setCurrentStep(0);
 		resetBattleSetup();
 		resetBattleEngine();
+		setIsBattleActive(false);
 	};
 
 	const getVariantFromResult = (result: 'defeat' | 'victory' | null) => {
@@ -92,16 +96,7 @@ export default function StartBattleModal({
 		(state) => state.closeActiveModal
 	);
 
-	const currentPlayerProfileId = useUserPlayerStore(
-		(state) => state.profileId
-	);
-
-	if (
-		(activeModal !== 'StartBattleModal' &&
-			!isBattleActive &&
-			!currentPlayerProfileId) ||
-		subjectQuests === undefined
-	) {
+	if (activeModal !== 'StartBattleModal' || subjectQuests === undefined) {
 		return null;
 	}
 
@@ -109,6 +104,7 @@ export default function StartBattleModal({
 		<Modal
 			isOpen={isBattleActive || activeModal === 'StartBattleModal'}
 			title={isBattleActive ? 'Battle in Progress' : 'Start Battle!'}
+			lock={isBattleActive}
 			onClose={closeActiveModal}
 			customHeader={isBattleActive ? <></> : undefined}
 			variant={getVariantFromResult(battleResult)}
