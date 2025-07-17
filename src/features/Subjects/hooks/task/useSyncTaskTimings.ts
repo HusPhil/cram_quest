@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
-import { axiosInstance } from '../../../lib/axios/axiosInstance';
-import { syncTaskTimingsEndRoute } from '../../../services/api/routes/task_routes';
+import { axiosInstance } from '../../../../lib/axios/axiosInstance';
+import { syncTaskTimingsEndRoute } from '../../../../services/api/routes/task_routes';
 import { TaskTimingsStore } from './useTaskTimingsStorage';
 
 export const useSyncTaskTimings = () => {

@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
-import { axiosInstance } from '../../../lib/axios/axiosInstance';
-import { QuestUpdate } from '../../../services/api/schema/quest_schema';
-import { getBaseQuestWithIdEndRoute } from '../../../services/api/routes/quest_routes';
+import { axiosInstance } from '../../../../lib/axios/axiosInstance';
+import { QuestUpdate } from '../../../../services/api/schema/quest_schema';
+import { getBaseQuestWithIdEndRoute } from '../../../../services/api/routes/quest_routes';
 
 export const useUpdateQuest = () => {
 	return useMutation({

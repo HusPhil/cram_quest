@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Modal from '../../../components/Modal';
 import StarRating from '../components/ui/StarRating';
-import { useCreateSubject } from '../hooks/useCreateSubject';
+import { useCreateSubject } from '../hooks/subject/useCreateSubject';
 import { useQueryClient } from '@tanstack/react-query';
 import { useSubjectStore_UI } from '../stores/subjectStore_UI';
 

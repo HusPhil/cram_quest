@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
-import { axiosInstance } from '../../../lib/axios/axiosInstance';
-import { getStartTaskEndRoute } from '../../../services/api/routes/task_routes';
-import { BattleSessionRead } from '../../../services/api/schema/battle_session_schema';
+import { axiosInstance } from '../../../../lib/axios/axiosInstance';
+import { getStartTaskEndRoute } from '../../../../services/api/routes/task_routes';
+import { BattleSessionRead } from '../../../../services/api/schema/battle_session_schema';
 
 export const useStartTask = () => {
 	return useMutation({

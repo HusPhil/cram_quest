@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
-import { axiosInstance } from '../../../lib/axios/axiosInstance';
-import { QuestCreate } from '../../../services/api/schema/quest_schema';
-import { getBaseQuestEndRoute } from '../../../services/api/routes/quest_routes';
+import { axiosInstance } from '../../../../lib/axios/axiosInstance';
+import { QuestCreate } from '../../../../services/api/schema/quest_schema';
+import { getBaseQuestEndRoute } from '../../../../services/api/routes/quest_routes';
 
 export const useCreateQuest = () => {
 	return useMutation({

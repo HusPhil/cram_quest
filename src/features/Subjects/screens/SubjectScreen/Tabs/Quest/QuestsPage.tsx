@@ -1,6 +1,6 @@
 import QuestListHeader from './QuestListHeader';
 import QuestList from './QuestList';
-import { useGetSubjectQuests } from '../../../../hooks/useGetSubjectQuests';
+import { useGetSubjectQuests } from '../../../../hooks/quest/useGetSubjectQuests';
 import { QuestRead } from '../../../../../../services/api/schema/quest_schema';
 
 export default function QuestsPage({ subjectId }: { subjectId: number }) {

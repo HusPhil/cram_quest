@@ -3,7 +3,7 @@ import { StepComponentProps } from '../../../../modals/StartBattleModal';
 import { useSetupBattleStore } from '../../../../stores/setupBattleStore';
 import { toast } from 'react-toastify';
 import debounce from 'just-debounce-it';
-import { useStartBattleSession } from '../../../../hooks/useStartBattleSession';
+import { useStartBattleSession } from '../../../../hooks/battle/useStartBattleSession';
 import { useAuthInformationStore } from '../../../../../Auth/store/authInformationStore';
 import { BattleSessionRead } from '../../../../../../services/api/schema/battle_session_schema';
 

@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
-import { SubjectCreate } from '../../../services/api/schema/subject_schema';
+import { SubjectCreate } from '../../../../services/api/schema/subject_schema';
 import { toast } from 'react-toastify';
-import { axiosInstance } from '../../../lib/axios/axiosInstance';
-import { getCreateSubjectEndRoute } from '../../../services/api/routes/subject_routes';
+import { axiosInstance } from '../../../../lib/axios/axiosInstance';
+import { getCreateSubjectEndRoute } from '../../../../services/api/routes/subject_routes';
 
 export const useCreateSubject = () => {
 	return useMutation({

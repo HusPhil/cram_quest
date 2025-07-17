@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import { getSubjectMaterials } from '../../../services/api/crud/subject_crud';
+import { getSubjectMaterials } from '../../../../services/api/crud/subject_crud';
 
 export const useGetMaterial = (subject_id: number) => {
 	const subjectQuery = useQuery({
-		queryKey: ["players", subject_id, "materials"],
+		queryKey: ['players', subject_id, 'materials'],
 		queryFn: () => getSubjectMaterials(subject_id!),
 		enabled: subject_id != null,
 	});

@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
-import { axiosInstance } from '../../../lib/axios/axiosInstance';
-import { getEndTaskEndRoute } from '../../../services/api/routes/task_routes';
+import { axiosInstance } from '../../../../lib/axios/axiosInstance';
+import { getEndTaskEndRoute } from '../../../../services/api/routes/task_routes';
 
 export const useEndTask = () => {
 	return useMutation({

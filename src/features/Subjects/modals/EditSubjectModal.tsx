@@ -3,9 +3,9 @@ import Modal from '../../../components/Modal';
 import StarRating from '../components/ui/StarRating';
 import DeleteWithConfirm from '../components/ui/DeleteWithConfirm';
 import { useQueryClient } from '@tanstack/react-query';
-import { useDeleteSubject } from '../hooks/useDeleteSubject';
+import { useDeleteSubject } from '../hooks/subject/useDeleteSubject';
 import { toast } from 'react-toastify';
-import { useUpdateSubject } from '../hooks/useUpdateSubject';
+import { useUpdateSubject } from '../hooks/subject/useUpdateSubject';
 import { useSubjectStore_UI } from '../stores/subjectStore_UI';
 import { SubjectRead } from '../../../services/api/schema/subject_schema';
 

@@ -1,0 +1,54 @@
+import { useTaskTimingsStorage } from '../task/useTaskTimingsStorage';
+import { useSetupBattleStore } from '../../stores/setupBattleStore';
+import { useBattleEngineStore } from '../../stores/battleEngineStore';
+import { useBattleTaskProgress } from './useBattleTaskProgress';
+import { useBattleEngineControllers } from './useBattleEngineControllers';
+import { useBattleKillEnemyHandler } from './useBattleKillEnemyHandler';
+import { useBattleQuestCompletion } from './useBattleQuestCompletion';
+
+export const useTaskBattleFlow = (battleCleanup: () => void) => {
+	const { saveStartTime, saveEndTime, clearTimings, getAllTimings } =
+		useTaskTimingsStorage();
+	const generatedTasks = useSetupBattleStore((state) => state.generatedTasks);
+	const battleResult = useSetupBattleStore((state) => state.battleResult);
+	const isCustomSceneActive = useBattleEngineStore(
+		(state) => state.isCustomSceneActive
+	);
+
+	const { completedTasks, currentTaskIndex, handleCompleteTask } =
+		useBattleTaskProgress(generatedTasks);
+
+	const {
+		getNewEnemyRef,
+		queueCustomSceneRef,
+		initializeBattleEngineControllers,
+	} = useBattleEngineControllers();
+
+	const handleKillEnemy = useBattleKillEnemyHandler({
+		generatedTasks,
+		currentTaskIndex,
+		saveEndTime,
+		saveStartTime,
+		queueCustomSceneRef,
+		getNewEnemyRef,
+		handleCompleteTask,
+	});
+
+	const handleQuestComplete = useBattleQuestCompletion({
+		clearTimings,
+		getAllTimings,
+		battleResult,
+	});
+
+	return {
+		generatedTasks,
+		isCustomSceneActive,
+		battleResult,
+		currentTaskIndex,
+		completedTasks,
+		saveStartTime,
+		handleKillEnemy,
+		handleQuestComplete,
+		initializeBattleEngineControllers,
+	};
+};

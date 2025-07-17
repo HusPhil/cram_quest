@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
-import { axiosInstance } from '../../../lib/axios/axiosInstance';
-import { SubjectUpdate } from '../../../services/api/schema/subject_schema';
-import { getBaseSubjectWithIdEndRoute } from '../../../services/api/routes/subject_routes';
+import { axiosInstance } from '../../../../lib/axios/axiosInstance';
+import { SubjectUpdate } from '../../../../services/api/schema/subject_schema';
+import { getBaseSubjectWithIdEndRoute } from '../../../../services/api/routes/subject_routes';
 
 export const useUpdateSubject = () => {
 	return useMutation({

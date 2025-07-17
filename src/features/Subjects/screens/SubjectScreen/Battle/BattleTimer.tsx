@@ -7,7 +7,7 @@ interface BattleTimerProps {
 }
 
 export const BattleTimer = ({ duration = 60, onTimeUp }: BattleTimerProps) => {
-	const [timeLeft, setTimeLeft] = useState(duration);
+	const [timeLeft, setTimeLeft] = useState(duration * 60);
 	const setBattleResult = useSetupBattleStore(
 		(state) => state.setBattleResult
 	);
@@ -23,7 +23,7 @@ export const BattleTimer = ({ duration = 60, onTimeUp }: BattleTimerProps) => {
 			const elapsed = Math.floor(
 				(Date.now() - startTimeRef.current) / 1000
 			);
-			const remaining = Math.max(duration - elapsed, 0);
+			const remaining = Math.max(duration * 60 - elapsed, 0);
 
 			setTimeLeft(remaining);
 

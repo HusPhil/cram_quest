@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Modal from '../../../components/Modal';
 import StarRating from '../components/ui/StarRating';
 import { useQueryClient } from '@tanstack/react-query';
-import { useCreateQuest } from '../hooks/useCreateQuest';
+import { useCreateQuest } from '../hooks/quest/useCreateQuest';
 import { useSubjectStore_UI } from '../stores/subjectStore_UI';
 
 interface AddNewQuestModalProps {

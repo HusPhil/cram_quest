@@ -4,7 +4,7 @@ import CornerDecoration from '../../../../../components/CornerDecoration';
 import SpriteSheet from '../../../../../components/SpriteSheet';
 import { useBattleEngineStore } from '../../../stores/battleEngineStore';
 import { useBattleSetup } from '../../../../Battle/hooks/useBattleSetup';
-import { BattleEngineControllers } from './BattlePage';
+import { BattleEngineControllers } from './BattlePage.test';
 
 export const enemyPosOffSetX = 16;
 export const arenaMiddle = 6 * 12;

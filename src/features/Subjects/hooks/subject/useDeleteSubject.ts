@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
-import { axiosInstance } from '../../../lib/axios/axiosInstance';
-import { getBaseSubjectWithIdEndRoute } from '../../../services/api/routes/subject_routes';
+import { axiosInstance } from '../../../../lib/axios/axiosInstance';
+import { getBaseSubjectWithIdEndRoute } from '../../../../services/api/routes/subject_routes';
 
 export const useDeleteSubject = () => {
 	return useMutation({

@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { TaskRead } from '../../../services/api/schema/task_schema';
+import { TaskRead } from '../../../../services/api/schema/task_schema';
 
 interface TaskTiming {
 	start_time: string | null; // ISO string

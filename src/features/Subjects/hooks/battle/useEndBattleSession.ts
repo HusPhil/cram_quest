@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
-import { axiosInstance } from '../../../lib/axios/axiosInstance';
-import { getEndBattleSessionEndRoute } from '../../../services/api/routes/battle_session';
+import { axiosInstance } from '../../../../lib/axios/axiosInstance';
+import { getEndBattleSessionEndRoute } from '../../../../services/api/routes/battle_session';
 
 export const useEndBattleSession = () => {
 	return useMutation({
