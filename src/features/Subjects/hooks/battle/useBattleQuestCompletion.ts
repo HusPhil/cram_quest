@@ -1,10 +1,8 @@
 import { useCallback } from 'react';
-import { TaskRead } from '../../../../services/api/schema/task_schema';
 import { useBattleEngineStore } from '../../../Battle/stores/battleEngineStore';
 import { useBattleSetupStore } from '../../../Battle/stores/battleSetupStore';
 import { useSyncTaskTimings } from '../task/useSyncTaskTimings';
 import { useEndBattleSession } from './useEndBattleSession';
-import { BattleSessionRead } from '../../../../services/api/schema/battle_session_schema';
 import { toast } from 'react-toastify';
 
 interface BattleQuestCompletionProps {
@@ -36,52 +34,31 @@ export const useBattleQuestCompletion = ({
 		(state) => state.getPlayerAnimation
 	);
 
-	const handleQuestComplete = useCallback(() => {
+	const handleSyncTaskTimings = useCallback(async () => {
 		const taskTimingStore = getAllTimings();
 
 		if (battleResult !== 'defeat') {
 			setBattleResult('victory');
 		}
-		syncTaskTimingsMutate.mutate(
-			{
-				taskTimingStore,
-			},
-			{
-				onSuccess: () => {
-					if (!battleSessionId) return;
 
-					endBattleSessionMutate.mutate(
-						{
-							battleSessionId,
-						},
-						{
-							onSuccess: (
-								battleSessionResult: BattleSessionRead
-							) => {
-								setPlayerActionRef?.current('idle');
-								console.log(
-									'battleSessionResult: ',
-									battleSessionResult
-								);
-								clearTimings();
-								toast.success('Quest completed!', {
-									toastId: 'quest-completed',
-								});
-							},
-						}
-					);
-				},
-				onError: () => {
-					toast.error('Failed to sync task timings', {
-						toastId: 'sync-task-timings-error',
-					});
-				},
-			}
-		);
+		try {
+			await syncTaskTimingsMutate.mutateAsync({
+				taskTimingStore,
+			});
+
+			setPlayerActionRef?.current?.('idle');
+			clearTimings();
+		} catch (err) {
+			toast.error('Failed to sync task timings', {
+				toastId: 'sync-task-timings-error',
+			});
+		}
 	}, [battleResult]);
 
 	return {
-		handleQuestComplete,
+		battleSessionId,
+		endBattleSessionMutate,
+		handleSyncTaskTimings,
 		getPlayerAnimation,
 	};
 };

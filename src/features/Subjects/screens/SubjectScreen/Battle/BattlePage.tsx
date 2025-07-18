@@ -6,6 +6,7 @@ import colors from '../../../../../data/colors';
 import { useTaskBattleFlow } from '../../../hooks/battle/useTaskBattleFlow';
 import BattleResultDisplay from '../../../components/battle/BattleResultDisplay';
 import BattleCombatPanel from '../../../components/battle/BattleCombatPanel';
+import { toast } from 'react-toastify';
 
 interface BattlePageProps {
 	battleCleanup: () => void;
@@ -24,17 +25,44 @@ export default function BattlePage({
 		completedTasks,
 		currentTaskIndex,
 		isCustomSceneActive,
+		battleSessionId,
+		endBattleSessionMutate,
 		getPlayerAnimation,
 		handleKillEnemy,
-		handleQuestComplete,
+		handleSyncTaskTimings,
 		initializeBattleEngineControllers,
-	} = useTaskBattleFlow(battleCleanup);
+	} = useTaskBattleFlow();
 
 	useEffect(() => {
-		if (currentTaskIndex >= generatedTasks.length) {
-			handleQuestComplete();
-		}
-	}, [currentTaskIndex, generatedTasks, handleQuestComplete]);
+		// const getBattleSessionResult = async () => {
+		// 	if (currentTaskIndex >= generatedTasks.length) {
+		// 		const battleSessionResult = await handleSyncTaskTimings();
+		// 		console.log('battleSessionResult', battleSessionResult);
+		// 	}
+		// };
+		// getBattleSessionResult();
+
+		const handleQuestComplete = async () => {
+			if (
+				currentTaskIndex >= generatedTasks.length &&
+				battleSessionId != null
+			) {
+				await handleSyncTaskTimings();
+				endBattleSessionMutate.mutate(
+					{ battleSessionId },
+					{
+						onSuccess: () => {
+							toast.success('Battle session ended successfully', {
+								toastId: 'end-battle-session',
+							});
+						},
+					}
+				);
+			}
+		};
+
+		handleQuestComplete();
+	}, [currentTaskIndex, generatedTasks, handleSyncTaskTimings]);
 
 	const battleArenaComponent = useMemo(
 		() => (

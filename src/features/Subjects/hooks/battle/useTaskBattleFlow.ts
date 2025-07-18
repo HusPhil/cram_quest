@@ -7,7 +7,7 @@ import { useBattleKillEnemyHandler } from './useBattleKillEnemyHandler';
 import { useBattleQuestCompletion } from './useBattleQuestCompletion';
 import { useEffect } from 'react';
 
-export const useTaskBattleFlow = (battleCleanup: () => void) => {
+export const useTaskBattleFlow = () => {
 	const { saveStartTime, saveEndTime, clearTimings, getAllTimings } =
 		useTaskTimingsStorage();
 	const generatedTasks = useBattleSetupStore((state) => state.generatedTasks);
@@ -35,12 +35,16 @@ export const useTaskBattleFlow = (battleCleanup: () => void) => {
 		handleCompleteTask,
 	});
 
-	const { handleQuestComplete, getPlayerAnimation } =
-		useBattleQuestCompletion({
-			clearTimings,
-			getAllTimings,
-			battleResult,
-		});
+	const {
+		handleSyncTaskTimings,
+		getPlayerAnimation,
+		battleSessionId,
+		endBattleSessionMutate,
+	} = useBattleQuestCompletion({
+		clearTimings,
+		getAllTimings,
+		battleResult,
+	});
 
 	useEffect(() => {
 		if (generatedTasks.length > 0) {
@@ -55,10 +59,12 @@ export const useTaskBattleFlow = (battleCleanup: () => void) => {
 		battleResult,
 		currentTaskIndex,
 		completedTasks,
+		battleSessionId,
+		endBattleSessionMutate,
 		getPlayerAnimation,
 		saveStartTime,
 		handleKillEnemy,
-		handleQuestComplete,
+		handleSyncTaskTimings,
 		initializeBattleEngineControllers,
 	};
 };
