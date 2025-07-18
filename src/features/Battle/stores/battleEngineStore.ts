@@ -2,9 +2,9 @@ import { create } from 'zustand';
 import {
 	AnimationParams,
 	AnimationStateType,
-} from '../../Battle/hooks/useCharacterAnimation';
+} from '../hooks/useCharacterAnimation';
 import React from 'react';
-import { QueueCustomSceneFn } from '../../Battle/hooks/useBattleEngine';
+import { QueueCustomSceneFn } from '../hooks/useBattleEngine';
 
 interface BattleEngineState {
 	// player management

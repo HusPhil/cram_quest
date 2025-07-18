@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { StepComponentProps } from '../../../../modals/StartBattleModal';
-import { useBattleSetupStore } from '../../../../stores/battleSetupStore';
+import { useBattleSetupStore } from '../../../../../Battle/stores/battleSetupStore';
 import { toast } from 'react-toastify';
 import debounce from 'just-debounce-it';
 import { useStartBattleSession } from '../../../../hooks/battle/useStartBattleSession';

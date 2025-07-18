@@ -2,9 +2,9 @@ import { memo, useEffect } from 'react';
 import BattleTimer from './BattleTimer';
 import CornerDecoration from '../../../../../components/CornerDecoration';
 import SpriteSheet from '../../../../../components/SpriteSheet';
-import { useBattleEngineStore } from '../../../stores/battleEngineStore';
+import { useBattleEngineStore } from '../../../../Battle/stores/battleEngineStore';
 import { useBattleSetup } from '../../../../Battle/hooks/useBattleSetup';
-import { BattleEngineControllers } from './BattlePage.test';
+import { BattleEngineControllers } from '../../../hooks/battle/useBattleEngineControllers';
 
 export const enemyPosOffSetX = 16;
 export const arenaMiddle = 6 * 12;

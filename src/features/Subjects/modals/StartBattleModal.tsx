@@ -4,10 +4,10 @@ import Modal from '../../../components/Modal';
 import StepProgress from '../screens/SubjectScreen/Battle/SetupBattleSteps/StepProgress';
 import PickAQuest from '../screens/SubjectScreen/Battle/SetupBattleSteps/PickAQuest';
 import WriteSteps from '../screens/SubjectScreen/Battle/SetupBattleSteps/WriteSteps';
-import { useBattleSetupStore } from '../stores/battleSetupStore';
+import { useBattleSetupStore } from '../../Battle/stores/battleSetupStore';
 import StartBattle from '../screens/SubjectScreen/Battle/SetupBattleSteps/StartBattle';
 import BattlePage from '../screens/SubjectScreen/Battle/BattlePage';
-import { useBattleEngineStore } from '../stores/battleEngineStore';
+import { useBattleEngineStore } from '../../Battle/stores/battleEngineStore';
 import { useSubjectStore_UI } from '../stores/subjectStore_UI';
 
 export interface StepComponentProps {

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useBattleSetupStore } from '../../../../stores/battleSetupStore';
+import { useBattleSetupStore } from '../../../../../Battle/stores/battleSetupStore';
 
 export default function WriteSteps() {
 	const selectedQuest = useBattleSetupStore((state) => state.selectedQuest);

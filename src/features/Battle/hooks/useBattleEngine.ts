@@ -3,7 +3,7 @@ import { BattleContext, BattleStepFn } from '../battleEngine/types';
 import { AnimationStateType } from './useCharacterAnimation';
 import { defaultBattleScene } from '../battleEngine/scenes/default/defaultBattleScene';
 import { sceneName } from '../battleEngine/scenes/sceneNames';
-import { useBattleEngineStore } from '../../Subjects/stores/battleEngineStore';
+import { useBattleEngineStore } from '../stores/battleEngineStore';
 
 export type QueueCustomSceneFn = (
 	sceneSteps: BattleStepFn[],

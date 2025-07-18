@@ -96,7 +96,7 @@ export default function CheckIn() {
 					playerSkin={parsedAvatar.playerSkin}
 					currentScreenSize={currentScreenSize}
 					currentExp={playerIsLoading ? 0 : player?.experience}
-					nextLvlExp={39792}
+					nextLvlExp={player?.next_level_xp}
 					playerTitle={playerIsLoading ? 'Loading...' : player?.title}
 					playerName={userIsLoading ? 'Loading...' : user?.username}
 					isLoading={

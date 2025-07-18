@@ -1,6 +1,6 @@
 import { useTaskTimingsStorage } from '../task/useTaskTimingsStorage';
-import { useBattleSetupStore } from '../../stores/battleSetupStore';
-import { useBattleEngineStore } from '../../stores/battleEngineStore';
+import { useBattleSetupStore } from '../../../Battle/stores/battleSetupStore';
+import { useBattleEngineStore } from '../../../Battle/stores/battleEngineStore';
 import { useBattleTaskProgress } from './useBattleTaskProgress';
 import { useBattleEngineControllers } from './useBattleEngineControllers';
 import { useBattleKillEnemyHandler } from './useBattleKillEnemyHandler';

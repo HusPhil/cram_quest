@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { TaskRead } from '../../../../services/api/schema/task_schema';
-import { useBattleEngineStore } from '../../stores/battleEngineStore';
-import { useBattleSetupStore } from '../../stores/battleSetupStore';
+import { useBattleEngineStore } from '../../../Battle/stores/battleEngineStore';
+import { useBattleSetupStore } from '../../../Battle/stores/battleSetupStore';
 import { useSyncTaskTimings } from '../task/useSyncTaskTimings';
 import { useEndBattleSession } from './useEndBattleSession';
 import { BattleSessionRead } from '../../../../services/api/schema/battle_session_schema';

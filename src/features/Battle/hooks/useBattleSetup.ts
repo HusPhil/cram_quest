@@ -6,7 +6,7 @@ import { useBattleEngine } from './useBattleEngine';
 import { defaultBattleScene } from '../battleEngine/scenes/default/defaultBattleScene';
 import { parsePlayerAvatar } from '../../../utils/parsePlayerAvatar';
 import { CharacterType } from '../configs/spritesheetConfig';
-import { useBattleEngineStore } from '../../Subjects/stores/battleEngineStore';
+import { useBattleEngineStore } from '../stores/battleEngineStore';
 import { useUserPlayerStore } from '../../Auth/store/userPlayerStore';
 
 export const useBattleSetup = () => {

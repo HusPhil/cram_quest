@@ -25,7 +25,7 @@ export function PlayerStats({
 				/>
 				<p>{`XP: ${currentExp}/${nextLvlExp}`}</p>
 			</span>
-			<ProgressBar value={currentExp} max={39792} />
+			<ProgressBar value={currentExp} max={nextLvlExp} />
 		</div>
 	);
 }

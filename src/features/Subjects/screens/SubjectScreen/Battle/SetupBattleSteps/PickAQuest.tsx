@@ -1,5 +1,5 @@
 import { QuestRead } from '../../../../../../services/api/schema/quest_schema';
-import { useBattleSetupStore } from '../../../../stores/battleSetupStore';
+import { useBattleSetupStore } from '../../../../../Battle/stores/battleSetupStore';
 import { StepComponentProps } from '../../../../modals/StartBattleModal';
 
 export default function PickAQuest({ subjectQuests }: StepComponentProps) {

@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import Sidebar from '../components/Sidebar/Sidebar';
 import { useFloatingScreen } from '../context/FloatingScreenContext';
-import { useBattleSetupStore } from '../features/Subjects/stores/battleSetupStore';
+import { useBattleSetupStore } from '../features/Battle/stores/battleSetupStore';
 
 const MainLayout = () => {
 	const { isScreenOpen } = useFloatingScreen();

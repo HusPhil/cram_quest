@@ -11,6 +11,7 @@ interface PlayerBase {
 	title: PlayerTitle;
 	level: number;
 	experience: number;
+	next_level_xp: number;
 }
 
 export interface PlayerRead extends PlayerBase {
