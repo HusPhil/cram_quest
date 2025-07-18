@@ -101,30 +101,9 @@ export default function BattlePage({
 						<BattleResultDisplay
 							sprite={getPlayerAnimation()}
 							result={battleResult}
+							battleCleanup={battleCleanup}
+							battleSessionResult={endBattleSessionMutate.data}
 						/>
-						{!endBattleSessionMutate.isPending && (
-							<>
-								<p>
-									{
-										endBattleSessionMutate.data
-											?.actual_complete_time
-									}
-								</p>
-								<p>{endBattleSessionMutate.data?.base_xp}</p>
-								<p>{endBattleSessionMutate.data?.bonus_xp}</p>
-							</>
-						)}
-						<button
-							disabled={endBattleSessionMutate.isPending}
-							onClick={battleCleanup}
-							className="mt-3 flex items-center gap-2 text-accent"
-						>
-							<TbTrophy
-								className="w-6 h-6"
-								color={colors.accent}
-							/>
-							Continue
-						</button>
 					</>
 				)
 			)}

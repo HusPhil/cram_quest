@@ -104,6 +104,7 @@ export default function StartBattleModal({
 			isOpen={isBattleActive || activeModal === 'StartBattleModal'}
 			title={isBattleActive ? 'Battle in Progress' : 'Start Battle!'}
 			lock={isBattleActive}
+			disabledEsc={currentStep === steps.length - 1}
 			onClose={closeActiveModal}
 			customHeader={isBattleActive ? <></> : undefined}
 			variant={getVariantFromResult(battleResult)}

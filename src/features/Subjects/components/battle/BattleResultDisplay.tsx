@@ -1,6 +1,11 @@
 import React from 'react';
 import { TbTrophy, TbFlame, TbTrophyFilled } from 'react-icons/tb';
 import SpriteSheet from '../../../../components/SpriteSheet';
+import { BattleSessionRead } from '../../../../services/api/schema/battle_session_schema';
+import useBattleResultAnalysis from '../../hooks/battle/useBattleResultAnalysis';
+import BattleResultXPGained from './BattleResultXPGained.tsx';
+import BattleResultStats from './BattleResultStats.tsx';
+import BattleResultContinue from './BattleResultContinue.tsx';
 
 interface SpriteProps {
 	characterAsset: string;
@@ -12,12 +17,18 @@ interface SpriteProps {
 interface BattleResultDisplayProps {
 	result: 'victory' | 'defeat';
 	sprite: SpriteProps;
+	battleCleanup: () => void;
+	battleSessionResult?: BattleSessionRead;
 }
 
 const BattleResultDisplay: React.FC<BattleResultDisplayProps> = ({
 	result,
 	sprite,
+	battleCleanup,
+	battleSessionResult,
 }) => {
+	const { duration } = useBattleResultAnalysis(battleSessionResult);
+
 	// Pick icon & colors based on result
 	const isVictory = result === 'victory';
 	const Icon = isVictory ? TbTrophyFilled : TbFlame;
@@ -49,6 +60,28 @@ const BattleResultDisplay: React.FC<BattleResultDisplayProps> = ({
 				scale={2.5}
 				loop
 			/>
+
+			{battleSessionResult ? (
+				<>
+					<BattleResultXPGained
+						baseXp={battleSessionResult.base_xp}
+						bonusXp={battleSessionResult.bonus_xp}
+					/>
+
+					<BattleResultStats
+						base_xp={battleSessionResult.base_xp}
+						bonus_xp={battleSessionResult.bonus_xp}
+						streak_count={7}
+					/>
+					<BattleResultContinue battleCleanUp={battleCleanup} />
+				</>
+			) : (
+				<>
+					<p className="mt-3 opacity-50 text-white">
+						Calculating results..
+					</p>
+				</>
+			)}
 		</div>
 	);
 };

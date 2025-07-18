@@ -4,6 +4,7 @@ interface ModalProps {
 	isOpen: boolean;
 	onClose: () => void;
 	lock?: boolean;
+	disabledEsc?: boolean;
 	title: string;
 	children: React.ReactNode;
 	customHeader?: React.ReactNode;
@@ -26,6 +27,7 @@ const Modal = ({
 	isOpen,
 	onClose,
 	lock,
+	disabledEsc,
 	title,
 	children,
 	customHeader,
@@ -35,12 +37,17 @@ const Modal = ({
 
 	useEffect(() => {
 		const handleEscape = (e: KeyboardEvent) => {
-			if (e.key === 'Escape' && !lock) onClose();
+			if (e.key === 'Escape') {
+				if (!lock && !disabledEsc) {
+					e.preventDefault();
+					onClose();
+				}
+			}
 		};
 
 		window.addEventListener('keydown', handleEscape);
 		return () => window.removeEventListener('keydown', handleEscape);
-	}, [onClose]);
+	}, [onClose, lock, disabledEsc]);
 
 	if (!isOpen) return null;
 
