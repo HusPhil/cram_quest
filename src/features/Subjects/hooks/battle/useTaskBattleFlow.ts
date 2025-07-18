@@ -35,11 +35,12 @@ export const useTaskBattleFlow = (battleCleanup: () => void) => {
 		handleCompleteTask,
 	});
 
-	const handleQuestComplete = useBattleQuestCompletion({
-		clearTimings,
-		getAllTimings,
-		battleResult,
-	});
+	const { handleQuestComplete, getPlayerAnimation } =
+		useBattleQuestCompletion({
+			clearTimings,
+			getAllTimings,
+			battleResult,
+		});
 
 	useEffect(() => {
 		if (generatedTasks.length > 0) {
@@ -54,6 +55,7 @@ export const useTaskBattleFlow = (battleCleanup: () => void) => {
 		battleResult,
 		currentTaskIndex,
 		completedTasks,
+		getPlayerAnimation,
 		saveStartTime,
 		handleKillEnemy,
 		handleQuestComplete,

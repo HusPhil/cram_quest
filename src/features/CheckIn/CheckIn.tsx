@@ -107,6 +107,10 @@ export default function CheckIn() {
 					profileError={profileError}
 					currentLevel={playerIsLoading ? 0 : player?.level}
 				/>
+				{/* <p className="text-xs">Win Streak: {player?.session_streak}</p>
+				<p className="text-xs">
+					Longest Win Streak: {player?.longest_session_streak}
+				</p> */}
 			</RpgCard>
 
 			<div className="mx-3">

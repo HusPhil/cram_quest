@@ -12,6 +12,10 @@ interface PlayerBase {
 	level: number;
 	experience: number;
 	next_level_xp: number;
+	session_streak: number;
+	longest_session_streak: number;
+	daily_streak: number;
+	longest_daily_streak: number;
 }
 
 export interface PlayerRead extends PlayerBase {

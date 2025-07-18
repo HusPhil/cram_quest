@@ -32,7 +32,11 @@ export const useBattleQuestCompletion = ({
 		(state) => state.setPlayerActionRef
 	);
 
-	return useCallback(() => {
+	const getPlayerAnimation = useBattleEngineStore(
+		(state) => state.getPlayerAnimation
+	);
+
+	const handleQuestComplete = useCallback(() => {
 		const taskTimingStore = getAllTimings();
 
 		if (battleResult !== 'defeat') {
@@ -75,4 +79,9 @@ export const useBattleQuestCompletion = ({
 			}
 		);
 	}, [battleResult]);
+
+	return {
+		handleQuestComplete,
+		getPlayerAnimation,
+	};
 };
