@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import LearningStatus from './SubjectStatus';
-import SubjectMaterials from './LearningMaterials';
-import { useGetMaterial } from '../../../../hooks/material/useGetMaterial';
+import LearningStatus from '../../../components/SubjectStatus';
+import SubjectMaterials from '../../../components/learning/LearningMaterials';
+import { useGetMaterial } from '../../../hooks/material/useGetMaterial';
 
 interface LearningPageProps {
 	subjectId: number;

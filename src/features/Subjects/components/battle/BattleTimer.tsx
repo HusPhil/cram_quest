@@ -1,5 +1,5 @@
 import { memo, useEffect, useRef, useState } from 'react';
-import { useBattleSetupStore } from '../../../../Battle/stores/battleSetupStore';
+import { useBattleSetupStore } from '../../../Battle/stores/battleSetupStore';
 
 interface BattleTimerProps {
 	duration?: number; // in seconds (debug)

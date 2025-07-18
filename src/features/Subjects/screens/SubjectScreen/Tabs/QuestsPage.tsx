@@ -1,9 +1,9 @@
-import QuestListHeader from './QuestListHeader';
-import QuestList from './QuestList';
-import { useGetSubjectQuests } from '../../../../hooks/quest/useGetSubjectQuests';
-import { QuestRead } from '../../../../../../services/api/schema/quest_schema';
+import QuestListHeader from '../../../components/quest/QuestListHeader';
+import QuestList from '../../../components/quest/QuestList';
+import { useGetSubjectQuests } from '../../../hooks/quest/useGetSubjectQuests';
+import { QuestRead } from '../../../../../services/api/schema/quest_schema';
 import { useEffect } from 'react';
-import { useSubjectStore_UI } from '../../../../stores/subjectStore_UI';
+import { useSubjectStore_UI } from '../../../stores/subjectStore_UI';
 
 export default function QuestsPage({ subjectId }: { subjectId: number }) {
 	const { data: subjectQuests, isLoading: subjectQuestsLoading } =

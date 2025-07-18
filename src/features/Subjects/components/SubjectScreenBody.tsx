@@ -3,11 +3,11 @@ import { PAGE_TITLES, PageTitle } from '../screens/SubjectScreen/SubjectScreen';
 import Tabs from '../../../components/Tabs';
 
 const LearningPage = lazy(
-	() => import('../screens/SubjectScreen/Tabs/Learning/LearningPage')
+	() => import('../screens/SubjectScreen/Tabs/LearningPage')
 );
 
 const QuestsPage = lazy(
-	() => import('../screens/SubjectScreen/Tabs/Quest/QuestsPage')
+	() => import('../screens/SubjectScreen/Tabs/QuestsPage')
 );
 
 interface SubjectScreenBodyProps {

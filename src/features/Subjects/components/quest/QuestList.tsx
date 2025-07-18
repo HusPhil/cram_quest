@@ -1,5 +1,5 @@
 import QuestCard from './QuestCard';
-import { QuestRead } from '../../../../../../services/api/schema/quest_schema';
+import { QuestRead } from '../../../../services/api/schema/quest_schema';
 
 interface QuestListProps {
 	quests: QuestRead[];

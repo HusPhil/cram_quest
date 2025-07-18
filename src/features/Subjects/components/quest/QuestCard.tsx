@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
-import { QuestRead } from '../../../../../../services/api/schema/quest_schema';
+import { QuestRead } from '../../../../services/api/schema/quest_schema';
 import { useQueryClient } from '@tanstack/react-query';
-import { useDeleteQuest } from '../../../../hooks/quest/useDeleteQuest';
-import { useUpdateQuest } from '../../../../hooks/quest/useUpdateQuest';
-import StarRating from '../../../../components/ui/StarRating';
-import DeleteWithConfirm from '../../../../components/ui/DeleteWithConfirm';
-import { putCursorToFront } from '../../../../../../utils/putCursorToFront';
+import { useDeleteQuest } from '../../hooks/quest/useDeleteQuest';
+import { useUpdateQuest } from '../../hooks/quest/useUpdateQuest';
+import StarRating from '../ui/StarRating';
+import DeleteWithConfirm from '../ui/DeleteWithConfirm';
+import { putCursorToFront } from '../../../../utils/putCursorToFront';
 import { FaFloppyDisk, FaPenToSquare } from 'react-icons/fa6';
 
 interface QuestCardProps {

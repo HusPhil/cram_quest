@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import BattleArena from './BattleArena';
+import BattleArena from '../../../components/battle/BattleArena';
 import { TbSword, TbTargetArrow } from 'react-icons/tb';
 import { QuestRead } from '../../../../../services/api/schema/quest_schema';
 import colors from '../../../../../data/colors';

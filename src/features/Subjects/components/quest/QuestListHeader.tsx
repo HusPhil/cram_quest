@@ -1,7 +1,7 @@
-import TagLabel from '../../../../../../components/TagLabel';
+import TagLabel from '../../../../components/TagLabel';
 import { FaPlus } from 'react-icons/fa';
-import { QuestRead } from '../../../../../../services/api/schema/quest_schema';
-import { useSubjectStore_UI } from '../../../../stores/subjectStore_UI';
+import { QuestRead } from '../../../../services/api/schema/quest_schema';
+import { useSubjectStore_UI } from '../../stores/subjectStore_UI';
 
 export default function QuestListHeader({
 	quests,
