@@ -14,7 +14,9 @@ export interface BattleSessionRead {
 	subject_id: number;
 	start_time: string; // ISO date string
 	end_time: string | null;
-	xp_earned: number;
+	actual_complete_time: string | null;
+	bonus_xp: number;
+	base_xp: number;
 	status: SessionStatus;
 	tasks: TaskRead[];
 }

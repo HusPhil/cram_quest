@@ -102,7 +102,20 @@ export default function BattlePage({
 							sprite={getPlayerAnimation()}
 							result={battleResult}
 						/>
+						{!endBattleSessionMutate.isPending && (
+							<>
+								<p>
+									{
+										endBattleSessionMutate.data
+											?.actual_complete_time
+									}
+								</p>
+								<p>{endBattleSessionMutate.data?.base_xp}</p>
+								<p>{endBattleSessionMutate.data?.bonus_xp}</p>
+							</>
+						)}
 						<button
+							disabled={endBattleSessionMutate.isPending}
 							onClick={battleCleanup}
 							className="mt-3 flex items-center gap-2 text-accent"
 						>

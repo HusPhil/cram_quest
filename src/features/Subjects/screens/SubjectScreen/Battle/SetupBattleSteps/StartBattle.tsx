@@ -104,7 +104,6 @@ export default function StartBattle({
 				{
 					onSuccess: (newBattleSession: BattleSessionRead) => {
 						// Pass the duration to the parent component
-						console.log('tasks: ', newBattleSession.tasks);
 						setGeneratedTasks(newBattleSession.tasks);
 						setIsBattleActive(true);
 						setGlobalBattleDuration(battleDuration);
@@ -113,13 +112,13 @@ export default function StartBattle({
 						toast.success(
 							`Battle started for ${battleDuration} minutes!`,
 							{
-								toastId: 'start-battle',
+								toastId: 'start-battle-success',
 							}
 						);
 					},
 					onError: () => {
 						toast.error('Failed to start the battle', {
-							toastId: 'start-battle',
+							toastId: 'start-battle-error',
 						});
 					},
 				}
