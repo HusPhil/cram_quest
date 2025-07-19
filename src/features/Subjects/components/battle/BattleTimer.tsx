@@ -29,7 +29,6 @@ export const BattleTimer = ({ duration = 60, onTimeUp }: BattleTimerProps) => {
 
 			if (remaining === 0) {
 				onTimeUp?.();
-				alert('timer ended');
 				setBattleResult('defeat');
 				clearInterval(timer);
 			}

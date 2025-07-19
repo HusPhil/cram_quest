@@ -1,20 +1,28 @@
-import React from 'react';
 import { TbStar } from 'react-icons/tb';
 import colors from '../../../../data/colors';
 
 export default function BattleResultContinue({
+	result,
 	battleCleanUp,
 }: {
+	result: 'victory' | 'defeat' | null;
 	battleCleanUp: () => void;
 }) {
+	const textColor = result === 'victory' ? 'text-success' : 'text-danger';
+	const iconColor = result === 'victory' ? colors.success : colors.danger;
+	const borderBgStyle =
+		result === 'victory'
+			? 'bg-success/15 border-success'
+			: 'bg-danger/15 border-danger';
+
 	return (
 		<button
-			className="mt-7 inline-flex justify-center items-center gap-3 bg-success/15 border-success py-2 px-5 rounded-md border transition-transform active:scale-90 hover:scale-90"
+			className={`mt-7 inline-flex justify-center items-center gap-3  py-2 px-5 rounded-md border transition-transform active:scale-90 hover:scale-90 ${borderBgStyle}`}
 			onClick={battleCleanUp}
 		>
-			<TbStar color={colors.success} />
-			<p className="font-bold text-success">CONTINUE</p>
-			<TbStar color={colors.success} />
+			<TbStar color={iconColor} />
+			<p className={`font-bold ${textColor}`}>CONTINUE</p>
+			<TbStar color={iconColor} />
 		</button>
 	);
 }

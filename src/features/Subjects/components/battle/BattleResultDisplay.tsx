@@ -1,5 +1,5 @@
 import React from 'react';
-import { TbFlame, TbTrophyFilled } from 'react-icons/tb';
+import { LuTrophy, LuFlame } from 'react-icons/lu';
 import SpriteSheet from '../../../../components/SpriteSheet';
 import { BattleSessionEnd } from '../../../../services/api/schema/battle_session_schema';
 import useBattleResultAnalysis from '../../hooks/battle/useBattleResultAnalysis';
@@ -7,6 +7,7 @@ import BattleResultXPGained from './BattleResultXPGained.tsx';
 import BattleResultStats from './BattleResultStats.tsx';
 import BattleResultContinue from './BattleResultContinue.tsx';
 import colors from '../../../../data/colors.ts';
+import { TbSwords } from 'react-icons/tb';
 
 interface SpriteProps {
 	characterAsset: string;
@@ -32,7 +33,7 @@ const BattleResultDisplay: React.FC<BattleResultDisplayProps> = ({
 
 	// Pick icon & colors based on result
 	const isVictory = result === 'victory';
-	const Icon = isVictory ? TbTrophyFilled : TbFlame;
+	const Icon = TbSwords;
 
 	const color = isVictory ? colors.success : colors.danger; // Tailwind's green-500 or red-500
 	const borderColor = isVictory ? 'border-success' : 'border-danger';
@@ -67,14 +68,19 @@ const BattleResultDisplay: React.FC<BattleResultDisplayProps> = ({
 					<BattleResultXPGained
 						baseXp={battleSessionResult.base_xp}
 						bonusXp={battleSessionResult.bonus_xp}
+						result={result}
 					/>
 
 					<BattleResultStats
+						result={result}
 						base_xp={battleSessionResult.base_xp}
 						bonus_xp={battleSessionResult.bonus_xp}
 						streak_count={battleSessionResult.session_streak}
 					/>
-					<BattleResultContinue battleCleanUp={battleCleanup} />
+					<BattleResultContinue
+						result={result}
+						battleCleanUp={battleCleanup}
+					/>
 				</>
 			) : (
 				<>
