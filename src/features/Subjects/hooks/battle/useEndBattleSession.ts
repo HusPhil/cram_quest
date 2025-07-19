@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { axiosInstance } from '../../../../lib/axios/axiosInstance';
 import { getEndBattleSessionEndRoute } from '../../../../services/api/routes/battle_session';
-import { BattleSessionRead } from '../../../../services/api/schema/battle_session_schema';
+import { BattleSessionEnd } from '../../../../services/api/schema/battle_session_schema';
 
 export const useEndBattleSession = () => {
 	return useMutation({
@@ -13,7 +13,7 @@ const endBattleSession = async ({
 	battleSessionId,
 }: {
 	battleSessionId: number;
-}): Promise<BattleSessionRead> => {
+}): Promise<BattleSessionEnd> => {
 	const response = await axiosInstance.post(
 		getEndBattleSessionEndRoute(battleSessionId),
 		{},

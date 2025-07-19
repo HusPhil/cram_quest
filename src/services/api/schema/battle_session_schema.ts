@@ -21,6 +21,11 @@ export interface BattleSessionRead {
 	tasks: TaskRead[];
 }
 
+export interface BattleSessionEnd extends BattleSessionRead {
+	session_streak: number;
+	longest_session_streak: number;
+}
+
 export interface BattleSessionCreate {
 	player_id: number;
 	quest_id: number;

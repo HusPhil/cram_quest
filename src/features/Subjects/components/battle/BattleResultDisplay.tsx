@@ -1,11 +1,12 @@
 import React from 'react';
-import { TbTrophy, TbFlame, TbTrophyFilled } from 'react-icons/tb';
+import { TbFlame, TbTrophyFilled } from 'react-icons/tb';
 import SpriteSheet from '../../../../components/SpriteSheet';
-import { BattleSessionRead } from '../../../../services/api/schema/battle_session_schema';
+import { BattleSessionEnd } from '../../../../services/api/schema/battle_session_schema';
 import useBattleResultAnalysis from '../../hooks/battle/useBattleResultAnalysis';
 import BattleResultXPGained from './BattleResultXPGained.tsx';
 import BattleResultStats from './BattleResultStats.tsx';
 import BattleResultContinue from './BattleResultContinue.tsx';
+import colors from '../../../../data/colors.ts';
 
 interface SpriteProps {
 	characterAsset: string;
@@ -18,7 +19,7 @@ interface BattleResultDisplayProps {
 	result: 'victory' | 'defeat';
 	sprite: SpriteProps;
 	battleCleanup: () => void;
-	battleSessionResult?: BattleSessionRead;
+	battleSessionResult?: BattleSessionEnd;
 }
 
 const BattleResultDisplay: React.FC<BattleResultDisplayProps> = ({
@@ -33,7 +34,7 @@ const BattleResultDisplay: React.FC<BattleResultDisplayProps> = ({
 	const isVictory = result === 'victory';
 	const Icon = isVictory ? TbTrophyFilled : TbFlame;
 
-	const color = isVictory ? '#22c55e' : '#ef4444'; // Tailwind's green-500 or red-500
+	const color = isVictory ? colors.success : colors.danger; // Tailwind's green-500 or red-500
 	const borderColor = isVictory ? 'border-success' : 'border-danger';
 	const bgColor = isVictory ? 'bg-success/15' : 'bg-danger/15';
 	const textColor = isVictory ? 'text-success' : 'text-danger';
@@ -71,7 +72,7 @@ const BattleResultDisplay: React.FC<BattleResultDisplayProps> = ({
 					<BattleResultStats
 						base_xp={battleSessionResult.base_xp}
 						bonus_xp={battleSessionResult.bonus_xp}
-						streak_count={7}
+						streak_count={battleSessionResult.session_streak}
 					/>
 					<BattleResultContinue battleCleanUp={battleCleanup} />
 				</>

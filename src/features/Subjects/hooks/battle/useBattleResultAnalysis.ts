@@ -1,6 +1,6 @@
-import { BattleSessionRead } from '../../../../services/api/schema/battle_session_schema';
+import { BattleSessionEnd } from '../../../../services/api/schema/battle_session_schema';
 
-const useBattleResultAnalysis = (battleSessionResult?: BattleSessionRead) => {
+const useBattleResultAnalysis = (battleSessionResult?: BattleSessionEnd) => {
 	if (!battleSessionResult) return { duration: '00:00:00' };
 
 	const startTime = new Date(battleSessionResult.start_time);

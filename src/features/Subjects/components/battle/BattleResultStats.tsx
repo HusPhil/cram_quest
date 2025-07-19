@@ -24,7 +24,7 @@ export default function BattleResultStats({
 					<TbFlame color={colors.success} />
 					<p className="text-sm text-success">Streak</p>
 				</div>
-				<p className="">{streak_count} days</p>
+				<p className="">{streak_count} wins</p>
 			</div>
 		</div>
 	);

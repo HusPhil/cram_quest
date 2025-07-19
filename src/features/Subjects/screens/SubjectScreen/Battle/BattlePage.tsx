@@ -51,7 +51,11 @@ export default function BattlePage({
 				endBattleSessionMutate.mutate(
 					{ battleSessionId },
 					{
-						onSuccess: () => {
+						onSuccess: (data) => {
+							console.log(
+								'Battle session ended successfully',
+								data
+							);
 							toast.success('Battle session ended successfully', {
 								toastId: 'end-battle-session',
 							});
