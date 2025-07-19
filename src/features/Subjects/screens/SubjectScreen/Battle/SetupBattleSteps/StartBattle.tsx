@@ -4,7 +4,7 @@ import { useBattleSetupStore } from '../../../../../Battle/stores/battleSetupSto
 import { toast } from 'react-toastify';
 import debounce from 'just-debounce-it';
 import { useStartBattleSession } from '../../../../hooks/battle/useStartBattleSession';
-import { useAuthInformationStore } from '../../../../../Auth/store/authInformationStore';
+import { useAuthInformationStore } from '../../../../../Auth/stores/authInformationStore';
 import { BattleSessionRead } from '../../../../../../services/api/schema/battle_session_schema';
 
 const MAX_BATTLE_DURATION_MINS = 60 * 2;

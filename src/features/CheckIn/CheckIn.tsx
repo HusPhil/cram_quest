@@ -10,7 +10,7 @@ import {
 } from '../../utils/parsePlayerAvatar';
 import { useGetUser } from './hooks/useGetUser';
 import { useEffect } from 'react';
-import { useAuthInformationStore } from '../Auth/store/authInformationStore';
+import { useAuthInformationStore } from '../Auth/stores/authInformationStore';
 
 const mockWeeklyCheckInRecord = [
 	{

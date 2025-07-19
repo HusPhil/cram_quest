@@ -3,7 +3,7 @@ import useSignUp from '../hooks/useSignUp';
 import SignUpStep1 from './SignUpSteps/SignUpStep1';
 import SignUpStep2 from './SignUpSteps/SignUpStep2';
 import { toast } from 'react-toastify';
-import { useAuthStore_UI } from '../store/authStore_UI';
+import { useAuthStore_UI } from '../stores/authStore_UI';
 import {
 	passwordsMatch,
 	showError,

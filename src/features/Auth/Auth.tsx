@@ -2,7 +2,7 @@ import RpgCard from '../../components/RpgCard';
 import AuthTabHeader from './components/AuthTabHeader';
 import SignInForm from './components/SignInForm';
 import SignUpForm from './components/SignUpForm';
-import { useAuthStore_UI } from './store/authStore_UI';
+import { useAuthStore_UI } from './stores/authStore_UI';
 
 export default function Auth() {
 	const activeTab = useAuthStore_UI((state) => state.activeTab);

@@ -1,6 +1,6 @@
 import { useFloatingScreen } from '../../context/FloatingScreenContext';
 import { useGetPlayerSubjects } from './hooks/subject/useGetPlayerSubjects';
-import { useAuthInformationStore } from '../Auth/store/authInformationStore';
+import { useAuthInformationStore } from '../Auth/stores/authInformationStore';
 
 import SubjectList from './components/SubjectList';
 import SubjectHeader from './components/SubjectHeader';

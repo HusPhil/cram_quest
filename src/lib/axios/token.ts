@@ -1,5 +1,5 @@
 // src/lib/axios/token.ts
-import { useAuthInformationStore } from '../../features/Auth/store/authInformationStore';
+import { useAuthInformationStore } from '../../features/Auth/stores/authInformationStore';
 import { BASE_URL } from '../../services/api/api';
 import { RefreshTokenResponse } from '../../services/api/schema/auth_schema';
 import { axiosInstance } from './axiosInstance';

@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { getUser } from '../../../services/api/crud/user_crud';
 import { toast } from 'react-toastify';
-import { useAuthInformationStore } from '../../Auth/store/authInformationStore';
-import { useUserPlayerStore } from '../../Auth/store/userPlayerStore';
+import { useAuthInformationStore } from '../../Auth/stores/authInformationStore';
+import { useUserPlayerStore } from '../../Auth/stores/userPlayerStore';
 
 export const useGetUser = (userId: number) => {
 	const userQuery = useQuery({
