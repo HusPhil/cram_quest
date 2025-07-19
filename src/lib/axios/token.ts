@@ -1,6 +1,6 @@
 // src/lib/axios/token.ts
 import { useAuthInformationStore } from '../../features/Auth/stores/authInformationStore';
-import { useUserPlayerStore } from '../../features/Auth/stores/userPlayerStore';
+import { useUserPlayerStore } from '../../features/Auth/stores/userPlayerStore/userPlayerStore';
 import { BASE_URL } from '../../services/api/api';
 import { RefreshTokenResponse } from '../../services/api/schema/auth_schema';
 import { axiosInstance } from './axiosInstance';
@@ -35,13 +35,13 @@ export async function refreshAccessToken(): Promise<RefreshTokenResponse> {
 		setPlayerCurrentUserId(data.user_session_info.id);
 		setPlayerCurrentPlayerId(data.player_session_info.id);
 
-		const setPlayerProfile = useUserPlayerStore.getState().setPlayerProfile;
-		setPlayerProfile(
-			data.profile_session_info.id,
-			data.profile_session_info.avatar_url,
-			data.profile_session_info.bio!,
-			data.profile_session_info.mood!
-		);
+		const setPlayerProfile = useUserPlayerStore.getState().setProfile;
+		setPlayerProfile({
+			profileId: data.profile_session_info.id,
+			avatarUrl: data.profile_session_info.avatar_url,
+			bio: data.profile_session_info.bio!,
+			mood: data.profile_session_info.mood!,
+		});
 
 		return data;
 	} catch (error) {

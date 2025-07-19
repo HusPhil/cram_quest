@@ -1,4 +1,4 @@
-type PlayerTitle =
+export type PlayerTitle =
 	| 'Novice'
 	| 'Apprentice'
 	| 'Adept'

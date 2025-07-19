@@ -7,7 +7,7 @@ import { defaultBattleScene } from '../battleEngine/scenes/default/defaultBattle
 import { parsePlayerAvatar } from '../../../utils/parsePlayerAvatar';
 import { CharacterType } from '../configs/spritesheetConfig';
 import { useBattleEngineStore } from '../stores/battleEngineStore';
-import { useUserPlayerStore } from '../../Auth/stores/userPlayerStore';
+import { useUserPlayerStore } from '../../Auth/stores/userPlayerStore/userPlayerStore';
 
 export const useBattleSetup = () => {
 	const enemyTypes = [

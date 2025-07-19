@@ -11,6 +11,8 @@ import {
 import { useGetUser } from './hooks/useGetUser';
 import { useEffect } from 'react';
 import { useAuthInformationStore } from '../Auth/stores/authInformationStore';
+import { useUserPlayerStore } from '../Auth/stores/userPlayerStore/userPlayerStore';
+import { useShallow } from 'zustand/shallow';
 
 const mockWeeklyCheckInRecord = [
 	{
@@ -53,36 +55,33 @@ const mockWeeklyCheckInRecord = [
 export default function CheckIn() {
 	const { currentScreenSize } = useScreenResize();
 
-	const currentUserId = useAuthInformationStore.getState().userId;
-	const {
-		data: player,
-		isLoading: playerIsLoading,
-		error: playerError,
-	} = useGetUserPlayer(currentUserId!);
+	const currentUser = useUserPlayerStore(
+		useShallow((state) => ({
+			userId: state.userId,
+			username: state.username,
+			email: state.email,
+			is_active: state.is_active,
+			is_admin: state.is_admin,
+		}))
+	);
+	const currentPlayer = useUserPlayerStore(
+		useShallow((state) => ({
+			playerId: state.playerId,
+			title: state.title,
+			level: state.level,
+			experience: state.experience,
+			next_level_xp: state.next_level_xp,
+			session_streak: state.session_streak,
+			longest_session_streak: state.longest_session_streak,
+			daily_streak: state.daily_streak,
+			longest_daily_streak: state.longest_daily_streak,
+		}))
+	);
+	const playerAvatarUrl = useUserPlayerStore((state) => state.avatarUrl);
 
-	const {
-		data: profile,
-		isLoading: profileIsLoading,
-		error: profileError,
-	} = useGetPlayerProfile(player?.id);
-
-	const {
-		data: user,
-		isLoading: userIsLoading,
-		error: userError,
-	} = useGetUser(currentUserId!);
-
-	useEffect(() => {
-		if (!playerIsLoading && player?.id) {
-			const setCurrentPlayerId =
-				useAuthInformationStore.getState().setPlayerId;
-			setCurrentPlayerId(player.id);
-		}
-	}, [playerIsLoading]);
-
-	const parsedAvatar: ParsedPlayerAvatar = profile?.avatar_url
-		? parsePlayerAvatar(profile.avatar_url)
-		: { playerClass: 'default', playerSkin: 'default_1' };
+	const parsedAvatar: ParsedPlayerAvatar = parsePlayerAvatar(
+		playerAvatarUrl!
+	);
 
 	return (
 		<div className="flex flex-col items-center justify-center flex-1 mx-4">
@@ -95,22 +94,26 @@ export default function CheckIn() {
 					playerClass={parsedAvatar.playerClass}
 					playerSkin={parsedAvatar.playerSkin}
 					currentScreenSize={currentScreenSize}
-					currentExp={playerIsLoading ? 0 : player?.experience}
-					nextLvlExp={player?.next_level_xp}
-					playerTitle={playerIsLoading ? 'Loading...' : player?.title}
-					playerName={userIsLoading ? 'Loading...' : user?.username}
-					isLoading={
-						playerIsLoading || userIsLoading || profileIsLoading
+					currentExp={!currentPlayer ? 0 : currentPlayer.experience!}
+					nextLvlExp={currentPlayer?.next_level_xp!}
+					playerTitle={
+						!currentPlayer ? 'Loading...' : currentPlayer.title!
 					}
-					userError={userError}
-					playerError={playerError}
-					profileError={profileError}
-					currentLevel={playerIsLoading ? 0 : player?.level}
+					playerName={
+						!currentUser ? 'Loading...' : currentUser.username!
+					}
+					isLoading={!currentUser || !currentPlayer}
+					userError={
+						!currentUser ? new Error('User not found') : null
+					}
+					playerError={
+						!currentPlayer ? new Error('Player not found') : null
+					}
+					profileError={
+						!playerAvatarUrl ? new Error('Profile not found') : null
+					}
+					currentLevel={!currentPlayer ? 0 : currentPlayer.level!}
 				/>
-				{/* <p className="text-xs">Win Streak: {player?.session_streak}</p>
-				<p className="text-xs">
-					Longest Win Streak: {player?.longest_session_streak}
-				</p> */}
 			</RpgCard>
 
 			<div className="mx-3">

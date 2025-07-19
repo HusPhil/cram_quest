@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getPlayerProfile } from '../../../services/api/crud/player_crud';
 import { toast } from 'react-toastify';
-import { useUserPlayerStore } from '../../Auth/stores/userPlayerStore';
+import { useUserPlayerStore } from '../../Auth/stores/userPlayerStore/userPlayerStore';
 
 export const useGetPlayerProfile = (playerId: number | undefined) => {
 	const profileQuery = useQuery({

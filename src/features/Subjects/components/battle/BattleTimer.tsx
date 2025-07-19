@@ -23,7 +23,7 @@ export const BattleTimer = ({ duration = 60, onTimeUp }: BattleTimerProps) => {
 			const elapsed = Math.floor(
 				(Date.now() - startTimeRef.current) / 1000
 			);
-			const remaining = Math.max(duration - elapsed, 0); // duration * 60 for minute (just for debug)
+			const remaining = Math.max(duration * 60 - elapsed, 0); // duration * 60 for minute (just for debug)
 
 			setTimeLeft(remaining);
 
