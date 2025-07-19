@@ -29,7 +29,11 @@ export default function BattleResultStats({
 					<TbFlame color={iconColor} />
 					<p className={`text-sm ${textColor}`}>Streak</p>
 				</div>
-				<p className="">{streak_count} wins</p>
+				{result === 'victory' ? (
+					<p className="text-success">{streak_count} wins</p>
+				) : (
+					<p className="text-sm text-danger">RESET</p>
+				)}
 			</div>
 		</div>
 	);
