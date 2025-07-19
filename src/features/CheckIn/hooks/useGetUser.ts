@@ -21,15 +21,14 @@ export const useGetUser = (userId: number) => {
 	}
 
 	if (userQuery.data) {
-		const setCurrentUserDetails =
-			useUserPlayerStore.getState().setUserDetails;
-		setCurrentUserDetails(
-			userQuery.data.id,
-			userQuery.data.username,
-			userQuery.data.email,
-			userQuery.data.is_admin,
-			userQuery.data.is_active
-		);
+		const setCurrentUserDetails = useUserPlayerStore.getState().setUser;
+		setCurrentUserDetails({
+			userId: userQuery.data.id!,
+			username: userQuery.data.username!,
+			email: userQuery.data.email!,
+			is_active: userQuery.data.is_active!,
+			is_admin: userQuery.data.is_admin!,
+		});
 	}
 
 	return userQuery;

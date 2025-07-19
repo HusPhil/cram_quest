@@ -37,7 +37,14 @@ const AppRouter = () => {
 
 						{/* Home with nested tabs */}
 						<Route element={<RequireAuth />}>
-							<Route path="/home" element={<Home />}>
+							<Route
+								path="/home"
+								element={
+									<Suspense fallback={'HOME IS LOADING'}>
+										<Home />
+									</Suspense>
+								}
+							>
 								<Route
 									index
 									element={<Navigate to="check-in" replace />}

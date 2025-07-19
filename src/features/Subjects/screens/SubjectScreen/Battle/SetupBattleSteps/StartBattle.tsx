@@ -249,7 +249,7 @@ export default function StartBattle({
 			</div>
 
 			<button
-				disabled={isValidating}
+				disabled={isValidating || startBattleMutate.isPending}
 				onClick={handleStartBattle}
 				className="px-6 py-3 bg-accent disabled:opacity-50 rounded-md hover:bg-accent/90 mt-4 text-background"
 			>

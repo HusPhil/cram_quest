@@ -8,7 +8,7 @@ import SubjectScreen from './screens/SubjectScreen/SubjectScreen';
 import { ModalObjectMap, useSubjectStore_UI } from './stores/subjectStore_UI';
 import AddNewSubjectModal from './modals/AddNewSubjectModal';
 import EditSubjectModal from './modals/EditSubjectModal';
-import { useCallback, useEffect } from 'react';
+import { Suspense, useCallback } from 'react';
 
 export default function Subjects() {
 	const { openScreen, setContent } = useFloatingScreen();
@@ -46,7 +46,7 @@ export default function Subjects() {
 			{/* Header section with fixed height */}
 
 			{subjectsIsLoading ? (
-				<div>Subjects are loading...</div>
+				<div>[Subjects] are loading...</div>
 			) : (
 				<>
 					<SubjectHeader playerId={currentPlayerId!} />

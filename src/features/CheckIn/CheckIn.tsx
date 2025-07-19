@@ -2,15 +2,10 @@ import useScreenResize from '../../hooks/useScreenResize';
 import PlayerCard from './components/PlayerCard/PlayerCard';
 import WeeklyRecord from './components/WeeklyRecord.tsx/WeeklyRecord';
 import RpgCard from '../../components/RpgCard';
-import { useGetUserPlayer } from './hooks/useGetUserPlayer';
-import { useGetPlayerProfile } from './hooks/useGetPlayerProfile';
 import {
 	ParsedPlayerAvatar,
 	parsePlayerAvatar,
 } from '../../utils/parsePlayerAvatar';
-import { useGetUser } from './hooks/useGetUser';
-import { useEffect } from 'react';
-import { useAuthInformationStore } from '../Auth/stores/authInformationStore';
 import { useUserPlayerStore } from '../Auth/stores/userPlayerStore/userPlayerStore';
 import { useShallow } from 'zustand/shallow';
 

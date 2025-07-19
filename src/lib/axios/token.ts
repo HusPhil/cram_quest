@@ -43,6 +43,20 @@ export async function refreshAccessToken(): Promise<RefreshTokenResponse> {
 			mood: data.profile_session_info.mood!,
 		});
 
+		const setUserPlayer = useUserPlayerStore.getState().setPlayer;
+		setUserPlayer({
+			playerId: data.player_session_info.id,
+			title: data.player_session_info.title,
+			level: data.player_session_info.level,
+			experience: data.player_session_info.experience,
+			next_level_xp: data.player_session_info.next_level_xp,
+			daily_streak: data.player_session_info.daily_streak,
+			longest_daily_streak: data.player_session_info.longest_daily_streak,
+			session_streak: data.player_session_info.session_streak,
+			longest_session_streak:
+				data.player_session_info.longest_session_streak,
+		});
+
 		return data;
 	} catch (error) {
 		console.error('Failed to refresh token', error);
