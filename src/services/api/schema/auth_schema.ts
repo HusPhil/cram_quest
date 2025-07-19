@@ -1,3 +1,7 @@
+import { PlayerRead } from './player_schema';
+import { ProfileRead } from './profile_schema';
+import { UserRead } from './user_schema';
+
 export interface SignInRequest {
 	username: string;
 	password: string;
@@ -12,6 +16,7 @@ export interface SignUpRequest {
 
 export interface RefreshTokenResponse {
 	access_token: string;
-	user_id: number;
-	player_id: number;
+	user_session_info: UserRead;
+	player_session_info: PlayerRead;
+	profile_session_info: ProfileRead;
 }
