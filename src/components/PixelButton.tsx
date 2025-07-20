@@ -96,7 +96,7 @@ const PixelButton: React.FC<PixelButtonProps> = ({
 			<span
 				className="px-3 content relative z-20 flex items-center gap-2 pointer-events-none transition-transform duration-100"
 				style={{
-					height: 'calc(100% - 6px)',
+					height: 'calc(100% - 4px)',
 					backgroundColor: buttonColors.face,
 					borderImage: colors?.border
 						? `url("${createBorderImage(

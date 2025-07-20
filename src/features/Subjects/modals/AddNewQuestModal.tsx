@@ -5,6 +5,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useCreateQuest } from '../hooks/quest/useCreateQuest';
 import { useSubjectStore_UI } from '../stores/subjectStore_UI';
 import { QuestStatus } from '../../../services/api/schema/quest_schema';
+import { toast } from 'react-toastify';
 
 interface AddNewQuestModalProps {
 	subjectId: number;
@@ -46,17 +47,22 @@ export default function AddNewQuestModal({ subjectId }: AddNewQuestModalProps) {
 
 		console.log('questCreate', questCreate);
 
-		await createQuestMutate.mutateAsync({
-			questCreate: questCreate,
-		});
-
-		if (!createQuestMutate.isError) {
-			closeActiveModal();
-			await queryClient.invalidateQueries({
-				queryKey: ['subjects', subjectId, 'quests'],
-			});
-		}
-		formRef?.current?.reset();
+		await createQuestMutate.mutateAsync(
+			{
+				questCreate: questCreate,
+			},
+			{
+				onSuccess: async () => {
+					await queryClient.invalidateQueries({
+						queryKey: ['subjects', subjectId, 'quests'],
+					});
+				},
+				onSettled: () => {
+					closeActiveModal();
+					formRef?.current?.reset();
+				},
+			}
+		);
 	};
 	return (
 		<Modal

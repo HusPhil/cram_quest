@@ -1,18 +1,10 @@
 import QuestCard from './QuestCard';
 import { QuestRead } from '../../../../services/api/schema/quest_schema';
+import EmptyListNote from '../../../../components/EmptyListNote';
 
 interface QuestListProps {
 	quests: QuestRead[];
 }
-
-const EmptyQuestList = () => (
-	<div className="text-center text-xl h-full flex items-center justify-center italic">
-		<span>
-			No quests available,
-			<br /> Start your journey!
-		</span>
-	</div>
-);
 
 export default function QuestList({ quests }: QuestListProps) {
 	return (
@@ -22,7 +14,11 @@ export default function QuestList({ quests }: QuestListProps) {
 					<QuestCard key={quest.id} quest={quest} />
 				))
 			) : (
-				<EmptyQuestList />
+				<EmptyListNote
+					message="No quests found"
+					hint="Add a new quest"
+					className="text-xl"
+				/>
 			)}
 		</>
 	);

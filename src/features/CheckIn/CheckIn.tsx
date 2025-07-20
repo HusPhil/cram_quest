@@ -8,6 +8,8 @@ import {
 } from '../../utils/parsePlayerAvatar';
 import { useUserPlayerStore } from '../Auth/stores/userPlayerStore/userPlayerStore';
 import { useShallow } from 'zustand/shallow';
+import { useEffect } from 'react';
+import { refreshAccessToken } from '../../lib/axios/token';
 
 const mockWeeklyCheckInRecord = [
 	{
@@ -77,6 +79,10 @@ export default function CheckIn() {
 	const parsedAvatar: ParsedPlayerAvatar = parsePlayerAvatar(
 		playerAvatarUrl!
 	);
+
+	useEffect(() => {
+		refreshAccessToken();
+	}, []);
 
 	return (
 		<div className="flex flex-col items-center justify-center flex-1 mx-4">

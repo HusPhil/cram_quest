@@ -1,6 +1,7 @@
 import React from 'react';
 import { TbSword, TbTargetArrow } from 'react-icons/tb';
 import colors from '../../../../data/colors';
+import PixelButton from '../../../../components/PixelButton';
 
 interface BattleCombatPanelProps {
 	currentQuest: { description: string };
@@ -51,7 +52,7 @@ export default function BattleCombatPanel({
 				</p>
 			</div>
 
-			<button
+			{/* <button
 				disabled={isAllTasksCompleted || isCustomSceneActive}
 				onClick={handleKillEnemy}
 				className={`p-3 mt-3 bg-accent text-background flex justify-center items-center rounded-md disabled:cursor-not-allowed disabled:opacity-35 ${
@@ -62,7 +63,20 @@ export default function BattleCombatPanel({
 			>
 				<TbSword className="w-5 h-5 mr-2" color={colors.secondary} />
 				Kill enemy!
-			</button>
+			</button> */}
+			<PixelButton
+				disabled={isAllTasksCompleted || isCustomSceneActive}
+				onClick={handleKillEnemy}
+				colors={{
+					face: '#fbbf24',
+					shadow: '#d97706',
+					border: '#92400e',
+					text: '#1f2937',
+				}}
+			>
+				{/* <TbSword className="w-5 h-5 mr-2" color={colors.secondary} /> */}
+				Kill enemy!
+			</PixelButton>
 		</div>
 	);
 }
