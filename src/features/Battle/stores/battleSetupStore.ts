@@ -2,6 +2,12 @@ import { create } from 'zustand';
 import { QuestRead } from '../../../services/api/schema/quest_schema';
 import { SubjectRead } from '../../../services/api/schema/subject_schema';
 import { TaskRead } from '../../../services/api/schema/task_schema';
+import { subscribeWithSelector } from 'zustand/middleware';
+
+export interface BattleSetupStep {
+	id: string;
+	description: string;
+}
 
 interface BattleSetupState {
 	// State
@@ -9,17 +15,18 @@ interface BattleSetupState {
 	battleResult: 'defeat' | 'victory' | null;
 	selectedQuest: QuestRead | null;
 	selectedSubject: SubjectRead | null;
-	questSteps: string[];
+	questSteps: BattleSetupStep[];
 	generatedTasks: TaskRead[];
 	battleSessionId: number | null;
 	durationMinutes: number;
 
 	// Actions
 	selectQuest: (quest: QuestRead) => void;
-	addQuestStep: (step: string) => void;
-	removeQuestStep: (index: number) => void;
+	selectSubject: (subject: SubjectRead) => void;
+	addQuestStep: (step: string) => string;
+	removeQuestStep: (id: string) => void;
 	setGeneratedTasks: (tasks: TaskRead[]) => void;
-	updateQuestStep: (index: number, step: string) => void;
+	updateQuestStep: (id: string, description: string) => void;
 	setDuration: (minutes: number) => void;
 	setBattleSessionId: (id: number) => void;
 	setIsBattleActive: (isActive: boolean) => void;
@@ -31,74 +38,92 @@ interface BattleSetupState {
 	getCleanedQuestSteps: () => string[];
 }
 
-export const useBattleSetupStore = create<BattleSetupState>((set, get) => ({
-	battleSessionId: null,
-	isBattleActive: false,
-	battleResult: null,
-	selectedSubject: null,
-	selectedQuest: null,
-	questSteps: [],
-	generatedTasks: [],
-	durationMinutes: 3,
+export const useBattleSetupStore = create<BattleSetupState>()(
+	subscribeWithSelector((set, get) => ({
+		// Initial state
+		battleSessionId: null,
+		isBattleActive: false,
+		battleResult: null,
+		selectedSubject: null,
+		selectedQuest: null,
+		questSteps: [],
+		generatedTasks: [],
+		durationMinutes: 3,
 
-	selectQuest: (quest: QuestRead) => set(() => ({ selectedQuest: quest })),
-	selectSubject: (subject: SubjectRead) => set({ selectedSubject: subject }),
+		// Actions
+		selectQuest: (quest: QuestRead) =>
+			set(() => ({ selectedQuest: quest })),
 
-	addQuestStep: (step: string) =>
-		set((state) => ({
-			questSteps: [...state.questSteps, step],
-		})),
+		selectSubject: (subject: SubjectRead) =>
+			set({ selectedSubject: subject }),
 
-	removeQuestStep: (index: number) =>
-		set((state) => ({
-			questSteps: state.questSteps.filter((_, i) => i !== index),
-		})),
+		addQuestStep: (description: string) => {
+			const newStepId = Date.now().toString();
+			const newStep = { id: newStepId, description };
+			set((state) => ({
+				questSteps: [...state.questSteps, newStep],
+			}));
+			return newStepId;
+		},
 
-	setGeneratedTasks: (tasks: TaskRead[]) => set({ generatedTasks: tasks }),
+		removeQuestStep: (id: string) =>
+			set((s) => ({
+				questSteps: s.questSteps.filter((step) => step.id !== id),
+			})),
 
-	updateQuestStep: (index: number, step: string) =>
-		set((state) => {
-			const newSteps = [...state.questSteps];
-			newSteps[index] = step;
-			return { questSteps: newSteps };
-		}),
+		setGeneratedTasks: (tasks: TaskRead[]) =>
+			set({ generatedTasks: tasks }),
 
-	setDuration: (minutes) =>
-		set(() => ({
-			durationMinutes: minutes,
-		})),
+		updateQuestStep: (id: string, description: string) =>
+			set((s) => ({
+				questSteps: s.questSteps.map((step) =>
+					step.id === id ? { ...step, description } : step
+				),
+			})),
 
-	setBattleSessionId(id) {
-		set(() => ({
-			battleSessionId: id,
-		}));
-	},
+		setDuration: (minutes) =>
+			set(() => ({
+				durationMinutes: minutes,
+			})),
 
-	setIsBattleActive: (isActive) =>
-		set(() => ({
-			isBattleActive: isActive,
-		})),
+		setBattleSessionId: (id) => {
+			set(() => ({
+				battleSessionId: id,
+			}));
+		},
 
-	setBattleResult: (result) => set(() => ({ battleResult: result })),
+		setIsBattleActive: (isActive) =>
+			set(() => ({
+				isBattleActive: isActive,
+			})),
 
-	resetBattleSetup: () =>
-		set(() => ({
-			isBattleActive: false,
-			battleResult: null,
-			selectedQuest: null,
-			selectedSubject: null,
-			questSteps: [],
-			generatedTasks: [],
-			durationMinutes: 3,
-		})),
+		setBattleResult: (result) => set(() => ({ battleResult: result })),
 
-	canStartBattle: () => {
-		const { selectedQuest, questSteps, durationMinutes } = get();
-		return !!selectedQuest && questSteps.length > 0 && durationMinutes > 0;
-	},
+		resetBattleSetup: () =>
+			set(() => ({
+				isBattleActive: false,
+				battleResult: null,
+				selectedQuest: null,
+				selectedSubject: null,
+				questSteps: [],
+				generatedTasks: [],
+				battleSessionId: null,
+				durationMinutes: 3,
+			})),
 
-	getCleanedQuestSteps: () => {
-		const { questSteps } = get();
-		return questSteps.filter((step) => step.trim() !== '');
-	},
-}));
+		// Derived state functions
+		canStartBattle: () => {
+			const { selectedQuest, questSteps, durationMinutes } = get();
+			return (
+				!!selectedQuest && questSteps.length > 0 && durationMinutes > 0
+			);
+		},
+
+		getCleanedQuestSteps: () => {
+			const { questSteps } = get();
+			return questSteps
+				.filter((step) => step.description.trim() !== '')
+				.map((step) => step.description);
+		},
+	}))
+);

@@ -17,7 +17,7 @@ export default function BattleResultContinue({
 
 	return (
 		<button
-			className={`mt-7 inline-flex justify-center items-center gap-3  py-2 px-5 rounded-md border transition-transform active:scale-90 hover:scale-90 ${borderBgStyle}`}
+			className={`mt-7 inline-flex justify-center items-center gap-3  py-2 px-5 rounded-md border transition-transform active:scale-90 hover:scale-110 ${borderBgStyle}`}
 			onClick={battleCleanUp}
 		>
 			<TbStar color={iconColor} />

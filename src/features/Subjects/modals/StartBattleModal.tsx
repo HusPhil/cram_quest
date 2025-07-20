@@ -165,7 +165,7 @@ const StepNavigation = ({
 		}
 		if (currentStep === 1) {
 			if (questSteps.length === 1) {
-				return questSteps[0] !== '';
+				return questSteps[0].description.trim() !== '';
 			}
 			return questSteps.length > 0;
 		}
