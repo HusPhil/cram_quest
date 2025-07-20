@@ -52,7 +52,7 @@ const Modal = ({
 	if (!isOpen) return null;
 
 	return (
-		<div className="fixed inset-0 z-50 flex items-center justify-center">
+		<div className="fixed inset-0 z-50 flex items-center justify-center h-[100dvh]">
 			{/* Backdrop */}
 			<div
 				className="fixed inset-0 bg-secondary/80 backdrop-blur-sm"
@@ -62,7 +62,7 @@ const Modal = ({
 			{/* Modal Container */}
 			<div
 				ref={modalRef}
-				className={`relative z-50 w-11/12 max-w-md transform rounded-lg border-2 ${getBorderFromVariant(
+				className={`relative z-50 w-11/12 max-w-md transform rounded-lg max-h-[80%] overflow-auto	 border-2 ${getBorderFromVariant(
 					variant
 				)}`}
 			>

@@ -10,6 +10,7 @@ import { useUserPlayerStore } from '../Auth/stores/userPlayerStore/userPlayerSto
 import { useShallow } from 'zustand/shallow';
 import { useEffect } from 'react';
 import { refreshAccessToken } from '../../lib/axios/token';
+import { toast } from 'react-toastify';
 
 const mockWeeklyCheckInRecord = [
 	{
@@ -82,6 +83,7 @@ export default function CheckIn() {
 
 	useEffect(() => {
 		refreshAccessToken();
+		toast.info('Refreshing access token');
 	}, []);
 
 	return (
