@@ -1,8 +1,8 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { useRefreshSessionV2 } from '../features/Auth/hooks/useRefreshSessionV2';
+import { useRefreshSession } from '../features/Auth/hooks/useRefreshSession';
 
 const RejectAuth = () => {
-	const { isPending, isError } = useRefreshSessionV2();
+	const { isPending, isError } = useRefreshSession();
 
 	// While checking → null or loading spinner
 	if (isPending) return null;

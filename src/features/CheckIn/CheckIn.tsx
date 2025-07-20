@@ -8,7 +8,7 @@ import {
 } from '../../utils/parsePlayerAvatar';
 import { useUserPlayerStore } from '../Auth/stores/userPlayerStore/userPlayerStore';
 import { useShallow } from 'zustand/shallow';
-import { useRefreshSessionV2 } from '../Auth/hooks/useRefreshSessionV2';
+import { useRefreshSession } from '../Auth/hooks/useRefreshSession';
 
 const mockWeeklyCheckInRecord = [
 	{
@@ -75,7 +75,7 @@ export default function CheckIn() {
 	);
 	const playerAvatarUrl = useUserPlayerStore((state) => state.avatarUrl);
 
-	const refreshSession = useRefreshSessionV2({
+	const refreshSession = useRefreshSession({
 		refetchOnWindowFocus: true,
 	});
 

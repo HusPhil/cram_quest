@@ -1,8 +1,8 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { useRefreshSessionV2 } from '../features/Auth/hooks/useRefreshSessionV2';
+import { useRefreshSession } from '../features/Auth/hooks/useRefreshSession';
 
 const RequireAuth = () => {
-	const { isLoading, isError } = useRefreshSessionV2();
+	const { isLoading, isError } = useRefreshSession();
 
 	// Still checking session
 	if (isLoading)
