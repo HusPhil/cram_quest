@@ -1,41 +1,134 @@
-import { ButtonHTMLAttributes } from "react";
+import React, { ReactNode, ButtonHTMLAttributes } from 'react';
 
-type PixelButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-	children: React.ReactNode;
-};
+interface PixelatedButtonColors {
+	face?: string;
+	shadow?: string;
+	border?: string;
+	text?: string;
+}
 
-const PixelButton = ({ children, className = "", ...props }: PixelButtonProps) => {
+interface PixelButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+	children: ReactNode;
+	variant?: 'default' | 'github';
+	icon?: ReactNode;
+	colors?: PixelatedButtonColors;
+}
+
+const PixelButton: React.FC<PixelButtonProps> = ({
+	children,
+	variant = 'default',
+	icon,
+	colors,
+	disabled,
+	className = '',
+	style,
+	...props
+}) => {
+	const defaultColors = {
+		face: '#ffffff',
+		shadow: '#e2e8f0',
+		border: '#64748b',
+		text: '#374151',
+	};
+
+	const buttonColors = { ...defaultColors, ...colors };
+	const createBorderImage = (color: string) =>
+		`data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23clip0_183_5329)'%3E%3Cpath d='M2 0H3V1H2V0ZM3 0H4V1H3V0ZM1 1H2V2H1V1ZM4 1H5V2H4V1ZM0 2H1V3H0V2ZM5 2H6V3H5V2ZM0 3H1V4H0V3ZM5 3H6V4H5V3ZM1 4H2V5H1V4ZM4 4H5V5H4V4ZM2 5H3V6H2V5ZM3 5H4V6H3V5Z' fill='${encodeURIComponent(
+			color
+		)}'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_183_5329'%3E%3Crect width='6' height='6' fill='white'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E%0A`;
+
+	const borderImages = {
+		default: createBorderImage('#94A3B8'),
+		github: createBorderImage('#333333'),
+	};
+
+	const clipPath =
+		'polygon(4px 0px, 4px 2px, 2px 2px, 2px 4px, 0px 4px, 0px calc(100% - 4px), 2px calc(100% - 4px), 2px calc(100% - 2px), 4px calc(100% - 2px), 4px 100%, calc(100% - 4px) 100%, calc(100% - 4px) calc(100% - 2px), calc(100% - 2px) calc(100% - 2px), calc(100% - 2px) calc(100% - 4px), 100% calc(100% - 4px), 100% calc(100% - 4px), 100% 4px, calc(100% - 2px) 4px, calc(100% - 2px) 2px, calc(100% - 4px) 2px, calc(100% - 4px) 0px)';
+
+	// Combined function to handle press start (mouse down or touch start)
+	const handlePressStart = (
+		e:
+			| React.MouseEvent<HTMLButtonElement>
+			| React.TouchEvent<HTMLButtonElement>
+	) => {
+		if (disabled) return;
+		const target = e.currentTarget;
+		const before = target.querySelector('.before') as HTMLElement;
+		const content = target.querySelector('.content') as HTMLElement;
+		if (before) before.style.transform = 'translateY(4px)';
+		if (content) content.style.transform = 'translateY(4px)';
+	};
+
+	// Combined function to handle press end (mouse up, mouse leave, or touch end)
+	const handlePressEnd = (
+		e:
+			| React.MouseEvent<HTMLButtonElement>
+			| React.TouchEvent<HTMLButtonElement>
+	) => {
+		const target = e.currentTarget;
+		const before = target.querySelector('.before') as HTMLElement;
+		const content = target.querySelector('.content') as HTMLElement;
+		if (before) before.style.transform = '';
+		if (content) content.style.transform = '';
+	};
+
 	return (
 		<button
+			className={`relative bg-transparent border-none text-base font-medium h-11 transition-all duration-100 outline-none ${
+				disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'
+			} ${className}`}
+			style={{ color: buttonColors.text, ...style }}
+			disabled={disabled}
+			// Mouse events (for desktop/laptop)
+			onMouseDown={handlePressStart}
+			onMouseUp={handlePressEnd}
+			onMouseLeave={handlePressEnd}
+			// Touch events (for mobile)
+			onTouchStart={handlePressStart}
+			onTouchEnd={handlePressEnd}
+			onTouchCancel={handlePressEnd}
 			{...props}
-			className={`
-                relative
-                px-5 
-				font-mono 
-				text-white 
-				bg-indigo-600
-				hover:bg-indigo-500 
-				active:translate-y-1 
-				active:shadow-none 
-				font-bold 
-				py-3
-				text-center 
-				tracking-wide 
-				border-0
-				shadow-[0_4px_0_0_#4338ca] 
-				[image-rendering:pixelated]
-				before:absolute before:inset-0 
-				before:border-2 before:border-indigo-300
-				before:content-[''] 
-				before:border-b-0 before:border-r-0
-				after:absolute after:inset-0 
-				after:border-2 after:border-indigo-900
-				after:content-[''] 
-				after:border-t-0 after:border-l-0
-				rounded
-				${className}`}
 		>
-			{children}
+			{/* Button Face */}
+			{/* <span className="before absolute inset-0 z-10 px-4 py-2.5 transition-transform duration-100" /> */}
+
+			{/* Button Content */}
+			<span
+				className="px-3 content relative z-20 flex items-center gap-2 pointer-events-none transition-transform duration-100"
+				style={{
+					height: 'calc(100% - 6px)',
+					backgroundColor: buttonColors.face,
+					borderImage: colors?.border
+						? `url("${createBorderImage(
+								colors.border
+						  )}") 2 / 4px / 0px stretch`
+						: `url("${borderImages[variant]}") 2 / 4px / 0px stretch`,
+					borderStyle: 'solid',
+					borderWidth: '0px',
+					clipPath,
+				}}
+			>
+				{icon}
+				{children}
+			</span>
+
+			{/* Shadow */}
+			<span
+				className="absolute inset-0"
+				style={{
+					height: 'calc(100% - 4px)',
+					top: '6px',
+					backgroundColor: buttonColors.shadow,
+					borderImage: colors?.border
+						? `url("${createBorderImage(
+								colors.border
+						  )}") 2 / 4px / 0px stretch`
+						: `url("${borderImages[variant]}") 2 / 4px / 0px stretch`,
+					borderStyle: 'solid',
+					borderWidth: '0px',
+					clipPath,
+				}}
+			/>
 		</button>
 	);
 };

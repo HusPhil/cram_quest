@@ -1,6 +1,7 @@
 import { FaPlus } from 'react-icons/fa';
-import AddNewSubjectModal from '../modals/AddNewSubjectModal';
 import { useSubjectStore_UI } from '../stores/subjectStore_UI';
+import PixelButton from '../../../components/PixelButton';
+import colors from '../../../data/colors';
 
 export default function SubjectHeader({
 	playerId,
@@ -33,6 +34,17 @@ export default function SubjectHeader({
 						<FaPlus className={`w-3 h-3`} />
 						<span className="hidden md:block">New Subject</span>
 					</button>
+					<PixelButton
+						className=""
+						colors={{
+							face: '#fbbf24',
+							shadow: '#d97706',
+							border: '#92400e',
+							text: '#1f2937',
+						}}
+					>
+						<p>Battle</p>
+					</PixelButton>
 				</div>
 
 				{/* SHORT DESC */}
