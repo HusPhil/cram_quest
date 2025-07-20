@@ -88,7 +88,7 @@ const UpdateSubjectSection = ({
 		await deleteSubjectMutate.mutateAsync({ subjectId: subject.id });
 
 		if (!deleteSubjectMutate.isError) {
-			queryClient.invalidateQueries({
+			await queryClient.invalidateQueries({
 				queryKey: SUBJECTS_QUERY_KEY,
 			});
 			toast.success('Quest deleted successfully');

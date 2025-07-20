@@ -1,8 +1,10 @@
+export type QuestStatus = 'to_do' | 'doing' | 'done' | 'archive';
+
 interface QuestBase {
 	subject_id: number;
 	description: string;
 	difficulty: number;
-	status: string;
+	status: QuestStatus;
 }
 export interface QuestCreate extends QuestBase {}
 
@@ -14,5 +16,5 @@ export interface QuestRead extends QuestBase {
 export interface QuestUpdate {
 	description?: string;
 	difficulty?: number;
-	status?: string;
+	status?: QuestStatus;
 }

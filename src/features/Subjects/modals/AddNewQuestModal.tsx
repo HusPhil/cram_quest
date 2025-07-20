@@ -4,6 +4,7 @@ import StarRating from '../components/ui/StarRating';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCreateQuest } from '../hooks/quest/useCreateQuest';
 import { useSubjectStore_UI } from '../stores/subjectStore_UI';
+import { QuestStatus } from '../../../services/api/schema/quest_schema';
 
 interface AddNewQuestModalProps {
 	subjectId: number;
@@ -40,7 +41,7 @@ export default function AddNewQuestModal({ subjectId }: AddNewQuestModalProps) {
 			subject_id: subjectId,
 			difficulty,
 			description: formData.get('description') as string,
-			status: 'in_progress',
+			status: 'to_do' as QuestStatus,
 		};
 
 		console.log('questCreate', questCreate);
@@ -51,7 +52,7 @@ export default function AddNewQuestModal({ subjectId }: AddNewQuestModalProps) {
 
 		if (!createQuestMutate.isError) {
 			closeActiveModal();
-			queryClient.invalidateQueries({
+			await queryClient.invalidateQueries({
 				queryKey: ['subjects', subjectId, 'quests'],
 			});
 		}

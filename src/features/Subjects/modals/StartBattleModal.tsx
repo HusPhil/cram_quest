@@ -9,6 +9,7 @@ import StartBattle from '../screens/SubjectScreen/Battle/SetupBattleSteps/StartB
 import BattlePage from '../screens/SubjectScreen/Battle/BattlePage';
 import { useBattleEngineStore } from '../../Battle/stores/battleEngineStore';
 import { useSubjectStore_UI } from '../stores/subjectStore_UI';
+import { useQueryClient } from '@tanstack/react-query';
 
 export interface StepComponentProps {
 	subjectQuests: QuestRead[];
@@ -46,6 +47,7 @@ const steps: SetupBattleStep[] = [
 ];
 
 export default function StartBattleModal({
+	subjectId,
 	subjectQuests,
 }: StartBattleModalProps) {
 	const [currentStep, setCurrentStep] = useState(0);
@@ -69,6 +71,8 @@ export default function StartBattleModal({
 
 	const battleResult = useBattleSetupStore((state) => state.battleResult);
 
+	const queryClient = useQueryClient();
+
 	const handleStartBattle = () => {
 		console.log(
 			'start battle with steps: ' + isBattleActive,
@@ -76,7 +80,10 @@ export default function StartBattleModal({
 		);
 	};
 
-	const handleCleanupBattlefield = () => {
+	const handleCleanupBattlefield = async () => {
+		await queryClient.invalidateQueries({
+			queryKey: ['subjects', subjectId, 'quests'],
+		});
 		setCurrentStep(0);
 		resetBattleSetup();
 		resetBattleEngine();

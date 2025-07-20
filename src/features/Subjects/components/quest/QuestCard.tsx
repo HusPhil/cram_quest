@@ -57,7 +57,7 @@ export default function QuestCard({ quest }: QuestCardProps) {
 		await deleteQuestMutate.mutateAsync({ questId: quest.id });
 
 		if (!deleteQuestMutate.isError) {
-			queryClient.invalidateQueries({
+			await queryClient.invalidateQueries({
 				queryKey: SUBJECT_QUESTS_QUERY_KEY,
 			});
 			toast.success('Quest deleted successfully');
@@ -74,7 +74,7 @@ export default function QuestCard({ quest }: QuestCardProps) {
 		});
 
 		if (!updateQuestMutate.isError) {
-			queryClient.invalidateQueries({
+			await queryClient.invalidateQueries({
 				queryKey: SUBJECT_QUESTS_QUERY_KEY,
 			});
 			toast.success('Quest updated successfully', {
