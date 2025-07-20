@@ -6,13 +6,17 @@ export default function PickAQuest({ subjectQuests }: StepComponentProps) {
 	const selectQuest = useBattleSetupStore((state) => state.selectQuest);
 	const selectedQuest = useBattleSetupStore((state) => state.selectedQuest);
 
+	const availableQuests = subjectQuests.filter(
+		(quest: QuestRead) => quest.status !== 'completed'
+	);
+
 	return (
 		<div className="space-y-4 max-h-80 overflow-auto">
 			<p className="text-sm text-text/70">
 				Choose a quest you want to complete.
 			</p>
 			<div className="space-y-2">
-				{subjectQuests.map((quest: QuestRead) => (
+				{availableQuests.map((quest: QuestRead) => (
 					<div
 						key={quest.id}
 						className={`p-3 border rounded-md hover:border-accent cursor-pointer ${
