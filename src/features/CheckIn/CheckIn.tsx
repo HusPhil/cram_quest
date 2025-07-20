@@ -8,12 +8,7 @@ import {
 } from '../../utils/parsePlayerAvatar';
 import { useUserPlayerStore } from '../Auth/stores/userPlayerStore/userPlayerStore';
 import { useShallow } from 'zustand/shallow';
-import { useEffect } from 'react';
-import { refreshSession } from '../../lib/axios/token';
-import { toast } from 'react-toastify';
-import { useRefreshSession } from '../Auth/hooks/useRefreshSession';
 import { useRefreshSessionV2 } from '../Auth/hooks/useRefreshSessionV2';
-import { useQueryClient } from '@tanstack/react-query';
 
 const mockWeeklyCheckInRecord = [
 	{
@@ -88,8 +83,6 @@ export default function CheckIn() {
 		playerAvatarUrl!
 	);
 
-	console.log(parsedAvatar.playerSkin, parsedAvatar.playerClass);
-
 	return (
 		<div className="flex flex-col items-center justify-center flex-1 mx-4">
 			<RpgCard
@@ -98,26 +91,12 @@ export default function CheckIn() {
 				className="w-[80%] mb-2 py-5 max-w-sm md:w-full md:max-w-xl lg:max-w-2xl lg:mb-5"
 			>
 				<PlayerCard
-					playerClass={
-						refreshSession.isLoading
-							? 'armored_knight'
-							: parsePlayerAvatar(
-									refreshSession.data?.profile_session_info
-										.avatar_url!
-							  ).playerClass
-					}
-					playerSkin={
-						refreshSession.isLoading
-							? 'armored_knight_iron'
-							: parsePlayerAvatar(
-									refreshSession.data?.profile_session_info
-										.avatar_url!
-							  ).playerSkin
-					}
+					playerClass={parsedAvatar.playerClass}
+					playerSkin={parsedAvatar.playerSkin}
 					currentScreenSize={currentScreenSize}
 					currentExp={!currentPlayer ? 0 : currentPlayer.experience!}
 					nextLvlExp={
-						refreshSession.data?.player_session_info.next_level_xp!
+						!currentPlayer ? 0 : currentPlayer.next_level_xp!
 					}
 					playerTitle={
 						!currentPlayer ? 'Loading...' : currentPlayer.title!

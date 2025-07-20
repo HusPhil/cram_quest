@@ -1,36 +1,24 @@
-import { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useRefreshSession } from '../features/Auth/hooks/useRefreshSession';
-import { updateStoresFromRefreshData } from '../lib/axios/token';
+import { useRefreshSessionV2 } from '../features/Auth/hooks/useRefreshSessionV2';
 
 const RequireAuth = () => {
-	const [authChecked, setAuthChecked] = useState(false);
-	const [isAuthenticated, setIsAuthenticated] = useState(false);
+	const { isLoading, isError } = useRefreshSessionV2();
 
-	const requireAuthMutate = useRefreshSession();
+	// Still checking session
+	if (isLoading)
+		return (
+			<div className="flex min-h-screen justify-center items-center ">
+				<p className="text-lg font-semibold text-white">
+					Checking Authentication..
+				</p>
+			</div>
+		); // Or a <Loading /> spinner
 
-	useEffect(() => {
-		const checkAuth = async () => {
-			try {
-				await requireAuthMutate.mutateAsync(undefined, {
-					onSuccess: (data) => {
-						updateStoresFromRefreshData(data);
-					},
-				});
-				setIsAuthenticated(true);
-			} catch (err) {
-				setIsAuthenticated(false);
-			} finally {
-				setAuthChecked(true);
-			}
-		};
+	// If refresh failed → not authenticated → redirect to /auth
+	if (isError) return <Navigate to="/auth" replace />;
 
-		checkAuth();
-	}, []);
-
-	if (!authChecked) return null; // Or a loading spinner
-
-	return isAuthenticated ? <Outlet /> : <Navigate to="/auth" replace />;
+	// If refresh succeeded → authenticated → render protected routes
+	return <Outlet />;
 };
 
 export default RequireAuth;
