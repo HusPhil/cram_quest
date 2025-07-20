@@ -90,7 +90,7 @@ export default function SubjectCard({
 				<div className="h-0.5 w-full bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
 
 				{/* Difficulty Indicator */}
-				<div className="flex items-center justify-between gap-1 cursor-pointer">
+				<div className="flex items-end justify-between gap-1 cursor-pointer  flex-1">
 					<div
 						className={`${
 							isEditEnabled ? '' : 'flex-1'
