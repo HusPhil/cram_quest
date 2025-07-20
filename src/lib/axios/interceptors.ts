@@ -1,6 +1,6 @@
 // src/lib/axios/interceptors.ts
 import { axiosInstance } from './axiosInstance';
-import { refreshAccessToken, setAuthHeader } from './token';
+import { refreshSession, setAuthHeader } from './token';
 
 // Add interceptors to handle token refresh on 401 errors
 let isRefreshing = false;
@@ -45,7 +45,7 @@ axiosInstance.interceptors.response.use(
 		isRefreshing = true;
 
 		try {
-			const { access_token: newToken } = await refreshAccessToken();
+			const { access_token: newToken } = await refreshSession();
 
 			setAuthHeader(newToken); // update axiosInstance default
 			originalRequest.headers.Authorization = `Bearer ${newToken}`; // update the retry request

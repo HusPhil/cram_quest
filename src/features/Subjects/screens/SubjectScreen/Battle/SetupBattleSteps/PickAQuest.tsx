@@ -12,14 +12,16 @@ export default function PickAQuest({ subjectQuests }: StepComponentProps) {
 	);
 
 	return (
-		<div className="space-y-4 max-h-80 min-h-36 overflow-auto">
+		<>
 			{availableQuests.length === 0 ? (
-				<EmptyListNote
-					message="You're all caught up!"
-					hint="Add a new quest"
-				/>
+				<div className="flex justify-center items-center min-h-36">
+					<EmptyListNote
+						message="You're all caught up!"
+						hint="Add a new quest"
+					/>
+				</div>
 			) : (
-				<>
+				<div className="space-y-4 max-h-80 min-h-36">
 					<p className="text-sm text-text/70">
 						Choose a quest you want to complete.
 					</p>
@@ -38,8 +40,8 @@ export default function PickAQuest({ subjectQuests }: StepComponentProps) {
 							</div>
 						))}
 					</div>
-				</>
+				</div>
 			)}
-		</div>
+		</>
 	);
 }

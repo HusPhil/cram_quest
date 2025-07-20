@@ -5,12 +5,12 @@ import { BASE_URL } from '../../services/api/api';
 import { RefreshTokenResponse } from '../../services/api/schema/auth_schema';
 import { axiosInstance } from './axiosInstance';
 
-// Function to refresh the access token
-export async function refreshAccessToken(): Promise<RefreshTokenResponse> {
+// Pure API function - no side effects
+export async function refreshSession(): Promise<RefreshTokenResponse> {
 	try {
 		const response = await fetch(`${BASE_URL}/auth/refresh_session`, {
 			method: 'POST',
-			credentials: 'include', // Ensure cookies are sent with request
+			credentials: 'include',
 		});
 
 		if (!response.ok) {
@@ -18,50 +18,45 @@ export async function refreshAccessToken(): Promise<RefreshTokenResponse> {
 			throw new Error(errorData.message || 'Failed to refresh token');
 		}
 
-		const data: RefreshTokenResponse = await response.json();
-
-		console.log('data: ', data);
-
-		const setCurrentAccessToken =
-			useAuthInformationStore.getState().setAcessToken;
-
-		const setPlayerCurrentUserId =
-			useAuthInformationStore.getState().setUserId;
-
-		const setPlayerCurrentPlayerId =
-			useAuthInformationStore.getState().setPlayerId;
-
-		setCurrentAccessToken(data.access_token);
-		setPlayerCurrentUserId(data.user_session_info.id);
-		setPlayerCurrentPlayerId(data.player_session_info.id);
-
-		const setPlayerProfile = useUserPlayerStore.getState().setProfile;
-		setPlayerProfile({
-			profileId: data.profile_session_info.id,
-			avatarUrl: data.profile_session_info.avatar_url,
-			bio: data.profile_session_info.bio!,
-			mood: data.profile_session_info.mood!,
-		});
-
-		const setUserPlayer = useUserPlayerStore.getState().setPlayer;
-		setUserPlayer({
-			playerId: data.player_session_info.id,
-			title: data.player_session_info.title,
-			level: data.player_session_info.level,
-			experience: data.player_session_info.experience,
-			next_level_xp: data.player_session_info.next_level_xp,
-			daily_streak: data.player_session_info.daily_streak,
-			longest_daily_streak: data.player_session_info.longest_daily_streak,
-			session_streak: data.player_session_info.session_streak,
-			longest_session_streak:
-				data.player_session_info.longest_session_streak,
-		});
-
-		return data;
+		return await response.json();
 	} catch (error) {
 		console.error('Failed to refresh token', error);
 		throw error;
 	}
+}
+
+// Utility function to update stores
+export function updateStoresFromRefreshData(data: RefreshTokenResponse) {
+	const setCurrentAccessToken =
+		useAuthInformationStore.getState().setAcessToken;
+	const setPlayerCurrentUserId = useAuthInformationStore.getState().setUserId;
+	const setPlayerCurrentPlayerId =
+		useAuthInformationStore.getState().setPlayerId;
+
+	setCurrentAccessToken(data.access_token);
+	setPlayerCurrentUserId(data.user_session_info.id);
+	setPlayerCurrentPlayerId(data.player_session_info.id);
+
+	const setPlayerProfile = useUserPlayerStore.getState().setProfile;
+	setPlayerProfile({
+		profileId: data.profile_session_info.id,
+		avatarUrl: data.profile_session_info.avatar_url,
+		bio: data.profile_session_info.bio!,
+		mood: data.profile_session_info.mood!,
+	});
+
+	const setUserPlayer = useUserPlayerStore.getState().setPlayer;
+	setUserPlayer({
+		playerId: data.player_session_info.id,
+		title: data.player_session_info.title,
+		level: data.player_session_info.level,
+		experience: data.player_session_info.experience,
+		next_level_xp: data.player_session_info.next_level_xp,
+		daily_streak: data.player_session_info.daily_streak,
+		longest_daily_streak: data.player_session_info.longest_daily_streak,
+		session_streak: data.player_session_info.session_streak,
+		longest_session_streak: data.player_session_info.longest_session_streak,
+	});
 }
 
 // Function to set the Authorization header globally

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useRequireAuth } from '../features/Auth/hooks/useRequireAuth';
+import { useRefreshSession } from '../features/Auth/hooks/useRefreshSession';
 
 const RejectAuth = () => {
 	const [checkedAuth, setCheckedAuth] = useState(false);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-	const requireAuthMutate = useRequireAuth();
+	const requireAuthMutate = useRefreshSession();
 
 	useEffect(() => {
 		const check = async () => {
