@@ -46,11 +46,7 @@ export default function SubjectCard({
 		<>
 			<div
 				tabIndex={0}
-				onKeyDown={(e) => {
-					if (e.key === 'Enter' && !isEditEnabled) {
-						onClick();
-					}
-				}}
+				onClick={onClick}
 				className={`
 				active:scale-90
 				focus:ring focus:ring-amber-400
@@ -64,10 +60,7 @@ export default function SubjectCard({
 			`}
 			>
 				{/* Subject Code Name */}
-				<div
-					onClick={isEditEnabled ? undefined : onClick}
-					className="flex justify-between  items-start pt-4 px-4 cursor-pointer"
-				>
+				<div className="flex justify-between  items-start pt-4 px-4 cursor-pointer">
 					<div className="flex-1">
 						<div className="flex items-center justify-between">
 							<h3
@@ -94,10 +87,7 @@ export default function SubjectCard({
 				</div>
 
 				{/* Divider */}
-				<div
-					onClick={onClick}
-					className="h-0.5 w-full bg-gradient-to-r from-transparent via-accent/30 to-transparent"
-				/>
+				<div className="h-0.5 w-full bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
 
 				{/* Difficulty Indicator */}
 				<div className="flex items-center justify-between gap-1 cursor-pointer">
@@ -105,7 +95,6 @@ export default function SubjectCard({
 						className={`${
 							isEditEnabled ? '' : 'flex-1'
 						} pb-4 px-4 `}
-						onClick={isEditEnabled ? undefined : onClick}
 					>
 						<StarRating
 							value={difficulty}
@@ -117,20 +106,21 @@ export default function SubjectCard({
 							starClassName="w-3 h-3"
 						/>
 					</div>
-					<div
+					<button
 						className="pb-4 px-4"
-						onClick={() =>
+						onClick={(e) => {
+							e.stopPropagation();
 							setActiveModal('EditSubjectModal', {
 								code_name,
 								description,
 								difficulty,
 								player_id: playerId,
 								id: subjectId,
-							})
-						}
+							});
+						}}
 					>
 						<FaSliders className="w-4 h-4 " />
-					</div>
+					</button>
 				</div>
 			</div>
 		</>
