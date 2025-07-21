@@ -21,7 +21,7 @@ export default function PickAQuest({ subjectQuests }: StepComponentProps) {
 					/>
 				</div>
 			) : (
-				<div className="space-y-4 max-h-80 min-h-36">
+				<div className="space-y-4 max-h-80 min-h-36 overflow-auto scrollbar-thin p-3 scrollbar-stable">
 					<p className="text-sm text-text/70">
 						Choose a quest you want to complete.
 					</p>

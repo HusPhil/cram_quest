@@ -47,17 +47,18 @@ export default function WriteSteps() {
 	// }, [questSteps]);
 
 	return (
-		<div className="space-y-4 max-h-80 overflow-auto">
+		<div className="space-y-4 max-h-80 overflow-auto scrollbar-thin scrollbar-accent">
 			<h3 className="text-lg font-medium">Write your battle plan!</h3>
 			<p className="text-sm text-text/70">
-				Create a checklist of steps you'll take to complete this quest.
+				List the battle plan in this quest. Best keep it under 5 words
+				per step.
 			</p>
 
 			<small className="text-accent/75">
 				Press Enter to add a new step.
 			</small>
 
-			<div className="space-y-2 ">
+			<div className="space-y-2 px-3">
 				{questSteps.map((step, index) => (
 					<BattleSetupStepInput
 						key={step.id}
