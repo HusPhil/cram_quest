@@ -30,7 +30,9 @@ export default function BattleResultStats({
 					<p className={`text-sm ${textColor}`}>Streak</p>
 				</div>
 				{result === 'victory' ? (
-					<p className="text-success">{streak_count} wins</p>
+					<p className="text-success">{`${streak_count} ${
+						streak_count > 1 ? 'wins' : 'win'
+					}`}</p>
 				) : (
 					<p className="text-sm text-danger">RESET</p>
 				)}
