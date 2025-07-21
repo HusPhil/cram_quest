@@ -74,9 +74,9 @@ const PixelButton: React.FC<PixelButtonProps> = ({
 
 	return (
 		<button
-			className={`relative bg-transparent border-none text-base font-medium h-11 transition-all duration-100 outline-none ${
+			className={`relative bg-transparent border-none text-base font-medium transition-all duration-100 outline-none ${
 				disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'
-			} ${className}`}
+			} `}
 			style={{ color: buttonColors.text, ...style }}
 			disabled={disabled}
 			// Mouse events (for desktop/laptop)
@@ -90,13 +90,11 @@ const PixelButton: React.FC<PixelButtonProps> = ({
 			{...props}
 		>
 			{/* Button Face */}
-			{/* <span className="before absolute inset-0 z-10 px-4 py-2.5 transition-transform duration-100" /> */}
-
 			{/* Button Content */}
 			<span
-				className="px-3 content relative z-20 flex items-center gap-2 pointer-events-none transition-transform duration-100"
+				className={`content relative z-20 flex items-center gap-2 pointer-events-none transition-transform duration-100 ${className}`}
 				style={{
-					height: 'calc(100% - 4px)',
+					height: 'calc(100% - 3px)',
 					backgroundColor: buttonColors.face,
 					borderImage: colors?.border
 						? `url("${createBorderImage(
@@ -116,8 +114,8 @@ const PixelButton: React.FC<PixelButtonProps> = ({
 			<span
 				className="absolute inset-0"
 				style={{
-					height: 'calc(100% - 4px)',
-					top: '6px',
+					height: 'calc(100%)',
+					top: '4px',
 					backgroundColor: buttonColors.shadow,
 					borderImage: colors?.border
 						? `url("${createBorderImage(

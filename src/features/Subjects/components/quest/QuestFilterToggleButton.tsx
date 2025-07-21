@@ -1,8 +1,9 @@
-import { QuestFilter, useSubjectStore_UI } from '../../stores/subjectStore_UI';
+import { QuestStatus } from '../../../../services/api/schema/quest_schema';
+import { useSubjectStore_UI } from '../../stores/subjectStore_UI';
 
 interface QuestFilterToggleButton {
 	title: string;
-	filterType: QuestFilter;
+	filterType: QuestStatus;
 }
 
 export default function QuestFilterToggleButton({

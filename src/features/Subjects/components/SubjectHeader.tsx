@@ -2,6 +2,7 @@ import { FaPlus } from 'react-icons/fa';
 import { useSubjectStore_UI } from '../stores/subjectStore_UI';
 import PixelButton from '../../../components/PixelButton';
 import colors from '../../../data/colors';
+import { TbPlus } from 'react-icons/tb';
 
 export default function SubjectHeader({
 	playerId,
@@ -23,16 +24,13 @@ export default function SubjectHeader({
 								 disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 disabled:bg-gray-500/50 disabled:border-gray-500/75 
 								 bg-accent/20 hover:bg-accent/30
                                  disabled:text-gray-500 text-accent
-								 border-2 border-accent/50 rounded-lg font-rpg
-                                 transition-all duration-200 hover:scale-105 
-                                 active:scale-95 focus:outline-none 
-                                 focus:ring-2 focus:ring-accent/50 
-                                 focus:ring-offset-2 focus:ring-offset-background
-                                 flex items-center gap-2"
+								 border border-accent rounded-md
+                                 transition-all duration-200 hover:scale-105 active:scale-90 focus:outline-none 
+                                 flex items-center gap-1"
 						onClick={() => setActiveModal('AddNewSubjectModal')}
 					>
-						<FaPlus className={`w-3 h-3`} />
-						<span className="hidden md:block">New Subject</span>
+						<TbPlus className={`w-4 h-4`} />
+						<p className="hidden md:block">New Subject</p>
 					</button>
 				</div>
 

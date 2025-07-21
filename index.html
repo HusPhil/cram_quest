@@ -8,6 +8,22 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script>
+      // Tiny iOS check
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      if (isIOS) {
+        // Replace or update the viewport meta
+        const meta = document.querySelector('meta[name="viewport"]');
+        if (meta) {
+          meta.setAttribute(
+            'content',
+            'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0'
+          );
+        }
+      }
+    </script>
+
     <title>CramQuest - Study Habit Tracker</title>
   </head>
   <body>

@@ -21,6 +21,7 @@ export default {
 			},
 			fontFamily: {
 				rpg: [
+					"'Pixel Square Bold'",
 					"'Press Start 2P'",
 					"'Pixelify Sans'",
 					"'MedievalSharp'",

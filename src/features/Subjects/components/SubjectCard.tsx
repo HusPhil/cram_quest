@@ -48,8 +48,7 @@ export default function SubjectCard({
 				tabIndex={0}
 				onClick={onClick}
 				className={`
-				hover:scale-105
-				active:scale-90
+				active:scale-90 
 				relative rounded-lg 
 				bg-secondary/80 
 				transition-all duration-300 
@@ -78,7 +77,7 @@ export default function SubjectCard({
 						{/* Description */}
 						<p
 							contentEditable={isEditEnabled}
-							className={` text-sm flex-grow overflow-hidden line-clamp-2`}
+							className={` text-sm opacity-75 py-1 flex-grow overflow-hidden line-clamp-2`}
 						>
 							{description}
 						</p>

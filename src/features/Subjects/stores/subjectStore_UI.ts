@@ -1,7 +1,10 @@
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { MaterialRead } from '../../../services/api/schema/material_schema';
-import { QuestRead } from '../../../services/api/schema/quest_schema';
+import {
+	QuestRead,
+	QuestStatus,
+} from '../../../services/api/schema/quest_schema';
 import { SubjectRead } from '../../../services/api/schema/subject_schema';
 
 export type ModalObjectMap = {
@@ -15,13 +18,13 @@ export type ModalObjectMap = {
 
 export type ModalKey = keyof ModalObjectMap;
 
-export type QuestFilter = 'all' | 'todo' | 'doing' | 'done';
+export type QuestFilter = 'all' | 'to_do' | 'doing' | 'done';
 
 interface SubjectLayoutState {
 	activeModal: ModalKey | null;
 	activeModalObject: ModalObjectMap[ModalKey] | null;
 
-	questFilters: QuestFilter[];
+	questFilters: QuestStatus[];
 
 	subjectQuests: QuestRead[] | null;
 }
@@ -35,7 +38,8 @@ interface SubjectLayoutActions {
 	closeActiveModal: () => void;
 
 	setSubjectQuests: (quests: QuestRead[]) => void;
-	toggleQuestFilter: (filter: QuestFilter) => void;
+	toggleQuestFilter: (filter: QuestStatus) => void;
+	setQuestFilters: (filter: QuestStatus) => void;
 	clearQuestFilters: () => void;
 }
 
@@ -46,7 +50,7 @@ export const useSubjectStore_UI = create<
 		activeModal: null,
 		activeModalObject: null,
 
-		questFilters: ['todo'],
+		questFilters: ['to_do'],
 
 		subjectQuests: null,
 
@@ -71,7 +75,7 @@ export const useSubjectStore_UI = create<
 			}
 			set({ questFilters: Array.from(filters) });
 		},
-
+		setQuestFilters: (filter) => set({ questFilters: [filter] }),
 		clearQuestFilters: () => set({ questFilters: [] }),
 	}))
 );

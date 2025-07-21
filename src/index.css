@@ -2,13 +2,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Almendra+SC&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap');
 
+@font-face {
+  font-family: 'Pixel Square Bold';
+  src: url('../public/assets/fonts/pixelgrid-squarebolds.woff') format('truetype');
+  font-weight: lighter;
+  font-style: normal;
+  font-size: xx-small;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+html {
+  font-size: 14px; /* ✅ No quotes! */
+  letter-spacing: 0.03em
+}
+
 body {
   @apply bg-secondary text-text font-rpg scrollbar-thin scrollbar-stable;
-  font-family: 'Pixelify Sans', 'MedievalSharp', 'Almendra SC', 'Press Start 2P', cursive;
+  font-family: 'Pixel Square Bold', 'Pixelify Sans', 'MedievalSharp', 'Almendra SC', 'Press Start 2P', cursive;
 }
 
 .field-size-content {
@@ -56,5 +69,4 @@ body {
   animation-timeline: view();
   animation-range: entry 0;
 }
-
 

@@ -48,7 +48,7 @@ export default function StepProgress({
 								index + 1
 							)}
 						</div>
-						<span className="text-sm mt-1 font-medium">
+						<span className="text-xs md:text-sm mt-1 ">
 							{step.name}
 						</span>
 					</div>
