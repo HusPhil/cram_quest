@@ -48,12 +48,11 @@ export default function SubjectCard({
 				tabIndex={0}
 				onClick={onClick}
 				className={`
+				hover:scale-105
 				active:scale-90
-				focus:ring focus:ring-amber-400
 				relative rounded-lg 
 				bg-secondary/80 
 				transition-all duration-300 
-				hover:shadow-xl
 				flex flex-col gap-3 w-full
 				${isLoading ? 'opacity-30 pointer-events-none' : ''}
 				${className} 

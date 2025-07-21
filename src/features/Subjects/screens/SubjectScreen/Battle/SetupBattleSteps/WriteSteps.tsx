@@ -58,7 +58,7 @@ export default function WriteSteps() {
 				Press Enter to add a new step.
 			</small>
 
-			<div className="space-y-2 px-3">
+			<div className="space-y-2 px-2">
 				{questSteps.map((step, index) => (
 					<BattleSetupStepInput
 						key={step.id}

@@ -21,7 +21,6 @@ axiosInstance.interceptors.response.use(
 	(response) => response,
 	async (error) => {
 		const originalRequest = error.config;
-
 		// Skip refresh for refresh endpoint itself or non-401s
 		if (error.response?.status !== 401 || originalRequest._retry) {
 			return Promise.reject(error);
@@ -53,6 +52,13 @@ axiosInstance.interceptors.response.use(
 			processQueue(null, newToken);
 			return axiosInstance(originalRequest); // retry with new token
 		} catch (refreshError) {
+			const error = refreshError as Error;
+
+			if (error.message.toLowerCase().includes('session expired')) {
+				window.location.href = 'cramquest/auth/'; // or your login route
+				return;
+			}
+
 			processQueue(refreshError, null);
 			return Promise.reject(refreshError);
 		} finally {

@@ -15,9 +15,13 @@ export type ModalObjectMap = {
 
 export type ModalKey = keyof ModalObjectMap;
 
+export type QuestFilter = 'all' | 'todo' | 'doing' | 'done';
+
 interface SubjectLayoutState {
 	activeModal: ModalKey | null;
 	activeModalObject: ModalObjectMap[ModalKey] | null;
+
+	questFilters: QuestFilter[];
 
 	subjectQuests: QuestRead[] | null;
 }
@@ -31,14 +35,18 @@ interface SubjectLayoutActions {
 	closeActiveModal: () => void;
 
 	setSubjectQuests: (quests: QuestRead[]) => void;
+	toggleQuestFilter: (filter: QuestFilter) => void;
+	clearQuestFilters: () => void;
 }
 
 export const useSubjectStore_UI = create<
 	SubjectLayoutState & SubjectLayoutActions
 >()(
-	subscribeWithSelector((set) => ({
+	subscribeWithSelector((set, get) => ({
 		activeModal: null,
 		activeModalObject: null,
+
+		questFilters: ['todo'],
 
 		subjectQuests: null,
 
@@ -53,5 +61,17 @@ export const useSubjectStore_UI = create<
 
 		setSubjectQuests: (quests: QuestRead[]) =>
 			set({ subjectQuests: quests }),
+
+		toggleQuestFilter: (filter) => {
+			const filters = new Set(get().questFilters);
+			if (filters.has(filter)) {
+				filters.delete(filter);
+			} else {
+				filters.add(filter);
+			}
+			set({ questFilters: Array.from(filters) });
+		},
+
+		clearQuestFilters: () => set({ questFilters: [] }),
 	}))
 );

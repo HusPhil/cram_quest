@@ -15,12 +15,7 @@ interface UseRefreshSessionOptions {
 }
 
 export function useRefreshSession(options: UseRefreshSessionOptions = {}) {
-	const {
-		retry = 1,
-		refetchOnWindowFocus = true,
-		enabled = true,
-		showToasts = true,
-	} = options;
+	const { retry = 1, refetchOnWindowFocus = true, enabled = true } = options;
 
 	const refreshSessionQuery = useQuery({
 		queryKey: ['refreshSession'],

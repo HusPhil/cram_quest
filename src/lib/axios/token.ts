@@ -1,4 +1,5 @@
 // src/lib/axios/token.ts
+import { toast } from 'react-toastify';
 import { useAuthInformationStore } from '../../features/Auth/stores/authInformationStore';
 import { useUserPlayerStore } from '../../features/Auth/stores/userPlayerStore/userPlayerStore';
 import { BASE_URL } from '../../services/api/api';
@@ -13,14 +14,20 @@ export async function refreshSession(): Promise<RefreshTokenResponse> {
 			credentials: 'include',
 		});
 
-		if (!response.ok) {
+		if (response.status !== 200) {
 			const errorData = await response.json();
-			throw new Error(errorData.message || 'Failed to refresh token');
+			if (errorData.detail.toLowerCase().includes('session expired')) {
+				toast.error('Session expired', {
+					toastId: 'session-expired',
+					autoClose: false,
+				});
+			}
+			throw new Error(errorData.detail);
 		}
 
 		return await response.json();
 	} catch (error) {
-		console.error('Failed to refresh token', error);
+		console.error('[catch] Failed to refresh token', error);
 		throw error;
 	}
 }

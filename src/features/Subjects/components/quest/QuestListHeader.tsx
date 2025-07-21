@@ -2,6 +2,7 @@ import TagLabel from '../../../../components/TagLabel';
 import { FaPlus } from 'react-icons/fa';
 import { QuestRead } from '../../../../services/api/schema/quest_schema';
 import { useSubjectStore_UI } from '../../stores/subjectStore_UI';
+import QuestFilterToggles from './QuestFilterToggles';
 
 export default function QuestListHeader({
 	quests,
@@ -14,15 +15,7 @@ export default function QuestListHeader({
 	return (
 		<div className="flex items-center justify-between my-1">
 			<span className="flex gap-2">
-				<TagLabel className="flex items-center rounded-full px-2">
-					<p className="text-xs">All: {quests.length.toString()}</p>
-				</TagLabel>
-				<TagLabel className="flex items-center rounded-full px-2">
-					<p className="text-xs">Doing: 5</p>
-				</TagLabel>
-				<TagLabel className="flex items-center rounded-full px-2">
-					<p className="text-xs">Done: 5</p>
-				</TagLabel>
+				<QuestFilterToggles />
 			</span>
 			<span className="flex text-sm items-center bg-accent text-white  py-1 rounded-md px-3">
 				<button

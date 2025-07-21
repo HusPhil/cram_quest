@@ -25,7 +25,7 @@ export default function BattleCombatPanel({
 	handleKillEnemy,
 }: BattleCombatPanelProps) {
 	return (
-		<div className="w-full flex flex-col items-center">
+		<div className="w-full flex flex-col items-center overflow-hidden">
 			<div className="w-full border rounded-md mb-3 p-2 flex gap-2 px-5 items-center justify-between border-accent bg-accent/15">
 				<TbTargetArrow
 					className="w-6 h-6 shrink-0"
@@ -47,7 +47,7 @@ export default function BattleCombatPanel({
 			</p>
 
 			<div className="flex flex-col items-center w-full">
-				<p className="line-clamp-2 text-white text-center">
+				<p className="line-clamp-2 text-white text-center ">
 					{currentTask.description}
 				</p>
 			</div>
