@@ -14,7 +14,7 @@ export default function SubjectHeader({
 
 	return (
 		<>
-			<div className="flex-none px-6 py-4 bg-secondary/30 border-b-2 border-accent/30">
+			<div className="flex-none px-7 py-5 bg-background">
 				{/* CALL TO ACTION BUTTON AND THE HEADER TITLE */}
 				<div className="flex items-center justify-between mb-4">
 					<h1 className="text-3xl font-rpg text-accent">Subjects</h1>

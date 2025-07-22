@@ -71,7 +71,8 @@ export default function Sidebar() {
 				className={`
 					flex flex-col
 					fixed lg:sticky top-0 h-[100dvh] z-[777]
-					bg-gray-900/95 backdrop-blur-md w-64
+					border-r border-white/10
+					bg-secondary backdrop-blur-md w-64
 					transition-all duration-300 ease-out
 					${isMobileOpen ? 'left-0' : '-left-64 lg:left-0'}
 					${isCollapsed ? 'lg:w-20' : 'lg:w-64'}

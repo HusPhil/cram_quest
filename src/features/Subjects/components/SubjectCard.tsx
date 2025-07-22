@@ -48,6 +48,7 @@ export default function SubjectCard({
 				tabIndex={0}
 				onClick={onClick}
 				className={`
+				border border-white/10
 				active:scale-90 
 				relative rounded-lg 
 				bg-secondary/80 

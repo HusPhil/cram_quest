@@ -42,9 +42,9 @@ const NavItem = ({
 				{icon}
 			</div>
 
-			<span
+			<p
 				className={`
-					font-medium tracking-wide whitespace-nowrap
+					tracking-wide whitespace-nowrap
 					transition-all duration-300
 					${isCollapsed ? 'lg:hidden' : 'opacity-100 ml-3'}
 					${isMobileOpen && 'ml-3'}
@@ -52,7 +52,7 @@ const NavItem = ({
 				`}
 			>
 				{label}
-			</span>
+			</p>
 
 			{isActive && (
 				<div

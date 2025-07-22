@@ -8,9 +8,9 @@ export default {
 			colors: {
 				danger: '#D14444',
 				success: '#34CF44',
-				secondary: '#111827',
-				accent: '#E6B800',
-				background: '#1E1E2E',
+				secondary: '#2c2c35',
+				accent: '#db9a40',
+				background: '#22222a',
 				text: '#D0D0D0',
 				crystal: {
 					light: '#5BE7FF', // Bright Cyan Crystal
