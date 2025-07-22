@@ -51,7 +51,7 @@ export default function SubjectCard({
 				border border-white/10
 				active:scale-90 
 				relative rounded-lg 
-				bg-secondary/80 
+				bg-secondary
 				transition-all duration-300 
 				flex flex-col gap-3 w-full
 				${isLoading ? 'opacity-30 pointer-events-none' : ''}
