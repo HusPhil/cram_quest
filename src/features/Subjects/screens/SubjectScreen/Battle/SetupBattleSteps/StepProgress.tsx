@@ -11,7 +11,7 @@ export default function StepProgress({
 }: StepProgressProps) {
 	return (
 		<div className="w-full">
-			<div className="flex justify-between mb-2">
+			<div className="flex justify-between mb-2 px-1 pb-1">
 				{steps.map((step, index) => (
 					<div
 						key={index}
@@ -48,7 +48,7 @@ export default function StepProgress({
 								index + 1
 							)}
 						</div>
-						<span className="text-xs md:text-sm mt-1 ">
+						<span className="text-xs md:text-sm mt-2">
 							{step.name}
 						</span>
 					</div>

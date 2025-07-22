@@ -31,7 +31,7 @@ export function SubjectScreenHeader({
 			<div className="flex justify-between w-full ">
 				<button
 					onClick={closeScreen}
-					className="flex px-3 py-2 items-center justify-center gap-2 hover:bg-danger/25 border-danger/10 rounded-md"
+					className="flex px-3 py-2 items-center justify-center gap-2 hover:bg-danger/25 rounded-md hover:scale-95 active:scale-110 transition-all duration-150"
 				>
 					<TbArrowLeft className="w-5 h-5" />
 					<p className="text-sm">Subjects</p>

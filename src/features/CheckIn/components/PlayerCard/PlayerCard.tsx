@@ -39,7 +39,7 @@ export function PlayerCard({
 	return (
 		<>
 			<div
-				className="flex items-center flex-col lg:flex-row lg:justify-around px-3 bg-accent/0 rounded-lg shadow-md"
+				className="flex items-center flex-col  lg:justify-around px-3 bg-accent/0 rounded-lg shadow-md"
 				title="Player Card"
 			>
 				<div className="flex-1 w-full">

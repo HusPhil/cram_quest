@@ -17,9 +17,11 @@ const RankTitle: React.FC<RankTitleProps> = ({
 	};
 
 	return (
-		<div className={`relative ${className} group font-medium px-3`}>
+		<div
+			className={`relative ${className} group font-medium px-3 flex justify-center`}
+		>
 			<div
-				className={`relative px-6 py-1 ${colorStyles[color]} 
+				className={`relative px-6 py-1 max-w-[300px] w-full ${colorStyles[color]} 
           border-2 backdrop-blur-sm text-center
           before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2
           before:w-4 before:h-8 before:bg-inherit before:border-l-2 before:border-t-2 before:border-b-2

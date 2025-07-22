@@ -10,12 +10,15 @@ interface QuestListProps {
 
 export default function QuestList({ quests }: QuestListProps) {
 	const questFilters = useSubjectStore_UI((state) => state.questFilters);
+
 	const setQuestFilters = useSubjectStore_UI(
 		(state) => state.setQuestFilters
 	);
+
 	const filteredQuests = quests.filter((quest) =>
 		questFilters.includes(quest.status)
 	);
+
 	useEffect(() => {
 		return () => {
 			setQuestFilters('to_do');
