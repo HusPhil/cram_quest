@@ -32,7 +32,7 @@ const SubjectList = ({
                   scroll-smooth -webkit-overflow-scrolling-touch no-scrollbar"
 				>
 					<div
-						className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-4
+						className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4
                     "
 					>
 						{(subjects ?? []).map((subject, index) => (

@@ -91,10 +91,7 @@ export default function Sidebar() {
 				<nav className="p-3 flex-1 flex flex-col justify-between">
 					<div className="space-y-1">
 						{navItems.map(({ path, label, icon }) => {
-							const isActive =
-								path === '/home'
-									? location.pathname.startsWith('/home')
-									: location.pathname === path;
+							const isActive = location.pathname === path;
 
 							return (
 								<NavItem
@@ -138,17 +135,17 @@ export const MobileSidebar = ({
 			{/* The overlay */}
 			{isMobileOpen && (
 				<div
-					className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden"
+					className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 lg:hidden"
 					onClick={() => setIsMobileOpen(false)}
 				/>
 			)}
 
 			{/* Mobile Menu Toggle with Current Tab */}
-			<div className="relative lg:hidden flex items-center gap-3 p-2 bg-gray-900/95">
+			<div className="relative lg:hidden flex items-center gap-3 p-4 bg-secondary border-b border-white/10">
 				<button
 					onClick={handleSetIsMobileOpen}
 					className="p-2.5 rounded-xl self-end
-                    bg-gray-900/95 backdrop-blur-sm border border-amber-500/20
+                    bg-secondary backdrop-blur-sm border border-white/10
                     active:scale-95 transition-all duration-200"
 				>
 					<GiHamburgerMenu className="w-5 h-5 text-amber-400" />
@@ -156,10 +153,10 @@ export const MobileSidebar = ({
 
 				{/* Current Tab Info */}
 				<div className="flex items-center gap-2">
-					<span className="font-medium text-amber-400 text-xl">
-						{navItems.find(
-							(item) => item.path === location.pathname
-						)?.label || 'Home'}
+					<span className="font-medium text-amber-400 text-lg">
+						{navItems.find((item) =>
+							location.pathname.includes(item.path)
+						)?.label || 'UNKNOWN'}
 					</span>
 				</div>
 			</div>

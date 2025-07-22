@@ -62,7 +62,7 @@ const Modal = ({
 			{/* Modal Container */}
 			<div
 				ref={modalRef}
-				className={`relative z-50 w-11/12 max-w-md transform rounded-lg max-h-[80%] overflow-auto	 border-2 ${getBorderFromVariant(
+				className={`relative z-50 w-11/12 max-w-[500px] transform rounded-lg max-h-[80%] overflow-auto border-2 ${getBorderFromVariant(
 					variant
 				)}`}
 			>
