@@ -39,15 +39,27 @@ export function SubjectScreen({
 	const [_, setCurrentPage] = useState<React.ReactNode>(null);
 	const subjectQuests = useSubjectStore_UI((state) => state.subjectQuests);
 
+	const handleToggleLearningTab = () => {
+		setActiveTab((prev) =>
+			prev !== PAGE_TITLES.LEARNING
+				? PAGE_TITLES.LEARNING
+				: PAGE_TITLES.QUESTS
+		);
+
+		return activeTab === PAGE_TITLES.LEARNING;
+	};
+
 	return (
 		<>
-			<div className="flex flex-1 flex-col h-[100dvh] max-h-full mx-3 py-3">
+			<div className="flex flex-1 flex-col h-[100dvh] max-h-full mx-2.5 py-3">
 				<div>
 					<SubjectScreenHeader
 						subjectId={subjectId}
 						subjectCodeName={subjectCodeName}
 						subjectDifficulty={subjectDifficulty}
 						subjectDescription={subjectDescription}
+						learningTabToggled={activeTab === PAGE_TITLES.LEARNING}
+						toggleLearningTab={handleToggleLearningTab}
 					/>
 				</div>
 				{/* Scrollable Body */}

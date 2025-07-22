@@ -1,3 +1,4 @@
+import { TbChecks } from 'react-icons/tb';
 import { QuestStatus } from '../../../../services/api/schema/quest_schema';
 import { useSubjectStore_UI } from '../../stores/subjectStore_UI';
 
@@ -16,16 +17,20 @@ export default function QuestFilterToggleButton({
 	const toggleQuestFilter = useSubjectStore_UI(
 		(state) => state.toggleQuestFilter
 	);
-	const baseStyles =
-		'py-1 px-3 bg-accent/15 border-accent border rounded-md ';
-	const toggledStyles = toggled ? '' : 'opacity-50';
+	const baseStyles = 'py-1 px-3 rounded-md flex items-center gap-1 ';
+	const toggledStyles = toggled
+		? 'bg-accent text-background border border-accent'
+		: 'opacity-35 border';
 
 	return (
 		<button
 			className={baseStyles + toggledStyles}
 			onClick={() => toggleQuestFilter(filterType)}
 		>
-			<p className="text-sm">{title}</p>
+			<p className={`${toggled ? 'text-xs py-0.5' : 'text-sm'}`}>
+				{title}
+			</p>
+			{toggled && <TbChecks />}
 		</button>
 	);
 }

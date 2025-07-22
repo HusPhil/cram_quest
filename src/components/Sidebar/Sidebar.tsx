@@ -156,7 +156,7 @@ export const MobileSidebar = ({
 					<span className="font-medium text-amber-400 text-lg">
 						{navItems.find((item) =>
 							location.pathname.includes(item.path)
-						)?.label || 'UNKNOWN'}
+						)?.label || 'Loading..'}
 					</span>
 				</div>
 			</div>
