@@ -41,7 +41,7 @@ export function SubjectScreen({
 
 	return (
 		<>
-			<div className="flex flex-1 flex-col h-full max-h-full">
+			<div className="flex flex-1 flex-col h-[100dvh] max-h-full mx-3 py-3">
 				<div>
 					<SubjectScreenHeader
 						subjectId={subjectId}

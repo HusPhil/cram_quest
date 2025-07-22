@@ -12,7 +12,7 @@ const EmptyListNote: React.FC<EmptyListNoteProps> = ({
 	className,
 }) => (
 	<div
-		className={`text-center text-base h-full flex items-center justify-center italic ${className}`}
+		className={`text-center text-base flex items-center justify-center italic ${className}`}
 	>
 		<span>
 			{message}

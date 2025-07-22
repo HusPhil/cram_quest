@@ -20,17 +20,17 @@ export default function QuestsPage({ subjectId }: { subjectId: number }) {
 	}, [subjectQuests]);
 
 	return (
-		<div className="flex flex-1 h-full flex-col">
+		<div className="flex flex-1 h-full max-h-full flex-col">
 			{!subjectQuestsLoading && (
 				<>
-					<div className="shrink-0">
+					<div className="">
 						<QuestListHeader
 							quests={subjectQuests}
 							subjectId={subjectId}
 						/>
 					</div>
 
-					<div className="flex-1 min-h-0 overflow-auto space-y-4 mt-4 no-scrollbar">
+					<div className="overflow-auto h-full no-scrollbar flex-1">
 						<QuestList quests={subjectQuests as QuestRead[]} />
 					</div>
 				</>

@@ -1,4 +1,3 @@
-import TagLabel from '../../../../components/TagLabel';
 import { FaPlus } from 'react-icons/fa';
 import { QuestRead } from '../../../../services/api/schema/quest_schema';
 import { useSubjectStore_UI } from '../../stores/subjectStore_UI';
@@ -13,18 +12,17 @@ export default function QuestListHeader({
 	const setActiveModal = useSubjectStore_UI((state) => state.setActiveModal);
 
 	return (
-		<div className="flex items-center justify-between my-1">
+		<div className="flex items-center justify-between py-5">
 			<span className="flex gap-2">
 				<QuestFilterToggles />
 			</span>
-			<span className="flex text-sm items-center bg-accent text-white  py-1 rounded-md px-3">
-				<button
-					className="flex items-center gap-1 text-xs"
-					onClick={() => setActiveModal('AddNewQuestModal')}
-				>
-					Add <FaPlus className="w-3 h-3" />
-				</button>
-			</span>
+			<button
+				className="flex items-center gap-1 py-1 px-3 bg-accent text-background border-accent border rounded-md active:scale-95 transition-transform"
+				onClick={() => setActiveModal('AddNewQuestModal')}
+			>
+				<FaPlus className="w-3 h-3" />
+				<p className="text-sm">Add</p>
+			</button>
 		</div>
 	);
 }

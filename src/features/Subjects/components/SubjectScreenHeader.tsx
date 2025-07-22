@@ -16,17 +16,19 @@ export function SubjectScreenHeader({
 	const { closeScreen } = useFloatingScreen();
 
 	return (
-		<div className="flex justify-start items-center mr-2 h-full">
-			<div className="h-full">
-				<button onClick={closeScreen} className="pl-2 pr-7 py-2 h-full">
-					<FaArrowLeft />
-				</button>
-			</div>
-			<div>
-				<h2 className="line-clamp-2  text-xl font-bold">
+		<div className="justify-start items-center h-full">
+			<button
+				onClick={closeScreen}
+				className="flex px-3 py-2 items-center justify-center gap-2 hover:bg-danger/25 border-danger/10 rounded-md"
+			>
+				<FaArrowLeft />
+				<p className="text-sm">Back to Subjects</p>
+			</button>
+			<div className="px-2 space-y-5 mt-5">
+				<p className="line-clamp-2 text-2xl font-bold text-accent">
 					{subjectDescription}
-				</h2>
-				<small className="text-text/40">{`${subjectCodeName}`}</small>
+				</p>
+				<small className="text-text/50">{`${subjectCodeName}`}</small>
 			</div>
 		</div>
 	);

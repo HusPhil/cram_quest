@@ -56,7 +56,7 @@ export function SubjectScreenBody({
 		<>
 			<div className="flex flex-col h-full max-h-full">
 				{/* Tabs stay fixed */}
-				<Tabs
+				{/* <Tabs
 					activeTab={activeTab}
 					setActiveTab={setActiveTab}
 					tabs={[
@@ -71,7 +71,7 @@ export function SubjectScreenBody({
 					]}
 					className="my-2 text-sm"
 					activeClassName="font-bold border-accent text-accent"
-				/>
+				/> */}
 
 				{/* Scrollable page content */}
 				<div className="flex-1 min-h-0 overflow-auto no-scrollbar">

@@ -24,15 +24,19 @@ export default function QuestList({ quests }: QuestListProps) {
 	return (
 		<>
 			{filteredQuests.length > 0 ? (
-				filteredQuests.map((quest) => (
-					<QuestCard key={quest.id} quest={quest} />
-				))
+				<div className="space-y-3 mt-3">
+					{filteredQuests.map((quest) => (
+						<QuestCard key={quest.id} quest={quest} />
+					))}
+				</div>
 			) : (
-				<EmptyListNote
-					message="No quests found"
-					hint="Add a new quest"
-					className="text-xl"
-				/>
+				<div className="flex items-center justify-center h-full">
+					<EmptyListNote
+						message="No quests found,"
+						hint="Add a new quest!"
+						className="text-xl "
+					/>
+				</div>
 			)}
 		</>
 	);
