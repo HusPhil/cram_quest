@@ -42,7 +42,7 @@ export default function AddNewQuestModal({ subjectId }: AddNewQuestModalProps) {
 			subject_id: subjectId,
 			difficulty,
 			description: formData.get('description') as string,
-			status: 'to_do' as QuestStatus,
+			status: 'todo' as QuestStatus,
 		};
 
 		console.log('questCreate', questCreate);

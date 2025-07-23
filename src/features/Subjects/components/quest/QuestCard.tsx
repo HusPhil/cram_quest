@@ -6,26 +6,51 @@ import { useQueryClient } from '@tanstack/react-query';
 import { formatIsoDate } from '../../../../utils/formatISODate';
 import { timeAgo } from '../../../../utils/timeAgo';
 import StarRating from '../ui/StarRating';
+import { useSubjectStore_UI } from '../../stores/subjectStore_UI';
 
 interface QuestCardProps {
 	quest: QuestRead;
 }
 
 export default function QuestCard({ quest }: QuestCardProps) {
-	const queryClient = useQueryClient();
+	const setActiveModal = useSubjectStore_UI((state) => state.setActiveModal);
 
-	const SUBJECT_QUESTS_QUERY_KEY = ['subjects', quest.subject_id, 'quests'];
+	const statusStyle = (status: QuestStatus): string => {
+		const baseStyles =
+			'bg-background/50  text-xs capitalize py-1 px-2 rounded-md ';
 
-	const statusStyle = (status: QuestStatus) => {};
+		let statusStyles = '';
+
+		if (status === 'todo') statusStyles = 'border-white/10 ';
+		if (status === 'done') statusStyles = ' text-success';
+		if (status === 'archive') statusStyles = 'text-danger';
+		if (status === 'doing') statusStyles = 'text-accent';
+
+		return statusStyles + ' ' + baseStyles;
+	};
 
 	return (
 		<div
-			className={`bg-secondary border-white/10 border rounded-lg pt-3 pb-1 px-3 fade-in-on-view`}
+			onClick={() => setActiveModal('ViewQuestModal', quest)}
+			className={`bg-secondary border-white/10 border rounded-lg py-2 px-3 fade-in-on-view lg:hover:opacity-50 active:scale-95 transition-all duration-300`}
 		>
 			<div className="flex justify-between items-start ">
-				<div className="flex ">
-					<p>{quest.status}</p>
-					<StarRating value={quest.difficulty} />
+				<div>
+					<div className="flex gap-2">
+						<div className={statusStyle(quest.status)}>
+							<p>{quest.status}</p>
+						</div>
+						<StarRating
+							value={quest.difficulty}
+							starClassName="w-3.5 h-3.5"
+						/>
+					</div>
+					<p className="text-base m-2">{quest.description}</p>
+				</div>
+				<div>
+					<small className="text-text/50 text-xs mx-1">
+						{timeAgo(quest.created_at)}
+					</small>
 				</div>
 			</div>
 		</div>

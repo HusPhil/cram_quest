@@ -9,6 +9,7 @@ import { SubjectRead } from '../../../services/api/schema/subject_schema';
 
 export type ModalObjectMap = {
 	AddNewSubjectModal: never;
+	ViewQuestModal: QuestRead;
 	EditSubjectModal: SubjectRead;
 	AddNewMaterialModal: never;
 	EditMaterialModal: MaterialRead;
