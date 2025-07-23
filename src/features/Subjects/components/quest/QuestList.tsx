@@ -21,7 +21,7 @@ export default function QuestList({ quests }: QuestListProps) {
 
 	useEffect(() => {
 		return () => {
-			setQuestFilters('to_do');
+			setQuestFilters('todo');
 		};
 	}, []);
 	return (

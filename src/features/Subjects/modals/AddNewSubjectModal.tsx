@@ -116,6 +116,8 @@ export default function AddNewSubjectModal({
 							onChange={(rating: number) => {
 								setDifficulty(rating);
 							}}
+							editable
+							displayOnly={false}
 						/>
 					</div>
 				</div>

@@ -161,6 +161,8 @@ const UpdateSubjectSection = ({
 				<StarRating
 					value={difficulty}
 					onChange={(rating: number) => setDifficulty(rating)}
+					editable
+					displayOnly={false}
 				/>
 			</div>
 

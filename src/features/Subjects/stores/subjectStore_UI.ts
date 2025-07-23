@@ -18,7 +18,7 @@ export type ModalObjectMap = {
 
 export type ModalKey = keyof ModalObjectMap;
 
-export type QuestFilter = 'all' | 'to_do' | 'doing' | 'done';
+export type QuestFilter = 'all' | 'todo' | 'doing' | 'done';
 
 interface SubjectLayoutState {
 	activeModal: ModalKey | null;
@@ -50,7 +50,7 @@ export const useSubjectStore_UI = create<
 		activeModal: null,
 		activeModalObject: null,
 
-		questFilters: ['to_do'],
+		questFilters: ['todo'],
 
 		subjectQuests: null,
 

@@ -35,7 +35,12 @@ export default function LearningStatus({
 			<div className="flex items-center justify-between">
 				<span className="flex items-center justify-start gap-3 py-2">
 					<h1 className="text-md font-bold">Status: </h1>
-					<StarRating value={rating} onChange={setRating} />
+					<StarRating
+						value={rating}
+						onChange={setRating}
+						editable
+						displayOnly={false}
+					/>
 				</span>
 				<span className="flex text-sm items-center bg-accent text-white p-1 rounded-md px-3">
 					<button

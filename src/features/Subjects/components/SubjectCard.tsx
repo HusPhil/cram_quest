@@ -90,21 +90,11 @@ export default function SubjectCard({
 
 				{/* Difficulty Indicator */}
 				<div className="flex items-end justify-between gap-1 cursor-pointer  flex-1">
-					<div
-						className={`${
-							isEditEnabled ? '' : 'flex-1'
-						} pb-4 px-4 `}
-					>
-						<StarRating
-							value={difficulty}
-							className={`transition-all duration-300 ease-in-out ${
-								isEditEnabled
-									? 'bg-yellow-100 gap-x-1 border-yellow-400 border-2 p-1 scale-125'
-									: 'scale-100'
-							}`}
-							starClassName="w-3 h-3"
-						/>
-					</div>
+					<StarRating
+						value={difficulty}
+						className="pb-4 px-4 "
+						starClassName="w-3 h-3 "
+					/>
 					<button
 						className="pb-4 px-4"
 						onClick={(e) => {

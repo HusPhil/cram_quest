@@ -101,6 +101,8 @@ export default function AddNewQuestModal({ subjectId }: AddNewQuestModalProps) {
 					<StarRating
 						value={difficulty}
 						onChange={(rating: number) => setDifficulty(rating)}
+						editable
+						displayOnly={false}
 					/>
 				</div>
 

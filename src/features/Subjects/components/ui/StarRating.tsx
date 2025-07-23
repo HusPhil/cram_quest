@@ -1,9 +1,10 @@
-import { GiRoundStar } from 'react-icons/gi';
+import { TbStar, TbStarFilled } from 'react-icons/tb';
 
 interface StarRatingProps {
 	value: number;
 	onChange?: (value: number) => void;
 	editable?: boolean;
+	displayOnly?: boolean;
 	max?: number;
 	className?: string;
 	starClassName?: string;
@@ -16,9 +17,34 @@ export default function StarRating({
 	value,
 	onChange,
 	onKeyDown,
-	editable = true,
+	editable = false,
+	displayOnly = true,
 	max = 5,
 }: StarRatingProps) {
+	const stars = Array.from({ length: max }, (_, i) => {
+		const rating = i + 1;
+		const isActive = rating <= value;
+
+		return (
+			<TbStarFilled
+				key={rating}
+				className={`${starClassName} ${
+					isActive ? 'text-amber-400' : 'text-gray-400'
+				}`}
+			/>
+		);
+	});
+
+	if (displayOnly) {
+		return (
+			<div
+				className={`flex gap-1 justify-center items-center ${className}`}
+			>
+				{stars}
+			</div>
+		);
+	}
+
 	const handleKeyDown = (e: React.KeyboardEvent, rating: number) => {
 		if (!editable) return;
 		if (e.key === 'Enter' || e.key === ' ') {
@@ -39,7 +65,7 @@ export default function StarRating({
 	return (
 		<fieldset
 			className={`flex gap-1 ${className}`}
-			aria-label={`Star rating`}
+			aria-label="Star rating"
 		>
 			{Array.from({ length: max }, (_, i) => {
 				const rating = i + 1;
@@ -63,8 +89,7 @@ export default function StarRating({
 							className="sr-only"
 							disabled={!editable}
 						/>
-
-						<GiRoundStar
+						<TbStarFilled
 							className={`${starClassName} ${
 								isActive ? 'text-amber-400' : 'text-gray-400'
 							}`}

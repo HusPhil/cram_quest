@@ -1,4 +1,4 @@
-export type QuestStatus = 'to_do' | 'doing' | 'done' | 'archive';
+export type QuestStatus = 'todo' | 'doing' | 'done' | 'archive';
 
 interface QuestBase {
 	subject_id: number;
@@ -10,7 +10,7 @@ export interface QuestCreate extends QuestBase {}
 
 export interface QuestRead extends QuestBase {
 	id: number;
-	player_id: number;
+	created_at: string;
 }
 
 export interface QuestUpdate {
