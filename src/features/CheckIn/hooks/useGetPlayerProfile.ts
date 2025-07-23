@@ -15,16 +15,16 @@ export const useGetPlayerProfile = (playerId: number | undefined) => {
 			toastId: 'player-profile-error',
 		});
 
-	if (profileQuery.data) {
-		const setCurrentPlayerProfile =
-			useUserPlayerStore.getState().setPlayerProfile;
-		setCurrentPlayerProfile(
-			profileQuery.data.id!,
-			profileQuery.data.avatar_url!,
-			profileQuery.data.bio!,
-			profileQuery.data.mood!
-		);
-	}
+	// if (profileQuery.data) {
+	// 	const setCurrentPlayerProfile =
+	// 		useUserPlayerStore.getState().setPlayerProfile;
+	// 	setCurrentPlayerProfile(
+	// 		profileQuery.data.id!,
+	// 		profileQuery.data.avatar_url!,
+	// 		profileQuery.data.bio!,
+	// 		profileQuery.data.mood!
+	// 	);
+	// }
 
 	return profileQuery;
 };

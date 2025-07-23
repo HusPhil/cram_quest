@@ -9,6 +9,8 @@ import {
 import { useUserPlayerStore } from '../Auth/stores/userPlayerStore/userPlayerStore';
 import { useShallow } from 'zustand/shallow';
 import { useRefreshSession } from '../Auth/hooks/useRefreshSession';
+import { useGetLatestCheckIn } from './hooks/useGetLatestCheckIn';
+import { useCheckIn } from './hooks/useCheckIn';
 
 const mockWeeklyCheckInRecord = [
 	{
@@ -79,9 +81,30 @@ export default function CheckIn() {
 		refetchOnWindowFocus: true,
 	});
 
+	const latestWeeklyCheckIn = useGetLatestCheckIn(
+		currentPlayer.playerId || undefined
+	);
+
+	const checkInMutate = useCheckIn();
+
 	const parsedAvatar: ParsedPlayerAvatar = parsePlayerAvatar(
 		playerAvatarUrl!
 	);
+
+	const handleCheckIn = () => {
+		if (!currentPlayer.playerId) return;
+		checkInMutate.mutate(
+			{
+				playerId: currentPlayer.playerId,
+			},
+			{
+				onSettled: () => {
+					latestWeeklyCheckIn.refetch();
+					refreshSession.refetch();
+				},
+			}
+		);
+	};
 
 	return (
 		<div className="flex flex-col items-center justify-center flex-1 mx-4">
@@ -122,9 +145,14 @@ export default function CheckIn() {
 				/>
 			</RpgCard>
 
-			<div className="mx-3">
-				<WeeklyRecord weeklyCheckInRecord={mockWeeklyCheckInRecord} />
-			</div>
+			{!latestWeeklyCheckIn.isLoading ? (
+				<div className="mx-3">
+					<WeeklyRecord
+						weeklyCheckInRecord={latestWeeklyCheckIn.data!}
+						handleCheckIn={handleCheckIn}
+					/>
+				</div>
+			) : null}
 		</div>
 	);
 }

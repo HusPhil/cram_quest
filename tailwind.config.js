@@ -7,7 +7,7 @@ export default {
 		extend: {
 			colors: {
 				danger: '#D14444',
-				success: '#34CF44',
+				success: '#166534',
 				secondary: '#2a2a32',
 				accent: '#db9a40',
 				background: '#22222a',
