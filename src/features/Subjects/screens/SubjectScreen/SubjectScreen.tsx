@@ -10,6 +10,7 @@ import AddNewQuestModal from '../../modals/AddNewQuestModal';
 import AddNewMaterialModal from '../../modals/AddNewMaterialModal';
 import EditMaterialModal from '../../modals/EditMaterialModal';
 import StartBattleModal from '../../modals/StartBattleModal';
+import ViewQuestModal from '../../modals/ViewQuestModal';
 
 export const PAGE_TITLES = {
 	QUESTS: 'QUESTS',
@@ -51,7 +52,7 @@ export function SubjectScreen({
 
 	return (
 		<>
-			<div className="flex flex-1 flex-col h-[100dvh] max-h-full mx-2.5 py-3">
+			<div className="flex flex-1 flex-col w-full max-w-[1200px] h-[100dvh] max-h-full mx-2.5 py-5 ">
 				<div>
 					<SubjectScreenHeader
 						subjectId={subjectId}
@@ -87,6 +88,10 @@ export function SubjectScreen({
 				material={
 					activeModalObject as ModalObjectMap['EditMaterialModal']
 				}
+			/>
+
+			<ViewQuestModal
+				quest={activeModalObject as ModalObjectMap['ViewQuestModal']}
 			/>
 
 			<StartBattleModal

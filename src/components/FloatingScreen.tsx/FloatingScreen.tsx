@@ -23,7 +23,7 @@ const FloatingScreen = React.memo(function FloatingScreen({
 	);
 
 	const contentClassName = useMemo(
-		() => `flex flex-col h-full w-full ${className}`,
+		() => `flex flex-col h-full w-full items-center ${className}`,
 		[className]
 	);
 

@@ -3,7 +3,7 @@ import FloatingScreen from '../components/FloatingScreen.tsx/FloatingScreen';
 
 const Home = () => {
 	return (
-		<div className="h-full w-full flex flex-col relative">
+		<div className="h-full w-full flex flex-col relative items-center">
 			{/* Main Display Area */}
 			<Outlet />
 			<FloatingScreen className="px-3 pt-3" />

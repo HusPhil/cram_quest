@@ -42,7 +42,7 @@ export default function Subjects() {
 		useGetPlayerSubjects(currentPlayerId!);
 
 	return (
-		<div className="h-full w-full flex flex-col py-3 px-3.5 md:py-5 md:px-7">
+		<div className="h-full w-full max-w-[1200px] flex flex-col py-3 px-3.5 md:py-5 md:px-7">
 			{/* Header section with fixed height */}
 
 			{subjectsIsLoading ? (
