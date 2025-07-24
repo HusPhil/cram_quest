@@ -32,7 +32,7 @@ export default function QuestCard({ quest }: QuestCardProps) {
 	return (
 		<div
 			onClick={() => setActiveModal('ViewQuestModal', quest)}
-			className={`bg-secondary border-white/10 border rounded-lg py-2 px-3 fade-in-on-view lg:hover:opacity-50 active:scale-95 transition-all duration-300`}
+			className={`bg-secondary border-white/10 border rounded-lg py-2 px-3 fade-in-on-view lg:hover:opacity-50 active:scale-95 transition-all duration-300 hover:cursor-pointer`}
 		>
 			<div className="flex justify-between items-start ">
 				<div>
