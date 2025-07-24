@@ -1,13 +1,29 @@
 import React, { useEffect, useRef, useState } from 'react';
+
 import Modal from '../../../components/Modal';
+
 import StarRating from '../components/ui/StarRating';
+
 import DeleteWithConfirm from '../components/ui/DeleteWithConfirm';
+
 import { useQueryClient } from '@tanstack/react-query';
-import { useDeleteSubject } from '../hooks/subject/useDeleteSubject';
+
 import { toast } from 'react-toastify';
-import { useUpdateSubject } from '../hooks/subject/useUpdateSubject';
+
 import { useSubjectStore_UI } from '../stores/subjectStore_UI';
-import { QuestRead } from '../../../services/api/schema/quest_schema';
+
+import {
+	QuestRead,
+	QuestStatus, // Assuming QuestStatus enum exists and includes 'todo', 'doing', 'done'
+} from '../../../services/api/schema/quest_schema';
+
+import { useDeleteQuest } from '../hooks/quest/useDeleteQuest';
+
+import { useUpdateQuest } from '../hooks/quest/useUpdateQuest';
+
+import { TbSwords } from 'react-icons/tb';
+import { FaArchive, FaSave } from 'react-icons/fa'; // Added new icons
+import { useBattleSetupStore } from '../../Battle/stores/battleSetupStore';
 
 interface ViewQuestModalProps {
 	quest?: QuestRead;
@@ -27,7 +43,7 @@ export default function ViewQuestModal({ quest: quest }: ViewQuestModalProps) {
 			onClose={closeActiveModal}
 			title="Ready for battle?"
 		>
-			<UpdateSubjectSection
+			<UpdateQuestSection
 				quest={quest}
 				handleCloseModal={closeActiveModal}
 			/>
@@ -35,47 +51,51 @@ export default function ViewQuestModal({ quest: quest }: ViewQuestModalProps) {
 	);
 }
 
-interface UpdateQuestSection {
+interface UpdateQuestSectionProps {
 	quest: QuestRead;
 	handleCloseModal: () => void;
 }
 
-const UpdateSubjectSection = ({
+const UpdateQuestSection = ({
 	quest,
 	handleCloseModal,
-}: UpdateQuestSection) => {
+}: UpdateQuestSectionProps) => {
 	const formRef = useRef<HTMLFormElement>(null);
-	const subjectNameRef = useRef<HTMLInputElement>(null);
 	const descriptionRef = useRef<HTMLTextAreaElement>(null);
 	const [difficulty, setDifficulty] = useState(quest.difficulty);
+	const [selectedCategory, setSelectedCategory] = useState<QuestStatus>(
+		quest.status
+	);
 
 	const queryClient = useQueryClient();
 
-	const deleteSubjectMutate = useDeleteSubject();
+	const deleteQuestMutate = useDeleteQuest();
+	const updateQuestMutate = useUpdateQuest();
 
-	const updateSubjectMutate = useUpdateSubject();
+	const setActiveModal = useSubjectStore_UI((state) => state.setActiveModal);
+	const selectQuest = useBattleSetupStore((state) => state.selectQuest);
 
-	const SUBJECTS_QUERY_KEY = ['subjects', quest.subject_id, 'quests'];
+	const SUBJECT_QUESTS_QUERY_KEY = ['subjects', quest.subject_id, 'quests'];
 
 	const [isDeleting, setIsDeleting] = useState(false);
 
 	const handleSubmit = (event: React.FormEvent) => {
 		event.preventDefault();
-		updateSubjectMutate.mutate(
+		updateQuestMutate.mutate(
 			{
-				subjectId: quest.id,
-				subjectUpdate: {
-					code_name: subjectNameRef.current?.value ?? '',
+				questId: quest.id,
+				questUpdate: {
 					description: descriptionRef.current?.value ?? '',
 					difficulty,
+					status: selectedCategory,
 				},
 			},
 			{
 				onSuccess() {
 					queryClient.invalidateQueries({
-						queryKey: SUBJECTS_QUERY_KEY,
+						queryKey: SUBJECT_QUESTS_QUERY_KEY,
 					});
-					toast.success('Subject updated successfully');
+					toast.success('Quest updated successfully');
 				},
 				onSettled() {
 					handleCloseModal();
@@ -85,22 +105,43 @@ const UpdateSubjectSection = ({
 	};
 
 	const handleDeleteConfirmed = async () => {
-		await deleteSubjectMutate.mutateAsync({ subjectId: quest.id });
+		await deleteQuestMutate.mutateAsync({ questId: quest.id });
 
-		if (!deleteSubjectMutate.isError) {
+		if (!deleteQuestMutate.isError) {
 			await queryClient.invalidateQueries({
-				queryKey: SUBJECTS_QUERY_KEY,
+				queryKey: SUBJECT_QUESTS_QUERY_KEY,
 			});
 			toast.success('Quest deleted successfully');
 			handleCloseModal();
 		}
 	};
 
-	useEffect(() => {
-		if (subjectNameRef.current) {
-			subjectNameRef.current.focus();
-		}
-	}, []);
+	const handleArchiveQuest = async () => {
+		updateQuestMutate.mutate(
+			{
+				questId: quest.id,
+				questUpdate: {
+					status: 'archive' as QuestStatus, // Assuming 'archive' is a valid QuestStatus or a custom value
+				},
+			},
+			{
+				onSuccess() {
+					queryClient.invalidateQueries({
+						queryKey: SUBJECT_QUESTS_QUERY_KEY,
+					});
+					toast.info('Quest archived successfully!');
+				},
+				onSettled() {
+					handleCloseModal();
+				},
+			}
+		);
+	};
+
+	const handleStartBattle = async () => {
+		setActiveModal('StartBattleModal', { initialStep: 1 });
+		selectQuest(quest);
+	};
 
 	return (
 		<form
@@ -123,46 +164,154 @@ const UpdateSubjectSection = ({
 					name="description"
 					defaultValue={quest.description}
 					ref={descriptionRef}
-					className="w-full rounded-lg bg-secondary/50 border border-accent/30 p-2 
-							 text-text placeholder-text/50 focus:border-accent/60 focus:outline-none
-							 transition-colors min-h-[100px] resize-none"
+					className="w-full rounded-lg bg-secondary/50 border border-accent/30 p-2
+                                text-text placeholder-text/50 focus:border-accent/60 focus:outline-none
+                                transition-colors min-h-[100px] resize-none"
 					placeholder="Describe your subject..."
 				/>
 			</div>
 
-			<div className="space-y-2">
-				<label
-					htmlFor="difficulty"
-					className="block font-rpg text-accent text-sm"
-				>
-					Difficulty
-				</label>
-				<StarRating
-					value={difficulty}
-					onChange={(rating: number) => setDifficulty(rating)}
-					editable
-					displayOnly={false}
-				/>
+			<div className="flex flex-col gap-4">
+				<div className="flex-1">
+					<label
+						htmlFor="status"
+						className="block font-rpg text-accent text-sm mb-2"
+					>
+						Status
+					</label>
+					{/* Replaced select with iconed radio buttons */}
+					<div className="flex flex-wrap gap-2 ">
+						{/* Todo Status */}
+						<label
+							className={`flex gap-2 items-center justify-center py-2 px-3 rounded-lg cursor-pointer
+                                       border transition-colors duration-200
+                                       ${
+											selectedCategory === 'todo'
+												? 'bg-accent/30 border-accent text-accent'
+												: 'bg-secondary/50 border-accent/30 text-text hover:bg-secondary/70'
+										}`}
+						>
+							<input
+								type="radio"
+								name="status"
+								value="todo"
+								checked={selectedCategory === 'todo'}
+								onChange={() => setSelectedCategory('todo')}
+								className="hidden" // Hide the default radio button
+							/>
+
+							<span className="font-rpg text-sm">Todo</span>
+						</label>
+
+						{/* Doing Status */}
+						<label
+							className={`flex gap-2 items-center justify-center py-2 px-3 rounded-lg cursor-pointer
+                                       border transition-colors duration-200
+                                       ${
+											selectedCategory === 'doing'
+												? 'bg-accent/30 border-accent text-accent'
+												: 'bg-secondary/50 border-accent/30 text-text hover:bg-secondary/70'
+										}`}
+						>
+							<input
+								type="radio"
+								name="status"
+								value="doing"
+								checked={selectedCategory === 'doing'}
+								onChange={() => setSelectedCategory('doing')}
+								className="hidden"
+							/>
+
+							<span className="font-rpg text-sm">Doing</span>
+						</label>
+
+						{/* Done Status */}
+						<label
+							className={`flex gap-2 items-center justify-center py-2 px-3 rounded-lg cursor-pointer
+                                       border transition-colors duration-200
+                                       ${
+											selectedCategory === 'done'
+												? 'bg-accent/30 border-accent text-accent'
+												: 'bg-secondary/50 border-accent/30 text-text hover:bg-secondary/70'
+										}`}
+						>
+							<input
+								type="radio"
+								name="status"
+								value="done"
+								checked={selectedCategory === 'done'}
+								onChange={() => setSelectedCategory('done')}
+								className="hidden"
+							/>
+
+							<span className="font-rpg text-sm">Done</span>
+						</label>
+					</div>
+				</div>
+				<div className="flex-1">
+					<label
+						htmlFor="difficulty"
+						className="block font-rpg text-accent text-sm mb-2"
+					>
+						Difficulty
+					</label>
+					<StarRating
+						value={difficulty}
+						onChange={(rating: number) => setDifficulty(rating)}
+						editable
+						displayOnly={false}
+					/>
+				</div>
 			</div>
 
-			<div className="flex justify-end w-full pt-4 gap-x-2">
-				<DeleteWithConfirm
-					deleteFn={handleDeleteConfirmed}
-					setIsDeleting={setIsDeleting}
-					className={`px-3 rounded-md bg-danger/20 border border-danger/50`}
-					iconClassName="w-4 h-4 "
-					confirmClassName="text-sm"
-				/>
+			{/* Responsive Button Layout */}
+			<div className="flex flex-col gap-y-3 pt-4">
+				{/* Save Changes, Delete, and Archive buttons group */}
+				<div className="flex gap-x-2 justify-end">
+					<DeleteWithConfirm
+						deleteFn={handleDeleteConfirmed}
+						setIsDeleting={setIsDeleting}
+						className={`px-3 rounded-md bg-danger/20 border border-danger/50`}
+						iconClassName="w-4 h-4 "
+						confirmClassName="text-sm"
+						label="Delete"
+					/>
+					<button
+						type="button"
+						onClick={handleArchiveQuest}
+						className="px-4 py-2 bg-gray-600/20 hover:bg-gray-600/30 text-gray-400
+                                   border border-gray-500 rounded-lg font-rpg text-sm
+                                   transition-all duration-200 focus:outline-none flex items-center gap-2
+                                   focus:ring-offset-background active:scale-95 hover:scale-100"
+					>
+						<FaArchive className="w-4 h-4" />
+						<span className="hidden sm:inline">Archive</span>{' '}
+						{/* Only show text on sm and up */}
+					</button>
+					<button
+						type="submit"
+						className="px-4 py-2 bg-accent/20 hover:bg-accent/30 text-accent
+                                   border border-accent rounded-lg font-rpg text-sm items-center
+                                   transition-all duration-200 focus:outline-none flex gap-2
+                                   focus:ring-offset-background active:scale-95 hover:scale-100"
+					>
+						<FaSave className="w-4 h-4" />
+						Save
+					</button>
+				</div>
+
+				{/* Start Battle! button - always full width at the bottom */}
 				<button
+					disabled={quest.status === 'done' || isDeleting}
 					type="button"
-					onClick={handleSubmit}
-					className="px-4 py-2 bg-accent/20 hover:bg-accent/30 text-accent 
-							 border border-accent rounded-lg font-rpg text-sm
-							 transition-all duration-200 focus:outline-none
-							 focus:ring-offset-background
-							 active:scale-95 hover:scale-100"
+					onClick={handleStartBattle}
+					className="w-full px-4 py-3 bg-accent disabled:opacity-50 disabled:cursor-not-allowed
+                               rounded-lg text-background
+                               transition-all duration-200 active:scale-95
+                               flex items-center justify-center gap-2"
 				>
-					Save Changes
+					<TbSwords className="w-5 h-5 font-bold" />
+					Start Battle!
 				</button>
 			</div>
 		</form>

@@ -54,6 +54,8 @@ export default function SubjectCard({
 				bg-secondary
 				transition-all duration-300 
 				flex flex-col gap-3 w-full
+				active:opacity-50
+				lg:hover:opacity-50
 				${isLoading ? 'opacity-30 pointer-events-none' : ''}
 				${className} 
 			`}
@@ -96,7 +98,7 @@ export default function SubjectCard({
 						starClassName="w-3 h-3 "
 					/>
 					<button
-						className="pb-4 px-4"
+						className="pb-4 px-4 hover:scale-110 transition-all duration-300 hover:text-accent "
 						onClick={(e) => {
 							e.stopPropagation();
 							setActiveModal('EditSubjectModal', {

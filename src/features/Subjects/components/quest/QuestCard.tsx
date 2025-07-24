@@ -35,22 +35,22 @@ export default function QuestCard({ quest }: QuestCardProps) {
 			className={`bg-secondary border-white/10 border rounded-lg py-2 px-3 fade-in-on-view lg:hover:opacity-50 active:scale-95 transition-all duration-300 hover:cursor-pointer`}
 		>
 			<div className="flex justify-between items-start ">
-				<div>
-					<div className="flex gap-2">
-						<div className={statusStyle(quest.status)}>
-							<p>{quest.status}</p>
+				<div className="w-full">
+					<div className="flex gap-2 justify-between w-full">
+						<div className="flex gap-2">
+							<p className={statusStyle(quest.status)}>
+								{quest.status}
+							</p>
+							<StarRating
+								value={quest.difficulty}
+								starClassName="w-3.5 h-3.5"
+							/>
 						</div>
-						<StarRating
-							value={quest.difficulty}
-							starClassName="w-3.5 h-3.5"
-						/>
+						<small className="text-text/50 text-xs px-1 py-1">
+							{timeAgo(quest.created_at)}
+						</small>
 					</div>
 					<p className="text-base m-2">{quest.description}</p>
-				</div>
-				<div>
-					<small className="text-text/50 text-xs mx-1">
-						{timeAgo(quest.created_at)}
-					</small>
 				</div>
 			</div>
 		</div>

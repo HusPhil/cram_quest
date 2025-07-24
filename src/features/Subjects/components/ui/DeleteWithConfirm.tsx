@@ -9,6 +9,7 @@ interface DeleteWithConfirmProps {
 	confirmClassName?: string;
 	iconClassName?: string;
 	className?: string;
+	label?: string;
 }
 
 export default function DeleteWithConfirm({
@@ -17,6 +18,7 @@ export default function DeleteWithConfirm({
 	confirmClassName,
 	iconClassName,
 	className,
+	label,
 }: DeleteWithConfirmProps) {
 	const [timer, setTimer] = useState(DELETE_CONFIRMATION_SEC);
 	const [isConfirming, setIsConfirming] = useState(false);
@@ -80,6 +82,9 @@ export default function DeleteWithConfirm({
 						isConfirming ? 'hidden' : ''
 					} ${iconClassName}`}
 				/>
+				{label && (
+					<p className="text-danger hidden lg:block ">{label}</p>
+				)}
 			</div>
 		</button>
 	);

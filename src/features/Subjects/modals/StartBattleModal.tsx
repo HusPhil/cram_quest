@@ -1,4 +1,4 @@
-import { JSX, useState } from 'react';
+import { JSX, useEffect, useState } from 'react';
 import { QuestRead } from '../../../services/api/schema/quest_schema';
 import Modal from '../../../components/Modal';
 import StepProgress from '../screens/SubjectScreen/Battle/SetupBattleSteps/StepProgress';
@@ -29,6 +29,7 @@ export interface SetupBattleStep {
 interface StartBattleModalProps {
 	subjectId: number;
 	subjectQuests?: QuestRead[];
+	initialStepNumber?: number;
 }
 
 const steps: SetupBattleStep[] = [
@@ -49,6 +50,7 @@ const steps: SetupBattleStep[] = [
 export default function StartBattleModal({
 	subjectId,
 	subjectQuests,
+	initialStepNumber,
 }: StartBattleModalProps) {
 	const [currentStep, setCurrentStep] = useState(0);
 	const CurrentStepComponent = steps[currentStep].component;
@@ -101,6 +103,14 @@ export default function StartBattleModal({
 	const closeActiveModal = useSubjectStore_UI(
 		(state) => state.closeActiveModal
 	);
+
+	useEffect(() => {
+		if (initialStepNumber) {
+			setCurrentStep(1);
+		} else {
+			setCurrentStep(0);
+		}
+	}, [initialStepNumber]);
 
 	if (activeModal !== 'StartBattleModal' || subjectQuests === undefined) {
 		return null;

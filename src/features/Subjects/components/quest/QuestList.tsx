@@ -27,7 +27,7 @@ export default function QuestList({ quests }: QuestListProps) {
 	return (
 		<>
 			{filteredQuests.length > 0 ? (
-				<div className="space-y-3 mt-3">
+				<div className="space-y-3 mt-3 px-2">
 					{filteredQuests.map((quest) => (
 						<QuestCard key={quest.id} quest={quest} />
 					))}

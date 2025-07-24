@@ -14,7 +14,7 @@ export type ModalObjectMap = {
 	AddNewMaterialModal: never;
 	EditMaterialModal: MaterialRead;
 	AddNewQuestModal: never;
-	StartBattleModal: { objectId: number };
+	StartBattleModal: { initialStep: number };
 };
 
 export type ModalKey = keyof ModalObjectMap;

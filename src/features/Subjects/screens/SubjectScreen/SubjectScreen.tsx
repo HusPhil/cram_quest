@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { SubjectScreenHeader } from '../../components/SubjectScreenHeader';
 import SubjectScreenBody from '../../components/SubjectScreenBody';
 import SubjectScreenFooter from '../../components/SubjectScreenFooter';
@@ -50,6 +50,12 @@ export function SubjectScreen({
 		return activeTab === PAGE_TITLES.LEARNING;
 	};
 
+	useEffect(() => {
+		if (activeModalObject) {
+			console.log('activeModalObject: ', activeModalObject);
+		}
+	}, [activeModalObject]);
+
 	return (
 		<>
 			<div className="flex flex-1 flex-col w-full max-w-[1200px] h-[100dvh] max-h-full mx-2.5 py-5 ">
@@ -97,6 +103,10 @@ export function SubjectScreen({
 			<StartBattleModal
 				subjectId={subjectId}
 				subjectQuests={subjectQuests || undefined}
+				initialStepNumber={
+					(activeModalObject as ModalObjectMap['StartBattleModal'])
+						?.initialStep || undefined
+				}
 			/>
 		</>
 	);
