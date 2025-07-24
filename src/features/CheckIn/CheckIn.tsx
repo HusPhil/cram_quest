@@ -11,6 +11,7 @@ import { useShallow } from 'zustand/shallow';
 import { useRefreshSession } from '../Auth/hooks/useRefreshSession';
 import { useGetLatestCheckIn } from './hooks/useGetLatestCheckIn';
 import { useCheckIn } from './hooks/useCheckIn';
+import { toast } from 'react-toastify';
 
 const mockWeeklyCheckInRecord = [
 	{
@@ -98,7 +99,15 @@ export default function CheckIn() {
 				playerId: currentPlayer.playerId,
 			},
 			{
-				onSettled: () => {
+				onError: () => {
+					toast.error('Failed to check in', {
+						toastId: 'check-in-error',
+					});
+				},
+				onSuccess: () => {
+					toast.success('Checked in successfully', {
+						toastId: 'check-in-success',
+					});
 					latestWeeklyCheckIn.refetch();
 					refreshSession.refetch();
 				},

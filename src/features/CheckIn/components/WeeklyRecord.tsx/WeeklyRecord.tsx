@@ -29,7 +29,10 @@ const WeeklyRecord = ({
 	const getDayBoxStyle = (day: keyof WeeklyCheckInRead) => {
 		const dayStatus = weeklyCheckInRecord[day] as CheckInStatus;
 
-		if (dayStatus.is_future) {
+		if (
+			dayStatus.is_future ||
+			(day === dayName.toLowerCase() && !dayStatus.is_checked)
+		) {
 			return 'bg-secondary/75 border-white/25';
 		} else if (dayStatus.is_checked) {
 			return 'bg-success/10 border-success';
