@@ -5,6 +5,9 @@ import SpriteSheet from '../../../../components/SpriteSheet';
 import { useBattleEngineStore } from '../../../Battle/stores/battleEngineStore';
 import { useBattleSetup } from '../../../Battle/hooks/useBattleSetup';
 import { BattleEngineControllers } from '../../hooks/battle/useBattleEngineControllers';
+import { QuestRead } from '../../../../services/api/schema/quest_schema';
+import { TbTargetArrow } from 'react-icons/tb';
+import colors from '../../../../data/colors';
 
 export const enemyPosOffSetX = 16;
 export const arenaMiddle = 6 * 12;
@@ -14,11 +17,13 @@ interface BattleArenaProps {
 		battleControllers: BattleEngineControllers
 	) => void;
 	duration: number;
+	currentQuest: QuestRead;
 }
 
 export const BattleArena = ({
 	initializeBattleEngineControllers,
 	duration,
+	currentQuest,
 }: BattleArenaProps) => {
 	useBattleSetup();
 
@@ -47,6 +52,19 @@ export const BattleArena = ({
 
 	return (
 		<div className={`flex flex-col w-[280px] items-center gap-4`}>
+			<div className="w-full border rounded-md mb-3 p-2 flex gap-2 px-5 items-center justify-between border-accent bg-accent/15">
+				<TbTargetArrow
+					className="w-6 h-6 shrink-0"
+					color={colors.accent}
+				/>
+				<p className="line-clamp-2 text-center text-accent">
+					{currentQuest.description}
+				</p>
+				<TbTargetArrow
+					className="w-6 h-6 shrink-0"
+					color={colors.accent}
+				/>
+			</div>
 			<div className="flex relative w-full h-[200px] overflow-hidden">
 				<div className="absolute top-5 left-1/2 -translate-x-1/2">
 					<BattleTimer duration={duration} />
