@@ -4,7 +4,7 @@
 
 @font-face {
   font-family: 'Pixel Square Bold';
-  src: url('/assets/fonts/pixelgrid-squarebolds.otf') format('truetype');
+  src: url('/assets/fonts/pixelgrid-squarebolds.woff') format('truetype');
   font-weight: lighter;
   font-style: normal;
   font-size: xx-small;
