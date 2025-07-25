@@ -1,8 +1,9 @@
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import CornerDecoration from '../../../../components/CornerDecoration';
 import SpriteSheet from '../../../../components/SpriteSheet';
 import { useBattleEngineStore } from '../../../Battle/stores/battleEngineStore';
 import { useBattleSetup } from '../../../Battle/hooks/useBattleSetup';
+import { BattleEngineControllers } from '../../hooks/battle/useBattleEngineControllers';
 
 interface BossBattleArenaProps {}
 

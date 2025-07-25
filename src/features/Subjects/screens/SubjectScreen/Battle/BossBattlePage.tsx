@@ -2,6 +2,8 @@ import BossBattleArena from '../../../components/battle/BossBattleArena';
 import BossBattleContorols from '../../../components/battle/BossBattleContorols';
 import { useBattleSetupStore } from '../../../../Battle/stores/battleSetupStore';
 import PixelButton from '../../../../../components/PixelButton';
+import HealthBar from '../../../components/ui/HealthBar';
+import { useState } from 'react';
 
 export default function BossBattlePage() {
 	const isBattleActive = useBattleSetupStore((state) => state.isBattleActive);
@@ -9,12 +11,40 @@ export default function BossBattlePage() {
 		(state) => state.setIsBattleActive
 	);
 
+	const playerMaxHealth = 100;
+	const enemyMaxHealth = 100;
+
+	const [playerHealth, setPlayerHealth] = useState(playerMaxHealth);
+	const [enemyHealth, setEnemyHealth] = useState(enemyMaxHealth);
+
+	const handleEnemyAttack = (damage: number, playerDefense: number) => {
+		const effectiveDamage = damage - playerDefense;
+
+		setPlayerHealth((prevHealth) => prevHealth - effectiveDamage);
+	};
+
+	const handlePlayerAttack = (damage: number) => {
+		setEnemyHealth((prevHealth) => prevHealth - damage);
+	};
+
 	return (
 		<div className="flex flex-col items-center ">
 			{isBattleActive ? (
 				<>
+					{' '}
+					<HealthBar
+						health={playerHealth}
+						maxHealth={playerMaxHealth}
+					/>
+					<HealthBar
+						health={enemyHealth}
+						maxHealth={enemyMaxHealth}
+					/>
 					<BossBattleArena />
-					<BossBattleContorols />
+					<BossBattleContorols
+						handleEnemyAttack={handleEnemyAttack}
+						handlePlayerAttack={handlePlayerAttack}
+					/>
 				</>
 			) : (
 				<div className="flex flex-col items-center my-5">

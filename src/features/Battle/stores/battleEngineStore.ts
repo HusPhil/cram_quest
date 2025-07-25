@@ -51,13 +51,13 @@ export const useBattleEngineStore = create<
 	setPlayerActionRef: null,
 	playerPosX: 0,
 	playerZ: 0,
-	playerLoop: false,
+	playerLoop: true,
 	getPlayerAnimation: () => ({} as AnimationParams),
 
 	setEnemyActionRef: null,
 	enemyPosX: 48 * 3,
 	enemyZ: 0,
-	enemyLoop: false,
+	enemyLoop: true,
 	getEnemyAnimation: () => ({} as AnimationParams),
 
 	isCustomSceneActive: false,
@@ -79,6 +79,5 @@ export const useBattleEngineStore = create<
 		set(() => ({
 			playerPosX: 0,
 			enemyPosX: 48 * 3,
-			setEnemyPosX: (x) => set({ enemyPosX: x }),
 		})),
 }));

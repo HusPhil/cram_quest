@@ -8,6 +8,7 @@ import { BattleEngineControllers } from '../../hooks/battle/useBattleEngineContr
 import { QuestRead } from '../../../../services/api/schema/quest_schema';
 import { TbTargetArrow } from 'react-icons/tb';
 import colors from '../../../../data/colors';
+import { defaultBattleScene } from '../../../Battle/battleEngine/scenes/default/defaultBattleScene';
 
 export const enemyPosOffSetX = 16;
 export const arenaMiddle = 6 * 12;
@@ -25,7 +26,9 @@ export const BattleArena = ({
 	duration,
 	currentQuest,
 }: BattleArenaProps) => {
-	useBattleSetup();
+	const isBossBattle = false;
+	const isLoopOn = true;
+	useBattleSetup(isBossBattle, defaultBattleScene, isLoopOn);
 
 	const playerPosX = useBattleEngineStore((state) => state.playerPosX);
 	const playerZ = useBattleEngineStore((state) => state.playerZ);

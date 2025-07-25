@@ -72,23 +72,27 @@ export const useBattleEngine = (scene: BattleStepFn[]) => {
 			const isLast = prevIndex + 1 >= currentSteps.length;
 
 			if (isLast) {
-				setCustomSceneActive(false);
+				if (customSceneActive) {
+					onCustomSceneAnimationCompleteRef.current?.(
+						currentSceneNameRef.current
+					);
+
+					onCustomSceneAnimationCompleteRef.current = undefined;
+					onCustomScenceLastStepIndexRef.current = undefined;
+					currentSceneNameRef.current = 'defaultBattleScence';
+
+					setCurrentSteps(loop ? defaultBattleScene : []);
+					setCustomSceneActive(false);
+				}
+
 				return loop ? 0 : prevIndex + 1;
 			}
 
 			return prevIndex + 1;
 		});
-	}, [currentSteps, loop]);
+	}, [currentSteps, loop, customSceneActive]);
 
-	const end = useCallback(() => {
-		if (currentSceneNameRef.current === 'killEnemyScene') {
-			onCustomSceneAnimationCompleteRef.current?.(
-				currentSceneNameRef.current
-			);
-			currentSceneNameRef.current = 'defaultBattleScence';
-			setCurrentSteps(defaultBattleScene);
-		}
-	}, []);
+	const end = useCallback(() => {}, [customSceneActive]);
 
 	const context: BattleContext = {
 		next,
@@ -144,12 +148,12 @@ export const useBattleEngine = (scene: BattleStepFn[]) => {
 
 	useEffect(() => {
 		const isLast = stepIndex + 1 >= currentSteps.length;
-		if (currentSceneNameRef.current === 'killEnemyScene' && isLast) {
+		if (customSceneActive && isLast) {
 			onCustomScenceLastStepIndexRef.current?.(
 				currentSceneNameRef.current
 			);
 		}
-	}, [stepIndex]);
+	}, [stepIndex, customSceneActive]);
 
 	// ✅ Final cleanup for unmount/reset
 	const reset = useCallback(() => {
@@ -158,7 +162,7 @@ export const useBattleEngine = (scene: BattleStepFn[]) => {
 		setStepIndex(-1);
 		setLoop(false);
 		setCustomSceneActive(false);
-		setCurrentSteps(defaultBattleScene);
+		setCurrentSteps(scene);
 		currentSceneNameRef.current = 'defaultBattleScence';
 		customSceneActiveRef.current = false;
 		onCustomSceneAnimationCompleteRef.current = undefined;

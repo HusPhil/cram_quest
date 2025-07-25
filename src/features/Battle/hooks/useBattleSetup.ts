@@ -3,13 +3,17 @@ import useCharacterAnimation, {
 	AnimationStateType,
 } from '../../Battle/hooks/useCharacterAnimation';
 import { useBattleEngine } from './useBattleEngine';
-import { defaultBattleScene } from '../battleEngine/scenes/default/defaultBattleScene';
 import { parsePlayerAvatar } from '../../../utils/parsePlayerAvatar';
 import { CharacterType } from '../configs/spritesheetConfig';
 import { useBattleEngineStore } from '../stores/battleEngineStore';
 import { useUserPlayerStore } from '../../Auth/stores/userPlayerStore/userPlayerStore';
+import { BattleStepFn } from '../battleEngine/types';
 
-export const useBattleSetup = (isBossBattle: boolean = false) => {
+export const useBattleSetup = (
+	isBossBattle: boolean = false,
+	initialSceneSteps: BattleStepFn[] = [],
+	isLoopOn: boolean = false
+) => {
 	let enemyTypes: CharacterType[];
 
 	if (isBossBattle) {
@@ -61,7 +65,7 @@ export const useBattleSetup = (isBossBattle: boolean = false) => {
 		startBattle,
 		queueCustomScene,
 		customSceneActiveRef,
-	} = useBattleEngine(defaultBattleScene);
+	} = useBattleEngine(initialSceneSteps);
 
 	function getRandomChoice<T>(
 		choices: T[],
@@ -104,7 +108,7 @@ export const useBattleSetup = (isBossBattle: boolean = false) => {
 			setEnemyCurrentAction(action);
 
 		// Initialize and start
-		setLoop(true);
+		setLoop(isLoopOn);
 		startBattle();
 	}, []);
 };

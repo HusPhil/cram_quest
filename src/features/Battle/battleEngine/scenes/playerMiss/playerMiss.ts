@@ -1,6 +1,6 @@
-import { BattleStepFn } from '../types';
+import { BattleStepFn } from '../../types';
 
-export const playerSwordAttack1: BattleStepFn = ({
+export const playerMiss: BattleStepFn = ({
 	next,
 	setPlayerAction,
 	setEnemyAction,
@@ -11,14 +11,13 @@ export const playerSwordAttack1: BattleStepFn = ({
 	adjustZValues('player');
 	setPlayerAction('attack_1');
 
-	setEnemyAction('idle');
 	setEnemyLoop(false);
-
 	setPlayerLoop(false);
+	setEnemyAction('idle');
 
-	const cleanup = setTimeout(() => {
+	const transitionDelay = setTimeout(() => {
 		next();
-	}, 350);
+	}, 180);
 
-	return () => clearTimeout(cleanup);
+	return () => clearTimeout(transitionDelay);
 };
