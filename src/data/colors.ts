@@ -1,6 +1,6 @@
 const colors = {
 	danger: '#D14444',
-	success: '#166534',
+	success: '#20cc80',
 	secondary: '#2c2c35',
 	accent: '#db9a40',
 	background: '#22222a',
