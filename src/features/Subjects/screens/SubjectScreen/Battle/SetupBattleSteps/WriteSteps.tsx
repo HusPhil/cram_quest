@@ -48,7 +48,12 @@ export default function WriteSteps() {
 
 	return (
 		<div className="space-y-4 max-h-80 overflow-auto scrollbar-thin scrollbar-accent">
-			<h3 className="text-lg font-medium">Write your battle plan!</h3>
+			<h3 className="text-lg font-medium">Write your battle plan for:</h3>
+			{selectedQuest && (
+				<div className="p-2 px-3 bg-accent/10 rounded-md">
+					<p className="text-sm">{selectedQuest.description}</p>
+				</div>
+			)}
 			<p className="text-sm text-text/70">
 				List the battle plan in this quest. Best keep it under 5 words
 				per step.
@@ -92,12 +97,6 @@ export default function WriteSteps() {
 				</svg>
 				<span>Add another step</span>
 			</button>
-
-			{selectedQuest && (
-				<div className="mt-4 p-3 bg-accent/10 rounded-md">
-					<p className="text-sm">{selectedQuest.description}</p>
-				</div>
-			)}
 		</div>
 	);
 }
