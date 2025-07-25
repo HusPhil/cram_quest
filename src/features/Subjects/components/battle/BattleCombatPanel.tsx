@@ -64,7 +64,7 @@ export default function BattleCombatPanel({
 				}}
 			>
 				{/* <TbSword className="w-5 h-5 mr-2" color={colors.secondary} /> */}
-				Kill enemy!
+				ATTACK
 			</PixelButton>
 		</div>
 	);
