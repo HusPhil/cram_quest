@@ -9,14 +9,26 @@ import { CharacterType } from '../configs/spritesheetConfig';
 import { useBattleEngineStore } from '../stores/battleEngineStore';
 import { useUserPlayerStore } from '../../Auth/stores/userPlayerStore/userPlayerStore';
 
-export const useBattleSetup = () => {
-	const enemyTypes = [
-		'orc',
-		'pig',
-		'skeleton',
-		'orc',
-		'pig',
-	] as CharacterType[];
+export const useBattleSetup = (isBossBattle: boolean = false) => {
+	let enemyTypes: CharacterType[];
+
+	if (isBossBattle) {
+		enemyTypes = [
+			'dark_knight',
+			'evil_shogun',
+			'orc_lord',
+			'pig_lord',
+			'skeleton_lord',
+		] as CharacterType[];
+	} else {
+		enemyTypes = [
+			'orc',
+			'pig',
+			'skeleton',
+			'orc',
+			'pig',
+		] as CharacterType[];
+	}
 
 	// Character setup
 	const playerProfileAvatarUrl = useUserPlayerStore(

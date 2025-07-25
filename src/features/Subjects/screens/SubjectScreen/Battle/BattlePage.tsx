@@ -34,14 +34,6 @@ export default function BattlePage({
 	} = useTaskBattleFlow();
 
 	useEffect(() => {
-		// const getBattleSessionResult = async () => {
-		// 	if (currentTaskIndex >= generatedTasks.length) {
-		// 		const battleSessionResult = await handleSyncTaskTimings();
-		// 		console.log('battleSessionResult', battleSessionResult);
-		// 	}
-		// };
-		// getBattleSessionResult();
-
 		const handleQuestComplete = async () => {
 			if (
 				currentTaskIndex >= generatedTasks.length &&

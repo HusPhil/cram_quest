@@ -107,6 +107,10 @@ export function SubjectScreen({
 					(activeModalObject as ModalObjectMap['StartBattleModal'])
 						?.initialStep || undefined
 				}
+				isBossBattle={
+					(activeModalObject as ModalObjectMap['StartBattleModal'])
+						?.bossBattle
+				}
 			/>
 		</>
 	);

@@ -10,6 +10,7 @@ import BattlePage from '../screens/SubjectScreen/Battle/BattlePage';
 import { useBattleEngineStore } from '../../Battle/stores/battleEngineStore';
 import { useSubjectStore_UI } from '../stores/subjectStore_UI';
 import { useQueryClient } from '@tanstack/react-query';
+import BossBattlePage from '../screens/SubjectScreen/Battle/BossBattlePage';
 
 export interface StepComponentProps {
 	subjectQuests: QuestRead[];
@@ -30,6 +31,7 @@ interface StartBattleModalProps {
 	subjectId: number;
 	subjectQuests?: QuestRead[];
 	initialStepNumber?: number;
+	isBossBattle?: boolean;
 }
 
 const steps: SetupBattleStep[] = [
@@ -51,6 +53,7 @@ export default function StartBattleModal({
 	subjectId,
 	subjectQuests,
 	initialStepNumber,
+	isBossBattle,
 }: StartBattleModalProps) {
 	const [currentStep, setCurrentStep] = useState(0);
 	const CurrentStepComponent = steps[currentStep].component;
@@ -71,9 +74,27 @@ export default function StartBattleModal({
 		(state) => state.resetBattleSetup
 	);
 
+	const activeModal = useSubjectStore_UI((state) => state.activeModal);
+	const closeActiveModal = useSubjectStore_UI(
+		(state) => state.closeActiveModal
+	);
+
 	const battleResult = useBattleSetupStore((state) => state.battleResult);
 
 	const queryClient = useQueryClient();
+
+	useEffect(() => {
+		if (initialStepNumber) {
+			setCurrentStep(1);
+		} else {
+			setCurrentStep(0);
+		}
+	}, [initialStepNumber]);
+
+	useEffect(() => {
+		if (isBossBattle) {
+		}
+	}, [isBossBattle]);
 
 	const handleStartBattle = () => {
 		console.log(
@@ -99,18 +120,11 @@ export default function StartBattleModal({
 		return 'primary';
 	};
 
-	const activeModal = useSubjectStore_UI((state) => state.activeModal);
-	const closeActiveModal = useSubjectStore_UI(
-		(state) => state.closeActiveModal
-	);
-
-	useEffect(() => {
-		if (initialStepNumber) {
-			setCurrentStep(1);
-		} else {
-			setCurrentStep(0);
-		}
-	}, [initialStepNumber]);
+	const getStartBattleModalTitle = (isBattleActive: boolean) => {
+		if (isBattleActive) return 'Battle in Progress';
+		if (isBossBattle) return 'Start Boss Battle!';
+		return 'Start Session Battle!';
+	};
 
 	if (activeModal !== 'StartBattleModal' || subjectQuests === undefined) {
 		return null;
@@ -119,14 +133,16 @@ export default function StartBattleModal({
 	return (
 		<Modal
 			isOpen={isBattleActive || activeModal === 'StartBattleModal'}
-			title={isBattleActive ? 'Battle in Progress' : 'Start Battle!'}
+			title={getStartBattleModalTitle(isBattleActive)}
 			lock={isBattleActive}
 			disabledEsc={currentStep === steps.length - 1}
 			onClose={closeActiveModal}
 			customHeader={isBattleActive ? <></> : undefined}
 			variant={getVariantFromResult(battleResult)}
 		>
-			{!isBattleActive ? (
+			{isBossBattle ? (
+				<BossBattlePage />
+			) : !isBattleActive ? (
 				<>
 					<StepProgress currentStep={currentStep} steps={steps} />
 

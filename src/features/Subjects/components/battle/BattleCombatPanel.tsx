@@ -29,7 +29,10 @@ export default function BattleCombatPanel({
 			</p>
 
 			<div className="flex flex-col items-center w-full px-8 mb-2">
-				<p className="line-clamp-2 text-white text-center overflow-ellipsis">
+				<p
+					title={currentTask.description}
+					className="line-clamp-2 text-white text-center overflow-ellipsis"
+				>
 					{currentTask.description}
 				</p>
 			</div>
