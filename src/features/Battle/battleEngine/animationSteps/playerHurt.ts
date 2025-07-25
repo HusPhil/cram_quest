@@ -1,28 +1,30 @@
-import startKnockback from "../../utils/startKnockback";
-import { BattleStepFn } from "../types";
+import startKnockback from '../../utils/startKnockback';
+import { BattleStepFn } from '../types';
 
 export const playerHurt: BattleStepFn = ({
-    next,
-    setEnemyLoop,
-    setEnemyAction,
-    setPlayerAction,
-    setPlayerLoop,
-    getPlayerPosX,
-    setPlayerPosX
+	next,
+	adjustZValues,
+	setEnemyLoop,
+	setEnemyAction,
+	setPlayerAction,
+	setPlayerLoop,
+	getPlayerPosX,
+	setPlayerPosX,
 }) => {
-    setEnemyAction('idle');
-    setEnemyLoop(true);
-    
-    setPlayerAction('hurt');
-    setPlayerLoop(false);
+	adjustZValues('enemy');
+	setEnemyAction('idle');
+	setEnemyLoop(true);
 
-    const cleanup = startKnockback({
-        fromX: getPlayerPosX(),
-        setX: setPlayerPosX,
-        direction: 'left',
-        knockbackDmg: 50,
-        onDone: () => next(),
-    });
+	setPlayerAction('hurt');
+	setPlayerLoop(false);
 
-    return cleanup;
-}
+	const cleanup = startKnockback({
+		fromX: getPlayerPosX(),
+		setX: setPlayerPosX,
+		direction: 'left',
+		knockbackDmg: 50,
+		onDone: () => next(),
+	});
+
+	return cleanup;
+};

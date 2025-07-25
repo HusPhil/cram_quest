@@ -7,6 +7,7 @@ import { enemyAttackScene } from '../../../Battle/battleEngine/scenes/enemyAttac
 import { defaultBattleScene } from '../../../Battle/battleEngine/scenes/default/defaultBattleScene';
 import { toast } from 'react-toastify';
 import { playerMissScene } from '../../../Battle/battleEngine/scenes/playerMiss/playerMissScene';
+import { enemyMissScene } from '../../../Battle/battleEngine/scenes/enemyMiss/enemyMissScene';
 
 // Define the props interface for TimingBar
 interface TimingBarProps {
@@ -231,11 +232,24 @@ const BossBattleContorols: React.FC<BossBattleControlsProps> = ({
 				damage = Math.max(1, Math.round(damage)); // Ensure minimum 1 damage
 				handleEnemyAttack(damage / 2, damage); // Call the player attack function
 				message += ` You dealt ${damage} damage!`;
+
+				queueCustomScene(
+					enemyMissScene,
+					'enemyMissScene',
+					undefined,
+					() => {
+						toast.info('You dodged!');
+						setActionPhase(null);
+					}
+				);
 			} else {
 				message = `Defend failed! You stopped at ${finalPosition.toFixed(
 					2
 				)}%.`;
 				// Player might take full damage from next enemy attack
+				queueCustomScene(enemyAttackScene, 'enemyAttackScene', () =>
+					setActionPhase(null)
+				);
 			}
 		}
 
