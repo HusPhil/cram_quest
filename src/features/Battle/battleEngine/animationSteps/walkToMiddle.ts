@@ -47,7 +47,11 @@ export const walkToMiddle: BattleStepFn = ({
 
 		// if (getEnemyPosX() <= targetEnemyX) {
 		// } else
-		setEnemyPosX(getEnemyPosX() - movementSpeed);
+
+		if (getEnemyPosX() <= targetEnemyX) {
+			setEnemyAction('idle');
+			setEnemyPosX(targetEnemyX);
+		} else setEnemyPosX(getEnemyPosX() - movementSpeed);
 
 		// Check if both characters have reached their targets
 		const playerReachedTarget = getPlayerPosX() >= targetPlayerX;
