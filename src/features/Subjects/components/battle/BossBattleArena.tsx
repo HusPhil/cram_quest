@@ -30,7 +30,6 @@ export const BossBattleArena = ({}: BossBattleArenaProps) => {
 		<div className={`flex flex-col w-[280px] items-center gap-4`}>
 			<div className="flex relative w-full h-[200px] overflow-hidden">
 				{/* needs to have div to be relative to */}
-				<CornerDecoration />
 				{/* Player (fixed on the left) */}
 				<SpriteSheet
 					style={{
