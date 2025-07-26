@@ -4,9 +4,11 @@ import { playerDefendSceneEnd } from './playerDefendSceneEnd';
 import { playerDefend } from './playerDefend';
 import { walkToMiddleFar } from '../../animationSteps/walkToMiddleFAr';
 import { playerDodge } from '../enemyMiss/playerDodge';
+import { playerEnemyPushed } from './playerEnemyPushed';
 
 export const playerDefendScene: BattleStepFn[] = [
 	walkToMiddleFar,
 	playerDefend,
+	playerEnemyPushed,
 	playerDefendSceneEnd,
 ];
