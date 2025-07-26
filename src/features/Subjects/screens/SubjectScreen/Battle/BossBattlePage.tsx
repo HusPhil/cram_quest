@@ -24,6 +24,10 @@ export default function BossBattlePage() {
 	const [playerHealth, setPlayerHealth] = useState(playerMaxHealth);
 	const [enemyHealth, setEnemyHealth] = useState(enemyMaxHealth);
 
+	const [turnCount, setTurnCount] = useState(0);
+
+	const incrementTurnCount = () => setTurnCount((prevCount) => prevCount + 1);
+
 	const [floatingMessageData, setFloatingMessageData] =
 		useState<FloatingMessageData>();
 
@@ -37,7 +41,7 @@ export default function BossBattlePage() {
 		setEnemyHealth((prevHealth) => prevHealth - damage);
 	};
 
-	const addToBattleLog = (
+	const writeToBattleLog = (
 		text: string, // Changed 'message' to 'text' to align with Message interface
 		variant: 'success' | 'fail' | 'default' | 'info' = 'default' // Default variant
 	) => {
@@ -68,13 +72,15 @@ export default function BossBattlePage() {
 							label={enemyName ?? 'Enemy'}
 						/>
 					</div>
+					<p>{turnCount}</p>
 					{/* The "green box" area where the message should float */}
 					<div className="relative w-full h-10  my-4 flex items-center justify-center overflow-hidden">
 						<FloatingMessage messageData={floatingMessageData} />
 					</div>
 					<BossBattleArena />
 					<BossBattleContorls
-						addToBattleLog={addToBattleLog}
+						incrementTurnCount={incrementTurnCount}
+						writeToBattleLog={writeToBattleLog}
 						handleEnemyAttack={handleEnemyAttack}
 						handlePlayerAttack={handlePlayerAttack}
 					/>
