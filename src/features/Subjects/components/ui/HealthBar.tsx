@@ -8,6 +8,8 @@ interface HealthBarProps {
 	iconSize?: number; // Optional: Size of each heart icon in pixels (default: 32)
 	iconColor?: string; // Optional: Color of the heart icons (default: red-500 from Tailwind)
 	label?: string; // Optional: A label to display above the health bar (e.g., "Player Health")
+	className?: string;
+	labelClassName?: string;
 }
 
 /**
@@ -24,6 +26,8 @@ const HealthBar: React.FC<HealthBarProps> = ({
 	maxHealth,
 	iconSize = 32, // Default icon size
 	iconColor = '#ef4444', // Default color (Tailwind's red-500)
+	className,
+	labelClassName,
 	label, // Optional label
 }) => {
 	// Ensure health doesn't go below zero or above maxHealth for display purposes
@@ -81,14 +85,19 @@ const HealthBar: React.FC<HealthBarProps> = ({
 	}
 
 	return (
-		<div className="flex flex-col items-center p-4 bg-gray-900 rounded-xl border-2 border-yellow-600 shadow-2xl font-inter">
+		<div className={'rounded-xl border-yellow-600 ' + className}>
 			{label && (
-				<p className="text-amber-400 text-sm md:text-md font-bold mb-2 uppercase tracking-wide">
+				<p
+					className={
+						'text-amber-400 text-sm md:text-md font-bold mb-2 uppercase tracking-wide ' +
+						labelClassName
+					}
+				>
 					{label}
 				</p>
 			)}
 			<div className="flex items-center gap-1 md:gap-2">{hearts}</div>
-			<p className="mt-2 text-white text-lg md:text-xl font-bold">
+			<p className="mt-2 text-white font-bold">
 				{/* Display numerical health */}
 				{clampedHealth} / {maxHealth}
 			</p>

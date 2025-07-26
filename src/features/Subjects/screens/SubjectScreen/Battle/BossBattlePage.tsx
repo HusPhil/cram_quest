@@ -30,16 +30,20 @@ export default function BossBattlePage() {
 	return (
 		<div className="flex flex-col items-center ">
 			{isBattleActive ? (
-				<div>
-					<div>
+				<div className="w-full flex flex-col items-center">
+					<div className="flex justify-between w-full 	">
 						<HealthBar
+							className=""
 							health={playerHealth}
 							maxHealth={playerMaxHealth}
 							label="You"
+							iconSize={20}
 						/>
 						<HealthBar
+							className=" flex flex-col items-end"
 							health={enemyHealth}
 							maxHealth={enemyMaxHealth}
+							iconSize={20}
 							label="Boss"
 						/>
 					</div>
