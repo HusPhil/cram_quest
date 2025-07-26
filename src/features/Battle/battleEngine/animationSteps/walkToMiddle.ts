@@ -25,28 +25,10 @@ export const walkToMiddle: BattleStepFn = ({
 
 	// Handle movement of both characters
 	const interval = setInterval(() => {
-		// Update player position
-		// setPlayerPosX((prev) => {
-		// 	if (prev >= targetPlayerX) {
-		// 		setPlayerAction('idle');
-		// 		return targetPlayerX;
-		// 	}
-		// 	return prev + movementSpeed;
-		// });
-
 		if (getPlayerPosX() >= targetPlayerX) {
 			setPlayerAction('idle');
 			setPlayerPosX(targetPlayerX);
 		} else setPlayerPosX(getPlayerPosX() + movementSpeed);
-
-		// Update enemy position
-		// setEnemyPosX((prev) => {
-		// 	if (prev <= targetEnemyX) return targetEnemyX;
-		// 	return prev - movementSpeed;
-		// });
-
-		// if (getEnemyPosX() <= targetEnemyX) {
-		// } else
 
 		if (getEnemyPosX() <= targetEnemyX) {
 			setEnemyAction('idle');

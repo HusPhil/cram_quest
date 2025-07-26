@@ -5,6 +5,9 @@ import PixelButton from '../../../../../components/PixelButton';
 import HealthBar from '../../../components/ui/HealthBar';
 import { useState } from 'react';
 import { useUserPlayerStore } from '../../../../Auth/stores/userPlayerStore/userPlayerStore';
+import FloatingMessage, {
+	FloatingMessageData,
+} from '../../../components/ui/FloatingMessage';
 
 export default function BossBattlePage() {
 	const isBattleActive = useBattleSetupStore((state) => state.isBattleActive);
@@ -21,6 +24,9 @@ export default function BossBattlePage() {
 	const [playerHealth, setPlayerHealth] = useState(playerMaxHealth);
 	const [enemyHealth, setEnemyHealth] = useState(enemyMaxHealth);
 
+	const [floatingMessageData, setFloatingMessageData] =
+		useState<FloatingMessageData>();
+
 	const handleEnemyAttack = (damage: number, playerDefense: number) => {
 		const effectiveDamage = damage - playerDefense;
 
@@ -29,6 +35,17 @@ export default function BossBattlePage() {
 
 	const handlePlayerAttack = (damage: number) => {
 		setEnemyHealth((prevHealth) => prevHealth - damage);
+	};
+
+	const addToBattleLog = (
+		text: string, // Changed 'message' to 'text' to align with Message interface
+		variant: 'success' | 'fail' | 'default' | 'info' = 'default' // Default variant
+	) => {
+		setFloatingMessageData({
+			text: text, // Assign the passed 'text' to the 'text' property of Message
+			variant: variant, // Assign the passed 'variant'
+			id: Date.now(), // Generate a unique ID for React's key prop
+		});
 	};
 
 	return (
@@ -51,8 +68,13 @@ export default function BossBattlePage() {
 							label={enemyName ?? 'Enemy'}
 						/>
 					</div>
+					{/* The "green box" area where the message should float */}
+					<div className="relative w-full h-10  my-4 flex items-center justify-center overflow-hidden">
+						<FloatingMessage messageData={floatingMessageData} />
+					</div>
 					<BossBattleArena />
 					<BossBattleContorls
+						addToBattleLog={addToBattleLog}
 						handleEnemyAttack={handleEnemyAttack}
 						handlePlayerAttack={handlePlayerAttack}
 					/>
