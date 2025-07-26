@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { playerMissScene } from '../../../Battle/battleEngine/scenes/playerMiss/playerMissScene';
 import { enemyMissScene } from '../../../Battle/battleEngine/scenes/enemyMiss/enemyMissScene';
 import { playerDefendScene } from '../../../Battle/battleEngine/scenes/playerDefend/playerDefendScene';
+import { chainScenes } from '../../../Battle/utils/chainScenes';
 
 // Define the props interface for TimingBar
 interface TimingBarProps {
@@ -166,16 +167,16 @@ const BossBattleContorls: React.FC<BossBattleControlsProps> = ({
 
 	const handlePlayerAttackSceneEnd = (damage: number) => {
 		handlePlayerAttack(damage);
-		setTimeout(
-			() =>
-				queueCustomScene(
-					enemyAttackScene,
-					'enemyAttackScene',
-					() => {},
-					() => handleEnemyAttackSceneEnd(damage)
-				),
-			100
-		);
+		// setTimeout(
+		// 	() =>
+		// 		queueCustomScene(
+		// 			enemyAttackScene,
+		// 			'enemyAttackScene',
+		// 			() => {},
+		// 			() => handleEnemyAttackSceneEnd(damage)
+		// 		),
+		// 	100
+		// );
 	};
 
 	const handleTimingBarStop = (isHit: boolean, finalPosition: number) => {
@@ -200,11 +201,27 @@ const BossBattleContorls: React.FC<BossBattleControlsProps> = ({
 				// A simple linear scale: more accurate = more damage
 				damage = 5 + (1 - accuracyPercentage / 30) * 10; // Base 20 damage, up to 30 for perfect hit
 				damage = Math.max(1, Math.round(damage)); // Ensure minimum 1 damage
-				queueCustomScene(
-					playerAttackScene,
-					'playerAttackScene',
-					() => handlePlayerAttackSceneEnd(damage),
-					() => undefined
+				// queueCustomScene(
+				// 	playerAttackScene,
+				// 	'playerAttackScene',
+				// 	() => handlePlayerAttackSceneEnd(damage),
+				// 	() => undefined
+				// );
+				chainScenes(
+					queueCustomScene,
+					[
+						{
+							sceneSteps: playerAttackScene,
+							sceneName: 'playerAttackScene',
+							onComplete: () => handlePlayerAttack(damage),
+						},
+						{
+							sceneSteps: enemyAttackScene,
+							sceneName: 'enemyAttackScene',
+							onComplete: () => handleEnemyAttackSceneEnd(damage),
+						},
+					],
+					() => {}
 				);
 				message += ` You dealt ${damage} damage!`;
 			} else {
@@ -213,12 +230,22 @@ const BossBattleContorls: React.FC<BossBattleControlsProps> = ({
 				)}%. Try again!`;
 				// Optionally, deal minimal or no damage on a miss
 				damage = 5; // Example: minimal damage on miss
-				handlePlayerAttack(damage); // Still call, but with low damage
-				queueCustomScene(
-					playerMissScene,
-					'playerMissScene',
-					() => handlePlayerAttackSceneEnd(damage),
-					() => toast.info('You missed!')
+
+				chainScenes(
+					queueCustomScene,
+					[
+						{
+							sceneSteps: playerMissScene,
+							sceneName: 'playerMissScene',
+						},
+						{
+							sceneSteps: enemyAttackScene,
+							sceneName: 'enemyAttackScene',
+							onLastStepIndex: () =>
+								handleEnemyAttackSceneEnd(damage),
+						},
+					],
+					() => {}
 				);
 
 				message += ` You dealt ${damage} damage (missed).`;
@@ -240,26 +267,24 @@ const BossBattleContorls: React.FC<BossBattleControlsProps> = ({
 				// A simple linear scale: more accurate = more damage
 				damage = 20 + (1 - accuracyPercentage / 50) * 10; // Base 20 damage, up to 30 for perfect hit
 				damage = Math.max(1, Math.round(damage)); // Ensure minimum 1 damage
-				handleEnemyAttack(damage / 2, damage); // Call the player attack function
 				message += ` You dealt ${damage} damage!`;
 
-				queueCustomScene(
-					playerDefendScene,
-					'playerDefendScene',
-					undefined,
-					() => {
+				queueCustomScene({
+					sceneSteps: playerDefendScene,
+					sceneName: 'playerDefendScene',
+					onComplete: () => {
 						toast.info('You dodged!');
 						setActionPhase(null);
-					}
-				);
+					},
+				});
 			} else {
 				message = `Defend failed! You stopped at ${finalPosition.toFixed(
 					2
 				)}%.`;
 				// Player might take full damage from next enemy attack
-				queueCustomScene(enemyAttackScene, 'enemyAttackScene', () =>
-					setActionPhase(null)
-				);
+				// queueCustomScene(enemyAttackScene, 'enemyAttackScene', () =>
+				// 	setActionPhase(null)
+				// );
 			}
 		}
 

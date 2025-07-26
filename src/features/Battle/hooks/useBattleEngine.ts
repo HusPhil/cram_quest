@@ -5,12 +5,13 @@ import { defaultBattleScene } from '../battleEngine/scenes/default/defaultBattle
 import { sceneName } from '../battleEngine/scenes/sceneNames';
 import { useBattleEngineStore } from '../stores/battleEngineStore';
 
-export type QueueCustomSceneFn = (
-	sceneSteps: BattleStepFn[],
-	sceneName?: sceneName,
-	onComplete?: (sceneName?: sceneName) => void,
-	onLastStepIndex?: (sceneName?: sceneName) => void
-) => void;
+export interface CustomSceneConfig {
+	sceneSteps: BattleStepFn[];
+	sceneName?: sceneName;
+	onComplete?: (sceneName?: sceneName) => void;
+	onLastStepIndex?: (sceneName?: sceneName) => void;
+}
+export type QueueCustomSceneFn = (config: CustomSceneConfig) => void;
 
 export const useBattleEngine = (scene: BattleStepFn[]) => {
 	const [stepIndex, setStepIndex] = useState(-1);
@@ -109,7 +110,12 @@ export const useBattleEngine = (scene: BattleStepFn[]) => {
 	};
 
 	const queueCustomScene: QueueCustomSceneFn = useCallback(
-		(sceneSteps, sceneName, onComplete, onLastStepIndex) => {
+		({
+			sceneSteps,
+			sceneName,
+			onComplete,
+			onLastStepIndex,
+		}: CustomSceneConfig) => {
 			if (customSceneActiveRef.current) return;
 
 			cleanupRef.current?.();

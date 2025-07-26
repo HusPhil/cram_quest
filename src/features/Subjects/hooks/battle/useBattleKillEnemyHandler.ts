@@ -39,12 +39,12 @@ export const useBattleKillEnemyHandler = ({
 
 	const handleKillEnemy = useCallback(async () => {
 		saveEndTime(generatedTasks[currentTaskIndex]);
-		queueCustomSceneRef.current?.(
-			killEnemyScene,
-			'killEnemyScene',
-			handleKillEnemyAnimationComplete,
-			handleAnimationLastStepIndex
-		);
+		queueCustomSceneRef.current?.({
+			sceneSteps: killEnemyScene,
+			sceneName: 'killEnemyScene',
+			onComplete: handleKillEnemyAnimationComplete,
+			onLastStepIndex: handleAnimationLastStepIndex,
+		});
 	}, [
 		handleKillEnemyAnimationComplete,
 		handleAnimationLastStepIndex,
