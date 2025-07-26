@@ -1,7 +1,7 @@
 import { playerPunch } from '../../animationSteps/playerPunch';
 import { BattleStepFn } from '../../types';
 import { playerSwordCharge } from '../default/playerSwordCharge';
-import { walkToMiddle } from '../default/walkToMiddle';
+import { walkToMiddle } from '../../animationSteps/walkToMiddle';
 import { playerPunchCharge } from '../killEnemy/playerPunchCharge';
 import { playerAttackScene } from '../playerAttack/playerAttackScene';
 import { playerAttackSceneEnd } from '../playerAttack/playerAttackSceneEnd';

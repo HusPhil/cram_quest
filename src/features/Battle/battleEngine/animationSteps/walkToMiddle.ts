@@ -1,5 +1,5 @@
-import { arenaMiddle, enemyPosOffSetX } from '../../../components/BattleArena';
-import { BattleStepFn } from '../../types';
+import { arenaMiddle, enemyPosOffSetX } from '../../components/BattleArena';
+import { BattleStepFn } from '../types';
 
 export const walkToMiddle: BattleStepFn = ({
 	setEnemyAction,
