@@ -4,4 +4,5 @@ export type sceneName =
 	| 'playerAttackScene'
 	| 'playerMissScene'
 	| 'enemyMissScene'
+	| 'playerDefendScene'
 	| 'enemyAttackScene';

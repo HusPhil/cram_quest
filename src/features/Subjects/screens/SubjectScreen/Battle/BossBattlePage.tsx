@@ -32,14 +32,6 @@ export default function BossBattlePage() {
 			{isBattleActive ? (
 				<>
 					{' '}
-					<HealthBar
-						health={playerHealth}
-						maxHealth={playerMaxHealth}
-					/>
-					<HealthBar
-						health={enemyHealth}
-						maxHealth={enemyMaxHealth}
-					/>
 					<BossBattleArena />
 					<BossBattleContorols
 						handleEnemyAttack={handleEnemyAttack}

@@ -8,6 +8,7 @@ import { defaultBattleScene } from '../../../Battle/battleEngine/scenes/default/
 import { toast } from 'react-toastify';
 import { playerMissScene } from '../../../Battle/battleEngine/scenes/playerMiss/playerMissScene';
 import { enemyMissScene } from '../../../Battle/battleEngine/scenes/enemyMiss/enemyMissScene';
+import { playerDefendScene } from '../../../Battle/battleEngine/scenes/playerDefend/playerDefendScene';
 
 // Define the props interface for TimingBar
 interface TimingBarProps {
@@ -234,8 +235,8 @@ const BossBattleContorols: React.FC<BossBattleControlsProps> = ({
 				message += ` You dealt ${damage} damage!`;
 
 				queueCustomScene(
-					enemyMissScene,
-					'enemyMissScene',
+					playerDefendScene,
+					'playerDefendScene',
 					undefined,
 					() => {
 						toast.info('You dodged!');
