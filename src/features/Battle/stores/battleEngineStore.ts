@@ -23,6 +23,7 @@ interface BattleEngineState {
 	enemyPosX: number;
 	enemyZ: number;
 	enemyLoop: boolean;
+	enemyName: string;
 	getEnemyAnimation: () => AnimationParams;
 
 	isCustomSceneActive: boolean;
@@ -55,6 +56,7 @@ export const useBattleEngineStore = create<
 	getPlayerAnimation: () => ({} as AnimationParams),
 
 	setEnemyActionRef: null,
+	enemyName: 'Enemy',
 	enemyPosX: 48 * 3,
 	enemyZ: 0,
 	enemyLoop: true,

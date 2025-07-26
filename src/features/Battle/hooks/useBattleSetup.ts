@@ -8,6 +8,7 @@ import { CharacterType } from '../configs/spritesheetConfig';
 import { useBattleEngineStore } from '../stores/battleEngineStore';
 import { useUserPlayerStore } from '../../Auth/stores/userPlayerStore/userPlayerStore';
 import { BattleStepFn } from '../battleEngine/types';
+import { useBattleSetupStore } from '../stores/battleSetupStore';
 
 export const useBattleSetup = (
 	isBossBattle: boolean = false,
@@ -42,7 +43,7 @@ export const useBattleSetup = (
 		playerProfileAvatarUrl!
 	);
 	const [currentEnemy, setCurrentEnemy] = useState<CharacterType>(
-		getRandomChoice(enemyTypes, 'orc', false)
+		getRandomChoice(enemyTypes, 'orc')
 	);
 
 	// Player animation
@@ -55,7 +56,7 @@ export const useBattleSetup = (
 	const {
 		getAnimationParams: getEnemyAnimation,
 		setCurrentAction: setEnemyCurrentAction,
-	} = useCharacterAnimation(currentEnemy);
+	} = useCharacterAnimation(currentEnemy as CharacterType);
 
 	// Battle engine
 	const {
@@ -106,6 +107,9 @@ export const useBattleSetup = (
 			setPlayerCurrentAction(action);
 		setEnemyActionRef.current = (action: AnimationStateType) =>
 			setEnemyCurrentAction(action);
+
+		const setEnemyName = useBattleSetupStore.getState().setEnemyName;
+		setEnemyName(currentEnemy.replace(/_/g, ' '));
 
 		// Initialize and start
 		setLoop(isLoopOn);

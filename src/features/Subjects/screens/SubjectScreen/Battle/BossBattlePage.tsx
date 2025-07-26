@@ -11,6 +11,8 @@ export default function BossBattlePage() {
 		(state) => state.setIsBattleActive
 	);
 
+	const enemyName = useBattleSetupStore((state) => state.enemyName);
+
 	const playerMaxHealth = 100;
 	const enemyMaxHealth = 100;
 
@@ -44,7 +46,7 @@ export default function BossBattlePage() {
 							health={enemyHealth}
 							maxHealth={enemyMaxHealth}
 							iconSize={20}
-							label="Boss"
+							label={enemyName ?? 'Enemy'}
 						/>
 					</div>
 					<BossBattleArena />

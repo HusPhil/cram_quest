@@ -19,9 +19,11 @@ interface BattleSetupState {
 	generatedTasks: TaskRead[];
 	battleSessionId: number | null;
 	durationMinutes: number;
+	enemyName: string | null;
 
 	// Actions
 	selectQuest: (quest: QuestRead) => void;
+	setEnemyName: (name: string) => void;
 	selectSubject: (subject: SubjectRead) => void;
 	addQuestStep: (step: string) => string;
 	removeQuestStep: (id: string) => void;
@@ -49,10 +51,13 @@ export const useBattleSetupStore = create<BattleSetupState>()(
 		questSteps: [],
 		generatedTasks: [],
 		durationMinutes: 3,
+		enemyName: null,
 
 		// Actions
 		selectQuest: (quest: QuestRead) =>
 			set(() => ({ selectedQuest: quest })),
+
+		setEnemyName: (name: string) => set({ enemyName: name }),
 
 		selectSubject: (subject: SubjectRead) =>
 			set({ selectedSubject: subject }),
