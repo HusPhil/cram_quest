@@ -3,11 +3,12 @@ import BossBattleContorls from '../../../components/battle/BossBattleContorls';
 import { useBattleSetupStore } from '../../../../Battle/stores/battleSetupStore';
 import PixelButton from '../../../../../components/PixelButton';
 import HealthBar from '../../../components/ui/HealthBar';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useUserPlayerStore } from '../../../../Auth/stores/userPlayerStore/userPlayerStore';
 import FloatingMessage, {
 	FloatingMessageData,
 } from '../../../components/ui/FloatingMessage';
+import { toast } from 'react-toastify';
 
 export default function BossBattlePage() {
 	const isBattleActive = useBattleSetupStore((state) => state.isBattleActive);
@@ -51,6 +52,20 @@ export default function BossBattlePage() {
 			id: Date.now(), // Generate a unique ID for React's key prop
 		});
 	};
+
+	const handleEndBattle = (winner: 'player' | 'enemy') => {
+		toast.success(`Battle won by ${winner === 'player' ? 'You' : 'Enemy'}`);
+		setIsBattleActive(false);
+	};
+
+	useEffect(() => {
+		if (!isBattleActive) return;
+		if (playerHealth <= 0) {
+			handleEndBattle('enemy');
+		} else if (enemyHealth <= 0) {
+			handleEndBattle('player');
+		}
+	}, [playerHealth, enemyHealth]);
 
 	return (
 		<div className="flex flex-col items-center ">

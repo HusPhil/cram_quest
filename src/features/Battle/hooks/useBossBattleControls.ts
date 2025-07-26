@@ -134,9 +134,9 @@ export function useBossBattleControls({
 		}
 
 		handlePlayerAttack(playerAtkDamage);
-		handleEnemyAttack(enemyAtkDamage, 0);
 
 		setTimeout(() => {
+			handleEnemyAttack(enemyAtkDamage, 0);
 			setActionPhase(null);
 			incrementTurnCount();
 		}, 1000);
