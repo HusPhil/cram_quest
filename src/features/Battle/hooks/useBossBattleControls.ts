@@ -8,9 +8,12 @@ import { chainScenes } from '../utils/chainScenes';
 import { playerDefendScene } from '../battleEngine/scenes/playerDefend/playerDefendScene';
 import { playerDefendSuccessScene } from '../battleEngine/scenes/playerDefendSuccess/playerDefendSuccessScene';
 import { playerDefendMissScene } from '../battleEngine/scenes/playerDefendMiss/playerDefendMissScene';
+import { accuracyCalculator } from '../utils/accuracyCalculator';
+import { toast } from 'react-toastify';
 
 type UseBossBattleControlsProps = {
-	addToBattleLog: (
+	incrementTurnCount: () => void;
+	writeToBattleLog: (
 		message: string,
 		variant?: 'success' | 'fail' | 'default' | 'info'
 	) => void;
@@ -19,7 +22,8 @@ type UseBossBattleControlsProps = {
 };
 
 export function useBossBattleControls({
-	addToBattleLog,
+	incrementTurnCount,
+	writeToBattleLog,
 	handlePlayerAttack,
 	handleEnemyAttack,
 }: UseBossBattleControlsProps) {
@@ -29,107 +33,149 @@ export function useBossBattleControls({
 	const [currentSpeed, setCurrentSpeed] = useState(100);
 	const [currentHitTargetWidth, setCurrentHitTargetWidth] = useState(40);
 	const [currentCursorWidth, setCurrentCursorWidth] = useState(32);
-	const [accuracyMessage, setAccuracyMessage] = useState<string | null>(null);
 
 	const queueCustomScene = useBattleEngineStore((s) => s.queueCustomScene);
 
 	const handleAttackClick = () => {
 		setActionPhase('attack');
 		setCurrentSpeed(150);
-		setCurrentHitTargetWidth(30);
+		setCurrentHitTargetWidth(3);
 		setCurrentCursorWidth(10);
-		setAccuracyMessage(null);
 	};
 
 	const handleDefendClick = () => {
 		setActionPhase('defend');
 		setCurrentSpeed(80);
-		setCurrentHitTargetWidth(30);
+		setCurrentHitTargetWidth(10);
 		setCurrentCursorWidth(10);
-		setAccuracyMessage(null);
 	};
 
-	const handleEnemyAttackSceneEnd = (damage: number) => {
-		handleEnemyAttack(damage, 0);
-		setActionPhase(null);
+	const getPlayerAttackDamage = (
+		success: boolean,
+		isCriticalHit: boolean,
+		accuracyPercentage: number
+	) => {
+		let damage = isCriticalHit ? 10 : 0;
+		let baseDamageRoll = 0;
+		let maxBase = 0;
+		let minBase = 0;
+		const accuracyBonus = accuracyPercentage / 10;
+
+		if (success) {
+			toast('success');
+			maxBase = 12;
+			minBase = 8;
+			baseDamageRoll =
+				Math.floor(Math.random() * (maxBase - minBase + 1)) + minBase;
+		} else {
+			maxBase = 7;
+			minBase = 5;
+			baseDamageRoll =
+				Math.floor(Math.random() * (maxBase - minBase + 1)) + minBase;
+		}
+
+		damage += Math.round(baseDamageRoll + accuracyBonus);
+
+		return damage;
+	};
+
+	const getEnemyAttackDamage = (
+		success: boolean,
+		isCriticalHit: boolean,
+		defenseReductionPercentage: number = 0
+	) => {
+		let damage = 0;
+		let maxBase = 17;
+		let minBase = 15;
+		const baseDamageRoll =
+			Math.floor(Math.random() * (maxBase - minBase + 1)) + minBase;
+
+		if (success) {
+			damage += baseDamageRoll;
+		} else {
+			const reducedDamage =
+				baseDamageRoll * (1 - (defenseReductionPercentage - 10) / 100);
+			damage += Math.max(reducedDamage, 2);
+		}
+
+		if (isCriticalHit) {
+			damage *= 1.5;
+		}
+
+		return Math.floor(damage);
+	};
+	const handleAttackPhase = (success: boolean, finalPosition: number) => {
+		const accuracyPercentage = accuracyCalculator(finalPosition);
+		const isCriticalHit = accuracyPercentage === 100;
+
+		const playerAtkDamage = getPlayerAttackDamage(
+			success,
+			isCriticalHit,
+			accuracyPercentage
+		);
+
+		const isEnemyCrit = Math.random() < 0.15;
+		const enemyAttackSuccess = true; // enemy will always successfully hit in this case
+		const enemyAtkDamage = getEnemyAttackDamage(
+			enemyAttackSuccess,
+			isEnemyCrit
+		);
+
+		if (isEnemyCrit) {
+			writeToBattleLog(
+				playerAtkDamage.toString() + '::' + enemyAtkDamage.toString(),
+				isEnemyCrit ? 'fail' : 'default'
+			);
+		} else {
+			writeToBattleLog(
+				playerAtkDamage.toString() + '::' + enemyAtkDamage.toString(),
+				isCriticalHit ? 'success' : 'default'
+			);
+		}
+
+		handlePlayerAttack(playerAtkDamage);
+		handleEnemyAttack(enemyAtkDamage, 0);
+
+		setTimeout(() => setActionPhase(null), 1000);
+	};
+
+	const handleDefendPhase = (success: boolean, finalPosition: number) => {
+		const accuracyPercentage = accuracyCalculator(finalPosition);
+		const isPerfectDefense = accuracyPercentage === 100;
+		const isEnemyCrit = Math.random() < 0.25;
+
+		let enemyAtkDamage = getEnemyAttackDamage(
+			!success,
+			isEnemyCrit,
+			accuracyPercentage
+		);
+
+		enemyAtkDamage = isPerfectDefense ? 1 : enemyAtkDamage;
+
+		writeToBattleLog(
+			enemyAtkDamage.toString(),
+			isPerfectDefense ? 'success' : 'default'
+		);
+
+		handleEnemyAttack(enemyAtkDamage, 0);
+
+		setTimeout(() => setActionPhase(null), 1000);
 	};
 
 	const handleTimingBarStop = (isHit: boolean, finalPosition: number) => {
 		if (!actionPhase) return;
 
-		const center =
-			(100 - currentHitTargetWidth) / 2 + currentHitTargetWidth / 2;
-		const accuracy = Math.abs(finalPosition - center);
-		let damage = 0;
-
 		if (actionPhase === 'attack') {
-			damage = Math.max(1, Math.round(5 + (1 - accuracy / 30) * 10));
-			const message = isHit
-				? `Hit! You dealt ${damage}`
-				: `Miss! You dealt ${damage}`;
-
-			chainScenes(queueCustomScene, [
-				{
-					sceneSteps: isHit
-						? playerAttackScene
-						: playerAttackMissScene,
-					sceneName: isHit
-						? 'playerAttackScene'
-						: 'playerAttackMissScene',
-					onLastStepIndex: () => {
-						addToBattleLog(
-							isHit ? 'You dealt damage!' : 'You missed!',
-							isHit ? 'success' : 'fail'
-						);
-						handlePlayerAttack(damage);
-					},
-				},
-				{
-					sceneSteps: enemyAttackScene,
-					sceneName: 'enemyAttackScene',
-					onLastStepIndex: () => handleEnemyAttackSceneEnd(damage),
-				},
-			]);
-
-			setAccuracyMessage(message);
+			handleAttackPhase(isHit, finalPosition);
 		}
 
 		if (actionPhase === 'defend') {
-			damage = Math.max(1, Math.round(20 + (1 - accuracy / 50) * 10));
-			const message = isHit
-				? `Defended! You blocked ${damage}`
-				: `Defend failed!`;
-
-			chainScenes(queueCustomScene, [
-				{
-					sceneSteps: playerDefendScene,
-					sceneName: 'playerDefendScene',
-					onLastStepIndex: () => {
-						addToBattleLog(
-							isHit ? 'You defended!' : 'You failed to defend!',
-							isHit ? 'success' : 'fail'
-						);
-						handlePlayerAttack(damage);
-					},
-				},
-				{
-					sceneSteps: isHit
-						? playerDefendSuccessScene
-						: playerDefendMissScene,
-					sceneName: isHit
-						? 'playerDefendSuccessScene'
-						: 'playerDefendMissScene',
-					onComplete: () => setActionPhase(null),
-				},
-			]);
-
-			setAccuracyMessage(message);
+			handleDefendPhase(isHit, finalPosition);
 		}
 	};
 
 	return {
 		actionPhase,
-		accuracyMessage,
 		currentSpeed,
 		currentHitTargetWidth,
 		currentCursorWidth,

@@ -5,19 +5,20 @@ import { useBossBattleControls } from '../../../Battle/hooks/useBossBattleContro
 
 // Define the props for BossBattleContorols
 interface BossBattleControlsProps {
-	addToBattleLog: (message: string) => void;
+	incrementTurnCount: () => void;
+	writeToBattleLog: (message: string) => void;
 	handlePlayerAttack: (damage: number) => void;
 	handleEnemyAttack: (damage: number, playerDefense: number) => void; // This will likely be called by game logic, not directly here.
 }
 
 const BossBattleContorls: React.FC<BossBattleControlsProps> = ({
-	addToBattleLog,
+	incrementTurnCount,
+	writeToBattleLog,
 	handlePlayerAttack,
 	handleEnemyAttack, // Destructure the prop, but it won't be called directly by timing bar success/failure
 }) => {
 	const {
 		actionPhase,
-		accuracyMessage,
 		currentSpeed,
 		currentHitTargetWidth,
 		currentCursorWidth,
@@ -27,7 +28,8 @@ const BossBattleContorls: React.FC<BossBattleControlsProps> = ({
 	} = useBossBattleControls({
 		handlePlayerAttack,
 		handleEnemyAttack,
-		addToBattleLog,
+		writeToBattleLog,
+		incrementTurnCount,
 	});
 
 	return (
