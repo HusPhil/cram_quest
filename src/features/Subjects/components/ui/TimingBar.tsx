@@ -20,10 +20,36 @@ export const TimingBar = ({
 	const [direction, setDirection] = useState<1 | -1>(1); // 1 for right, -1 for left
 	const animationFrameId = useRef<number | null>(null);
 	const lastTime = useRef<number>(0);
+	const barRef = useRef<HTMLDivElement>(null); // Ref to get the actual width of the bar
 
 	// Calculate the start position for the centered green zone
 	const greenZoneStart = (100 - hitTargetWidth) / 2;
 	const greenZoneEnd = greenZoneStart + hitTargetWidth;
+
+	// State to store cursor width in percentage relative to the bar's width
+	const [cursorHalfWidthInPercent, setCursorHalfWidthInPercent] = useState(0);
+
+	useEffect(() => {
+		// Calculate cursor width in percentage once the bar is rendered
+		const calculateCursorPercentage = () => {
+			if (barRef.current) {
+				const barWidthPx = barRef.current.offsetWidth;
+				if (barWidthPx > 0) {
+					// cursorWidthPx / barWidthPx * 100 / 2
+					setCursorHalfWidthInPercent(
+						((cursorWidth / barWidthPx) * 100) / 2
+					);
+				}
+			}
+		};
+
+		calculateCursorPercentage(); // Calculate on mount
+
+		// Add a resize listener to recalculate if the window (and thus bar) size changes
+		window.addEventListener('resize', calculateCursorPercentage);
+		return () =>
+			window.removeEventListener('resize', calculateCursorPercentage);
+	}, [cursorWidth]); // Recalculate if cursorWidth prop changes
 
 	useEffect(() => {
 		const animate = (currentTime: number) => {
@@ -32,16 +58,24 @@ export const TimingBar = ({
 			lastTime.current = currentTime;
 
 			setSliderPosition((prevPos) => {
-				// Calculate movement based on time elapsed to ensure consistent speed across different frame rates
-				let newPos = prevPos + (direction * speed * deltaTime) / 1000; // speed is now units per second
+				let newPos = prevPos + (direction * speed * deltaTime) / 1000;
 
-				// Boundary checks
-				if (newPos >= 100) {
-					newPos = 100;
-					setDirection(-1); // Change direction to left
-				} else if (newPos <= 0) {
-					newPos = 0;
-					setDirection(1); // Change direction to right
+				// Adjust boundaries by half of the cursor's width in percentage
+				// The cursor's center is 'newPos'. Its left edge is 'newPos - cursorHalfWidthInPercent'.
+				// Its right edge is 'newPos + cursorHalfWidthInPercent'.
+
+				const cursorLeftEdge = newPos - cursorHalfWidthInPercent;
+				const cursorRightEdge = newPos + cursorHalfWidthInPercent;
+
+				// If right edge goes past 100, bounce back from 100
+				if (cursorRightEdge >= 100) {
+					newPos = 100 - cursorHalfWidthInPercent; // Set center so right edge is at 100
+					setDirection(-1);
+				}
+				// If left edge goes past 0, bounce back from 0
+				else if (cursorLeftEdge <= 0) {
+					newPos = cursorHalfWidthInPercent; // Set center so left edge is at 0
+					setDirection(1);
 				}
 				return newPos;
 			});
@@ -55,15 +89,33 @@ export const TimingBar = ({
 				cancelAnimationFrame(animationFrameId.current);
 			}
 		};
-	}, [direction, speed]); // Re-run effect if direction or speed changes
+	}, [direction, speed, cursorHalfWidthInPercent]); // Add cursorHalfWidthInPercent to dependencies
 
 	const handleStopClick = () => {
 		if (animationFrameId.current) {
 			cancelAnimationFrame(animationFrameId.current); // Stop the animation
 		}
+
+		// Define the target zone for the cursor's *center*
+		// The center of the green zone is `greenZoneStart + hitTargetWidth / 2`.
+		// We want the sliderPosition to be as close to this center as possible.
+
+		// However, if the goal is to check if the cursor is *within* the green zone,
+		// we should check if any part of the cursor overlaps the green zone.
+		// For a hit, the cursor's actual visible area must intersect the green zone.
+		// A common interpretation for "hit target" is when the center of the cursor
+		// is within the center of the target zone.
+
+		// Let's stick with the most common interpretation: the cursor's *center* must be within the green zone.
+		// The visual error you saw might be due to the animation stopping *just* outside
+		// and the `sliderPosition` being a float.
+
 		const isWithinGreenZone =
 			sliderPosition >= greenZoneStart && sliderPosition <= greenZoneEnd;
-		onStop(isWithinGreenZone, sliderPosition); // Pass accuracy info back to parent
+
+		// Pass accuracy info back to parent
+		// The `finalPosition` passed to `onStop` is `sliderPosition` (center of the cursor).
+		onStop(isWithinGreenZone, sliderPosition);
 	};
 
 	return (
@@ -74,21 +126,25 @@ export const TimingBar = ({
 			<p className="text-white text-sm mb-4 text-center">
 				Click STOP! when the bar is in the green zone!
 			</p>
-			<div className="w-full h-8 bg-gray-600 rounded-full overflow-hidden relative">
+			<div
+				ref={barRef} // Attach the ref here
+				className="w-full h-8 bg-gray-600 rounded-full overflow-hidden relative"
+			>
 				{/* Green Zone (Hit Target) */}
 				<div
 					className="absolute h-full bg-green-500"
 					style={{
-						left: `${greenZoneStart}%`, // Dynamically calculated for centering
-						width: `${hitTargetWidth}%`, // Use hitTargetWidth directly
+						left: `${greenZoneStart}%`,
+						width: `${hitTargetWidth}%`,
 					}}
 				></div>
 				{/* Sliding Yellow Bar (Cursor) */}
 				<div
 					className="absolute h-full bg-yellow-400 rounded-full"
 					style={{
-						left: `calc(${sliderPosition}% - ${cursorWidth / 2}px)`, // Adjust by half of the cursor width to center it
-						width: `${cursorWidth}px`, // Use cursorWidth directly
+						// This calculation places the center of the cursor at `sliderPosition%`
+						left: `calc(${sliderPosition}% - ${cursorWidth / 2}px)`,
+						width: `${cursorWidth}px`,
 					}}
 				></div>
 			</div>
