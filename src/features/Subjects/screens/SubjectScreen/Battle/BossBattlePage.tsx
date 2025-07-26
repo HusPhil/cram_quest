@@ -65,7 +65,7 @@ export default function BossBattlePage() {
 		} else if (enemyHealth <= 0) {
 			handleEndBattle('player');
 		}
-	}, [playerHealth, enemyHealth]);
+	}, [turnCount]);
 
 	return (
 		<div className="flex flex-col items-center ">
