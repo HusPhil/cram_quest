@@ -136,7 +136,10 @@ export function useBossBattleControls({
 		handlePlayerAttack(playerAtkDamage);
 		handleEnemyAttack(enemyAtkDamage, 0);
 
-		setTimeout(() => setActionPhase(null), 1000);
+		setTimeout(() => {
+			setActionPhase(null);
+			incrementTurnCount();
+		}, 1000);
 	};
 
 	const handleDefendPhase = (success: boolean, finalPosition: number) => {
@@ -159,7 +162,10 @@ export function useBossBattleControls({
 
 		handleEnemyAttack(enemyAtkDamage, 0);
 
-		setTimeout(() => setActionPhase(null), 1000);
+		setTimeout(() => {
+			setActionPhase(null);
+			incrementTurnCount();
+		}, 1000);
 	};
 
 	const handleTimingBarStop = (isHit: boolean, finalPosition: number) => {
