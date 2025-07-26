@@ -1,5 +1,5 @@
 import BossBattleArena from '../../../components/battle/BossBattleArena';
-import BossBattleContorols from '../../../components/battle/BossBattleContorols';
+import BossBattleContorls from '../../../components/battle/BossBattleContorls';
 import { useBattleSetupStore } from '../../../../Battle/stores/battleSetupStore';
 import PixelButton from '../../../../../components/PixelButton';
 import HealthBar from '../../../components/ui/HealthBar';
@@ -50,7 +50,7 @@ export default function BossBattlePage() {
 						/>
 					</div>
 					<BossBattleArena />
-					<BossBattleContorols
+					<BossBattleContorls
 						handleEnemyAttack={handleEnemyAttack}
 						handlePlayerAttack={handlePlayerAttack}
 					/>
