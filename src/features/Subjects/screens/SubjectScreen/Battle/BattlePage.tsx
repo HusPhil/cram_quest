@@ -83,6 +83,7 @@ export default function BattlePage({
 		<div className="flex items-center flex-col">
 			{!isAllTasksCompleted ? (
 				<BattleCombatPanel
+					currentQuest={currentQuest}
 					currentTask={currentTask}
 					battleArenaComponent={battleArenaComponent}
 					completedTasksCount={completedTasksCount}

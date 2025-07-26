@@ -54,8 +54,8 @@ export const BattleArena = ({
 	}, []);
 
 	return (
-		<div className={`flex flex-col w-[280px] items-center gap-4`}>
-			<div className="w-full border rounded-md mb-3 p-2 flex gap-2 px-5 items-center justify-between border-accent bg-accent/15">
+		<>
+			{/* <div className="w-full border rounded-md mb-3 p-2 flex gap-2 px-5 items-center justify-between border-accent bg-accent/15">
 				<TbTargetArrow
 					className="w-6 h-6 shrink-0"
 					color={colors.accent}
@@ -70,53 +70,54 @@ export const BattleArena = ({
 					className="w-6 h-6 shrink-0"
 					color={colors.accent}
 				/>
-			</div>
-			<div className="flex relative w-full h-[200px] overflow-hidden">
-				<div className="absolute top-5 left-1/2 -translate-x-1/2">
-					<BattleTimer duration={duration} />
+			</div> */}
+			<div className={`flex flex-col w-[280px] items-center gap-4`}>
+				<div className="flex relative w-full h-[200px] overflow-hidden">
+					<div className="absolute top-5 left-1/2 -translate-x-1/2">
+						<BattleTimer duration={duration} />
+					</div>
+
+					{/* Corner Decorations */}
+
+					{/* Player (fixed on the left) */}
+					<SpriteSheet
+						style={{
+							position: 'absolute',
+							zIndex: playerZ,
+							left: `${playerPosX}px`,
+							bottom: -15,
+						}}
+						src={getPlayerAnimation().characterAsset}
+						frameHeight={48}
+						frameWidth={48}
+						frameCount={getPlayerAnimation().frameCount}
+						fps={getPlayerAnimation().fps}
+						frameRow={getPlayerAnimation().row}
+						scale={2.5}
+						loop={playerLoop}
+					/>
+
+					{/* Enemy (can move horizontally) */}
+					<SpriteSheet
+						style={{
+							position: 'absolute',
+							zIndex: enemyZ,
+							left: `${enemyPosX}px`,
+							transform: 'scaleX(-1)',
+							bottom: 20,
+						}}
+						src={getEnemyAnimation().characterAsset}
+						frameHeight={48}
+						frameWidth={64}
+						frameCount={getEnemyAnimation().frameCount}
+						fps={getEnemyAnimation().fps}
+						frameRow={getEnemyAnimation().row}
+						scale={2.5}
+						loop={enemyLoop}
+					/>
 				</div>
-
-				{/* Corner Decorations */}
-				<CornerDecoration />
-
-				{/* Player (fixed on the left) */}
-				<SpriteSheet
-					style={{
-						position: 'absolute',
-						zIndex: playerZ,
-						left: `${playerPosX}px`,
-						bottom: -15,
-					}}
-					src={getPlayerAnimation().characterAsset}
-					frameHeight={48}
-					frameWidth={48}
-					frameCount={getPlayerAnimation().frameCount}
-					fps={getPlayerAnimation().fps}
-					frameRow={getPlayerAnimation().row}
-					scale={2.5}
-					loop={playerLoop}
-				/>
-
-				{/* Enemy (can move horizontally) */}
-				<SpriteSheet
-					style={{
-						position: 'absolute',
-						zIndex: enemyZ,
-						left: `${enemyPosX}px`,
-						transform: 'scaleX(-1)',
-						bottom: 20,
-					}}
-					src={getEnemyAnimation().characterAsset}
-					frameHeight={48}
-					frameWidth={64}
-					frameCount={getEnemyAnimation().frameCount}
-					fps={getEnemyAnimation().fps}
-					frameRow={getEnemyAnimation().row}
-					scale={2.5}
-					loop={enemyLoop}
-				/>
 			</div>
-		</div>
+		</>
 	);
 };
 
