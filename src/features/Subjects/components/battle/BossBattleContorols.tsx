@@ -258,7 +258,7 @@ const BossBattleContorols: React.FC<BossBattleControlsProps> = ({
 	};
 
 	return (
-		<div className="flex flex-col items-center">
+		<div className="flex flex-col items-center w-full">
 			{/* Display accuracy message if available */}
 			{/* {accuracyMessage && (
 				<div
@@ -275,35 +275,31 @@ const BossBattleContorols: React.FC<BossBattleControlsProps> = ({
 
 			{actionPhase === null ? (
 				// Show ATTACK and DEFEND buttons initially
-				<div className="flex gap-3 w-full">
-					<div className="mt-3 flex-1 flex justify-center">
-						<PixelButton
-							className="py-2 px-8 text-lg"
-							colors={{
-								face: '#facc15',
-								shadow: '#ca8a04',
-								border: '#a16207',
-								text: '#1f2937',
-							}}
-							onClick={handleAttackClick}
-						>
-							<p>ATTACK</p>
-						</PixelButton>
-					</div>
-					<div className="mt-3 flex-1 flex justify-center">
-						<PixelButton
-							className="py-2 px-8 text-lg"
-							colors={{
-								face: '#facc15',
-								shadow: '#ca8a04',
-								border: '#a16207',
-								text: '#1f2937',
-							}}
-							onClick={handleDefendClick}
-						>
-							<p>DEFEND</p>
-						</PixelButton>
-					</div>
+				<div className="flex gap-3 w-full   ">
+					<PixelButton
+						className="py-2 px-8"
+						colors={{
+							face: '#facc15',
+							shadow: '#ca8a04',
+							border: '#a16207',
+							text: '#1f2937',
+						}}
+						onClick={handleAttackClick}
+					>
+						<p>ATTACK</p>
+					</PixelButton>
+					<PixelButton
+						className="py-2 px-8"
+						colors={{
+							face: '#facc15',
+							shadow: '#ca8a04',
+							border: '#a16207',
+							text: '#1f2937',
+						}}
+						onClick={handleDefendClick}
+					>
+						<p>DEFEND</p>
+					</PixelButton>
 				</div>
 			) : (
 				// Show timing bar when an action is selected

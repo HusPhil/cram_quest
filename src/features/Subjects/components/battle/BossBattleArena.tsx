@@ -1,9 +1,7 @@
-import { memo, useEffect } from 'react';
-import CornerDecoration from '../../../../components/CornerDecoration';
+import { memo } from 'react';
 import SpriteSheet from '../../../../components/SpriteSheet';
 import { useBattleEngineStore } from '../../../Battle/stores/battleEngineStore';
 import { useBattleSetup } from '../../../Battle/hooks/useBattleSetup';
-import { BattleEngineControllers } from '../../hooks/battle/useBattleEngineControllers';
 
 interface BossBattleArenaProps {}
 
@@ -28,7 +26,7 @@ export const BossBattleArena = ({}: BossBattleArenaProps) => {
 
 	return (
 		<div className={`flex flex-col w-[280px] items-center gap-4`}>
-			<div className="flex relative w-full h-[200px] overflow-hidden">
+			<div className="flex relative w-full h-[120px] border-text/30 overflow-hidden">
 				{/* needs to have div to be relative to */}
 				{/* Player (fixed on the left) */}
 				<SpriteSheet

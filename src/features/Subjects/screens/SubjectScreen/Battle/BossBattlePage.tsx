@@ -30,14 +30,25 @@ export default function BossBattlePage() {
 	return (
 		<div className="flex flex-col items-center ">
 			{isBattleActive ? (
-				<>
-					{' '}
+				<div>
+					<div>
+						<HealthBar
+							health={playerHealth}
+							maxHealth={playerMaxHealth}
+							label="You"
+						/>
+						<HealthBar
+							health={enemyHealth}
+							maxHealth={enemyMaxHealth}
+							label="Boss"
+						/>
+					</div>
 					<BossBattleArena />
 					<BossBattleContorols
 						handleEnemyAttack={handleEnemyAttack}
 						handlePlayerAttack={handlePlayerAttack}
 					/>
-				</>
+				</div>
 			) : (
 				<div className="flex flex-col items-center my-5">
 					<p className="text-gray-300 text-center mb-6 text-xl font-semibold">
