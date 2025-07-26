@@ -74,7 +74,7 @@ const PixelButton: React.FC<PixelButtonProps> = ({
 
 	return (
 		<button
-			className={`relative bg-transparent border-none text-base font-medium transition-all duration-100 outline-none ${
+			className={`relative w-full bg-transparent border-none text-base font-medium transition-all duration-100 outline-none ${
 				disabled ? 'opacity-60 cursor-not-allowed ' : 'cursor-pointer'
 			} `}
 			style={{ color: buttonColors.text, ...style }}
@@ -92,7 +92,7 @@ const PixelButton: React.FC<PixelButtonProps> = ({
 			{/* Button Face */}
 			{/* Button Content */}
 			<span
-				className={`content relative z-20 flex items-center gap-2 pointer-events-none transition-transform duration-100  ${className} ${
+				className={`w-full h-full content relative z-20 flex items-center justify-center gap-2 pointer-events-none transition-transform duration-100  ${className} ${
 					disabled ? 'translate-y-[4px]' : ''
 				}`}
 				style={{
