@@ -5,11 +5,12 @@ import { killEnemyScene } from '../../../Battle/battleEngine/scenes/killEnemy/ki
 import { playerAttackScene } from '../../../Battle/battleEngine/scenes/playerAttack/playerAttackScene';
 import { enemyAttackScene } from '../../../Battle/battleEngine/scenes/enemyAttack/enemyAttackScene';
 import { defaultBattleScene } from '../../../Battle/battleEngine/scenes/default/defaultBattleScene';
-import { toast } from 'react-toastify';
-import { playerMissScene } from '../../../Battle/battleEngine/scenes/playerMiss/playerMissScene';
+import { playerAttackMissScene } from '../../../Battle/battleEngine/scenes/playerAttackMiss/playerMissScene';
 import { enemyMissScene } from '../../../Battle/battleEngine/scenes/enemyMiss/enemyMissScene';
-import { playerDefendScene } from '../../../Battle/battleEngine/scenes/playerDefend/playerDefendScene';
+import { playerDefendSuccessScene } from '../../../Battle/battleEngine/scenes/playerDefendSuccess/playerDefendSuccessScene';
 import { chainScenes } from '../../../Battle/utils/chainScenes';
+import { playerDefendScene } from '../../../Battle/battleEngine/scenes/playerDefend/playerDefendScene';
+import { playerDefendMissScene } from '../../../Battle/battleEngine/scenes/playerDefendMiss/playerDefendMissScene';
 
 // Define the props interface for TimingBar
 interface TimingBarProps {
@@ -207,22 +208,19 @@ const BossBattleContorls: React.FC<BossBattleControlsProps> = ({
 				// 	() => handlePlayerAttackSceneEnd(damage),
 				// 	() => undefined
 				// );
-				chainScenes(
-					queueCustomScene,
-					[
-						{
-							sceneSteps: playerAttackScene,
-							sceneName: 'playerAttackScene',
-							onComplete: () => handlePlayerAttack(damage),
-						},
-						{
-							sceneSteps: enemyAttackScene,
-							sceneName: 'enemyAttackScene',
-							onComplete: () => handleEnemyAttackSceneEnd(damage),
-						},
-					],
-					() => {}
-				);
+				chainScenes(queueCustomScene, [
+					{
+						sceneSteps: playerAttackScene,
+						sceneName: 'playerAttackScene',
+						onLastStepIndex: () => handlePlayerAttack(damage),
+					},
+					{
+						sceneSteps: enemyAttackScene,
+						sceneName: 'enemyAttackScene',
+						onLastStepIndex: () =>
+							handleEnemyAttackSceneEnd(damage),
+					},
+				]);
 				message += ` You dealt ${damage} damage!`;
 			} else {
 				message = `Miss! You stopped at ${finalPosition.toFixed(
@@ -231,22 +229,18 @@ const BossBattleContorls: React.FC<BossBattleControlsProps> = ({
 				// Optionally, deal minimal or no damage on a miss
 				damage = 5; // Example: minimal damage on miss
 
-				chainScenes(
-					queueCustomScene,
-					[
-						{
-							sceneSteps: playerMissScene,
-							sceneName: 'playerMissScene',
-						},
-						{
-							sceneSteps: enemyAttackScene,
-							sceneName: 'enemyAttackScene',
-							onLastStepIndex: () =>
-								handleEnemyAttackSceneEnd(damage),
-						},
-					],
-					() => {}
-				);
+				chainScenes(queueCustomScene, [
+					{
+						sceneSteps: playerAttackMissScene,
+						sceneName: 'playerAttackMissScene',
+					},
+					{
+						sceneSteps: enemyAttackScene,
+						sceneName: 'enemyAttackScene',
+						onLastStepIndex: () =>
+							handleEnemyAttackSceneEnd(damage),
+					},
+				]);
 
 				message += ` You dealt ${damage} damage (missed).`;
 			}
@@ -269,22 +263,37 @@ const BossBattleContorls: React.FC<BossBattleControlsProps> = ({
 				damage = Math.max(1, Math.round(damage)); // Ensure minimum 1 damage
 				message += ` You dealt ${damage} damage!`;
 
-				queueCustomScene({
-					sceneSteps: playerDefendScene,
-					sceneName: 'playerDefendScene',
-					onComplete: () => {
-						toast.info('You dodged!');
-						setActionPhase(null);
+				chainScenes(queueCustomScene, [
+					{
+						sceneSteps: playerDefendScene,
+						sceneName: 'playerDefendScene',
 					},
-				});
+					{
+						sceneSteps: playerDefendSuccessScene,
+						sceneName: 'playerDefendSuccessScene',
+						onComplete: () => {
+							setActionPhase(null);
+						},
+					},
+				]);
 			} else {
 				message = `Defend failed! You stopped at ${finalPosition.toFixed(
 					2
 				)}%.`;
 				// Player might take full damage from next enemy attack
-				// queueCustomScene(enemyAttackScene, 'enemyAttackScene', () =>
-				// 	setActionPhase(null)
-				// );
+				chainScenes(queueCustomScene, [
+					{
+						sceneSteps: playerDefendScene,
+						sceneName: 'playerDefendScene',
+					},
+					{
+						sceneSteps: playerDefendMissScene,
+						sceneName: 'playerDefendMissScene',
+						onComplete: () => {
+							setActionPhase(null);
+						},
+					},
+				]);
 			}
 		}
 

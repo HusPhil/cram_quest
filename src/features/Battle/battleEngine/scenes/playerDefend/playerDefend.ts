@@ -15,6 +15,7 @@ export const playerDefend: BattleStepFn = ({
 	setPlayerPosX(getPlayerPosX() + 12);
 
 	const transitionDelay = setTimeout(() => {
+		setEnemyAction('idle');
 		next();
 	}, 300);
 

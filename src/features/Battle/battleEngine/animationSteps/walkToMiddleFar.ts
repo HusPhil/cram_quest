@@ -12,8 +12,8 @@ export const walkToMiddleFar: BattleStepFn = ({
 }) => {
 	// Define target positions
 	const targetPlayerX =
-		arenaMiddle - (enemyPosOffSetX + enemyPosOffSetX / 2) - 8;
-	const targetEnemyX = arenaMiddle + enemyPosOffSetX / 2 + 16;
+		arenaMiddle - (enemyPosOffSetX + enemyPosOffSetX / 2) - 16;
+	const targetEnemyX = arenaMiddle + enemyPosOffSetX / 2 + 8 * 3;
 	const movementSpeed = 6;
 	const movementInterval = 50; // ms
 

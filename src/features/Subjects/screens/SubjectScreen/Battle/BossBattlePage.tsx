@@ -4,6 +4,7 @@ import { useBattleSetupStore } from '../../../../Battle/stores/battleSetupStore'
 import PixelButton from '../../../../../components/PixelButton';
 import HealthBar from '../../../components/ui/HealthBar';
 import { useState } from 'react';
+import { useUserPlayerStore } from '../../../../Auth/stores/userPlayerStore/userPlayerStore';
 
 export default function BossBattlePage() {
 	const isBattleActive = useBattleSetupStore((state) => state.isBattleActive);
@@ -12,6 +13,7 @@ export default function BossBattlePage() {
 	);
 
 	const enemyName = useBattleSetupStore((state) => state.enemyName);
+	const currentPlayerUsername = useUserPlayerStore((state) => state.username);
 
 	const playerMaxHealth = 100;
 	const enemyMaxHealth = 100;
@@ -38,7 +40,7 @@ export default function BossBattlePage() {
 							className=""
 							health={playerHealth}
 							maxHealth={playerMaxHealth}
-							label="You"
+							label={currentPlayerUsername ?? 'You'}
 							iconSize={20}
 						/>
 						<HealthBar

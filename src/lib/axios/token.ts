@@ -44,12 +44,13 @@ export function updateStoresFromRefreshData(data: RefreshTokenResponse) {
 	setPlayerCurrentUserId(data.user_session_info.id);
 	setPlayerCurrentPlayerId(data.player_session_info.id);
 
-	const setPlayerProfile = useUserPlayerStore.getState().setProfile;
-	setPlayerProfile({
-		profileId: data.profile_session_info.id,
-		avatarUrl: data.profile_session_info.avatar_url,
-		bio: data.profile_session_info.bio!,
-		mood: data.profile_session_info.mood!,
+	const setCurrentUser = useUserPlayerStore.getState().setUser;
+	setCurrentUser({
+		userId: data.user_session_info.id,
+		username: data.user_session_info.username,
+		email: data.user_session_info.email,
+		is_active: data.user_session_info.is_active,
+		is_admin: data.user_session_info.is_admin,
 	});
 
 	const setUserPlayer = useUserPlayerStore.getState().setPlayer;
@@ -63,6 +64,14 @@ export function updateStoresFromRefreshData(data: RefreshTokenResponse) {
 		longest_daily_streak: data.player_session_info.longest_daily_streak,
 		session_streak: data.player_session_info.session_streak,
 		longest_session_streak: data.player_session_info.longest_session_streak,
+	});
+
+	const setPlayerProfile = useUserPlayerStore.getState().setProfile;
+	setPlayerProfile({
+		profileId: data.profile_session_info.id,
+		avatarUrl: data.profile_session_info.avatar_url,
+		bio: data.profile_session_info.bio!,
+		mood: data.profile_session_info.mood!,
 	});
 }
 

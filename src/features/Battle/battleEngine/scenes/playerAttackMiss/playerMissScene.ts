@@ -8,7 +8,7 @@ import { playerAttackSceneEnd } from '../playerAttack/playerAttackSceneEnd';
 import { enemyDodge } from './enemyDodge';
 import { playerMiss } from './playerMiss';
 
-export const playerMissScene: BattleStepFn[] = [
+export const playerAttackMissScene: BattleStepFn[] = [
 	walkToMiddle,
 	playerMiss,
 	enemyDodge,

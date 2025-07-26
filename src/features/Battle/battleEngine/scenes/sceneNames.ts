@@ -2,7 +2,9 @@ export type sceneName =
 	| 'defaultBattleScence'
 	| 'killEnemyScene'
 	| 'playerAttackScene'
-	| 'playerMissScene'
-	| 'enemyMissScene'
+	| 'playerAttackMissScene'
 	| 'playerDefendScene'
+	| 'playerDefendSuccessScene'
+	| 'playerDefendMissScene'
+	| 'enemyMissScene'
 	| 'enemyAttackScene';

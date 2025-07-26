@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useBattleEngineStore } from '../../../Battle/stores/battleEngineStore';
 import { playerAttackScene } from '../../../Battle/battleEngine/scenes/playerAttack/playerAttackScene';
-import { playerMissScene } from '../../../Battle/battleEngine/scenes/playerMiss/playerMissScene';
+import { playerAttackMissScene } from '../../../Battle/battleEngine/scenes/playerAttackMiss/playerMissScene';
 
 const ATTACK_SETTINGS = {
 	speed: 150,
@@ -26,7 +26,7 @@ const PHASES = {
 		base: 5,
 		bonus: 15,
 		successScene: playerAttackScene,
-		failScene: playerMissScene,
+		failScene: playerAttackMissScene,
 		onSuccess: (damage: number, helper: PhaseHelper) =>
 			helper.handlePlayerAttackSceneEnd(damage),
 		onFail: (damage: number, helpers: any) =>

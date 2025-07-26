@@ -1,7 +1,7 @@
-import startKnockback from '../../../utils/startKnockback';
-import { BattleStepFn } from '../../types';
+import startKnockback from '../../utils/startKnockback';
+import { BattleStepFn } from '../types';
 
-export const playerEnemyPushed: BattleStepFn = ({
+export const playerEnemyPushedHurt: BattleStepFn = ({
 	next,
 	adjustZValues,
 	setEnemyLoop,
@@ -15,8 +15,8 @@ export const playerEnemyPushed: BattleStepFn = ({
 }) => {
 	adjustZValues('enemy');
 
-	setEnemyAction('walk');
-	setPlayerAction('walk');
+	setEnemyAction('idle');
+	setPlayerAction('hurt');
 
 	setEnemyLoop(true);
 	setPlayerLoop(false);
@@ -25,20 +25,11 @@ export const playerEnemyPushed: BattleStepFn = ({
 		fromX: getPlayerPosX(),
 		setX: setPlayerPosX,
 		direction: 'left',
-		knockbackDmg: 35,
-		onDone: () => {},
-	});
-
-	const enemyKnockBackCleanup = startKnockback({
-		fromX: getEnemyPosX(),
-		setX: setEnemyPosX,
-		direction: 'right',
-		knockbackDmg: 35,
+		knockbackDmg: 16 * 3,
 		onDone: () => next(),
 	});
 
 	return () => {
 		playerKnockBackCleanup();
-		enemyKnockBackCleanup();
 	};
 };
