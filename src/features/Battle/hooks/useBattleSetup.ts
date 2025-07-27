@@ -114,5 +114,8 @@ export const useBattleSetup = (
 		// Initialize and start
 		setLoop(isLoopOn);
 		startBattle();
+
+		setPlayerCurrentAction('idle');
+		setEnemyCurrentAction('idle');
 	}, []);
 };

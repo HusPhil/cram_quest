@@ -80,6 +80,14 @@ export const useBattleEngineStore = create<
 	resetBattleEngine: () =>
 		set(() => ({
 			playerPosX: 0,
+			playerZ: 0,
+			playerLoop: true,
+
+			enemyName: 'Enemy',
 			enemyPosX: 48 * 3,
+			enemyZ: 0,
+			enemyLoop: true,
+
+			isCustomSceneActive: false,
 		})),
 }));
