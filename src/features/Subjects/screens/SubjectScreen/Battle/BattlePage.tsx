@@ -23,40 +23,11 @@ export default function BattlePage({
 		completedTasks,
 		currentTaskIndex,
 		isCustomSceneActive,
-		battleSessionId,
 		endBattleSessionMutate,
 		getPlayerAnimation,
 		handleKillEnemy,
-		handleSyncTaskTimings,
 		initializeBattleEngineControllers,
 	} = useTaskBattleFlow();
-
-	useEffect(() => {
-		const handleQuestComplete = async () => {
-			if (
-				currentTaskIndex >= generatedTasks.length &&
-				battleSessionId != null
-			) {
-				await handleSyncTaskTimings();
-				endBattleSessionMutate.mutate(
-					{ battleSessionId },
-					{
-						onSuccess: (data) => {
-							console.log(
-								'Battle session ended successfully',
-								data
-							);
-							toast.success('Battle session ended successfully', {
-								toastId: 'end-battle-session',
-							});
-						},
-					}
-				);
-			}
-		};
-
-		handleQuestComplete();
-	}, [currentTaskIndex, generatedTasks, handleSyncTaskTimings]);
 
 	const battleArenaComponent = useMemo(
 		() => (
