@@ -84,7 +84,7 @@ export default function BossBattlePage({ battleCleanup }: BossBattlePageProps) {
 	};
 
 	useEffect(() => {
-		if (!isBattleActive) return;
+		if (!isBattleActive || battleResult) return;
 		if (playerHealth <= 0) {
 			setBattleResult('defeat');
 		} else if (enemyHealth <= 0) {
