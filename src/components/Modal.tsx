@@ -62,12 +62,12 @@ const Modal = ({
 			{/* Modal Container */}
 			<div
 				ref={modalRef}
-				className={`relative z-50 w-11/12 max-w-[500px] transform rounded-lg max-h-[80%] overflow-auto border-2 ${getBorderFromVariant(
+				className={`relative z-50 w-11/12 max-w-[500px] transform rounded-lg max-h-[80%] overflow-auto border ${getBorderFromVariant(
 					variant
 				)}`}
 			>
 				{/* accent-like gradient background */}
-				<div className="relative rounded-lg bg-gradient-to-br from-background via-secondary to-background p-1">
+				<div className="relative p-1 bg-background">
 					<div className="rounded-lg bg-background/95 p-6">
 						{/* Header */}
 						{customHeader || (
