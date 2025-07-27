@@ -34,9 +34,18 @@ const BossBattleContorls: React.FC<BossBattleControlsProps> = ({
 
 	return (
 		<div className="flex flex-col items-center w-full">
-			{actionPhase === null ? (
+			<div className="mt-3 w-full max-w-lg">
+				<TimingBar
+					disabled={actionPhase === null}
+					onStop={handleTimingBarStop}
+					speed={currentSpeed}
+					hitTargetWidth={currentHitTargetWidth}
+					cursorWidth={currentCursorWidth}
+				/>
+			</div>
+			{actionPhase === null && (
 				// Show ATTACK and DEFEND buttons initially
-				<div className="flex gap-3 w-full   ">
+				<div className="flex gap-3 w-full relative">
 					<PixelButton
 						className="py-2 px-8"
 						colors={{
@@ -61,16 +70,6 @@ const BossBattleContorls: React.FC<BossBattleControlsProps> = ({
 					>
 						<p>DEFEND</p>
 					</PixelButton>
-				</div>
-			) : (
-				// Show timing bar when an action is selected
-				<div className="mt-3 w-full max-w-lg">
-					<TimingBar
-						onStop={handleTimingBarStop}
-						speed={currentSpeed}
-						hitTargetWidth={currentHitTargetWidth}
-						cursorWidth={currentCursorWidth}
-					/>
 				</div>
 			)}
 		</div>

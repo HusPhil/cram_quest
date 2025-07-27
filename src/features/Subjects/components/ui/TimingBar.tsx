@@ -4,6 +4,7 @@ import PixelButton from '../../../../components/PixelButton';
 // Define the props interface for TimingBar
 interface TimingBarProps {
 	onStop: (isHit: boolean, finalPosition: number) => void;
+	disabled?: boolean;
 	speed?: number; // Optional prop for controlling speed (units per second)
 	hitTargetWidth?: number; // Optional prop for the width of the green hit target zone (percentage)
 	cursorWidth?: number; // Optional prop for the width of the yellow cursor in pixels
@@ -12,6 +13,7 @@ interface TimingBarProps {
 // TimingBar component with sliding functionality
 export const TimingBar = ({
 	onStop,
+	disabled,
 	speed = 100, // Default speed: 100 units per second
 	hitTargetWidth = 40, // Default green zone width: 40%
 	cursorWidth = 32, // Default cursor width: 32px (matches Tailwind w-8)
@@ -49,9 +51,10 @@ export const TimingBar = ({
 		window.addEventListener('resize', calculateCursorPercentage);
 		return () =>
 			window.removeEventListener('resize', calculateCursorPercentage);
-	}, [cursorWidth]); // Recalculate if cursorWidth prop changes
+	}, [cursorWidth, disabled]); // Recalculate if cursorWidth prop changes
 
 	useEffect(() => {
+		if (disabled) return;
 		const animate = (currentTime: number) => {
 			if (!lastTime.current) lastTime.current = currentTime;
 			const deltaTime = currentTime - lastTime.current;
@@ -89,7 +92,7 @@ export const TimingBar = ({
 				cancelAnimationFrame(animationFrameId.current);
 			}
 		};
-	}, [direction, speed, cursorHalfWidthInPercent]); // Add cursorHalfWidthInPercent to dependencies
+	}, [direction, speed, cursorHalfWidthInPercent, disabled]); // Add cursorHalfWidthInPercent to dependencies
 
 	const handleStopClick = () => {
 		if (animationFrameId.current) {
@@ -119,16 +122,18 @@ export const TimingBar = ({
 	};
 
 	return (
-		<div className="bg-gray-800 p-4 rounded-md border-2 border-amber-600">
-			<h3 className="text-amber-500 text-lg font-bold mb-3 text-center">
-				ACCURACY
-			</h3>
-			<p className="text-white text-sm mb-4 text-center">
-				Click STOP! when the bar is in the green zone!
-			</p>
+		<div
+			className={`flex flex-col items-center w-full  py-1 ${
+				disabled ? 'opacity-50' : ''
+			}`}
+		>
+			<small className="text-white text-xs mb-4 text-center opacity-75">
+				Click <span className="text-accent">READY</span> when the bar is
+				in the green zone!
+			</small>
 			<div
 				ref={barRef} // Attach the ref here
-				className="w-full h-8 bg-gray-600 rounded-full overflow-hidden relative"
+				className="w-full h-5 bg-gray-600 rounded-full overflow-hidden relative mb-2"
 			>
 				{/* Green Zone (Hit Target) */}
 				<div
@@ -148,9 +153,11 @@ export const TimingBar = ({
 					}}
 				></div>
 			</div>
-			<div className="mt-4 flex justify-center">
+			{!disabled && (
 				<PixelButton
-					className="py-2 px-8 text-lg"
+					type="button"
+					disabled={disabled}
+					className="py-2 px-8"
 					colors={{
 						face: '#facc15',
 						shadow: '#ca8a04',
@@ -159,9 +166,9 @@ export const TimingBar = ({
 					}}
 					onClick={handleStopClick}
 				>
-					<p>STOP!</p>
+					<p>READY</p>
 				</PixelButton>
-			</div>
+			)}
 		</div>
 	);
 };
