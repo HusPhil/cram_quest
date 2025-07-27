@@ -24,6 +24,7 @@ export interface BattleSessionRead {
 export interface BattleSessionEnd extends BattleSessionRead {
 	session_streak: number;
 	longest_session_streak: number;
+	is_boss_available: boolean;
 }
 
 export interface BattleSessionCreate {
