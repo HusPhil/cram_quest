@@ -4,7 +4,7 @@ import PixelButton from '../../../../components/PixelButton';
 // Define the props interface for TimingBar
 interface TimingBarProps {
 	onStop: (isHit: boolean, finalPosition: number) => void;
-	disabled?: boolean;
+	disabled?: boolean; // This prop disables the *entire bar*, not just the button
 	speed?: number; // Optional prop for controlling speed (units per second)
 	hitTargetWidth?: number; // Optional prop for the width of the green hit target zone (percentage)
 	cursorWidth?: number; // Optional prop for the width of the yellow cursor in pixels
@@ -13,7 +13,7 @@ interface TimingBarProps {
 // TimingBar component with sliding functionality
 export const TimingBar = ({
 	onStop,
-	disabled,
+	disabled, // This prop controls the overall bar's active state
 	speed = 100, // Default speed: 100 units per second
 	hitTargetWidth = 40, // Default green zone width: 40%
 	cursorWidth = 32, // Default cursor width: 32px (matches Tailwind w-8)
@@ -23,6 +23,9 @@ export const TimingBar = ({
 	const animationFrameId = useRef<number | null>(null);
 	const lastTime = useRef<number>(0);
 	const barRef = useRef<HTMLDivElement>(null); // Ref to get the actual width of the bar
+
+	// NEW STATE: Tracks if the slider is currently moving
+	const [isSliderMoving, setIsSliderMoving] = useState(false);
 
 	// Calculate the start position for the centered green zone
 	const greenZoneStart = (100 - hitTargetWidth) / 2;
@@ -37,7 +40,6 @@ export const TimingBar = ({
 			if (barRef.current) {
 				const barWidthPx = barRef.current.offsetWidth;
 				if (barWidthPx > 0) {
-					// cursorWidthPx / barWidthPx * 100 / 2
 					setCursorHalfWidthInPercent(
 						((cursorWidth / barWidthPx) * 100) / 2
 					);
@@ -51,10 +53,21 @@ export const TimingBar = ({
 		window.addEventListener('resize', calculateCursorPercentage);
 		return () =>
 			window.removeEventListener('resize', calculateCursorPercentage);
-	}, [cursorWidth, disabled]); // Recalculate if cursorWidth prop changes
+	}, [cursorWidth]); // Recalculate if cursorWidth prop changes
 
 	useEffect(() => {
-		if (disabled) return;
+		// If the overall bar is disabled, stop animation and ensure button is disabled
+		if (disabled) {
+			if (animationFrameId.current) {
+				cancelAnimationFrame(animationFrameId.current);
+			}
+			setIsSliderMoving(false); // Ensure button is disabled
+			return;
+		}
+
+		// When the component becomes active (not disabled), start the animation
+		setIsSliderMoving(true);
+
 		const animate = (currentTime: number) => {
 			if (!lastTime.current) lastTime.current = currentTime;
 			const deltaTime = currentTime - lastTime.current;
@@ -63,21 +76,14 @@ export const TimingBar = ({
 			setSliderPosition((prevPos) => {
 				let newPos = prevPos + (direction * speed * deltaTime) / 1000;
 
-				// Adjust boundaries by half of the cursor's width in percentage
-				// The cursor's center is 'newPos'. Its left edge is 'newPos - cursorHalfWidthInPercent'.
-				// Its right edge is 'newPos + cursorHalfWidthInPercent'.
-
 				const cursorLeftEdge = newPos - cursorHalfWidthInPercent;
 				const cursorRightEdge = newPos + cursorHalfWidthInPercent;
 
-				// If right edge goes past 100, bounce back from 100
 				if (cursorRightEdge >= 100) {
-					newPos = 100 - cursorHalfWidthInPercent; // Set center so right edge is at 100
+					newPos = 100 - cursorHalfWidthInPercent;
 					setDirection(-1);
-				}
-				// If left edge goes past 0, bounce back from 0
-				else if (cursorLeftEdge <= 0) {
-					newPos = cursorHalfWidthInPercent; // Set center so left edge is at 0
+				} else if (cursorLeftEdge <= 0) {
+					newPos = cursorHalfWidthInPercent;
 					setDirection(1);
 				}
 				return newPos;
@@ -92,38 +98,26 @@ export const TimingBar = ({
 				cancelAnimationFrame(animationFrameId.current);
 			}
 		};
-	}, [direction, speed, cursorHalfWidthInPercent, disabled]); // Add cursorHalfWidthInPercent to dependencies
+	}, [direction, speed, cursorHalfWidthInPercent, disabled]); // Add disabled to dependencies
 
 	const handleStopClick = () => {
 		if (animationFrameId.current) {
 			cancelAnimationFrame(animationFrameId.current); // Stop the animation
+			animationFrameId.current = null; // Clear the ref
 		}
 
-		// Define the target zone for the cursor's *center*
-		// The center of the green zone is `greenZoneStart + hitTargetWidth / 2`.
-		// We want the sliderPosition to be as close to this center as possible.
-
-		// However, if the goal is to check if the cursor is *within* the green zone,
-		// we should check if any part of the cursor overlaps the green zone.
-		// For a hit, the cursor's actual visible area must intersect the green zone.
-		// A common interpretation for "hit target" is when the center of the cursor
-		// is within the center of the target zone.
-
-		// Let's stick with the most common interpretation: the cursor's *center* must be within the green zone.
-		// The visual error you saw might be due to the animation stopping *just* outside
-		// and the `sliderPosition` being a float.
+		// NEW: Set isSliderMoving to false because the slider has stopped
+		setIsSliderMoving(false);
 
 		const isWithinGreenZone =
 			sliderPosition >= greenZoneStart && sliderPosition <= greenZoneEnd;
 
-		// Pass accuracy info back to parent
-		// The `finalPosition` passed to `onStop` is `sliderPosition` (center of the cursor).
 		onStop(isWithinGreenZone, sliderPosition);
 	};
 
 	return (
 		<div
-			className={`flex flex-col items-center w-full  py-1 ${
+			className={`flex flex-col items-center w-full py-1 ${
 				disabled ? 'opacity-50' : ''
 			}`}
 		>
@@ -133,11 +127,13 @@ export const TimingBar = ({
 			</small>
 			<div
 				ref={barRef} // Attach the ref here
-				className="w-full h-5 bg-gray-600 rounded-full overflow-hidden relative mb-2"
+				className={`w-full h-5 bg-white/35 rounded-md overflow-hidden relative ${
+					disabled ? 'mb-2' : 'mb-2.5'
+				}`}
 			>
 				{/* Green Zone (Hit Target) */}
 				<div
-					className="absolute h-full bg-green-500"
+					className="absolute h-full bg-success/70"
 					style={{
 						left: `${greenZoneStart}%`,
 						width: `${hitTargetWidth}%`,
@@ -145,9 +141,8 @@ export const TimingBar = ({
 				></div>
 				{/* Sliding Yellow Bar (Cursor) */}
 				<div
-					className="absolute h-full bg-yellow-400 rounded-full"
+					className="absolute h-full bg-yellow-400 rounded-md"
 					style={{
-						// This calculation places the center of the cursor at `sliderPosition%`
 						left: `calc(${sliderPosition}% - ${cursorWidth / 2}px)`,
 						width: `${cursorWidth}px`,
 					}}
@@ -156,8 +151,8 @@ export const TimingBar = ({
 			{!disabled && (
 				<PixelButton
 					type="button"
-					disabled={disabled}
-					className="py-2 px-8"
+					disabled={disabled || !isSliderMoving} // Control button disabled state
+					className="py-2 px-8 w-full"
 					colors={{
 						face: '#facc15',
 						shadow: '#ca8a04',

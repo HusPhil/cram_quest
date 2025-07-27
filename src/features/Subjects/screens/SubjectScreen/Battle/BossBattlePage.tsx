@@ -31,7 +31,7 @@ export default function BossBattlePage({ battleCleanup }: BossBattlePageProps) {
 	const [playerHealth, setPlayerHealth] = useState(playerMaxHealth);
 	const [enemyHealth, setEnemyHealth] = useState(enemyMaxHealth);
 
-	const [turnCount, setTurnCount] = useState(0);
+	const [turnCount, setTurnCount] = useState(1);
 
 	const battleResult = useBattleSetupStore((state) => state.battleResult);
 	const setBattleResult = useBattleSetupStore(
