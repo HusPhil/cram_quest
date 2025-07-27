@@ -211,11 +211,6 @@ export function useBossBattleControls({
 				incrementTurnCount();
 			}
 		);
-
-		setTimeout(() => {
-			setActionPhase(null);
-			incrementTurnCount();
-		}, 1000);
 	};
 
 	const handleTimingBarStop = (isHit: boolean, finalPosition: number) => {
