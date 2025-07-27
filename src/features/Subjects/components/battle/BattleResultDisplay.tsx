@@ -6,6 +6,7 @@ import BattleResultStats from './BattleResultStats.tsx';
 import BattleResultContinue from './BattleResultContinue.tsx';
 import colors from '../../../../data/colors.ts';
 import { TbSwords } from 'react-icons/tb';
+import { getRandomChoice } from '../../../../utils/getRandomChoice.ts';
 
 interface SpriteProps {
 	characterAsset: string;
@@ -21,6 +22,19 @@ interface BattleResultDisplayProps {
 	battleSessionResult?: BattleSessionEnd;
 	bossBattle?: boolean;
 }
+
+const epicBossMessages = [
+	'A great presence senses your defiance…',
+	'The shadows stir… something ancient awakens.',
+	'A dreadful force emerges from the depths',
+	'The boss stirs — its gaze now fixed upon you…',
+	'A dark omen fills the air… your trial begins.',
+	'The silence breaks… your nemesis approaches.',
+	'A fearsome entity answers your call.',
+	'The seal cracks open… your battle awaits.',
+	'You stand before the awakened terror.',
+	'Your final test draws near…',
+];
 
 const BattleResultDisplay: React.FC<BattleResultDisplayProps> = ({
 	result,
@@ -40,7 +54,7 @@ const BattleResultDisplay: React.FC<BattleResultDisplayProps> = ({
 	return (
 		<div className="w-full flex flex-col items-center">
 			<div
-				className={`w-full border rounded-md mb-3 p-2 px-5 flex items-center justify-between gap-2 ${borderColor} ${bgColor}`}
+				className={`w-full border rounded-md p-2 px-5 flex items-center justify-between ${borderColor} ${bgColor}`}
 			>
 				<Icon className="w-6 h-6 shrink-0" color={color} />
 				<p className={`text-xl font-bold ${textColor}`}>
@@ -70,18 +84,17 @@ const BattleResultDisplay: React.FC<BattleResultDisplayProps> = ({
 				</>
 			) : battleSessionResult ? (
 				<>
-					<BattleResultXPGained
-						baseXp={battleSessionResult.base_xp}
-						bonusXp={battleSessionResult.bonus_xp}
-						result={result}
-					/>
-
 					<BattleResultStats
 						result={result}
 						base_xp={battleSessionResult.base_xp}
 						bonus_xp={battleSessionResult.bonus_xp}
 						streak_count={battleSessionResult.session_streak}
 					/>
+					{battleSessionResult.is_boss_available && (
+						<p className="mt-5 p-1 px-5 text-center text-sm rounded-md text-danger animate-pulse bg-danger/10">
+							{getRandomChoice(epicBossMessages, '', true)}
+						</p>
+					)}
 					<BattleResultContinue
 						result={result}
 						battleCleanUp={battleCleanup}
