@@ -9,6 +9,7 @@ import { useBattleEngineStore } from '../stores/battleEngineStore';
 import { useUserPlayerStore } from '../../Auth/stores/userPlayerStore/userPlayerStore';
 import { BattleStepFn } from '../battleEngine/types';
 import { useBattleSetupStore } from '../stores/battleSetupStore';
+import { getRandomChoice } from '../../../utils/getRandomChoice';
 
 export const useBattleSetup = (
 	isBossBattle: boolean = false,
@@ -67,21 +68,6 @@ export const useBattleSetup = (
 		queueCustomScene,
 		customSceneActiveRef,
 	} = useBattleEngine(initialSceneSteps);
-
-	function getRandomChoice<T>(
-		choices: T[],
-		currentChoice: T,
-		excludeCurrent: boolean = true
-	): T {
-		const pool = excludeCurrent
-			? choices.filter((choice) => choice !== currentChoice)
-			: choices;
-
-		if (pool.length === 0) return currentChoice;
-
-		const randomIndex = Math.floor(Math.random() * pool.length);
-		return pool[randomIndex];
-	}
 
 	const handleGetNewEnemy = useCallback(() => {
 		setCurrentEnemy((prevEnemy) => {
