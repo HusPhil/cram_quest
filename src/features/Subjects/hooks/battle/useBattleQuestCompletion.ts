@@ -55,9 +55,25 @@ export const useBattleQuestCompletion = ({
 		}
 	}, [battleResult]);
 
+	const handleEndBattleSession = async () => {
+		await handleSyncTaskTimings();
+		endBattleSessionMutate.mutate(
+			{ battleSessionId: battleSessionId! },
+			{
+				onSuccess: (data) => {
+					console.log('Battle session ended successfully', data);
+					toast.success('Battle session ended successfully', {
+						toastId: 'end-battle-session',
+					});
+				},
+			}
+		);
+	};
+
 	return {
 		battleSessionId,
 		endBattleSessionMutate,
+		handleEndBattleSession,
 		handleSyncTaskTimings,
 		getPlayerAnimation,
 	};

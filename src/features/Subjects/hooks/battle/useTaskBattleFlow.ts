@@ -25,7 +25,20 @@ export const useTaskBattleFlow = () => {
 		initializeBattleEngineControllers,
 	} = useBattleEngineControllers();
 
+	const {
+		handleSyncTaskTimings,
+		getPlayerAnimation,
+		battleSessionId,
+		endBattleSessionMutate,
+		handleEndBattleSession,
+	} = useBattleQuestCompletion({
+		clearTimings,
+		getAllTimings,
+		battleResult,
+	});
+
 	const handleKillEnemy = useBattleKillEnemyHandler({
+		handleEndBattleSession,
 		generatedTasks,
 		currentTaskIndex,
 		saveEndTime,
@@ -33,17 +46,6 @@ export const useTaskBattleFlow = () => {
 		queueCustomSceneRef,
 		getNewEnemyRef,
 		handleCompleteTask,
-	});
-
-	const {
-		handleSyncTaskTimings,
-		getPlayerAnimation,
-		battleSessionId,
-		endBattleSessionMutate,
-	} = useBattleQuestCompletion({
-		clearTimings,
-		getAllTimings,
-		battleResult,
 	});
 
 	useEffect(() => {

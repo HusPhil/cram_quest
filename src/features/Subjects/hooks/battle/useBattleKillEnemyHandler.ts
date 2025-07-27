@@ -7,14 +7,16 @@ import { defaultBattleScene } from '../../../Battle/battleEngine/scenes/default/
 interface BattleKillEnemyHandlerProps {
 	generatedTasks: TaskRead[];
 	currentTaskIndex: number;
-	saveEndTime: (task: TaskRead) => void;
-	saveStartTime: (task: TaskRead) => void;
 	queueCustomSceneRef: React.RefObject<QueueCustomSceneFn | null>;
 	getNewEnemyRef: React.RefObject<(() => void) | null>;
+	saveEndTime: (task: TaskRead) => void;
+	saveStartTime: (task: TaskRead) => void;
 	handleCompleteTask: (task: TaskRead) => void;
+	handleEndBattleSession: () => void;
 }
 
 export const useBattleKillEnemyHandler = ({
+	handleEndBattleSession,
 	generatedTasks,
 	currentTaskIndex,
 	saveEndTime,
@@ -45,6 +47,9 @@ export const useBattleKillEnemyHandler = ({
 			onComplete: handleKillEnemyAnimationComplete,
 			onLastStepIndex: handleAnimationLastStepIndex,
 		});
+		if (currentTaskIndex === generatedTasks.length - 1) {
+			handleEndBattleSession();
+		}
 	}, [
 		handleKillEnemyAnimationComplete,
 		handleAnimationLastStepIndex,
