@@ -7,7 +7,7 @@ import { useBattleEngineStore } from '../stores/battleEngineStore';
 
 export interface CustomSceneConfig {
 	sceneSteps: BattleStepFn[];
-	sceneName?: sceneName;
+	sceneName: sceneName;
 	onComplete?: (sceneName?: sceneName) => void;
 	onLastStepIndex?: (sceneName?: sceneName) => void;
 }

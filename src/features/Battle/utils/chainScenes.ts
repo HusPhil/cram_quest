@@ -6,7 +6,7 @@ export function chainScenes(
 	queueCustomScene: QueueCustomSceneFn,
 	scenes: {
 		sceneSteps: BattleStepFn[];
-		sceneName?: sceneName;
+		sceneName: sceneName;
 		onComplete?: () => void;
 		onLastStepIndex?: () => void;
 	}[],
