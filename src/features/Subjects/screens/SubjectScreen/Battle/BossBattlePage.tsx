@@ -9,8 +9,14 @@ import FloatingMessage, {
 	FloatingMessageData,
 } from '../../../components/ui/FloatingMessage';
 import { toast } from 'react-toastify';
+import BattleResultDisplay from '../../../components/battle/BattleResultDisplay';
+import { useBattleEngineStore } from '../../../../Battle/stores/battleEngineStore';
 
-export default function BossBattlePage() {
+interface BossBattlePageProps {
+	battleCleanup: () => void;
+}
+
+export default function BossBattlePage({ battleCleanup }: BossBattlePageProps) {
 	const isBattleActive = useBattleSetupStore((state) => state.isBattleActive);
 	const setIsBattleActive = useBattleSetupStore(
 		(state) => state.setIsBattleActive
@@ -26,6 +32,14 @@ export default function BossBattlePage() {
 	const [enemyHealth, setEnemyHealth] = useState(enemyMaxHealth);
 
 	const [turnCount, setTurnCount] = useState(0);
+
+	const battleResult = useBattleSetupStore((state) => state.battleResult);
+	const setBattleResult = useBattleSetupStore(
+		(state) => state.setBattleResult
+	);
+	const getPlayerAnimation = useBattleEngineStore(
+		(state) => state.getPlayerAnimation
+	);
 
 	const incrementTurnCount = () => setTurnCount((prevCount) => prevCount + 1);
 
@@ -53,44 +67,66 @@ export default function BossBattlePage() {
 		});
 	};
 
-	const handleEndBattle = (winner: 'player' | 'enemy') => {
-		toast.success(`Battle won by ${winner === 'player' ? 'You' : 'Enemy'}`);
-		setIsBattleActive(false);
+	const handleStartBossBattle = () => {
+		setIsBattleActive(true);
+		setEnemyHealth(enemyMaxHealth);
+		setPlayerHealth(playerMaxHealth);
+		setFloatingMessageData({
+			text: 'Battle Start!',
+			variant: 'info',
+			id: Date.now(),
+		});
+	};
+
+	const handleBossBattleCleanup = () => {
+		battleCleanup();
+		setTurnCount(0);
 	};
 
 	useEffect(() => {
 		if (!isBattleActive) return;
 		if (playerHealth <= 0) {
-			handleEndBattle('enemy');
+			setBattleResult('defeat');
 		} else if (enemyHealth <= 0) {
-			handleEndBattle('player');
+			setBattleResult('victory');
 		}
-	}, [turnCount]);
+	}, [enemyHealth, playerHealth]);
 
 	return (
 		<div className="flex flex-col items-center ">
-			{isBattleActive ? (
+			{battleResult ? (
+				<>
+					<BattleResultDisplay
+						bossBattle
+						result={battleResult}
+						sprite={getPlayerAnimation()}
+						battleCleanup={handleBossBattleCleanup}
+					/>
+				</>
+			) : isBattleActive ? (
 				<div className="w-full flex flex-col items-center">
 					<div className="flex justify-between w-full 	">
 						<HealthBar
-							className=""
 							health={playerHealth}
 							maxHealth={playerMaxHealth}
 							label={currentPlayerUsername ?? 'You'}
 							iconSize={20}
 						/>
+						<div className="flex flex-col justify-center items-center flex-1">
+							<p>ROUND {turnCount}</p>
+							<div className="relative w-full h-10  my-4  flex items-center justify-center overflow-hidden">
+								<FloatingMessage
+									messageData={floatingMessageData}
+								/>
+							</div>
+						</div>
 						<HealthBar
-							className=" flex flex-col items-end"
+							className="flex flex-col items-end"
 							health={enemyHealth}
 							maxHealth={enemyMaxHealth}
 							iconSize={20}
 							label={enemyName ?? 'Enemy'}
 						/>
-					</div>
-					<p>{turnCount}</p>
-					{/* The "green box" area where the message should float */}
-					<div className="relative w-full h-10  my-4 flex items-center justify-center overflow-hidden">
-						<FloatingMessage messageData={floatingMessageData} />
 					</div>
 					<BossBattleArena />
 					<BossBattleContorls
@@ -123,7 +159,7 @@ export default function BossBattlePage() {
 								border: '#a16207',
 								text: '#1f2937',
 							}}
-							onClick={() => setIsBattleActive(true)}
+							onClick={handleStartBossBattle}
 						>
 							<p>I'm Ready!</p>
 						</PixelButton>

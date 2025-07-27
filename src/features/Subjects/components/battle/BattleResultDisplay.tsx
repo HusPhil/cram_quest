@@ -1,8 +1,6 @@
 import React from 'react';
-import { LuTrophy, LuFlame } from 'react-icons/lu';
 import SpriteSheet from '../../../../components/SpriteSheet';
 import { BattleSessionEnd } from '../../../../services/api/schema/battle_session_schema';
-import useBattleResultAnalysis from '../../hooks/battle/useBattleResultAnalysis';
 import BattleResultXPGained from './BattleResultXPGained.tsx';
 import BattleResultStats from './BattleResultStats.tsx';
 import BattleResultContinue from './BattleResultContinue.tsx';
@@ -21,20 +19,19 @@ interface BattleResultDisplayProps {
 	sprite: SpriteProps;
 	battleCleanup: () => void;
 	battleSessionResult?: BattleSessionEnd;
+	bossBattle?: boolean;
 }
 
 const BattleResultDisplay: React.FC<BattleResultDisplayProps> = ({
 	result,
 	sprite,
 	battleCleanup,
+	bossBattle,
 	battleSessionResult,
 }) => {
-	const { duration } = useBattleResultAnalysis(battleSessionResult);
-
 	// Pick icon & colors based on result
 	const isVictory = result === 'victory';
 	const Icon = TbSwords;
-
 	const color = isVictory ? colors.success : colors.danger; // Tailwind's green-500 or red-500
 	const borderColor = isVictory ? 'border-success' : 'border-danger';
 	const bgColor = isVictory ? 'bg-success/15' : 'bg-danger/15';
@@ -63,7 +60,15 @@ const BattleResultDisplay: React.FC<BattleResultDisplayProps> = ({
 				loop
 			/>
 
-			{battleSessionResult ? (
+			{bossBattle ? (
+				<>
+					<p>BossBattleResult</p>
+					<BattleResultContinue
+						result={result}
+						battleCleanUp={battleCleanup}
+					/>
+				</>
+			) : battleSessionResult ? (
 				<>
 					<BattleResultXPGained
 						baseXp={battleSessionResult.base_xp}

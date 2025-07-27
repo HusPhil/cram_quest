@@ -1,8 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import BattleArena from '../../../components/battle/BattleArena';
-import { TbSword, TbTargetArrow, TbTrophy } from 'react-icons/tb';
 import { QuestRead } from '../../../../../services/api/schema/quest_schema';
-import colors from '../../../../../data/colors';
 import { useTaskBattleFlow } from '../../../hooks/battle/useTaskBattleFlow';
 import BattleResultDisplay from '../../../components/battle/BattleResultDisplay';
 import BattleCombatPanel from '../../../components/battle/BattleCombatPanel';

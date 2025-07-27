@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import SpriteSheet from '../../../../components/SpriteSheet';
 import { useBattleEngineStore } from '../../../Battle/stores/battleEngineStore';
 import { useBattleSetup } from '../../../Battle/hooks/useBattleSetup';
@@ -25,7 +25,7 @@ export const BossBattleArena = ({}: BossBattleArenaProps) => {
 	);
 
 	return (
-		<div className={`flex flex-col w-[280px] items-center gap-4`}>
+		<div className={`flex flex-col w-[280px] mb-3 items-center gap-4`}>
 			<div className="flex relative w-full h-[100px] border-text/30 overflow-hidden">
 				{/* needs to have div to be relative to */}
 				{/* Player (fixed on the left) */}
@@ -34,7 +34,7 @@ export const BossBattleArena = ({}: BossBattleArenaProps) => {
 						position: 'absolute',
 						zIndex: playerZ,
 						left: `${playerPosX}px`,
-						bottom: -15,
+						top: 0,
 					}}
 					src={getPlayerAnimation().characterAsset}
 					frameHeight={48}
@@ -53,11 +53,12 @@ export const BossBattleArena = ({}: BossBattleArenaProps) => {
 						zIndex: enemyZ,
 						left: `${enemyPosX}px`,
 						transform: 'scaleX(-1)',
-						bottom: 20,
+						top: 0,
 					}}
 					src={getEnemyAnimation().characterAsset}
 					frameHeight={48}
 					frameWidth={64}
+					offsetY={15}
 					frameCount={getEnemyAnimation().frameCount}
 					fps={getEnemyAnimation().fps}
 					frameRow={getEnemyAnimation().row}

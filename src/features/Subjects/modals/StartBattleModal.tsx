@@ -141,7 +141,7 @@ export default function StartBattleModal({
 			variant={getVariantFromResult(battleResult)}
 		>
 			{isBossBattle ? (
-				<BossBattlePage />
+				<BossBattlePage battleCleanup={handleCleanupBattlefield} />
 			) : !isBattleActive ? (
 				<>
 					<StepProgress currentStep={currentStep} steps={steps} />
