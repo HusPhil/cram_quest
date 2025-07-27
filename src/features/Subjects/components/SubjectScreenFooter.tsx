@@ -21,7 +21,7 @@ export default function SubjectScreenFooter({}: SubjectScreenFooterProps) {
 					disabled={subjectQuests == null}
 					className="flex-1 px-4 py-2 mt-3 mx-2 bg-accent text-background rounded disabled:opacity-50 disabled:cursor-not-allowed"
 				>
-					START SESSION
+					SESSION BATTLE
 				</button>
 				<button
 					onClick={() =>
