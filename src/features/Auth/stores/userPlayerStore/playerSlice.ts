@@ -5,10 +5,14 @@ export interface PlayerSlice {
 	playerId: number | null;
 	title: PlayerTitle | null;
 	level: number | null;
-	experience: number | null;
 	next_level_xp: number | null;
+	experience: number | null;
+
+	boss_availability_counter: number | null;
+
 	session_streak: number | null;
 	longest_session_streak: number | null;
+
 	daily_streak: number | null;
 	longest_daily_streak: number | null;
 
@@ -27,6 +31,7 @@ export const createPlayerSlice: StateCreator<
 	level: null,
 	experience: null,
 	next_level_xp: null,
+	boss_availability_counter: null,
 	session_streak: null,
 	longest_session_streak: null,
 	daily_streak: null,
@@ -42,6 +47,7 @@ export const createPlayerSlice: StateCreator<
 			level: s.level,
 			experience: s.experience,
 			next_level_xp: s.next_level_xp,
+			boss_availability_counter: s.boss_availability_counter,
 			session_streak: s.session_streak,
 			longest_session_streak: s.longest_session_streak,
 			daily_streak: s.daily_streak,
