@@ -1,0 +1,109 @@
+import PixelButton from '../../../../components/PixelButton';
+import { useUserPlayerStore } from '../../../Auth/stores/userPlayerStore/userPlayerStore';
+import { useGetBossAvailabilityCounter } from '../../hooks/battle/useGetBossAvailabilityCounter';
+import { useGetLatestBossBattleStatus } from '../../hooks/battle/useGetLatestBossBattleStatus';
+
+// Assuming a max availability for visual representation, let's say 3
+const MAX_BOSS_AVAILABILITY = 3;
+
+function BossBattleInformation({
+	handleStartBossBattle,
+}: {
+	handleStartBossBattle: () => void;
+}) {
+	const currentPlayerId = useUserPlayerStore((state) => state.playerId);
+
+	const playerLatestBossBattleStatus = useGetLatestBossBattleStatus(
+		currentPlayerId!
+	);
+
+	const playerBossAvailabilityCounter = useGetBossAvailabilityCounter(
+		currentPlayerId!
+	);
+
+	const isBossAvailable =
+		playerLatestBossBattleStatus.data?.status === 'available';
+	const currentCounter = isBossAvailable
+		? MAX_BOSS_AVAILABILITY
+		: playerBossAvailabilityCounter.data ?? 0;
+
+	// Create an array to map to our visual orbs/slots
+	const orbSlots = Array.from(
+		{ length: MAX_BOSS_AVAILABILITY },
+		(_, i) => i + 1
+	);
+
+	return (
+		<div>
+			{/* Main Message */}
+
+			{/* Boss Availability Section - Improved Display */}
+			<div className="rounded-md mb-6 flex flex-col items-center ">
+				<p className="text-gray-300 mb-3">Ritual Charges:</p>
+				<div className="flex space-x-2 mb-4">
+					{orbSlots.map((slotNum) => (
+						<div
+							key={slotNum}
+							className={`w-10 h-10 border-2 ${
+								currentCounter >= slotNum
+									? 'border-amber-300 bg-amber-500 shadow-lg' // Filled orb
+									: 'border-gray-500 bg-gray-600 opacity-50' // Empty slot
+							} rounded-full flex items-center justify-center transition-all duration-300 ease-in-out`}
+						>
+							{/* Optional: Add a pixel art dot or symbol inside filled orbs */}
+							{currentCounter >= slotNum && (
+								<div className="w-4 h-4 bg-gray-900 rounded-full animate-pulse"></div>
+							)}
+						</div>
+					))}
+				</div>
+				<p className="text-gray-400 text-sm mb-3">
+					({currentCounter} of {MAX_BOSS_AVAILABILITY} charges
+					accumulated)
+				</p>
+
+				<div className="flex items-center space-x-3 mt-4 pt-4 border-t border-gray-600 w-full justify-center">
+					<p className="text-gray-300">Boss Status:</p>
+					<span
+						className={` font-bold ${
+							isBossAvailable ? 'text-green-400' : 'text-red-400'
+						}`}
+					>
+						{isBossAvailable ? 'READY TO BRAWL!' : 'RESTING...'}
+					</span>
+				</div>
+			</div>
+
+			{/* Call to Action */}
+			{isBossAvailable && (
+				<>
+					<small className="text-sm text-gray-400 text-center block mb-6">
+						Hit the{' '}
+						<span className="text-amber-300 font-bold">
+							"I'm Ready!"
+						</span>{' '}
+						button to conquer!
+					</small>
+					{/* Action Button */}
+					<div className="flex justify-center">
+						<PixelButton
+							disabled={!isBossAvailable}
+							className=" py-2 "
+							colors={{
+								face: '#facc15', // Amber 400
+								shadow: '#ca8a04', // Amber 600
+								border: '#a16207', // Amber 700
+								text: '#1f2937', // Dark Gray
+							}}
+							onClick={handleStartBossBattle}
+						>
+							<p>I'm Ready!</p>
+						</PixelButton>
+					</div>
+				</>
+			)}
+		</div>
+	);
+}
+
+export default BossBattleInformation;
