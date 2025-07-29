@@ -11,6 +11,7 @@ import FloatingMessage, {
 import { toast } from 'react-toastify';
 import BattleResultDisplay from '../../../components/battle/BattleResultDisplay';
 import { useBattleEngineStore } from '../../../../Battle/stores/battleEngineStore';
+import BossBattleInformation from '../../../components/battle/BossBattleInformation';
 
 interface BossBattlePageProps {
 	battleCleanup: () => void;
@@ -137,34 +138,9 @@ export default function BossBattlePage({ battleCleanup }: BossBattlePageProps) {
 					/>
 				</div>
 			) : (
-				<div className="flex flex-col items-center my-5">
-					<p className="text-gray-300 text-center mb-6 text-xl font-semibold">
-						Alright, champ! Got your game face on?
-						<br />
-						This boss ain't gonna fight itself!
-					</p>
-					<small className="text-xs text-gray-400 opacity-75">
-						Just hit the{' '}
-						<span className="text-amber-300 font-bold">
-							I'm Ready!
-						</span>{' '}
-						button to start the brawl!
-					</small>
-					<div className="mt-3 flex justify-center">
-						<PixelButton
-							className="py-2 px-8 text-lg"
-							colors={{
-								face: '#facc15',
-								shadow: '#ca8a04',
-								border: '#a16207',
-								text: '#1f2937',
-							}}
-							onClick={handleStartBossBattle}
-						>
-							<p>I'm Ready!</p>
-						</PixelButton>
-					</div>
-				</div>
+				<BossBattleInformation
+					handleStartBossBattle={handleStartBossBattle}
+				/>
 			)}
 		</div>
 	);
