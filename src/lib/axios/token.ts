@@ -60,6 +60,8 @@ export function updateStoresFromRefreshData(data: RefreshTokenResponse) {
 		level: data.player_session_info.level,
 		experience: data.player_session_info.experience,
 		next_level_xp: data.player_session_info.next_level_xp,
+		boss_availability_counter:
+			data.player_session_info.boss_availability_counter,
 		daily_streak: data.player_session_info.daily_streak,
 		longest_daily_streak: data.player_session_info.longest_daily_streak,
 		session_streak: data.player_session_info.session_streak,

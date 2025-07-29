@@ -12,6 +12,7 @@ interface PlayerBase {
 	level: number;
 	experience: number;
 	next_level_xp: number;
+	boss_availability_counter: number;
 	session_streak: number;
 	longest_session_streak: number;
 	daily_streak: number;

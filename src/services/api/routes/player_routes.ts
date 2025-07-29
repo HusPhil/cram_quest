@@ -7,5 +7,9 @@ export const getPlayerSubjectsEndRoute = (playerId: number) => {
 };
 
 export const getPlayerProfileEndRoute = (playerId: number) => {
-	return `${BASE_URL}/${basePlayerRoute}/${playerId}/profile/`;
+	return `${BASE_URL}/${basePlayerRoute}/${playerId}/profile`;
+};
+
+export const getPlayerBossAvailabilityCounterEndRoute = (playerId: number) => {
+	return `${BASE_URL}/${basePlayerRoute}/${playerId}/boss_availability_counter`;
 };

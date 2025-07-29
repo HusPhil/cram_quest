@@ -1,5 +1,6 @@
 import { fetcher } from '../fetcher';
 import {
+	getPlayerBossAvailabilityCounterEndRoute,
 	getPlayerProfileEndRoute,
 	getPlayerSubjectsEndRoute,
 } from '../routes/player_routes';
@@ -30,6 +31,22 @@ export const getPlayerProfile = async (
 	if (response.status !== 200) {
 		throw new Error('Failed to fetch subjects');
 	}
+
+	return response.data;
+};
+
+export const getPlayerBossAvailabilityCounter = async (
+	playerId: number
+): Promise<number> => {
+	const response = await fetcher(
+		getPlayerBossAvailabilityCounterEndRoute(playerId)
+	);
+
+	if (response.status !== 200) {
+		throw new Error('Failed to fetch boss availability counter');
+	}
+
+	console.log('getPlayerBossAvailabilityCounter response: ', response.data);
 
 	return response.data;
 };
