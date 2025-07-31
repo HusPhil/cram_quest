@@ -28,7 +28,7 @@ const epicBossMessages = [
 	'The shadows stir… something ancient awakens.',
 	'A dreadful force emerges from the depths',
 	'The boss stirs — its gaze now fixed upon you…',
-	'A dark omen fills the air… your trial begins.',
+	'A dark omen fills the air… boss is awake.',
 	'The silence breaks… your nemesis approaches.',
 	'A fearsome entity answers your call.',
 	'The seal cracks open… your battle awaits.',
