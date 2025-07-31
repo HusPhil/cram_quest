@@ -7,6 +7,7 @@ export type EnemyType =
 	| 'skeleton_lord'
 	| 'pig'
 	| 'dark_knight';
+
 export type CharacterType = EnemyType | 'player';
 
 export type BaseAnimationState = 'idle' | 'hurt' | 'walk' | 'death';
@@ -45,7 +46,24 @@ export type EnemyAnimationOverridesMap = Record<
 
 // Player related types
 export type PlayerClass = 'default' | 'knight' | 'armored_knight' | 'worker';
-export type PlayerSkin = string; // Or define specific skin names if preferred
+export type PlayerSkin =
+	| 'armored_knight_demonite'
+	| 'armored_knight_gold'
+	| 'armored_knight_hallow'
+	| 'armored_knight_iron'
+	| 'armored_knight_platinum'
+	| 'armored_knight_titanium'
+	| 'armored_knight_wood'
+	| 'engineer'
+	| 'police'
+	| 'prince'
+	| 'default_1'
+	| 'default_2'
+	| 'default_3'
+	| 'knight_1'
+	| 'knight_2'
+	| 'knight_3'
+	| 'knight_4';
 
 // Type for player class animation overrides
 export type PlayerClassOverridesMap = Record<
@@ -56,12 +74,15 @@ export type PlayerClassOverridesMap = Record<
 // Type for player skin overrides within classes
 export type PlayerSkinOverridesMap = Record<
 	PlayerClass,
-	Record<PlayerSkin, PlayerAnimationOverrides>
+	Partial<Record<PlayerSkin, PlayerAnimationOverrides>>
 >;
 
 // Asset path types
 export type EnemyAssetMap = Record<EnemyType, string>;
-export type PlayerAssetMap = Record<PlayerClass, Record<PlayerSkin, string>>;
+export type PlayerAssetMap = Record<
+	PlayerClass,
+	Partial<Record<PlayerSkin, string>>
+>;
 
 export const baseEnemyAnimationConfig: EnemyAnimations = {
 	idle: { frameCount: 3, fps: 5, row: 0 },
