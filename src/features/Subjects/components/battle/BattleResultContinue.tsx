@@ -17,10 +17,14 @@ export default function BattleResultContinue({
 
 	return (
 		<button
-			className={`w-full mt-5 inline-flex justify-center items-center gap-3  py-2 px-5 rounded-md border transition-transform active:scale-90  ${borderBgStyle}`}
+			className={`w-full mt-5 inline-flex justify-center items-center gap-3  border-none outline-none`}
 			onClick={battleCleanUp}
 		>
-			<p className={`${textColor}`}>CONTINUE</p>
+			<div
+				className={`w-full py-2 px-5 border transition-transform rounded-md active:scale-95 ${borderBgStyle}`}
+			>
+				<p className={`${textColor}`}>CONTINUE</p>
+			</div>
 		</button>
 	);
 }
