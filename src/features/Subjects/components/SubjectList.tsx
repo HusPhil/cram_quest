@@ -29,7 +29,7 @@ const SubjectList = ({
 			) : (
 				<div
 					className="absolute inset-0 overflow-y-auto overscroll-behavior-y-contain
-                  scroll-smooth -webkit-overflow-scrolling-touch no-scrollbar"
+                  scroll-smooth -webkit-overflow-scrolling-touch "
 				>
 					<div
 						className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4

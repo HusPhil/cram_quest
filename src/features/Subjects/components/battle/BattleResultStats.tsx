@@ -14,6 +14,7 @@ export default function BattleResultStats({
 }) {
 	const textColor = result === 'victory' ? 'text-success' : 'text-danger';
 	const iconColor = result === 'victory' ? colors.success : colors.danger;
+	// TODO: fix the display to show the correct values
 
 	return (
 		<div className="w-full flex justify-between gap-3">
