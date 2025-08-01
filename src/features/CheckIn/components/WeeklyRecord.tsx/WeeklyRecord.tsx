@@ -6,6 +6,7 @@ import {
 
 type WeeklyRecordProps = {
 	weeklyCheckInRecord: WeeklyCheckInRead;
+	checkInLoading: boolean;
 	handleCheckIn: () => void;
 };
 
@@ -21,17 +22,23 @@ const days = [
 
 const WeeklyRecord = ({
 	weeklyCheckInRecord,
+	checkInLoading,
 	handleCheckIn,
 }: WeeklyRecordProps) => {
 	const today = new Date();
-	const dayName = today.toLocaleDateString('en-US', { weekday: 'long' });
+	const dayNameToday = today
+		.toLocaleDateString('en-US', {
+			weekday: 'long',
+		})
+		.toLowerCase() as keyof WeeklyCheckInRead;
+	const dayStatusToday = weeklyCheckInRecord[dayNameToday] as CheckInStatus;
 
 	const getDayBoxStyle = (day: keyof WeeklyCheckInRead) => {
 		const dayStatus = weeklyCheckInRecord[day] as CheckInStatus;
 
 		if (
 			dayStatus.is_future ||
-			(day === dayName.toLowerCase() && !dayStatus.is_checked)
+			(day === dayNameToday && !dayStatus.is_checked)
 		) {
 			return 'bg-secondary/75 border-white/25';
 		} else if (dayStatus.is_checked) {
@@ -43,7 +50,7 @@ const WeeklyRecord = ({
 
 	const getDayIndicatorStyle = (day: keyof WeeklyCheckInRead) => {
 		const dayStatus = weeklyCheckInRecord[day] as CheckInStatus;
-		if (day === dayName.toLowerCase()) {
+		if (day === dayNameToday) {
 			return 'bg-accent/50 animate-pulse';
 		}
 		if (dayStatus.is_future) {
@@ -69,10 +76,11 @@ const WeeklyRecord = ({
 				<div className="my-3">
 					<button
 						type="button"
-						className="py-1 text-sm  px-5 bg-accent rounded-md mt-3 text-background"
+						disabled={checkInLoading || dayStatusToday.is_checked}
+						className="py-1 text-sm  px-5 bg-accent rounded-md mt-3 text-background animate-pulse disabled:opacity-50 disabled:cursor-not-allowed disabled:animate-none"
 						onClick={handleCheckIn}
 					>
-						<p>Check In</p>
+						<p>{checkInLoading ? 'Loading…' : 'Check In'}</p>
 					</button>
 				</div>
 			</div>
@@ -87,7 +95,7 @@ const WeeklyRecord = ({
 						<div
 							className={`flex flex-col items-center justify-center space-y-2 md:space-y-1 lg:space-y-[0.5] lg:space-x-2 lg:flex-row`}
 						>
-							{day === dayName.toLowerCase() ? (
+							{day === dayNameToday ? (
 								<span className="capitalize text-xs md:text-sm font-medium text-accent/80 animate-pulse">
 									{day.slice(0, 3)}
 								</span>

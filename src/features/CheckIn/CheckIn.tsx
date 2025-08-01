@@ -12,6 +12,7 @@ import { useRefreshSession } from '../Auth/hooks/useRefreshSession';
 import { useGetLatestCheckIn } from './hooks/useGetLatestCheckIn';
 import { useCheckIn } from './hooks/useCheckIn';
 import { toast } from 'react-toastify';
+import { PlayerSkin } from '../Battle/configs/spritesheetConfig';
 
 const mockWeeklyCheckInRecord = [
 	{
@@ -124,7 +125,7 @@ export default function CheckIn() {
 			>
 				<PlayerCard
 					playerClass={parsedAvatar.playerClass}
-					playerSkin={parsedAvatar.playerSkin}
+					playerSkin={parsedAvatar.playerSkin as PlayerSkin}
 					currentScreenSize={currentScreenSize}
 					currentExp={!currentPlayer ? 0 : currentPlayer.experience!}
 					nextLvlExp={
@@ -158,6 +159,7 @@ export default function CheckIn() {
 				<div className="mx-3">
 					<WeeklyRecord
 						weeklyCheckInRecord={latestWeeklyCheckIn.data!}
+						checkInLoading={checkInMutate.isPending}
 						handleCheckIn={handleCheckIn}
 					/>
 				</div>
