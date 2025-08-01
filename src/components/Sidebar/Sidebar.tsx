@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { useState, useEffect, useCallback, memo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import NavItem from './NavItem';
 import NavHeader from './NavHeader';
@@ -8,6 +8,7 @@ import {
 	TbBrowserCheck,
 	TbHelpHexagon,
 	TbLogout,
+	TbShirt,
 	TbVocabulary,
 } from 'react-icons/tb';
 import usePrevious from '../../hooks/usePrevious';
@@ -22,6 +23,11 @@ const navItems = [
 		path: '/home/subjects',
 		label: 'Subjects',
 		icon: <TbVocabulary className="w-[1.55rem] h-[1.55rem]" />,
+	},
+	{
+		path: '/skins',
+		label: 'Skins',
+		icon: <TbShirt className="w-[1.55rem] h-[1.55rem]" />,
 	},
 	{
 		path: '/about',

@@ -10,6 +10,7 @@ const RequireAuth = lazy(() => import('./layouts/RequireAuth'));
 
 // Pages
 const Authentication = lazy(() => import('./pages/Authentication'));
+const Skins = lazy(() => import('./pages/Skins'));
 const About = lazy(() => import('./pages/About'));
 const Home = lazy(() => import('./pages/Home'));
 
@@ -53,7 +54,8 @@ const AppRouter = () => {
 								<Route path="subjects" element={<Subjects />} />
 							</Route>
 						</Route>
-
+						{/* Skins page */}
+						<Route path="/skins" element={<Skins />} />
 						{/* About page */}
 						<Route path="/about" element={<About />} />
 						<Route path="/signOut" element={<SignOut />} />
