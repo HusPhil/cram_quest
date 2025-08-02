@@ -13,3 +13,6 @@ export const getPlayerLatestBossBattleStatusEndRoute = (playerId: number) => {
 export const getPlayerBossBattleStatusesEndRoute = (playerId: number) => {
 	return `${BASE_URL}/${baseBossBattleStatusRoute}/player/${playerId}`;
 };
+
+export const getEndBossBattleSessionEndRoute = (playerId: number) =>
+	`${BASE_URL}/${baseBossBattleStatusRoute}/player/${playerId}/end`;

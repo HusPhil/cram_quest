@@ -1,3 +1,5 @@
+import { RewardRead } from "./reward_schema";
+
 export interface BossBattleStatusBase {
 	status: string;
 	available_at?: Date | null;
@@ -7,4 +9,17 @@ export interface BossBattleStatusBase {
 export interface BossBattleStatusRead extends BossBattleStatusBase {
 	id: number;
 	player_id: number;
+}
+
+export interface BossBattleEndRead {
+    base_xp: number
+    bonus_xp: number
+    reward_item: RewardRead
+}
+
+export interface BossBattleEndInfo {
+	victory: boolean 
+	total_rounds: number
+    player_health: number
+    enemy_health: number
 }
