@@ -12,12 +12,14 @@ import { toast } from 'react-toastify';
 import BattleResultDisplay from '../../../components/battle/BattleResultDisplay';
 import { useBattleEngineStore } from '../../../../Battle/stores/battleEngineStore';
 import BossBattleInformation from '../../../components/battle/BossBattleInformation';
+import { useEndBossBattle } from '../../../hooks/battle/useEndBossBattleSession';
 
 interface BossBattlePageProps {
 	battleCleanup: () => void;
 }
 
 export default function BossBattlePage({ battleCleanup }: BossBattlePageProps) {
+	const endBossBattleMutate = useEndBossBattle();	
 	const isBattleActive = useBattleSetupStore((state) => state.isBattleActive);
 	const setIsBattleActive = useBattleSetupStore(
 		(state) => state.setIsBattleActive
@@ -86,6 +88,21 @@ export default function BossBattlePage({ battleCleanup }: BossBattlePageProps) {
 
 	useEffect(() => {
 		if (!isBattleActive || battleResult) return;
+		endBossBattleMutate.mutate({
+		bossBattleEndInfo: {
+			victory: playerHealth > 0 && enemyHealth <= 0,
+			total_rounds: turnCount,
+			player_health: playerHealth,
+			enemy_health: enemyHealth,
+		},
+		playerId: useUserPlayerStore.getState().playerId!
+		}, {
+			onSuccess: (data) => {
+				toast.success('Battle ended successfully!');
+				setBattleResult(data.base_xp ? 'victory' : 'defeat');
+				handleBossBattleCleanup();
+			}
+		});
 		if (playerHealth <= 0) {
 			setBattleResult('defeat');
 		} else if (enemyHealth <= 0) {
