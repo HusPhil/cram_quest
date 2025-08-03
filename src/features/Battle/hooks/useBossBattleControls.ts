@@ -39,7 +39,7 @@ export function useBossBattleControls({
 	const handleAttackClick = () => {
 		setActionPhase('attack');
 		setCurrentSpeed(150);
-		setCurrentHitTargetWidth(3);
+		setCurrentHitTargetWidth(10);
 		setCurrentCursorWidth(5);
 	};
 
@@ -134,7 +134,7 @@ export function useBossBattleControls({
 						: 'playerAttackMissScene',
 					onLastStepIndex: success
 						? () => {
-								handlePlayerAttack(playerAtkDamage);
+								handlePlayerAttack(playerAtkDamage + 200);
 								writeToBattleLog(
 									isCriticalHit ? 'Critical hit' : 'Nice hit',
 									isCriticalHit ? 'success' : 'info'
