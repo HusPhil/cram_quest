@@ -25,7 +25,7 @@ const navItems = [
 		icon: <TbVocabulary className="w-[1.55rem] h-[1.55rem]" />,
 	},
 	{
-		path: '/skins',
+		path: '/home/skins',
 		label: 'Skins',
 		icon: <TbShirt className="w-[1.55rem] h-[1.55rem]" />,
 	},

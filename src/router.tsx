@@ -52,10 +52,11 @@ const AppRouter = () => {
 								/>
 								<Route path="check-in" element={<CheckIn />} />
 								<Route path="subjects" element={<Subjects />} />
+								<Route path="skins" element={<Skins />} />
 							</Route>
 						</Route>
 						{/* Skins page */}
-						<Route path="/skins" element={<Skins />} />
+
 						{/* About page */}
 						<Route path="/about" element={<About />} />
 						<Route path="/signOut" element={<SignOut />} />
