@@ -8,7 +8,6 @@ import {
 } from '../../utils/parsePlayerAvatar';
 import { useUserPlayerStore } from '../Auth/stores/userPlayerStore/userPlayerStore';
 import { useShallow } from 'zustand/shallow';
-import { useRefreshSession } from '../Auth/hooks/useRefreshSession';
 import { useGetLatestCheckIn } from './hooks/useGetLatestCheckIn';
 import { useCheckIn } from './hooks/useCheckIn';
 import { toast } from 'react-toastify';
@@ -77,11 +76,9 @@ export default function CheckIn() {
 			longest_daily_streak: state.longest_daily_streak,
 		}))
 	);
-	const playerAvatarUrl = useUserPlayerStore((state) => state.avatarUrl);
-
-	const refreshSession = useRefreshSession({
-		refetchOnWindowFocus: true,
-	});
+	const playerAvatarUrl = useUserPlayerStore(
+		(state) => state.skinUrl || state.avatarUrl
+	);
 
 	const latestWeeklyCheckIn = useGetLatestCheckIn(
 		currentPlayer.playerId || undefined
@@ -110,7 +107,6 @@ export default function CheckIn() {
 						toastId: 'check-in-success',
 					});
 					latestWeeklyCheckIn.refetch();
-					refreshSession.refetch();
 				},
 			}
 		);
@@ -137,11 +133,7 @@ export default function CheckIn() {
 					playerName={
 						!currentUser ? 'Loading...' : currentUser.username!
 					}
-					isLoading={
-						!currentUser ||
-						!currentPlayer ||
-						refreshSession.isLoading
-					}
+					isLoading={!currentUser || !currentPlayer}
 					userError={
 						!currentUser ? new Error('User not found') : null
 					}
