@@ -1,9 +1,14 @@
 import { fetcher } from '../fetcher';
 import {
+	getEquipPlayerSkinEndRoute,
+	getPlayerSkinsEndRoute,
+} from '../routes/player_inventory_item_routes';
+import {
 	getPlayerBossAvailabilityCounterEndRoute,
 	getPlayerProfileEndRoute,
 	getPlayerSubjectsEndRoute,
 } from '../routes/player_routes';
+import { PlayerInventoryItemRead } from '../schema/player_inventory_item_schema';
 import { ProfileRead } from '../schema/profile_schema';
 import { SubjectRead } from '../schema/subject_schema';
 
@@ -47,6 +52,20 @@ export const getPlayerBossAvailabilityCounter = async (
 	}
 
 	console.log('getPlayerBossAvailabilityCounter response: ', response.data);
+
+	return response.data;
+};
+
+export const getPlayerSkins = async (
+	playerId: number
+): Promise<PlayerInventoryItemRead[]> => {
+	const response = await fetcher(getPlayerSkinsEndRoute(playerId));
+
+	if (response.status !== 200) {
+		throw new Error('Failed to player skins');
+	}
+
+	console.log('getPlayerSkins response: ', response.data);
 
 	return response.data;
 };

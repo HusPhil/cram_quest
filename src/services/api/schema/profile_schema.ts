@@ -1,5 +1,6 @@
 interface ProfileBase {
 	avatar_url: string;
+	skin_url: string;
 	bio: string | undefined;
 	mood: string | undefined;
 }
