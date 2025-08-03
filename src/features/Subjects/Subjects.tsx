@@ -8,7 +8,7 @@ import SubjectScreen from './screens/SubjectScreen/SubjectScreen';
 import { ModalObjectMap, useSubjectStore_UI } from './stores/subjectStore_UI';
 import AddNewSubjectModal from './modals/AddNewSubjectModal';
 import EditSubjectModal from './modals/EditSubjectModal';
-import { Suspense, useCallback } from 'react';
+import { useCallback } from 'react';
 
 export default function Subjects() {
 	const { openScreen, setContent } = useFloatingScreen();
@@ -40,6 +40,9 @@ export default function Subjects() {
 
 	const { data: subjects, isLoading: subjectsIsLoading } =
 		useGetPlayerSubjects(currentPlayerId!);
+
+	// const subjects = [];
+	// const subjectsIsLoading = true;
 
 	return (
 		<div className="h-full w-full max-w-[1200px] flex flex-col py-3 px-3.5 md:py-5 md:px-7">

@@ -74,6 +74,7 @@ export function updateStoresFromRefreshData(data: RefreshTokenResponse) {
 		avatarUrl: data.profile_session_info.avatar_url,
 		bio: data.profile_session_info.bio!,
 		mood: data.profile_session_info.mood!,
+		skinUrl: data.profile_session_info.skin_url,
 	});
 }
 
