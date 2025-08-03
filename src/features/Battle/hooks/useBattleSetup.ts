@@ -4,7 +4,7 @@ import useCharacterAnimation, {
 } from '../../Battle/hooks/useCharacterAnimation';
 import { useBattleEngine } from './useBattleEngine';
 import { parsePlayerAvatar } from '../../../utils/parsePlayerAvatar';
-import { CharacterType } from '../configs/spritesheetConfig';
+import { CharacterType, PlayerSkin } from '../configs/spritesheetConfig';
 import { useBattleEngineStore } from '../stores/battleEngineStore';
 import { useUserPlayerStore } from '../../Auth/stores/userPlayerStore/userPlayerStore';
 import { BattleStepFn } from '../battleEngine/types';
@@ -38,7 +38,7 @@ export const useBattleSetup = (
 
 	// Character setup
 	const playerProfileAvatarUrl = useUserPlayerStore(
-		(state) => state.avatarUrl
+		(state) => state.skinUrl || state.avatarUrl
 	);
 	const { playerClass, playerSkin } = parsePlayerAvatar(
 		playerProfileAvatarUrl!
@@ -51,7 +51,7 @@ export const useBattleSetup = (
 	const {
 		getAnimationParams: getPlayerAnimation,
 		setCurrentAction: setPlayerCurrentAction,
-	} = useCharacterAnimation('player', playerClass, playerSkin);
+	} = useCharacterAnimation('player', playerClass, playerSkin as PlayerSkin);
 
 	// Enemy animation
 	const {
