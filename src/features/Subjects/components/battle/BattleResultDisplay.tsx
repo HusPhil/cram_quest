@@ -1,12 +1,12 @@
 import React from 'react';
 import SpriteSheet from '../../../../components/SpriteSheet';
 import { BattleSessionEnd } from '../../../../services/api/schema/battle_session_schema';
-import BattleResultXPGained from './BattleResultXPGained.tsx';
 import BattleResultStats from './BattleResultStats.tsx';
 import BattleResultContinue from './BattleResultContinue.tsx';
 import colors from '../../../../data/colors.ts';
 import { TbSwords } from 'react-icons/tb';
 import { getRandomChoice } from '../../../../utils/getRandomChoice.ts';
+import { BossBattleEndRead } from '../../../../services/api/schema/boss_battle_status_schema.ts';
 
 interface SpriteProps {
 	characterAsset: string;
@@ -19,7 +19,7 @@ interface BattleResultDisplayProps {
 	result: 'victory' | 'defeat';
 	sprite: SpriteProps;
 	battleCleanup: () => void;
-	battleSessionResult?: BattleSessionEnd;
+	battleSessionResult?: BattleSessionEnd | BossBattleEndRead;
 	bossBattle?: boolean;
 }
 
@@ -74,9 +74,16 @@ const BattleResultDisplay: React.FC<BattleResultDisplayProps> = ({
 				loop
 			/>
 
-			{bossBattle ? (
+			{bossBattle && battleSessionResult ? (
 				<>
-					<p>BossBattleResult</p>
+					<p>{battleSessionResult.base_xp}</p>
+					<p>{battleSessionResult.bonus_xp}</p>
+					<p>
+						{
+							(battleSessionResult as BossBattleEndRead)
+								?.reward_item?.name
+						}
+					</p>
 					<BattleResultContinue
 						result={result}
 						battleCleanUp={battleCleanup}
@@ -88,9 +95,13 @@ const BattleResultDisplay: React.FC<BattleResultDisplayProps> = ({
 						result={result}
 						base_xp={battleSessionResult.base_xp}
 						bonus_xp={battleSessionResult.bonus_xp}
-						streak_count={battleSessionResult.session_streak}
+						streak_count={
+							(battleSessionResult as BattleSessionEnd)
+								.session_streak
+						}
 					/>
-					{battleSessionResult.is_boss_available && (
+					{(battleSessionResult as BattleSessionEnd)
+						.is_boss_available && (
 						<p className="mt-5 p-1 px-5 text-center text-sm rounded-md text-danger animate-pulse bg-danger/10">
 							{getRandomChoice(epicBossMessages, '', true)}
 						</p>
