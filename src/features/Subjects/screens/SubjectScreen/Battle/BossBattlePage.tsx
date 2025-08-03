@@ -19,7 +19,7 @@ interface BossBattlePageProps {
 }
 
 export default function BossBattlePage({ battleCleanup }: BossBattlePageProps) {
-	const endBossBattleMutate = useEndBossBattle();	
+	const endBossBattleMutate = useEndBossBattle();
 	const isBattleActive = useBattleSetupStore((state) => state.isBattleActive);
 	const setIsBattleActive = useBattleSetupStore(
 		(state) => state.setIsBattleActive
@@ -88,21 +88,24 @@ export default function BossBattlePage({ battleCleanup }: BossBattlePageProps) {
 
 	useEffect(() => {
 		if (!isBattleActive || battleResult) return;
-		endBossBattleMutate.mutate({
-		bossBattleEndInfo: {
-			victory: playerHealth > 0 && enemyHealth <= 0,
-			total_rounds: turnCount,
-			player_health: playerHealth,
-			enemy_health: enemyHealth,
-		},
-		playerId: useUserPlayerStore.getState().playerId!
-		}, {
-			onSuccess: (data) => {
-				toast.success('Battle ended successfully!');
-				setBattleResult(data.base_xp ? 'victory' : 'defeat');
-				handleBossBattleCleanup();
-			}
-		});
+		if (playerHealth <= 0 || enemyHealth <= 0) {
+			endBossBattleMutate.mutate(
+				{
+					bossBattleEndInfo: {
+						victory: playerHealth > 0 && enemyHealth <= 0,
+						total_rounds: turnCount,
+						player_health: playerHealth,
+						enemy_health: enemyHealth,
+					},
+					playerId: useUserPlayerStore.getState().playerId!,
+				},
+				{
+					onSuccess: () => {
+						toast.success('Battle ended successfully!');
+					},
+				}
+			);
+		}
 		if (playerHealth <= 0) {
 			setBattleResult('defeat');
 		} else if (enemyHealth <= 0) {
@@ -116,6 +119,7 @@ export default function BossBattlePage({ battleCleanup }: BossBattlePageProps) {
 				<>
 					<BattleResultDisplay
 						bossBattle
+						battleSessionResult={endBossBattleMutate.data}
 						result={battleResult}
 						sprite={getPlayerAnimation()}
 						battleCleanup={handleBossBattleCleanup}
