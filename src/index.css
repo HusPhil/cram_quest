@@ -24,6 +24,11 @@ body {
   font-family: 'Pixel Square Bold', 'Pixelify Sans', 'MedievalSharp', 'Almendra SC', 'Press Start 2P', cursive;
 }
 
+.fancy-shadow {
+  filter: drop-shadow(0 0 10px rgba(133, 29, 119, 0.5));
+}
+
+
 .field-size-content {
   field-sizing: content;
   resize: none;
