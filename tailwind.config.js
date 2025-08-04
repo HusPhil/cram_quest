@@ -28,6 +28,12 @@ export default {
 					'sans-serif',
 				],
 			},
+			dropShadow: {
+				'glow-gray': '0 0 10px rgba(107, 114, 128, 0.7)',
+				'glow-green': '0 0 10px rgba(34, 197, 94, 0.7)',
+				'glow-blue': '0 0 10px rgba(59, 130, 246, 0.7)',
+				'glow-purple': '0 0 10px rgba(168, 85, 247, 0.7)',
+			},
 		},
 		screens: {
 			xs: '320px',
