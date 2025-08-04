@@ -15,6 +15,7 @@ const rarityConfig: Record<
 		textColor: string;
 		bgColor: string;
 		borderColor: string;
+		dropShadow: string;
 	}
 > = {
 	common: {
@@ -22,24 +23,28 @@ const rarityConfig: Record<
 		textColor: 'text-gray-300',
 		bgColor: 'bg-gray-500/80',
 		borderColor: 'border-gray-500/80',
+		dropShadow: '',
 	},
 	rare: {
 		glowClass: 'shadow-green-500/40',
 		textColor: 'text-green-300',
 		bgColor: 'bg-green-500/80',
 		borderColor: 'border-green-500/80',
+		dropShadow: 'drop-shadow-[0_0_10px_rgba(34,197,94,0.7)]',
 	},
 	epic: {
 		glowClass: 'shadow-blue-500/40',
 		textColor: 'text-blue-300',
 		bgColor: 'bg-blue-500/80',
 		borderColor: 'border-blue-500/80',
+		dropShadow: 'drop-shadow-[0_0_10px_rgba(59,130,246,0.7)]',
 	},
 	legendary: {
 		glowClass: 'shadow-purple-500/40',
 		textColor: 'text-purple-300',
 		bgColor: 'bg-purple-500/80',
 		borderColor: 'border-purple-500/80',
+		dropShadow: 'drop-shadow-[0_0_10px_rgba(168,85,247,0.7)]',
 	},
 };
 
@@ -61,14 +66,15 @@ const SkinsGridItem = ({
 	return (
 		<div
 			className={`group relative flex flex-col bg-secondary/50 border rounded-lg cursor-pointer overflow-hidden
-                         transition-all duration-300 ease-in-out hover:opacity-75 hover:shadow-lg
+                         transition-all duration-300 ease-in-out hover:opacity-75 shadow-lg
                          ${config.glowClass} ${config.borderColor}`}
 		>
-			<div className="flex-1 flex justify-center">
+			<div className="flex-1 flex justify-center p-2">
 				<img
 					src={`/cramquest/assets/images/items/skins/${skin.item.image_url}`}
 					alt={skin.item.name}
-					className="w-[120px] aspect-square object-cover rounded-md [image-rendering:pixelated]"
+					className={`hover:drop-shadow-2xl transition-all duration-300  w-[120px] rounded-full aspect-square object-cover  [image-rendering:pixelated] 
+                                ${config.dropShadow}`} // Add the glowClass here
 				/>
 			</div>
 
