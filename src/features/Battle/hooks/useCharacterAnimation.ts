@@ -49,6 +49,14 @@ export function useCharacterAnimation(
 	const getAnimationParams = useCallback(
 		(state?: AnimationStateType): AnimationParams => {
 			// If no state is provided, use currentAction
+			if (!characterAsset)
+				return {
+					characterAsset: 'null',
+					frameCount: 0,
+					fps: 0,
+					row: 0,
+				};
+
 			const animState = state || currentAction;
 
 			// Type guard to handle different animation configs
