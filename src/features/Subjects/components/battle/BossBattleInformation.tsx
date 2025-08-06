@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import PixelButton from '../../../../components/PixelButton';
 import { useUserPlayerStore } from '../../../Auth/stores/userPlayerStore/userPlayerStore';
 import { useGetBossAvailabilityCounter } from '../../hooks/battle/useGetBossAvailabilityCounter';
@@ -7,9 +8,11 @@ import { useGetLatestBossBattleStatus } from '../../hooks/battle/useGetLatestBos
 const MAX_BOSS_AVAILABILITY = 3;
 
 function BossBattleInformation({
+	setBossBattleId,
 	handleStartBossBattle,
 }: {
 	handleStartBossBattle: () => void;
+	setBossBattleId: (id: number) => void;
 }) {
 	const currentPlayerId = useUserPlayerStore((state) => state.playerId);
 
@@ -32,6 +35,12 @@ function BossBattleInformation({
 		{ length: MAX_BOSS_AVAILABILITY },
 		(_, i) => i + 1
 	);
+
+	useEffect(() => {
+		if (playerLatestBossBattleStatus.data?.id) {
+			setBossBattleId(playerLatestBossBattleStatus.data.id);
+		}
+	}, [playerLatestBossBattleStatus]);
 
 	return (
 		<div>

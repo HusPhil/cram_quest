@@ -28,6 +28,8 @@ export default function BossBattlePage({ battleCleanup }: BossBattlePageProps) {
 	const enemyName = useBattleSetupStore((state) => state.enemyName);
 	const currentPlayerUsername = useUserPlayerStore((state) => state.username);
 
+	const [bossBattleId, setBossBattleId] = useState<number | null>(null);
+
 	const playerMaxHealth = 100;
 	const enemyMaxHealth = 100;
 
@@ -87,11 +89,12 @@ export default function BossBattlePage({ battleCleanup }: BossBattlePageProps) {
 	};
 
 	useEffect(() => {
-		if (!isBattleActive || battleResult) return;
+		if (!isBattleActive || battleResult || !bossBattleId) return;
 		if (playerHealth <= 0 || enemyHealth <= 0) {
 			endBossBattleMutate.mutate(
 				{
 					bossBattleEndInfo: {
+						id: bossBattleId,
 						victory: playerHealth > 0 && enemyHealth <= 0,
 						total_rounds: turnCount,
 						player_health: playerHealth,
@@ -160,6 +163,7 @@ export default function BossBattlePage({ battleCleanup }: BossBattlePageProps) {
 				</div>
 			) : (
 				<BossBattleInformation
+					setBossBattleId={(id: number) => setBossBattleId(id)}
 					handleStartBossBattle={handleStartBossBattle}
 				/>
 			)}
