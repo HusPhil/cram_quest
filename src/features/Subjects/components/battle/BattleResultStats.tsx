@@ -30,10 +30,10 @@ export default function BattleResultStats({
 				<div className="space-y-3 flex flex-col justify-center items-center">
 					<div className="flex items-center gap-3">
 						<p className={`text-4xl font-bold ${textColor}`}>
-							+{16}
+							+{base_xp}
 						</p>
 						<p className="text-2xl text-accent animate-pulse">
-							+{17}
+							+{bonus_xp}
 						</p>
 					</div>
 				</div>
