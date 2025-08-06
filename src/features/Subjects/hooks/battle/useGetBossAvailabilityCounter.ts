@@ -1,11 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
-import { getPlayerSkins } from '../../../../services/api/crud/player_crud';
+import {
+	getPlayerBossAvailabilityCounter,
+	getPlayerSkins,
+} from '../../../../services/api/crud/player_crud';
 
 export const useGetBossAvailabilityCounter = (playerId?: number) => {
 	const latestCheckInQuery = useQuery({
 		queryKey: ['player', playerId, 'boss_availability_counter'],
-		queryFn: () => getPlayerSkins(playerId!),
+		queryFn: () => getPlayerBossAvailabilityCounter(playerId!),
 		enabled: !!playerId,
 	});
 
