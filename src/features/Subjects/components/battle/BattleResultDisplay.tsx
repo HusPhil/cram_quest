@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SpriteSheet from '../../../../components/SpriteSheet';
 import { BattleSessionEnd } from '../../../../services/api/schema/battle_session_schema';
 import BattleResultStats from './BattleResultStats.tsx';
-import BattleResultContinue from './BattleResultContinue.tsx';
+import BattleResultButton from './BattleResultButton.tsx';
 import colors from '../../../../data/colors.ts';
 import { TbSwords } from 'react-icons/tb';
 import { getRandomChoice } from '../../../../utils/getRandomChoice.ts';
 import { BossBattleEndRead } from '../../../../services/api/schema/boss_battle_status_schema.ts';
+import BossBattleResultStats from './BossBattleResultStats.tsx';
+import { RewardItemRead } from '../../../../services/api/schema/reward_schema.ts';
+import ItemRewardDisplay from '../../../../components/ItemRewardDisplay.tsx';
 
 interface SpriteProps {
 	characterAsset: string;
@@ -51,6 +54,10 @@ const BattleResultDisplay: React.FC<BattleResultDisplayProps> = ({
 	const bgColor = isVictory ? 'bg-success/15' : 'bg-danger/15';
 	const textColor = isVictory ? 'text-success' : 'text-danger';
 
+	const rewardItem = (battleSessionResult as BossBattleEndRead)?.reward_item;
+
+	const [isViewingReward, setIsViewingReward] = useState(false);
+
 	return (
 		<div className="w-full flex flex-col items-center">
 			<div
@@ -63,32 +70,47 @@ const BattleResultDisplay: React.FC<BattleResultDisplayProps> = ({
 				<Icon className="w-6 h-6 shrink-0" color={color} />
 			</div>
 
-			<SpriteSheet
-				src={sprite.characterAsset}
-				frameHeight={48}
-				frameWidth={48}
-				frameCount={sprite.frameCount}
-				fps={sprite.fps}
-				frameRow={sprite.row}
-				scale={2.5}
-				loop
-			/>
+			{!isViewingReward && (
+				<SpriteSheet
+					src={sprite.characterAsset}
+					frameHeight={48}
+					frameWidth={48}
+					frameCount={sprite.frameCount}
+					fps={sprite.fps}
+					frameRow={sprite.row}
+					scale={2.5}
+					loop
+				/>
+			)}
 
 			{bossBattle && battleSessionResult ? (
-				<>
-					<p>{battleSessionResult.base_xp}</p>
-					<p>{battleSessionResult.bonus_xp}</p>
-					<p>
-						{
-							(battleSessionResult as BossBattleEndRead)
-								?.reward_item?.name
-						}
-					</p>
-					<BattleResultContinue
-						result={result}
-						battleCleanUp={battleCleanup}
-					/>
-				</>
+				<div className="mt-5 w-full flex flex-col items-center">
+					{isViewingReward && rewardItem ? (
+						<ItemRewardDisplay rewardItem={rewardItem} />
+					) : (
+						<BossBattleResultStats
+							result={result}
+							base_xp={battleSessionResult.base_xp}
+							bonus_xp={battleSessionResult.bonus_xp}
+						/>
+					)}
+					<div className="flex w-full gap-5">
+						<BattleResultButton
+							result={result}
+							onClick={battleCleanup}
+						/>{' '}
+						{rewardItem && (
+							<BattleResultButton
+								title="View Reward"
+								className="animate-pulse"
+								result={result}
+								onClick={() =>
+									setIsViewingReward((prev) => !prev)
+								}
+							/>
+						)}
+					</div>
+				</div>
 			) : battleSessionResult ? (
 				<>
 					<BattleResultStats
@@ -106,9 +128,9 @@ const BattleResultDisplay: React.FC<BattleResultDisplayProps> = ({
 							{getRandomChoice(epicBossMessages, '', true)}
 						</p>
 					)}
-					<BattleResultContinue
+					<BattleResultButton
 						result={result}
-						battleCleanUp={battleCleanup}
+						onClick={battleCleanup}
 					/>
 				</>
 			) : (
