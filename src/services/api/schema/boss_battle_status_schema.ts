@@ -18,6 +18,7 @@ export interface BossBattleEndRead {
 }
 
 export interface BossBattleEndInfo {
+	id: number;
 	victory: boolean;
 	total_rounds: number;
 	player_health: number;
