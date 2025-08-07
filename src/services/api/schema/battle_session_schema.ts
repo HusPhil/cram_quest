@@ -34,3 +34,8 @@ export interface BattleSessionCreate {
 	duration_mins: number; // must be > 0
 	tasks_to_create: string[]; // task descriptions
 }
+
+export interface BattleSessionResume {
+	is_resumable: boolean;
+	session_data: BattleSessionRead | null;
+}
