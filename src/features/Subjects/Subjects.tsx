@@ -9,6 +9,7 @@ import { ModalObjectMap, useSubjectStore_UI } from './stores/subjectStore_UI';
 import AddNewSubjectModal from './modals/AddNewSubjectModal';
 import EditSubjectModal from './modals/EditSubjectModal';
 import { useCallback } from 'react';
+import { useGetResumableBattleSession } from './hooks/battle/usGetResumableBattleSession';
 
 export default function Subjects() {
 	const { openScreen, setContent } = useFloatingScreen();
@@ -41,6 +42,11 @@ export default function Subjects() {
 	const { data: subjects, isLoading: subjectsIsLoading } =
 		useGetPlayerSubjects(currentPlayerId!);
 
+	const {
+		data: resumableBattleSession,
+		isLoading: resumableBattleSessionIsLoading,
+	} = useGetResumableBattleSession();
+
 	// const subjects = [];
 	// const subjectsIsLoading = true;
 
@@ -52,6 +58,14 @@ export default function Subjects() {
 				<div>[Subjects] are loading...</div>
 			) : (
 				<>
+					{resumableBattleSession && (
+						<p>
+							{
+								resumableBattleSession?.session_data?.tasks[0]
+									.description
+							}
+						</p>
+					)}
 					<SubjectHeader playerId={currentPlayerId!} />
 
 					<SubjectList
