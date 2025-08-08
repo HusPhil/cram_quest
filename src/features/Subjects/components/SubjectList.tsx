@@ -55,18 +55,17 @@ const SubjectList = ({
 		setGeneratedTasks(sessionData.tasks!);
 		setBattleSessionId(sessionData.id);
 
-		const startDateTime = new Date();
+		const currentDateTime = new Date();
 		const endDateTime = new Date(sessionData.end_time!);
-		// Calculate the difference in milliseconds
-		const diffInMilliseconds =
-			endDateTime.getTime() - startDateTime.getTime();
+		const timeDiffMilisecs =
+			endDateTime.getTime() - currentDateTime.getTime();
 
-		// Convert milliseconds to minutes
-		const durationMins = diffInMilliseconds / (1000 * 60);
+		const durationMins = timeDiffMilisecs / (1000 * 60);
 
+		console.log(durationMins);
 		// If you want to round to the nearest whole minute
-		const roundedDurationMins = Math.round(durationMins);
-		setBattleDuration(roundedDurationMins);
+
+		setBattleDuration(durationMins);
 
 		handleOpenScreen(
 			subjectWithResumableQuest.id,

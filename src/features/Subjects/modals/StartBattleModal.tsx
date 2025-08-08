@@ -85,16 +85,11 @@ export default function StartBattleModal({
 
 	useEffect(() => {
 		if (initialStepNumber) {
-			setCurrentStep(1);
+			setCurrentStep(initialStepNumber);
 		} else {
 			setCurrentStep(0);
 		}
 	}, [initialStepNumber]);
-
-	useEffect(() => {
-		if (isBossBattle) {
-		}
-	}, [isBossBattle]);
 
 	const handleStartBattle = () => {
 		console.log(
