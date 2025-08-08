@@ -1,3 +1,4 @@
+import { QuestRead } from './quest_schema';
 import { TaskRead } from './task_schema';
 
 export type SessionStatus =
@@ -38,4 +39,5 @@ export interface BattleSessionCreate {
 export interface BattleSessionResume {
 	is_resumable: boolean;
 	session_data: BattleSessionRead | null;
+	quest_data: QuestRead | null;
 }
