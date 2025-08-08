@@ -2,6 +2,14 @@ import { memo } from 'react';
 import { SubjectRead } from '../../../services/api/schema/subject_schema';
 import SubjectCard from './SubjectCard';
 import EmptyListNote from '../../../components/EmptyListNote';
+import { useGetResumableBattleSession } from '../hooks/battle/usGetResumableBattleSession';
+import {
+	BattleSessionRead,
+	BattleSessionResume,
+} from '../../../services/api/schema/battle_session_schema';
+import { useSubjectStore_UI } from '../stores/subjectStore_UI';
+import { useBattleSetupStore } from '../../Battle/stores/battleSetupStore';
+import { QuestRead } from '../../../services/api/schema/quest_schema';
 
 interface SubjectListProps {
 	subjects: SubjectRead[];
@@ -18,6 +26,59 @@ const SubjectList = ({
 	currentPlayerId,
 	handleOpenScreen,
 }: SubjectListProps) => {
+	const setActiveModal = useSubjectStore_UI((state) => state.setActiveModal);
+	const setBattleActive = useBattleSetupStore(
+		(state) => state.setIsBattleActive
+	);
+	const setSelectedQuest = useBattleSetupStore((state) => state.selectQuest);
+	const setGeneratedTasks = useBattleSetupStore(
+		(state) => state.setGeneratedTasks
+	);
+	const setBattleSessionId = useBattleSetupStore(
+		(state) => state.setBattleSessionId
+	);
+	const setBattleDuration = useBattleSetupStore((state) => state.setDuration);
+
+	const handleOpenResumeScreen = (
+		sessionData?: BattleSessionRead,
+		questData?: QuestRead
+	) => {
+		if (!sessionData || !questData) return;
+
+		const subjectWithResumableQuest = subjects.find(
+			(subject) => subject.id === sessionData.subject_id
+		);
+		if (!subjectWithResumableQuest) return;
+
+		setBattleActive(true);
+		setSelectedQuest(questData);
+		setGeneratedTasks(sessionData.tasks!);
+		setBattleSessionId(sessionData.id);
+
+		const startDateTime = new Date();
+		const endDateTime = new Date(sessionData.end_time!);
+		// Calculate the difference in milliseconds
+		const diffInMilliseconds =
+			endDateTime.getTime() - startDateTime.getTime();
+
+		// Convert milliseconds to minutes
+		const durationMins = diffInMilliseconds / (1000 * 60);
+
+		// If you want to round to the nearest whole minute
+		const roundedDurationMins = Math.round(durationMins);
+		setBattleDuration(roundedDurationMins);
+
+		handleOpenScreen(
+			subjectWithResumableQuest.id,
+			subjectWithResumableQuest.code_name,
+			subjectWithResumableQuest.description,
+			subjectWithResumableQuest.difficulty
+		);
+		setActiveModal('StartBattleModal');
+	};
+
+	useGetResumableBattleSession(handleOpenResumeScreen);
+
 	return (
 		<div className="flex-1 my-4 relative">
 			{subjects.length <= 0 ? (
