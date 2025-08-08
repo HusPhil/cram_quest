@@ -47,7 +47,9 @@ export const BattleTimer = ({ duration = 60, onTimeUp }: BattleTimerProps) => {
 				}`}
 			>
 				{Math.floor(timeLeft / 60)}:
-				{(timeLeft % 60).toString().padStart(2, '0')}
+				{Math.floor(timeLeft % 60)
+					.toString()
+					.padStart(2, '0')}
 			</span>
 		</div>
 	);
