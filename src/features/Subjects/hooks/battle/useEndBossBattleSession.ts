@@ -24,9 +24,6 @@ const endBattleSession = async ({
 		bossBattleEndInfo,
 		{ withCredentials: true }
 	);
-	console.log(`Response from ending battle session:`, response.data);
-	console.log(`Response itself:`, response);
-	console.log(`Ending battle session with ID: ${playerId}`);
 	if (response.status !== 200) {
 		throw new Error('Failed to end Battle Session: ' + playerId);
 	}

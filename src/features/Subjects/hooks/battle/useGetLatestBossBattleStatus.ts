@@ -3,16 +3,16 @@ import { toast } from 'react-toastify';
 import { getLatestBossBattleStatus } from '../../../../services/api/crud/boss_battle_status_crud';
 
 export const useGetLatestBossBattleStatus = (playerId?: number) => {
-	const latestCheckInQuery = useQuery({
+	const latestBossBattleStatus = useQuery({
 		queryKey: ['boss_battle_status', 'player', playerId, 'latest'],
 		queryFn: () => getLatestBossBattleStatus(playerId!),
 		enabled: !!playerId,
 	});
 
-	if (latestCheckInQuery.isError)
+	if (latestBossBattleStatus.isError)
 		toast.error('Failed to load boss battle status', {
 			toastId: 'latest-boss_battle_status-error',
 		});
 
-	return latestCheckInQuery;
+	return latestBossBattleStatus;
 };
