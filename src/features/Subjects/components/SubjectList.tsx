@@ -62,10 +62,7 @@ const SubjectList = ({
 
 		const durationMins = timeDiffMilisecs / (1000 * 60);
 
-		console.log(durationMins);
-		// If you want to round to the nearest whole minute
-
-		setBattleDuration(durationMins);
+		setBattleDuration(Math.max(durationMins, 0));
 
 		handleOpenScreen(
 			subjectWithResumableQuest.id,
