@@ -8,8 +8,13 @@ import { useBattleQuestCompletion } from './useBattleQuestCompletion';
 import { useEffect } from 'react';
 
 export const useTaskBattleFlow = () => {
-	const { saveStartTime, saveEndTime, clearTimings, getAllTimings } =
-		useTaskTimingsStorage();
+	const {
+		saveStartTime,
+		saveEndTime,
+		clearTimings,
+		getAllTimings,
+		getNumberOfStoredCompletedTasks,
+	} = useTaskTimingsStorage();
 	const generatedTasks = useBattleSetupStore((state) => state.generatedTasks);
 	const battleResult = useBattleSetupStore((state) => state.battleResult);
 	const isCustomSceneActive = useBattleEngineStore(
@@ -17,7 +22,11 @@ export const useTaskBattleFlow = () => {
 	);
 
 	const { completedTasks, currentTaskIndex, handleCompleteTask } =
-		useBattleTaskProgress(generatedTasks);
+		useBattleTaskProgress(
+			generatedTasks,
+			getAllTimings,
+			getNumberOfStoredCompletedTasks
+		);
 
 	const {
 		getNewEnemyRef,
@@ -49,7 +58,8 @@ export const useTaskBattleFlow = () => {
 	});
 
 	useEffect(() => {
-		if (generatedTasks.length > 0) {
+		const savedTasks = Object.values(getAllTimings());
+		if (generatedTasks.length > 0 && savedTasks.length === 0) {
 			const firstTask = generatedTasks[0];
 			saveStartTime(firstTask);
 		}
