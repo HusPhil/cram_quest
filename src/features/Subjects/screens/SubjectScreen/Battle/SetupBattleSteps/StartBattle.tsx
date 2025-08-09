@@ -103,10 +103,18 @@ export default function StartBattle({
 				},
 				{
 					onSuccess: (newBattleSession: BattleSessionRead) => {
+						const nowDateTime = new Date();
+						const endDateTime = new Date(
+							newBattleSession.end_time!
+						);
+						const timeDiffMilisecs =
+							endDateTime.getTime() - nowDateTime.getTime();
+
+						const durationMins = timeDiffMilisecs / (1000 * 60);
 						// Pass the duration to the parent component
 						setGeneratedTasks(newBattleSession.tasks);
 						setIsBattleActive(true);
-						setGlobalBattleDuration(battleDuration);
+						setGlobalBattleDuration(durationMins);
 						setBattleSessionId(newBattleSession.id);
 						onStartBattle?.();
 						toast.success(
