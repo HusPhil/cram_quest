@@ -1,4 +1,4 @@
-import { memo, useEffect } from 'react';
+import { memo } from 'react';
 import SpriteSheet from '../../../../components/SpriteSheet';
 import { useBattleEngineStore } from '../../../Battle/stores/battleEngineStore';
 import { useBattleSetup } from '../../../Battle/hooks/useBattleSetup';

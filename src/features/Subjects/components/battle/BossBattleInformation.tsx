@@ -8,9 +8,11 @@ import { useGetLatestBossBattleStatus } from '../../hooks/battle/useGetLatestBos
 const MAX_BOSS_AVAILABILITY = 3;
 
 function BossBattleInformation({
+	isBattleStartDisabled,
 	setBossBattleId,
 	handleStartBossBattle,
 }: {
+	isBattleStartDisabled: boolean;
 	handleStartBossBattle: () => void;
 	setBossBattleId: (id: number) => void;
 }) {
@@ -24,9 +26,17 @@ function BossBattleInformation({
 		currentPlayerId!
 	);
 
-	const isBossAvailable =
-		playerLatestBossBattleStatus.data?.status === 'available';
-	const currentCounter = isBossAvailable
+	const isBossAvailable = () => {
+		if (
+			!playerLatestBossBattleStatus.data ||
+			playerLatestBossBattleStatus.isError ||
+			playerLatestBossBattleStatus.isLoading
+		)
+			return false;
+
+		return playerLatestBossBattleStatus.data.status === 'available';
+	};
+	const currentCounter = isBossAvailable()
 		? MAX_BOSS_AVAILABILITY
 		: playerBossAvailabilityCounter.data ?? 0;
 
@@ -71,44 +81,36 @@ function BossBattleInformation({
 					accumulated)
 				</p>
 
-				<div className="flex items-center space-x-3 mt-4 pt-4 border-t border-gray-600 w-full justify-center">
+				<div className="flex items-center space-x-3 pt-4 border-t border-gray-600 w-full justify-center">
 					<p className="text-gray-300">Boss Status:</p>
 					<span
 						className={` font-bold ${
-							isBossAvailable ? 'text-green-400' : 'text-red-400'
+							isBossAvailable()
+								? 'text-green-400'
+								: 'text-red-400'
 						}`}
 					>
-						{isBossAvailable ? 'READY TO BRAWL!' : 'RESTING...'}
+						{isBossAvailable() ? 'AWAKE' : 'RESTING...'}
 					</span>
 				</div>
 			</div>
 
 			{/* Call to Action */}
-			{isBossAvailable && (
+			{isBossAvailable() && (
 				<>
-					<small className="text-sm text-gray-400 text-center block mb-6">
-						Hit the{' '}
-						<span className="text-amber-300 font-bold">
-							"I'm Ready!"
-						</span>{' '}
-						button to conquer!
-					</small>
-					{/* Action Button */}
-					<div className="flex justify-center">
-						<PixelButton
-							disabled={!isBossAvailable}
-							className=" py-2 "
-							colors={{
-								face: '#facc15', // Amber 400
-								shadow: '#ca8a04', // Amber 600
-								border: '#a16207', // Amber 700
-								text: '#1f2937', // Dark Gray
-							}}
-							onClick={handleStartBossBattle}
-						>
-							<p>I'm Ready!</p>
-						</PixelButton>
-					</div>
+					<PixelButton
+						disabled={!isBossAvailable() || isBattleStartDisabled}
+						className=" py-2 "
+						colors={{
+							face: '#facc15', // Amber 400
+							shadow: '#ca8a04', // Amber 600
+							border: '#a16207', // Amber 700
+							text: '#1f2937', // Dark Gray
+						}}
+						onClick={handleStartBossBattle}
+					>
+						<p className="uppercase">Ready to Conquer</p>
+					</PixelButton>
 				</>
 			)}
 		</div>

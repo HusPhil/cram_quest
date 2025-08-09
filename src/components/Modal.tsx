@@ -71,29 +71,32 @@ const Modal = ({
 					<div className="rounded-lg bg-background/95 p-6">
 						{/* Header */}
 						{customHeader || (
-							<div className="mb-4 flex items-center justify-between">
-								<h3 className="font-rpg text-xl text-accent">
-									{title}
-								</h3>
-								<button
-									onClick={onClose}
-									className="rounded-full p-1 text-text hover:bg-danger/20 hover:text-danger transition-colors"
-								>
-									<svg
-										className="h-6 w-6"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
+							<>
+								<div className="mb-4 flex items-center justify-between">
+									<h3 className="font-rpg text-xl text-accent">
+										{title}
+									</h3>
+									<button
+										onClick={onClose}
+										className="rounded-full p-1 text-text hover:bg-danger/20 hover:text-danger transition-colors"
 									>
-										<path
-											strokeLinecap="round"
-											strokeLinejoin="round"
-											strokeWidth={2}
-											d="M6 18L18 6M6 6l12 12"
-										/>
-									</svg>
-								</button>
-							</div>
+										<svg
+											className="h-6 w-6"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke="currentColor"
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												strokeWidth={2}
+												d="M6 18L18 6M6 6l12 12"
+											/>
+										</svg>
+									</button>
+								</div>
+								{/* <hr className="bg-accent/25 border-none h-[0.5px] mb-3" /> */}
+							</>
 						)}
 
 						{/* Content */}
