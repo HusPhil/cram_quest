@@ -2,7 +2,6 @@ import { useCallback } from 'react';
 import { TaskRead } from '../../../../services/api/schema/task_schema';
 import { QueueCustomSceneFn } from '../../../Battle/hooks/useBattleEngine';
 import { killEnemyScene } from '../../../Battle/battleEngine/scenes/killEnemy/killEnemyScene';
-import { defaultBattleScene } from '../../../Battle/battleEngine/scenes/default/defaultBattleScene';
 
 interface BattleKillEnemyHandlerProps {
 	generatedTasks: TaskRead[];

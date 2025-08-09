@@ -37,10 +37,6 @@ export const useBattleQuestCompletion = ({
 	const handleSyncTaskTimings = useCallback(async () => {
 		const taskTimingStore = getAllTimings();
 
-		if (battleResult !== 'defeat') {
-			setBattleResult('victory');
-		}
-
 		try {
 			await syncTaskTimingsMutate.mutateAsync({
 				taskTimingStore,
@@ -62,6 +58,11 @@ export const useBattleQuestCompletion = ({
 			{
 				onSuccess: (data) => {
 					console.log('Battle session ended successfully', data);
+
+					if (data.status !== 'defeat') {
+						setBattleResult('victory');
+					}
+
 					toast.success('Battle session ended successfully', {
 						toastId: 'end-battle-session',
 					});
