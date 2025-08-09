@@ -17,6 +17,14 @@ export const useTaskTimingsStorage = () => {
 		return raw ? JSON.parse(raw) : {};
 	}, []);
 
+	const getNumberOfStoredCompletedTasks = useCallback((): number => {
+		const allTasks = Object.values(getStoredTimings());
+
+		const completedTasks = allTasks.filter((task) => task.end_time);
+
+		return completedTasks.length;
+	}, []);
+
 	const saveStartTime = useCallback(
 		(task: TaskRead) => {
 			const current = getStoredTimings();
@@ -62,6 +70,7 @@ export const useTaskTimingsStorage = () => {
 		saveStartTime,
 		saveEndTime,
 		getAllTimings,
+		getNumberOfStoredCompletedTasks,
 		clearTimings,
 	};
 };
