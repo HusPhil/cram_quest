@@ -13,6 +13,7 @@ import BattleResultDisplay from '../../../components/battle/BattleResultDisplay'
 import { useBattleEngineStore } from '../../../../Battle/stores/battleEngineStore';
 import BossBattleInformation from '../../../components/battle/BossBattleInformation';
 import { useEndBossBattle } from '../../../hooks/battle/useEndBossBattleSession';
+import { useStartBossBattleSession } from '../../../hooks/battle/useStartBossBattleSession';
 
 interface BossBattlePageProps {
 	battleCleanup: () => void;
@@ -20,6 +21,8 @@ interface BossBattlePageProps {
 
 export default function BossBattlePage({ battleCleanup }: BossBattlePageProps) {
 	const endBossBattleMutate = useEndBossBattle();
+	const startBossBattleMutate = useStartBossBattleSession();
+
 	const isBattleActive = useBattleSetupStore((state) => state.isBattleActive);
 	const setIsBattleActive = useBattleSetupStore(
 		(state) => state.setIsBattleActive
@@ -73,14 +76,21 @@ export default function BossBattlePage({ battleCleanup }: BossBattlePageProps) {
 	};
 
 	const handleStartBossBattle = () => {
-		setIsBattleActive(true);
-		setEnemyHealth(enemyMaxHealth);
-		setPlayerHealth(playerMaxHealth);
-		setFloatingMessageData({
-			text: 'Battle Start!',
-			variant: 'info',
-			id: Date.now(),
-		});
+		startBossBattleMutate.mutate(
+			{ bossBattleId: bossBattleId! },
+			{
+				onSuccess: () => {
+					setIsBattleActive(true);
+					setEnemyHealth(enemyMaxHealth);
+					setPlayerHealth(playerMaxHealth);
+					setFloatingMessageData({
+						text: 'Battle Start!',
+						variant: 'info',
+						id: Date.now(),
+					});
+				},
+			}
+		);
 	};
 
 	const handleBossBattleCleanup = () => {
@@ -164,6 +174,11 @@ export default function BossBattlePage({ battleCleanup }: BossBattlePageProps) {
 			) : (
 				<BossBattleInformation
 					setBossBattleId={(id: number) => setBossBattleId(id)}
+					isBattleStartDisabled={
+						endBossBattleMutate.isPending ||
+						!bossBattleId ||
+						startBossBattleMutate.isPending
+					}
 					handleStartBossBattle={handleStartBossBattle}
 				/>
 			)}

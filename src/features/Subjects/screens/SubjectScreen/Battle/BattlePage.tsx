@@ -4,7 +4,6 @@ import { QuestRead } from '../../../../../services/api/schema/quest_schema';
 import { useTaskBattleFlow } from '../../../hooks/battle/useTaskBattleFlow';
 import BattleResultDisplay from '../../../components/battle/BattleResultDisplay';
 import BattleCombatPanel from '../../../components/battle/BattleCombatPanel';
-import { toast } from 'react-toastify';
 
 interface BattlePageProps {
 	battleCleanup: () => void;
