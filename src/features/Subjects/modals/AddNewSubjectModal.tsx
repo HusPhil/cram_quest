@@ -109,7 +109,7 @@ export default function AddNewSubjectModal({
 							htmlFor="difficulty"
 							className="block font-rpg text-accent text-sm"
 						>
-							Difficulty
+							Priority
 						</label>
 						<StarRating
 							value={difficulty}

@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { useUpdateSubject } from '../hooks/subject/useUpdateSubject';
 import { useSubjectStore_UI } from '../stores/subjectStore_UI';
 import { SubjectRead } from '../../../services/api/schema/subject_schema';
+import { FaSave } from 'react-icons/fa';
 
 interface EditSubjectModalProps {
 	subject?: SubjectRead;
@@ -156,7 +157,7 @@ const UpdateSubjectSection = ({
 					htmlFor="difficulty"
 					className="block font-rpg text-accent text-sm"
 				>
-					Difficulty
+					Priority
 				</label>
 				<StarRating
 					value={difficulty}
@@ -168,6 +169,7 @@ const UpdateSubjectSection = ({
 
 			<div className="flex justify-end w-full pt-4 gap-x-2">
 				<DeleteWithConfirm
+					label="Delete"
 					deleteFn={handleDeleteConfirmed}
 					setIsDeleting={setIsDeleting}
 					className={`px-3 rounded-md bg-danger/20 border border-danger/50`}
@@ -175,15 +177,15 @@ const UpdateSubjectSection = ({
 					confirmClassName="text-sm"
 				/>
 				<button
-					type="button"
+					type="submit"
 					onClick={handleSubmit}
-					className="px-4 py-2 bg-accent/20 hover:bg-accent/30 text-accent 
-							 border border-accent rounded-lg font-rpg text-sm
-							 transition-all duration-200 focus:outline-none
-							 focus:ring-offset-background
-							 active:scale-95 hover:scale-100"
+					className="px-4 py-2 bg-accent/20 hover:bg-accent/30 text-accent
+												   border border-accent rounded-lg font-rpg text-sm items-center
+												   transition-all duration-200 focus:outline-none flex gap-2
+												   focus:ring-offset-background active:scale-95 hover:scale-100"
 				>
-					Save Changes
+					<FaSave className="w-4 h-4" />
+					Save
 				</button>
 			</div>
 		</form>
