@@ -12,6 +12,10 @@ import { useGetLatestCheckIn } from './hooks/useGetLatestCheckIn';
 import { useCheckIn } from './hooks/useCheckIn';
 import { toast } from 'react-toastify';
 import { PlayerSkin } from '../Battle/configs/spritesheetConfig';
+import { useGetPerfectWeeklyChechInReward } from './hooks/useGetPerfectWeeklyChechInReward';
+import { useState } from 'react';
+import PerfectWeeklyChecInRewardModal from './modal/PerfectWeeklyChecInRewardModal';
+import { WeeklyCheckInRead } from '../../services/api/schema/weekly_check_in_schema';
 
 const mockWeeklyCheckInRecord = [
 	{
@@ -85,10 +89,50 @@ export default function CheckIn() {
 	);
 
 	const checkInMutate = useCheckIn();
+	const perfectWeeklyCheckInMutate = useGetPerfectWeeklyChechInReward();
+	const [isRewardModalOpen, setIsRewardModalOpen] = useState(true);
 
 	const parsedAvatar: ParsedPlayerAvatar = parsePlayerAvatar(
 		playerAvatarUrl!
 	);
+
+	const checkForRewards = (latestWeeklyCheckIn: WeeklyCheckInRead) => {
+		const daysInWeek = [
+			'sunday',
+			'monday',
+			'tuesday',
+			'wednesday',
+			'thursday',
+			'friday',
+			'saturday',
+		] as const;
+
+		let isPerfectCheckIn = true;
+
+		for (const day of daysInWeek) {
+			if (!latestWeeklyCheckIn[day].is_checked) {
+				isPerfectCheckIn = false;
+				console.log(day);
+				break;
+			}
+		}
+
+		if (isPerfectCheckIn) {
+			perfectWeeklyCheckInMutate.mutate(
+				{ playerId: currentPlayer.playerId! },
+				{
+					onError: () => {
+						toast.error('Failed to get reward', {
+							toastId: 'perfect-weekly-check-in-reward-error',
+						});
+					},
+					onSuccess: () => {
+						setIsRewardModalOpen(true);
+					},
+				}
+			);
+		}
+	};
 
 	const handleCheckIn = () => {
 		if (!currentPlayer.playerId) return;
@@ -102,11 +146,13 @@ export default function CheckIn() {
 						toastId: 'check-in-error',
 					});
 				},
-				onSuccess: () => {
+				onSuccess: (data) => {
 					toast.success('Checked in successfully', {
 						toastId: 'check-in-success',
 					});
 					latestWeeklyCheckIn.refetch();
+
+					checkForRewards(data);
 				},
 			}
 		);
@@ -156,6 +202,18 @@ export default function CheckIn() {
 					/>
 				</div>
 			) : null}
+
+			{perfectWeeklyCheckInMutate.data && (
+				<PerfectWeeklyChecInRewardModal
+					isOpen={
+						isRewardModalOpen &&
+						perfectWeeklyCheckInMutate.data != null
+					}
+					weeklyReward={perfectWeeklyCheckInMutate.data}
+					onClose={() => setIsRewardModalOpen(false)}
+					title="Weekly Check In Reward"
+				/>
+			)}
 		</div>
 	);
 }
