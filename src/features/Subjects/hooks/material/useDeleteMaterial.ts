@@ -1,0 +1,41 @@
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
+import { axiosInstance } from '../../../../lib/axios/axiosInstance';
+import { getBaseMaterialEndRoute } from '../../../../services/api/routes/subject_routes';
+
+export const useDeleteMaterial = () => {
+	return useMutation({
+		mutationFn: createMaterial,
+		onSuccess() {
+			toast.success('Deleted successfully', {
+				toastId: 'material-delete-success',
+			});
+		},
+		onError(error, variables, context) {
+			toast.error('Failed to delete subject material: ' + error.message, {
+				toastId: 'material-delete-error',
+			});
+		},
+	});
+};
+
+type DeleteMaterialRequestBody = {
+	subjectId: number;
+	materialId: number;
+};
+
+const createMaterial = async ({
+	subjectId,
+	materialId,
+}: DeleteMaterialRequestBody) => {
+	const response = await axiosInstance.delete(
+		getBaseMaterialEndRoute(subjectId, materialId),
+		{ withCredentials: true }
+	);
+
+	if (response.status !== 200) {
+		throw new Error('Failed to delete subject');
+	}
+
+	return response;
+};
