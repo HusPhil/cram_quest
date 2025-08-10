@@ -49,7 +49,7 @@ export default function LearningPage({
 				</span>
 				<button
 					className="flex items-center gap-1 py-1 px-3 bg-accent text-background border-accent border rounded-md active:scale-95 transition-transform"
-					onClick={() => setActiveModal('AddNewQuestModal')}
+					onClick={() => setActiveModal('AddNewMaterialModal')}
 				>
 					<FaPlus className="w-3 h-3" />
 					<p className="text-sm">Add</p>
