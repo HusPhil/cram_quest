@@ -10,7 +10,7 @@ export interface ProfileSlice {
 	setProfile: (
 		payload: Omit<ProfileSlice, 'setProfile' | 'getProfile'>
 	) => void;
-	setSkinUrl: (skinUrl: string) => void;
+	setSkinUrl: (skinUrl: string | null) => void;
 	getProfile: () => Omit<
 		ProfileSlice,
 		'setProfile' | 'getProfile' | 'setSkinUrl'
