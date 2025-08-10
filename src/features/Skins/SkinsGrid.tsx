@@ -1,19 +1,22 @@
-import { useGetPlayerSkins } from '../Subjects/hooks/battle/usGetPlayerSkins';
+import { useGetPlayerSkins } from '../Subjects/hooks/battle/useGetPlayerSkins';
 import { useUserPlayerStore } from '../Auth/stores/userPlayerStore/userPlayerStore';
 import { PlayerInventoryItemRead } from '../../services/api/schema/player_inventory_item_schema';
 import { useEquipPlayerSkin } from '../Subjects/hooks/battle/useEquipPlayerSkin';
 import { toast } from 'react-toastify';
 import { rarityConfig } from '../../data/configs';
+import { useUnequipPlayerSkin } from '../Subjects/hooks/battle/useUnequipPlayerSkin';
 
 interface SkinsGridItemProps {
 	skin: PlayerInventoryItemRead;
 	currentSkin: string | null;
 	handleEquip?: (skinUrl: string) => void;
+	handleUnequipSkin?: () => void;
 }
 
 const SkinsGridItem = ({
 	skin,
 	handleEquip,
+	handleUnequipSkin,
 	currentSkin,
 }: SkinsGridItemProps) => {
 	const config = rarityConfig[skin.item.rarity];
@@ -43,11 +46,17 @@ const SkinsGridItem = ({
 					{skin.item.name.replace(/_/g, ' ')}
 				</p>
 				<button
-					onClick={() => handleEquip?.(skin.item.equipped_image_url)}
+					onClick={() => {
+						if (isEquipped) {
+							handleUnequipSkin?.();
+						} else {
+							handleEquip?.(skin.item.equipped_image_url);
+						}
+					}}
 					className={`w-full bg-accent text-secondary text-sm py-1 rounded font-rpg
-                                 hover:opacity-75 transition-colors duration-200`}
+                                 hover:opacity-75 transition-colors duration-200 disabled:cursor-not-allowed`}
 				>
-					<p>{isEquipped ? 'Equipped' : 'Equip'}</p>
+					<p>{isEquipped ? 'Unequip' : 'Equip'}</p>
 				</button>
 			</div>
 		</div>
@@ -64,6 +73,7 @@ function SkinsGrid() {
 	const player_skins = useGetPlayerSkins(currentPlayerId!);
 
 	const equipSkinMutate = useEquipPlayerSkin();
+	const unequipSkinMutate = useUnequipPlayerSkin();
 
 	const handleEquipSkin = (skinUrl: string) => {
 		if (!currentProfileId) {
@@ -88,6 +98,29 @@ function SkinsGrid() {
 		);
 	};
 
+	const handleUnequipSkin = () => {
+		if (!currentProfileId) {
+			console.error('No profile ID found');
+			return;
+		}
+
+		unequipSkinMutate.mutate(
+			{ profileId: currentProfileId },
+			{
+				onSuccess: () => {
+					setCurrentPlayerSkinUrl(null);
+					toast.success('Skin unequipped successfully', {
+						toastId: 'unequipped-skin-success',
+					});
+				},
+				onError: (error: any) => {
+					console.error('Failed to unequipped skin:', error);
+					toast.error('Failed to unequipped skin');
+				},
+			}
+		);
+	};
+
 	return (
 		<div className="flex flex-1 flex-col">
 			<h2 className="font-rpg text-2xl text-accent mb-6 text-center">
@@ -103,6 +136,7 @@ function SkinsGrid() {
 										key={skin.id}
 										skin={skin}
 										currentSkin={currentPlayerSkinUrl}
+										handleUnequipSkin={handleUnequipSkin}
 										handleEquip={handleEquipSkin}
 									/>
 								))}
