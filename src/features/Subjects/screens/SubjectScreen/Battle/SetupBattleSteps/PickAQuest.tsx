@@ -8,7 +8,8 @@ export default function PickAQuest({ subjectQuests }: StepComponentProps) {
 	const selectedQuest = useBattleSetupStore((state) => state.selectedQuest);
 
 	const availableQuests = subjectQuests.filter(
-		(quest: QuestRead) => quest.status !== 'done'
+		(quest: QuestRead) =>
+			quest.status !== 'done' && quest.status !== 'archive'
 	);
 
 	return (
