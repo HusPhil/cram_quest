@@ -2,11 +2,11 @@ import React, { useEffect, useRef } from 'react';
 
 interface ModalProps {
 	isOpen: boolean;
+	title: string;
+	children: React.ReactNode;
 	onClose: () => void;
 	lock?: boolean;
 	disabledEsc?: boolean;
-	title: string;
-	children: React.ReactNode;
 	customHeader?: React.ReactNode;
 	variant?: 'primary' | 'success' | 'danger';
 }

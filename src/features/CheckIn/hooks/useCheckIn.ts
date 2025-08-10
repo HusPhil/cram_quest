@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { axiosInstance } from '../../../lib/axios/axiosInstance';
 import { getCheckInEndRoute } from '../../../services/api/routes/weekly_check_in_routes';
+import { WeeklyCheckInRead } from '../../../services/api/schema/weekly_check_in_schema';
 
 export const useCheckIn = () => {
 	return useMutation({
@@ -8,7 +9,11 @@ export const useCheckIn = () => {
 	});
 };
 
-const checkIn = async ({ playerId }: { playerId: number }) => {
+const checkIn = async ({
+	playerId,
+}: {
+	playerId: number;
+}): Promise<WeeklyCheckInRead> => {
 	const response = await axiosInstance.post(
 		getCheckInEndRoute(playerId),
 		{},
@@ -19,5 +24,5 @@ const checkIn = async ({ playerId }: { playerId: number }) => {
 		throw new Error('Failed to create new subject');
 	}
 
-	return response;
+	return response.data;
 };
