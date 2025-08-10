@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { SubjectRead } from '../../../services/api/schema/subject_schema';
 import SubjectCard from './SubjectCard';
 import EmptyListNote from '../../../components/EmptyListNote';
-import { useGetResumableBattleSession } from '../hooks/battle/usGetResumableBattleSession';
+import { useGetResumableBattleSession } from '../hooks/battle/useGetResumableBattleSession';
 import {
 	BattleSessionRead,
 	BattleSessionResume,
@@ -92,7 +92,11 @@ const SubjectList = ({
 						className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4
                     "
 					>
-						{(subjects ?? []).map((subject, index) => (
+						{(
+							subjects.sort(
+								(a, b) => b.difficulty - a.difficulty
+							) ?? []
+						).map((subject, index) => (
 							<SubjectCard
 								key={subject.id}
 								index={index}

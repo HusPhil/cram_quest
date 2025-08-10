@@ -9,7 +9,7 @@ import { ModalObjectMap, useSubjectStore_UI } from './stores/subjectStore_UI';
 import AddNewSubjectModal from './modals/AddNewSubjectModal';
 import EditSubjectModal from './modals/EditSubjectModal';
 import { useCallback } from 'react';
-import { useGetResumableBattleSession } from './hooks/battle/usGetResumableBattleSession';
+import { useGetResumableBattleSession } from './hooks/battle/useGetResumableBattleSession';
 
 export default function Subjects() {
 	const { openScreen, setContent } = useFloatingScreen();
