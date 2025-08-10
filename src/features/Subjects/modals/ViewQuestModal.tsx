@@ -129,7 +129,7 @@ const UpdateQuestSection = ({
 					queryClient.invalidateQueries({
 						queryKey: SUBJECT_QUESTS_QUERY_KEY,
 					});
-					toast.info('Quest archived successfully!');
+					toast.success('Quest deleted successfully!'); // delete for now
 				},
 				onSettled() {
 					handleCloseModal();
@@ -148,7 +148,9 @@ const UpdateQuestSection = ({
 			ref={formRef}
 			onSubmit={handleSubmit}
 			className={`space-y-4 ${
-				isDeleting ? 'pointer-events-none opacity-50' : ''
+				updateQuestMutate.isPending
+					? 'pointer-events-none opacity-50'
+					: ''
 			}`}
 		>
 			<div className="space-y-2">
@@ -171,8 +173,8 @@ const UpdateQuestSection = ({
 				/>
 			</div>
 
-			<div className="flex flex-col gap-4">
-				<div className="flex-1">
+			<div className="flex gap-4 flex-col">
+				<div className="">
 					<label
 						htmlFor="status"
 						className="block font-rpg text-accent text-sm mb-2"
@@ -248,7 +250,7 @@ const UpdateQuestSection = ({
 						</label>
 					</div>
 				</div>
-				<div className="flex-1">
+				<div className="flex flex-col justify-between">
 					<label
 						htmlFor="difficulty"
 						className="block font-rpg text-accent text-sm mb-2"
@@ -256,6 +258,7 @@ const UpdateQuestSection = ({
 						Difficulty
 					</label>
 					<StarRating
+						className="mb-3"
 						value={difficulty}
 						onChange={(rating: number) => setDifficulty(rating)}
 						editable
@@ -265,18 +268,24 @@ const UpdateQuestSection = ({
 			</div>
 
 			{/* Responsive Button Layout */}
-			<div className="flex flex-col gap-y-3 pt-4">
+			<div
+				className={`flex flex-col gap-y-3 ${
+					updateQuestMutate.isPending
+						? 'pointer-events-none opacity-50'
+						: ''
+				}`}
+			>
 				{/* Save Changes, Delete, and Archive buttons group */}
 				<div className="flex gap-x-2 justify-end">
 					<DeleteWithConfirm
-						deleteFn={handleDeleteConfirmed}
+						deleteFn={handleArchiveQuest}
 						setIsDeleting={setIsDeleting}
-						className={`px-3 rounded-md bg-danger/20 border border-danger/50`}
+						className={`px-3 rounded-md bg-danger/20 border border-danger/50 flex`}
 						iconClassName="w-4 h-4 "
 						confirmClassName="text-sm"
 						label="Delete"
 					/>
-					<button
+					{/* <button
 						type="button"
 						onClick={handleArchiveQuest}
 						className="px-4 py-2 bg-gray-600/20 hover:bg-gray-600/30 text-gray-400
@@ -286,26 +295,27 @@ const UpdateQuestSection = ({
 					>
 						<FaArchive className="w-4 h-4" />
 						<span className="hidden sm:inline">Archive</span>{' '}
-						{/* Only show text on sm and up */}
-					</button>
+					</button> */}
 					<button
 						type="submit"
 						className="px-4 py-2 bg-accent/20 hover:bg-accent/30 text-accent
-                                   border border-accent rounded-lg font-rpg text-sm items-center
-                                   transition-all duration-200 focus:outline-none flex gap-2
+                                   border border-accent rounded-lg font-rpg text-sm 
+                                   transition-all duration-200 focus:outline-none flex items-center gap-2
                                    focus:ring-offset-background active:scale-95 hover:scale-100"
 					>
 						<FaSave className="w-4 h-4" />
-						Save
+						<p>Save</p>
 					</button>
 				</div>
 
 				{/* Start Battle! button - always full width at the bottom */}
 				<button
-					disabled={quest.status === 'done' || isDeleting}
+					disabled={
+						quest.status === 'done' || updateQuestMutate.isPending
+					}
 					type="button"
 					onClick={handleStartBattle}
-					className="w-full px-4 py-3 bg-accent disabled:opacity-50 disabled:cursor-not-allowed
+					className="w-full py-2 bg-accent disabled:opacity-50 disabled:cursor-not-allowed
                                rounded-lg text-background
                                transition-all duration-200 active:scale-95
                                flex items-center justify-center gap-2"
