@@ -6,6 +6,11 @@ import { FaCirclePlay, FaNoteSticky, FaRug } from 'react-icons/fa6';
 import { MaterialType } from '../screens/SubjectScreen/Tabs/LearningPage';
 import { MaterialRead } from '../../../services/api/schema/material_schema';
 import { useSubjectStore_UI } from '../stores/subjectStore_UI';
+import DeleteWithConfirm from '../components/ui/DeleteWithConfirm';
+import { FaSave } from 'react-icons/fa';
+import { TbBrandYoutube, TbCreditCard, TbNote } from 'react-icons/tb';
+import { useUpdateMaterial } from '../hooks/material/useUpdateMaterial';
+import { useDeleteMaterial } from '../hooks/material/useDeleteMaterial';
 
 export type InitialSettingConfig = {
 	newMaterialTitle: string;
@@ -37,7 +42,8 @@ export default function EditMaterialModal({
 	}
 
 	const queryClient = useQueryClient();
-	const createMaterialMutate = useCreateMaterial();
+	const updateMaterialMutate = useUpdateMaterial();
+	const deleteMaterialMutate = useDeleteMaterial();
 
 	const activeModal = useSubjectStore_UI((state) => state.activeModal);
 
@@ -59,17 +65,17 @@ export default function EditMaterialModal({
 		{
 			type: 'Video',
 			label: 'Video',
-			icon: <FaCirclePlay className="w-4 h-4" />,
+			icon: <TbBrandYoutube className="w-7 h-7" />,
 		},
 		{
 			type: 'Note',
 			label: 'Note',
-			icon: <FaNoteSticky className="w-4 h-4" />,
+			icon: <TbNote className="w-7 h-7" />,
 		},
 		{
 			type: 'Flashcard',
 			label: 'Flashcards',
-			icon: <FaRug className="w-4 h-4" />,
+			icon: <TbCreditCard className="w-7 h-7" />,
 		},
 	];
 
@@ -81,16 +87,17 @@ export default function EditMaterialModal({
 		console.log('Link:', formData.get('materialLink'));
 		console.log('Type:', selectedType);
 
-		const materialCreate = {
+		const materialUpdate = {
 			title: formData.get('newMaterialTitle') as string,
 			link: formData.get('materialLink') as string,
 			type: selectedType,
 		};
 
-		createMaterialMutate.mutate(
+		updateMaterialMutate.mutate(
 			{
 				subjectId: material?.subject_id,
-				materialCreate,
+				materialId: material?.id,
+				materialUpdate,
 			},
 			{
 				onSuccess: () => {
@@ -110,6 +117,26 @@ export default function EditMaterialModal({
 		);
 	};
 
+	const handleDelete = async () => {
+		deleteMaterialMutate.mutate(
+			{
+				subjectId: material.subject_id,
+				materialId: material.id,
+			},
+			{
+				onSuccess: () => {
+					queryClient.invalidateQueries({
+						queryKey: ['players', material.subject_id, 'materials'],
+					});
+				},
+				onSettled: () => {
+					closeActiveModal();
+					formRef?.current?.reset();
+				},
+			}
+		);
+	};
+
 	return (
 		<Modal
 			isOpen={true}
@@ -117,9 +144,17 @@ export default function EditMaterialModal({
 				closeActiveModal();
 				setIsInitialized(false); // reset tracker so next open reinitializes
 			}}
-			title="Edit a new material!"
+			title="Edit a material!"
 		>
-			<form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+			<form
+				ref={formRef}
+				onSubmit={handleSubmit}
+				className={`space-y-4 ${
+					deleteMaterialMutate.isPending
+						? 'opacity-50 pointer-events-none'
+						: ''
+				}`}
+			>
 				<div className="space-y-2">
 					<label
 						htmlFor="newMaterialTitle"
@@ -169,13 +204,13 @@ export default function EditMaterialModal({
 					>
 						Edit Material Type
 					</label>
-					<div className="flex gap-2 sm:gap-3 md:gap-4 lg:gap-10">
+					<div className="flex gap-2 ">
 						{materialOptions.map(({ type, label, icon }) => (
 							<label
 								key={type}
-								className={`flex items-center gap-2 cursor-pointer px-2 py-1 rounded-md transition-colors
-        ${selectedType === type ? 'bg-accent/10 text-accent' : 'text-gray-500'}
-      `}
+								className={`flex items-center gap-2 cursor-pointer py-2 px-4 rounded-md transition-colors
+									${selectedType === type ? 'bg-accent/10 text-accent' : 'text-gray-500'}
+								`}
 								onClick={() => setSelectedType(type)}
 							>
 								<input
@@ -186,14 +221,14 @@ export default function EditMaterialModal({
 									onChange={() => setSelectedType(type)}
 									className="hidden"
 								/>
-								<span className="flex items-center gap-1 text-sm capitalize">
+								<span className="flex items-center gap-2 text-sm capitalize">
 									<span
-										className={`rounded-full p-0.5 border w-6 h-6 flex items-center justify-center text-base
-            ${
-				selectedType === type
-					? 'border-accent text-accent'
-					: 'border-gray-300 text-gray-500'
-			}`}
+										className={`flex items-center justify-center
+										${
+											selectedType === type
+												? 'border-accent text-accent'
+												: 'border-gray-300 text-gray-500'
+										}`}
 									>
 										{icon}
 									</span>
@@ -204,16 +239,23 @@ export default function EditMaterialModal({
 					</div>
 				</div>
 
-				<div className="flex justify-end pt-4">
+				<div className="flex justify-end pt-4 gap-2">
+					<DeleteWithConfirm
+						label="Delete"
+						deleteFn={handleDelete}
+						className={`px-3 rounded-md bg-danger/20 border border-danger/50`}
+						iconClassName="w-4 h-4"
+						confirmClassName="text-sm"
+					/>
 					<button
 						type="submit"
-						className="px-4 py-2 bg-accent/20 hover:bg-accent/30 text-accent 
-                        border border-accent rounded-lg font-rpg text-sm
-                        transition-all duration-200 focus:outline-none
-                         focus:ring-offset-background
-                        active:scale-95 hover:scale-100"
+						className="px-4 py-2 bg-accent/20 hover:bg-accent/30 text-accent
+								border border-accent rounded-lg font-rpg text-sm items-center
+								transition-all duration-200 focus:outline-none flex gap-2
+								focus:ring-offset-background active:scale-95 hover:scale-100"
 					>
-						Save Changes
+						<FaSave className="w-4 h-4" />
+						<p>Save</p>
 					</button>
 				</div>
 			</form>
