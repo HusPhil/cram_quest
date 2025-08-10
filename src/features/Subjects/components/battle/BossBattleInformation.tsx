@@ -90,7 +90,7 @@ function BossBattleInformation({
 								: 'text-red-400'
 						}`}
 					>
-						{isBossAvailable() ? 'AWAKE' : 'RESTING...'}
+						{isBossAvailable() ? 'AWAKE' : 'RESTING…'}
 					</span>
 				</div>
 			</div>
