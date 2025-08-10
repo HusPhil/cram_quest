@@ -5,10 +5,11 @@ const DELETE_CONFIRMATION_SEC = 3;
 
 interface DeleteWithConfirmProps {
 	deleteFn: () => Promise<void>;
-	setIsDeleting: (isLoading: boolean) => void;
+	setIsDeleting?: (isLoading: boolean) => void;
 	confirmClassName?: string;
 	iconClassName?: string;
 	className?: string;
+	labelClassName?: string;
 	label?: string;
 }
 
@@ -18,6 +19,7 @@ export default function DeleteWithConfirm({
 	confirmClassName,
 	iconClassName,
 	className,
+	labelClassName,
 	label,
 }: DeleteWithConfirmProps) {
 	const [timer, setTimer] = useState(DELETE_CONFIRMATION_SEC);
@@ -35,11 +37,11 @@ export default function DeleteWithConfirm({
 	};
 
 	const handleDeleteConfirmed = async () => {
-		setIsDeleting(true);
+		setIsDeleting?.(true);
 
 		await deleteFn();
 
-		setIsDeleting(false);
+		setIsDeleting?.(false);
 	};
 
 	useEffect(() => {
@@ -72,9 +74,9 @@ export default function DeleteWithConfirm({
 			>
 				{isConfirming && (
 					<p
-						className={`text-danger px-3 py-1 rounded-md  ${
+						className={`text-danger px-3 py-1 rounded-md ${confirmClassName}  ${
 							isConfirming ? 'opacity-100' : 'w-0 opacity-0'
-						} ${confirmClassName}`}
+						}  `}
 					>{`Confirm (${timer}s)`}</p>
 				)}
 				<FaTrash
@@ -82,8 +84,12 @@ export default function DeleteWithConfirm({
 						isConfirming ? 'hidden' : ''
 					} ${iconClassName}`}
 				/>
-				{label && (
-					<p className="text-danger hidden lg:block ">{label}</p>
+				{label && !isConfirming && (
+					<p
+						className={`text-danger hidden lg:block text-sm ${labelClassName}`}
+					>
+						{label}
+					</p>
 				)}
 			</div>
 		</button>
