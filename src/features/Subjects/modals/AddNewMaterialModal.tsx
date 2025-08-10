@@ -5,6 +5,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { FaCirclePlay, FaNoteSticky, FaRug } from 'react-icons/fa6';
 import { MaterialType } from '../screens/SubjectScreen/Tabs/LearningPage';
 import { useSubjectStore_UI } from '../stores/subjectStore_UI';
+import { TbBrandYoutube, TbCreditCard, TbNote } from 'react-icons/tb';
 
 interface AddNewMaterialModalProps {
 	subjectId: number;
@@ -47,17 +48,17 @@ export default function AddNewMaterialModal({
 		{
 			type: 'Video',
 			label: 'Video',
-			icon: <FaCirclePlay className="w-4 h-4" />,
+			icon: <TbBrandYoutube className="w-7 h-7" />,
 		},
 		{
 			type: 'Note',
 			label: 'Note',
-			icon: <FaNoteSticky className="w-4 h-4" />,
+			icon: <TbNote className="w-7 h-7" />,
 		},
 		{
 			type: 'Flashcard',
 			label: 'Flashcards',
-			icon: <FaRug className="w-4 h-4" />,
+			icon: <TbCreditCard className="w-7 h-7" />,
 		},
 	];
 
@@ -106,7 +107,7 @@ export default function AddNewMaterialModal({
 						htmlFor="newMaterialTitle"
 						className="block font-rpg text-accent text-sm"
 					>
-						Material Title
+						Title
 					</label>
 					<input
 						id="newMaterialTitle"
@@ -117,7 +118,7 @@ export default function AddNewMaterialModal({
 						className="w-full rounded-lg bg-secondary/50 border border-accent/30 p-2 
                                  text-text placeholder-text/50 focus:border-accent/60 focus:outline-none
                                  transition-colors"
-						placeholder="Enter subject name..."
+						placeholder="Enter material title…"
 					/>
 				</div>
 
@@ -137,7 +138,7 @@ export default function AddNewMaterialModal({
 						className="w-full rounded-lg bg-secondary/50 border border-accent/30 p-2 
                                  text-text placeholder-text/50 focus:border-accent/60 focus:outline-none
                                  transition-colors"
-						placeholder="Enter subject name..."
+						placeholder="Enter material link…"
 					/>
 				</div>
 
@@ -146,13 +147,16 @@ export default function AddNewMaterialModal({
 						htmlFor="materialType"
 						className="block font-rpg text-accent text-sm"
 					>
-						Material Type
+						Type
 					</label>
-					<div className="flex gap-2 sm:gap-3 md:gap-4 lg:gap-10">
+					<div className="flex gap-2">
 						{materialOptions.map(({ type, label, icon }) => (
 							<label
 								key={type}
-								className="flex items-center gap-2 cursor-pointer"
+								className={`flex items-center gap-2 cursor-pointer py-2 px-4 rounded-md transition-colors
+									${selectedType === type ? 'bg-accent/10 text-accent' : 'text-gray-500'}
+								`}
+								onClick={() => setSelectedType(type)}
 							>
 								<input
 									type="radio"
@@ -160,11 +164,12 @@ export default function AddNewMaterialModal({
 									value={type}
 									checked={selectedType === type}
 									onChange={() => setSelectedType(type)}
-									className="accent-accent"
+									className="hidden"
 								/>
-								<span className="flex items-center gap-1 text-text text-sm capitalize">
+								<span className="flex items-center gap-2 text-sm capitalize">
 									<span
-										className={`rounded-full p-0.5 border w-6 h-6 flex items-center justify-center text-base ${
+										className={`flex items-center justify-center
+										${
 											selectedType === type
 												? 'border-accent text-accent'
 												: 'border-gray-300 text-gray-500'
@@ -172,7 +177,7 @@ export default function AddNewMaterialModal({
 									>
 										{icon}
 									</span>
-									{label}
+									<span>{label}</span>
 								</span>
 							</label>
 						))}

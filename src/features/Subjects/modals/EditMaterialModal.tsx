@@ -144,7 +144,7 @@ export default function EditMaterialModal({
 				closeActiveModal();
 				setIsInitialized(false); // reset tracker so next open reinitializes
 			}}
-			title="Edit a material!"
+			title="Edit material!"
 		>
 			<form
 				ref={formRef}
@@ -160,7 +160,7 @@ export default function EditMaterialModal({
 						htmlFor="newMaterialTitle"
 						className="block font-rpg text-accent text-sm"
 					>
-						Edit Material Title
+						Title
 					</label>
 					<input
 						id="newMaterialTitle"
@@ -202,7 +202,7 @@ export default function EditMaterialModal({
 						htmlFor="materialType"
 						className="block font-rpg text-accent text-sm"
 					>
-						Edit Material Type
+						Type
 					</label>
 					<div className="flex gap-2 ">
 						{materialOptions.map(({ type, label, icon }) => (
