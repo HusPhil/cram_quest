@@ -51,3 +51,10 @@ export const getCreateSubjectEndRoute = (playerId: number) => {
 export const getMaterialEndRoute = (subject_id: number) => {
 	return `${BASE_URL}/${baseSubjectRoute}/${subject_id}/materials`;
 };
+
+export const getBaseMaterialEndRoute = (
+	subject_id: number,
+	materialId: number
+) => {
+	return `${BASE_URL}/${baseSubjectRoute}/${subject_id}/materials/${materialId}`;
+};

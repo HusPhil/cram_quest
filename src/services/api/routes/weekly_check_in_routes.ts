@@ -9,3 +9,7 @@ export const getCheckInEndRoute = (playerId: number) => {
 export const getLatestCheckInEndRoute = (playerId: number) => {
 	return `${BASE_URL}/${baseWeeklyCheckInRoute}/check_in/latest/${playerId}`;
 };
+
+export const getPerfectWeeklyCheckInRewardEndRoute = (playerId: number) => {
+	return `${BASE_URL}/${baseWeeklyCheckInRoute}/check_in/reward/${playerId}`;
+};

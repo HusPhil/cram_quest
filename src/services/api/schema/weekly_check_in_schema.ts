@@ -18,3 +18,7 @@ export interface WeeklyCheckInRead {
 	saturday: CheckInStatus;
 	sunday: CheckInStatus;
 }
+
+export interface PerfectWeeklyCheckInRewardRead {
+	reward_xp: number;
+}
