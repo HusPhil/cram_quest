@@ -5,6 +5,8 @@ import { useEquipPlayerSkin } from '../Subjects/hooks/battle/useEquipPlayerSkin'
 import { toast } from 'react-toastify';
 import { rarityConfig } from '../../data/configs';
 import { useUnequipPlayerSkin } from '../Subjects/hooks/battle/useUnequipPlayerSkin';
+import SkinsGridSkeleton from '../../components/Skeletons/SkinsGridSkeleton';
+import EmptyListNote from '../../components/EmptyListNote';
 
 interface SkinsGridItemProps {
 	skin: PlayerInventoryItemRead;
@@ -123,29 +125,44 @@ function SkinsGrid() {
 
 	return (
 		<div className="flex flex-1 flex-col">
-			<h2 className="font-rpg text-2xl text-accent mb-6 text-center">
-				Available Skins
-			</h2>
-			{!player_skins.isLoading ? (
-				<div className="relative flex-1">
-					<div className="absolute inset-0 overflow-y-auto scroll-smooth flex justify-center no-scrollbar">
-						<div className="h-full w-full max-w-[1200px] flex flex-col py-3 px-3.5 md:py-5 md:px-7">
-							<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-7">
-								{player_skins?.data?.map((skin) => (
-									<SkinsGridItem
-										key={skin.id}
-										skin={skin}
-										currentSkin={currentPlayerSkinUrl}
-										handleUnequipSkin={handleUnequipSkin}
-										handleEquip={handleEquipSkin}
-									/>
-								))}
+			{player_skins.isLoading ? (
+				<SkinsGridSkeleton />
+			) : (
+				<>
+					<h2 className="font-rpg text-2xl text-accent mb-6 text-center">
+						Available Skins
+					</h2>
+					{player_skins.data && player_skins.data.length > 0 ? (
+						<div className="relative flex-1">
+							<div className="absolute inset-0 overflow-y-auto scroll-smooth flex justify-center no-scrollbar">
+								<div className="h-full w-full max-w-[1200px] flex flex-col py-3 px-3.5 md:py-5 md:px-7">
+									<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-7">
+										{player_skins?.data?.map((skin) => (
+											<SkinsGridItem
+												key={skin.id}
+												skin={skin}
+												currentSkin={
+													currentPlayerSkinUrl
+												}
+												handleUnequipSkin={
+													handleUnequipSkin
+												}
+												handleEquip={handleEquipSkin}
+											/>
+										))}
+									</div>
+								</div>
 							</div>
 						</div>
-					</div>
-				</div>
-			) : (
-				<p>loading</p>
+					) : (
+						<div className="flex justify-center items-center h-full w-full">
+							<EmptyListNote
+								message="No skins found,"
+								hint="Go win some boss battles!"
+							/>
+						</div>
+					)}
+				</>
 			)}
 		</div>
 	);
