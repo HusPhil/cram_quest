@@ -1,9 +1,9 @@
-const Loading = () => {
+import 'react-loading-skeleton/dist/skeleton.css';
+
+export default function Loading() {
 	return (
-		<div className="flex justify-center items-center flex-1">
-			<p className="text-lg font-semibold">GLOBAL Loading...</p>
+		<div className="h-[100dvh] bg-background text-white flex items-center justify-center p-4">
+			<p>Loading CramQuest…</p>
 		</div>
 	);
-};
-
-export default Loading;
+}
