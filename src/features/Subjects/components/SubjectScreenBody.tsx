@@ -1,6 +1,7 @@
 import { lazy, memo, Suspense, useEffect } from 'react';
 import { PAGE_TITLES, PageTitle } from '../screens/SubjectScreen/SubjectScreen';
 import Tabs from '../../../components/Tabs';
+import QuestsPageSkeleton from '../../../components/Skeletons/QuestPageSkeleton';
 
 const LearningPage = lazy(
 	() => import('../screens/SubjectScreen/Tabs/LearningPage')
@@ -30,7 +31,7 @@ export function SubjectScreenBody({
 		switch (activeTab) {
 			case PAGE_TITLES.LEARNING:
 				return (
-					<Suspense fallback={<p>Loading learning page...</p>}>
+					<Suspense fallback={<QuestsPageSkeleton />}>
 						<LearningPage
 							subjectId={subjectId}
 							subjectDifficulty={subjectDifficulty}
@@ -39,7 +40,7 @@ export function SubjectScreenBody({
 				);
 			case PAGE_TITLES.QUESTS:
 				return (
-					<Suspense fallback={<p>Loading quest page...</p>}>
+					<Suspense fallback={<QuestsPageSkeleton />}>
 						<QuestsPage subjectId={subjectId} />
 					</Suspense>
 				);
