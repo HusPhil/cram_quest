@@ -54,6 +54,7 @@ export default function Sidebar() {
 		console.log('prevPath: ', prevPath);
 		if (prevPath != null && prevPath !== location.pathname) {
 			setIsMobileOpen(false);
+			setIsCollapsed(true);
 			closeScreen();
 		}
 	}, [location.pathname]);

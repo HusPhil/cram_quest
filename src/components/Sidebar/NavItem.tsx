@@ -23,6 +23,7 @@ const NavItem = ({
 }: NavItemProps) => {
 	return (
 		<Link
+			title={label}
 			to={path}
 			className={`
             group flex items-center rounded-lg

@@ -1,4 +1,10 @@
 import { GiHamburgerMenu } from 'react-icons/gi';
+import {
+	TbChevronsLeft,
+	TbLayoutSidebarLeftCollapse,
+	TbSwords,
+} from 'react-icons/tb';
+import colors from '../../data/colors';
 
 interface NavHeaderProps {
 	isCollapsed: boolean;
@@ -20,21 +26,28 @@ export default function NavHeader({
 			} `}
 		>
 			{/* Desktop Collapse Toggle */}
-			<h1
-				className={`
+			<div className="flex gap-2 items-center justify-center">
+				{/* {!isCollapsed && <TbSwords className="w-6 h-6 text-accent" />} */}
+				<h1
+					className={`
 					font-bold text-xl bg-gradient-to-r from-amber-200 to-amber-400 
 					text-transparent bg-clip-text transition-all duration-300
 					${isCollapsed ? 'lg:hidden lg:translate-x-4' : 'opacity-100'}
 				`}
-			>
-				CramQuest
-			</h1>
+				>
+					CramQuest
+				</h1>
+			</div>
 
 			<button
 				onClick={() => setIsCollapsed(!isCollapsed)}
 				className="hidden lg:block text-amber-400"
 			>
-				{isCollapsed ? <GiHamburgerMenu className="w-5 h-5" /> : '«'}
+				{isCollapsed ? (
+					<TbSwords className="w-7 h-7" />
+				) : (
+					<TbChevronsLeft className="w-6 h-6	" />
+				)}
 			</button>
 
 			{/* Mobile Close Button */}
