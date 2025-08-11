@@ -5,6 +5,7 @@ import { useGetMaterials } from '../../../hooks/material/useGetMaterials';
 import TagLabel from '../../../../../components/TagLabel';
 import { FaPlus } from 'react-icons/fa';
 import { useSubjectStore_UI } from '../../../stores/subjectStore_UI';
+import QuestsPageSkeleton from '../../../../../components/Skeletons/QuestPageSkeleton';
 
 interface LearningPageProps {
 	subjectId: number;
@@ -57,9 +58,9 @@ export default function LearningPage({
 			</div>
 
 			<div className="overflow-auto h-full no-scrollbar flex-1 mt-1 space-y-3">
-				{isLoading && <p>Loading materials...</p>}
-				{isError && <p>Failed to load materials</p>}
-				{!isLoading && !isError && materials && (
+				{isLoading || isError || !materials ? (
+					<QuestsPageSkeleton />
+				) : (
 					<SubjectMaterials
 						subjectId={subjectId}
 						materials={materials}

@@ -4,6 +4,7 @@ import { useGetSubjectQuests } from '../../../hooks/quest/useGetSubjectQuests';
 import { QuestRead } from '../../../../../services/api/schema/quest_schema';
 import { useEffect } from 'react';
 import { useSubjectStore_UI } from '../../../stores/subjectStore_UI';
+import QuestsPageSkeleton from '../../../../../components/Skeletons/QuestPageSkeleton';
 
 export default function QuestsPage({ subjectId }: { subjectId: number }) {
 	const { data: subjectQuests, isLoading: subjectQuestsLoading } =
@@ -21,7 +22,9 @@ export default function QuestsPage({ subjectId }: { subjectId: number }) {
 
 	return (
 		<div className="flex flex-1 h-full max-h-full flex-col">
-			{!subjectQuestsLoading && (
+			{subjectQuestsLoading ? (
+				<QuestsPageSkeleton />
+			) : (
 				<>
 					<div className="">
 						<QuestListHeader
