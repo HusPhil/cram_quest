@@ -16,6 +16,8 @@ import { useGetPerfectWeeklyChechInReward } from './hooks/useGetPerfectWeeklyChe
 import { useState } from 'react';
 import PerfectWeeklyChecInRewardModal from './modal/PerfectWeeklyChecInRewardModal';
 import { WeeklyCheckInRead } from '../../services/api/schema/weekly_check_in_schema';
+import WeeklyRecordSkeleton from '../../components/Skeletons/WeeklyRecordSkeleton';
+import PlayerCardSkeleton from '../../components/Skeletons/PlayerCardSkeleton';
 
 const mockWeeklyCheckInRecord = [
 	{
@@ -160,40 +162,48 @@ export default function CheckIn() {
 
 	return (
 		<div className="flex flex-col items-center justify-center flex-1 mx-4">
-			<RpgCard
-				hoverable={false}
-				glowEffect={false}
-				className="w-[80%] mb-2 py-5 max-w-sm md:w-full md:max-w-xl lg:max-w-2xl lg:mb-5"
-			>
-				<PlayerCard
-					playerClass={parsedAvatar.playerClass}
-					playerSkin={parsedAvatar.playerSkin as PlayerSkin}
-					currentScreenSize={currentScreenSize}
-					currentExp={!currentPlayer ? 0 : currentPlayer.experience!}
-					nextLvlExp={
-						!currentPlayer ? 0 : currentPlayer.next_level_xp!
-					}
-					playerTitle={
-						!currentPlayer ? 'Loading...' : currentPlayer.title!
-					}
-					playerName={
-						!currentUser ? 'Loading...' : currentUser.username!
-					}
-					isLoading={!currentUser || !currentPlayer}
-					userError={
-						!currentUser ? new Error('User not found') : null
-					}
-					playerError={
-						!currentPlayer ? new Error('Player not found') : null
-					}
-					profileError={
-						!playerAvatarUrl ? new Error('Profile not found') : null
-					}
-					currentLevel={!currentPlayer ? 0 : currentPlayer.level!}
-				/>
-			</RpgCard>
+			<div className="bg-secondary/75 border-white/10 border px-5 rounded-md w-[80%] mb-2 py-5 max-w-sm md:w-full md:max-w-xl lg:max-w-2xl lg:mb-5">
+				{!currentPlayer ? (
+					<PlayerCardSkeleton />
+				) : (
+					<PlayerCard
+						playerClass={parsedAvatar.playerClass}
+						playerSkin={parsedAvatar.playerSkin as PlayerSkin}
+						currentScreenSize={currentScreenSize}
+						currentExp={
+							!currentPlayer ? 0 : currentPlayer.experience!
+						}
+						nextLvlExp={
+							!currentPlayer ? 0 : currentPlayer.next_level_xp!
+						}
+						playerTitle={
+							!currentPlayer ? 'Loading...' : currentPlayer.title!
+						}
+						playerName={
+							!currentUser ? 'Loading...' : currentUser.username!
+						}
+						isLoading={!currentUser || !currentPlayer}
+						userError={
+							!currentUser ? new Error('User not found') : null
+						}
+						playerError={
+							!currentPlayer
+								? new Error('Player not found')
+								: null
+						}
+						profileError={
+							!playerAvatarUrl
+								? new Error('Profile not found')
+								: null
+						}
+						currentLevel={!currentPlayer ? 0 : currentPlayer.level!}
+					/>
+				)}
+			</div>
 
-			{!latestWeeklyCheckIn.isLoading ? (
+			{latestWeeklyCheckIn.isLoading ? (
+				<WeeklyRecordSkeleton />
+			) : (
 				<div className="mx-3">
 					<WeeklyRecord
 						weeklyCheckInRecord={latestWeeklyCheckIn.data!}
@@ -201,7 +211,7 @@ export default function CheckIn() {
 						handleCheckIn={handleCheckIn}
 					/>
 				</div>
-			) : null}
+			)}
 
 			{perfectWeeklyCheckInMutate.data && (
 				<PerfectWeeklyChecInRewardModal
