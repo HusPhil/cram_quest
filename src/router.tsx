@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Loading from './components/Loading';
 import MainLayout from './layouts/MainLayout';
 import SignOut from './pages/SignOut';
+import HomeSkeleton from './components/Skeletons/HomeSkeleton';
 
 //Route Protector
 const RejectAuth = lazy(() => import('./layouts/RejectAuth'));
@@ -41,7 +42,7 @@ const AppRouter = () => {
 							<Route
 								path="/home"
 								element={
-									<Suspense fallback={'HOME IS LOADING'}>
+									<Suspense fallback={<HomeSkeleton />}>
 										<Home />
 									</Suspense>
 								}

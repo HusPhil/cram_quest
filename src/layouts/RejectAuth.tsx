@@ -1,11 +1,12 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useRefreshSession } from '../features/Auth/hooks/useRefreshSession';
+import Loading from '../components/Loading';
 
 const RejectAuth = () => {
 	const { isPending, isError, isLoading, data } = useRefreshSession();
 
 	// While checking → null or loading spinner
-	if (isPending || isLoading) return <p>Loading..</p>;
+	if (isPending || isLoading) return <Loading />;
 
 	// If session *is valid* → navigate away
 	if (!isError && data) return <Navigate to="/check-in" replace />;
