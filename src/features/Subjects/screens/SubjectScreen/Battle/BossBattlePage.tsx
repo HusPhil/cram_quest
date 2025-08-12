@@ -1,7 +1,6 @@
 import BossBattleArena from '../../../components/battle/BossBattleArena';
 import BossBattleContorls from '../../../components/battle/BossBattleContorls';
 import { useBattleSetupStore } from '../../../../Battle/stores/battleSetupStore';
-import PixelButton from '../../../../../components/PixelButton';
 import HealthBar from '../../../components/ui/HealthBar';
 import { useEffect, useState } from 'react';
 import { useUserPlayerStore } from '../../../../Auth/stores/userPlayerStore/userPlayerStore';

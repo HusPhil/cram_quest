@@ -10,8 +10,6 @@ export const playerEnemyPushedHurt: BattleStepFn = ({
 	setPlayerLoop,
 	getPlayerPosX,
 	setPlayerPosX,
-	setEnemyPosX,
-	getEnemyPosX,
 }) => {
 	adjustZValues('enemy');
 

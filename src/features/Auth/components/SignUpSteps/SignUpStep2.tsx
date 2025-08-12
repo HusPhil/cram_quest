@@ -4,6 +4,7 @@ import SpriteSheet from '../../../../components/SpriteSheet';
 import {
 	playerAssets,
 	PlayerClass,
+	PlayerSkin,
 } from '../../../Battle/configs/spritesheetConfig';
 
 interface SignUpStep2Props {
@@ -19,7 +20,7 @@ export default function SignUpStep2({
 	avatarUrlRef,
 	handleSubmit,
 }: SignUpStep2Props) {
-	const [selectedSkin, setSelectedSkin] = useState<string>('default_1');
+	const [selectedSkin, setSelectedSkin] = useState<PlayerSkin>('default_1');
 	const defaultClass: PlayerClass = 'default';
 
 	const availableSkins: string[] = Object.keys(playerAssets[defaultClass]);
@@ -31,7 +32,7 @@ export default function SignUpStep2({
 			direction === 'next'
 				? (currentIndex + 1) % max
 				: (currentIndex - 1 + max) % max;
-		setSelectedSkin(availableSkins[newIndex]);
+		setSelectedSkin(availableSkins[newIndex] as PlayerSkin);
 	};
 
 	const handleGoBack = () => {
@@ -57,7 +58,11 @@ export default function SignUpStep2({
 
 					<div className="flex-shrink-0">
 						<SpriteSheet
-							src={playerAssets[defaultClass][selectedSkin]}
+							src={
+								playerAssets[defaultClass][
+									selectedSkin
+								] as string
+							}
 							frameWidth={48}
 							frameHeight={48}
 							frameCount={6}

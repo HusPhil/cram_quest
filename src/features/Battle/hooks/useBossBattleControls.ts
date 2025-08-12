@@ -85,8 +85,8 @@ export function useBossBattleControls({
 		defenseReductionPercentage: number = 0
 	) => {
 		let damage = 0;
-		let maxBase = 17;
-		let minBase = 15;
+		const maxBase = 17;
+		const minBase = 15;
 		const baseDamageRoll =
 			Math.floor(Math.random() * (maxBase - minBase + 1)) + minBase;
 

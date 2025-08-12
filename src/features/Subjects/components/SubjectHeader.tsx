@@ -1,7 +1,4 @@
-import { FaPlus } from 'react-icons/fa';
 import { useSubjectStore_UI } from '../stores/subjectStore_UI';
-import PixelButton from '../../../components/PixelButton';
-import colors from '../../../data/colors';
 import { TbPlus } from 'react-icons/tb';
 
 export default function SubjectHeader({
@@ -9,7 +6,6 @@ export default function SubjectHeader({
 }: {
 	playerId: number | undefined;
 }) {
-	const activeModal = useSubjectStore_UI((state) => state.activeModal);
 	const setActiveModal = useSubjectStore_UI((state) => state.setActiveModal);
 
 	return (

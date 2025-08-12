@@ -12,7 +12,7 @@ export const useUpdateMaterial = () => {
 				toastId: 'material-update-success',
 			});
 		},
-		onError(error, variables, context) {
+		onError(error) {
 			toast.error('Failed to create subject material: ' + error.message, {
 				toastId: 'material-update-error',
 			});

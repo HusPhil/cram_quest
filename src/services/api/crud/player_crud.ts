@@ -1,8 +1,5 @@
 import { fetcher } from '../fetcher';
-import {
-	getEquipPlayerSkinEndRoute,
-	getPlayerSkinsEndRoute,
-} from '../routes/player_inventory_item_routes';
+import { getPlayerSkinsEndRoute } from '../routes/player_inventory_item_routes';
 import {
 	getPlayerBossAvailabilityCounterEndRoute,
 	getPlayerProfileEndRoute,

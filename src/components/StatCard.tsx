@@ -1,6 +1,6 @@
 interface StatCardProps {
-	label: String;
-	value: number | String;
+	label: string;
+	value: number | string;
 }
 
 export default function StatCard({ label, value }: StatCardProps) {

@@ -1,4 +1,4 @@
-import { TbStar, TbStarFilled } from 'react-icons/tb';
+import { TbStarFilled } from 'react-icons/tb';
 
 interface StarRatingProps {
 	value: number;

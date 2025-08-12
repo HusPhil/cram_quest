@@ -1,13 +1,10 @@
 import { memo, useEffect } from 'react';
 import BattleTimer from './BattleTimer';
-import CornerDecoration from '../../../../components/CornerDecoration';
 import SpriteSheet from '../../../../components/SpriteSheet';
 import { useBattleEngineStore } from '../../../Battle/stores/battleEngineStore';
 import { useBattleSetup } from '../../../Battle/hooks/useBattleSetup';
 import { BattleEngineControllers } from '../../hooks/battle/useBattleEngineControllers';
 import { QuestRead } from '../../../../services/api/schema/quest_schema';
-import { TbTargetArrow } from 'react-icons/tb';
-import colors from '../../../../data/colors';
 import { defaultBattleScene } from '../../../Battle/battleEngine/scenes/default/defaultBattleScene';
 
 export const enemyPosOffSetX = 16;
@@ -24,7 +21,6 @@ interface BattleArenaProps {
 export const BattleArena = ({
 	initializeBattleEngineControllers,
 	duration,
-	currentQuest,
 }: BattleArenaProps) => {
 	const isBossBattle = false;
 	const isLoopOn = true;

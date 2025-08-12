@@ -1,10 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { axiosInstance } from '../../../../lib/axios/axiosInstance';
 import { UseItemResponse } from '../../../../services/api/schema/player_inventory_item_schema';
-import {
-	getEquipPlayerSkinEndRoute,
-	getUnequipPlayerSkinEndRoute,
-} from '../../../../services/api/routes/player_inventory_item_routes';
+import { getUnequipPlayerSkinEndRoute } from '../../../../services/api/routes/player_inventory_item_routes';
 
 export const useUnequipPlayerSkin = () => {
 	return useMutation({

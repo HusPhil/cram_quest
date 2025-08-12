@@ -3,10 +3,7 @@ import { SubjectRead } from '../../../services/api/schema/subject_schema';
 import SubjectCard from './SubjectCard';
 import EmptyListNote from '../../../components/EmptyListNote';
 import { useGetResumableBattleSession } from '../hooks/battle/useGetResumableBattleSession';
-import {
-	BattleSessionRead,
-	BattleSessionResume,
-} from '../../../services/api/schema/battle_session_schema';
+import { BattleSessionRead } from '../../../services/api/schema/battle_session_schema';
 import { useSubjectStore_UI } from '../stores/subjectStore_UI';
 import { useBattleSetupStore } from '../../Battle/stores/battleSetupStore';
 import { QuestRead } from '../../../services/api/schema/quest_schema';

@@ -1,10 +1,4 @@
-import { GiHamburgerMenu } from 'react-icons/gi';
-import {
-	TbChevronsLeft,
-	TbLayoutSidebarLeftCollapse,
-	TbSwords,
-} from 'react-icons/tb';
-import colors from '../../data/colors';
+import { TbChevronsLeft, TbSwords } from 'react-icons/tb';
 
 interface NavHeaderProps {
 	isCollapsed: boolean;

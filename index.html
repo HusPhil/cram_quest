@@ -1,10 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <script
-      crossOrigin="anonymous"
-      src="//unpkg.com/react-scan/dist/auto.global.js"
-    ></script>
+   
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/cramquest.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,6 +22,22 @@
     </script>
 
     <title>CramQuest - Gamify Your Tasks</title>
+
+    <script type="text/javascript">
+      (function (l) {
+        if (l.search[1] === "/") {
+          var decoded = l.search
+            .slice(1)
+            .split("&")
+            .map(function (s) {
+              return s.replace(/~and~/g, "&");
+            })
+            .join("?");
+          window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
+        }
+      })(window.location);
+    </script>
+
   </head>
   <body>
     <div id="root" class="overflow-hidden"></div>

@@ -1,13 +1,12 @@
-import { memo, useState } from 'react';
+import { memo } from 'react';
 import { useFloatingScreen } from '../../../context/FloatingScreenContext';
 import { TbArrowLeft, TbBook } from 'react-icons/tb';
-import { PAGE_TITLES, PageTitle } from '../screens/SubjectScreen/SubjectScreen';
 
 interface SubjectScreenHeaderProps {
-	subjectId: Number;
-	subjectCodeName: String;
-	subjectDescription: String;
-	subjectDifficulty: Number;
+	subjectId: number;
+	subjectCodeName: string;
+	subjectDescription: string;
+	subjectDifficulty: number;
 	learningTabToggled: boolean;
 	toggleLearningTab: () => boolean;
 }

@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function About() {
 	return (
 		<div className="flex min-h-screen w-full flex-col items-center justify-center bg-background px-4 py-12 text-gray-300">

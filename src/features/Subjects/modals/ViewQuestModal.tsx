@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import Modal from '../../../components/Modal';
 
@@ -17,13 +17,11 @@ import {
 	QuestStatus, // Assuming QuestStatus enum exists and includes 'todo', 'doing', 'done'
 } from '../../../services/api/schema/quest_schema';
 
-import { useDeleteQuest } from '../hooks/quest/useDeleteQuest';
-
 import { useUpdateQuest } from '../hooks/quest/useUpdateQuest';
 
 import { TbSwords } from 'react-icons/tb';
-import { FaArchive, FaSave } from 'react-icons/fa'; // Added new icons
 import { useBattleSetupStore } from '../../Battle/stores/battleSetupStore';
+import { FaSave } from 'react-icons/fa';
 
 interface ViewQuestModalProps {
 	quest?: QuestRead;
@@ -69,15 +67,13 @@ const UpdateQuestSection = ({
 
 	const queryClient = useQueryClient();
 
-	const deleteQuestMutate = useDeleteQuest();
+	// const deleteQuestMutate = useDeleteQuest();
 	const updateQuestMutate = useUpdateQuest();
 
 	const setActiveModal = useSubjectStore_UI((state) => state.setActiveModal);
 	const selectQuest = useBattleSetupStore((state) => state.selectQuest);
 
 	const SUBJECT_QUESTS_QUERY_KEY = ['subjects', quest.subject_id, 'quests'];
-
-	const [isDeleting, setIsDeleting] = useState(false);
 
 	const handleSubmit = (event: React.FormEvent) => {
 		event.preventDefault();
@@ -104,17 +100,17 @@ const UpdateQuestSection = ({
 		);
 	};
 
-	const handleDeleteConfirmed = async () => {
-		await deleteQuestMutate.mutateAsync({ questId: quest.id });
+	// const handleDeleteConfirmed = async () => {
+	// 	await deleteQuestMutate.mutateAsync({ questId: quest.id });
 
-		if (!deleteQuestMutate.isError) {
-			await queryClient.invalidateQueries({
-				queryKey: SUBJECT_QUESTS_QUERY_KEY,
-			});
-			toast.success('Quest deleted successfully');
-			handleCloseModal();
-		}
-	};
+	// 	if (!deleteQuestMutate.isError) {
+	// 		await queryClient.invalidateQueries({
+	// 			queryKey: SUBJECT_QUESTS_QUERY_KEY,
+	// 		});
+	// 		toast.success('Quest deleted successfully');
+	// 		handleCloseModal();
+	// 	}
+	// };
 
 	const handleArchiveQuest = async () => {
 		updateQuestMutate.mutate(
@@ -279,7 +275,6 @@ const UpdateQuestSection = ({
 				<div className="flex gap-x-2 justify-end">
 					<DeleteWithConfirm
 						deleteFn={handleArchiveQuest}
-						setIsDeleting={setIsDeleting}
 						className={`px-3 rounded-md bg-danger/20 border border-danger/50 flex`}
 						iconClassName="w-4 h-4 "
 						confirmClassName="text-sm"

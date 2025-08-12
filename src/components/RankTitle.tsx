@@ -1,7 +1,7 @@
 interface RankTitleProps {
-	text: String | undefined;
+	text: string | undefined;
 	color?: 'gold' | 'silver' | 'bronze' | 'error';
-	className?: String;
+	className?: string;
 }
 
 const RankTitle: React.FC<RankTitleProps> = ({

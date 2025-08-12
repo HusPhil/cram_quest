@@ -14,7 +14,6 @@ interface BattleSetupStepInputProps {
 }
 
 export default function BattleSetupStepInput({
-	id,
 	value,
 	index,
 	onChange,

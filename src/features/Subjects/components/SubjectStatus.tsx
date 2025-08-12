@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
 import StarRating from './ui/StarRating';
-import { FaFloppyDisk } from 'react-icons/fa6';
 
 interface LearningStatusUpdateProps {
 	subjectId: number;
@@ -16,12 +15,6 @@ export default function LearningStatus({
 	subjectStatus,
 }: LearningStatusUpdateProps) {
 	const statusRef = useRef<HTMLTextAreaElement>(null);
-
-	const handleSave = () => {
-		const updatedStatus = statusRef.current?.value || '';
-		alert('Saving:' + updatedStatus);
-		// Handle save logic here (e.g. API call or state update)
-	};
 
 	useEffect(() => {
 		if (statusRef.current) {

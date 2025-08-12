@@ -3,9 +3,7 @@ import { QuestRead } from '../../../../services/api/schema/quest_schema';
 import { useSubjectStore_UI } from '../../stores/subjectStore_UI';
 import QuestFilterToggles from './QuestFilterToggles';
 
-export default function QuestListHeader({
-	quests,
-}: {
+export default function QuestListHeader({}: {
 	quests: QuestRead[];
 	subjectId: number;
 }) {

@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Modal from '../../../components/Modal';
-import { useCreateMaterial } from '../hooks/material/useCreateMaterial';
 import { useQueryClient } from '@tanstack/react-query';
-import { FaCirclePlay, FaNoteSticky, FaRug } from 'react-icons/fa6';
 import { MaterialType } from '../screens/SubjectScreen/Tabs/LearningPage';
 import { MaterialRead } from '../../../services/api/schema/material_schema';
 import { useSubjectStore_UI } from '../stores/subjectStore_UI';

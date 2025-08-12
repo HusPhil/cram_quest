@@ -1,4 +1,4 @@
-import React, { use, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Modal from '../../../components/Modal';
 import StarRating from '../components/ui/StarRating';
 import DeleteWithConfirm from '../components/ui/DeleteWithConfirm';

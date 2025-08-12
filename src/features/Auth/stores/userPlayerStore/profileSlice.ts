@@ -8,7 +8,7 @@ export interface ProfileSlice {
 	mood: string | null;
 
 	setProfile: (
-		payload: Omit<ProfileSlice, 'setProfile' | 'getProfile'>
+		payload: Omit<ProfileSlice, 'setProfile' | 'getProfile' | 'setSkinUrl'>
 	) => void;
 	setSkinUrl: (skinUrl: string | null) => void;
 	getProfile: () => Omit<

@@ -5,7 +5,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useCreateQuest } from '../hooks/quest/useCreateQuest';
 import { useSubjectStore_UI } from '../stores/subjectStore_UI';
 import { QuestStatus } from '../../../services/api/schema/quest_schema';
-import { toast } from 'react-toastify';
 
 interface AddNewQuestModalProps {
 	subjectId: number;

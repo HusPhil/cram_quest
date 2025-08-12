@@ -1,6 +1,3 @@
-import { TbStar } from 'react-icons/tb';
-import colors from '../../../../data/colors';
-
 export default function BattleResultButton({
 	result,
 	onClick,
@@ -13,7 +10,6 @@ export default function BattleResultButton({
 	className?: string;
 }) {
 	const textColor = result === 'victory' ? 'text-success' : 'text-danger';
-	const iconColor = result === 'victory' ? colors.success : colors.danger;
 	const borderBgStyle =
 		result === 'victory'
 			? 'bg-success/15 border-success'

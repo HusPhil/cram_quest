@@ -11,7 +11,7 @@ export const useDeleteMaterial = () => {
 				toastId: 'material-delete-success',
 			});
 		},
-		onError(error, variables, context) {
+		onError(error) {
 			toast.error('Failed to delete subject material: ' + error.message, {
 				toastId: 'material-delete-error',
 			});

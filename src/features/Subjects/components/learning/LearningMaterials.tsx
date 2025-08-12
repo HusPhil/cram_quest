@@ -1,8 +1,5 @@
-import TagLabel from '../../../../components/TagLabel';
-import { FaPlus } from 'react-icons/fa';
 import LearningMaterialCard from './LearningMaterialCard';
 import { MaterialRead } from '../../../../services/api/schema/material_schema';
-import { useSubjectStore_UI } from '../../stores/subjectStore_UI';
 
 interface LearningMaterialsProps {
 	subjectId: number;

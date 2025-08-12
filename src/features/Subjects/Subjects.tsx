@@ -9,7 +9,6 @@ import { ModalObjectMap, useSubjectStore_UI } from './stores/subjectStore_UI';
 import AddNewSubjectModal from './modals/AddNewSubjectModal';
 import EditSubjectModal from './modals/EditSubjectModal';
 import { useCallback } from 'react';
-import { useGetResumableBattleSession } from './hooks/battle/useGetResumableBattleSession';
 import SubjectListSkeleton from '../../components/Skeletons/SubjectListSkeleton';
 
 export default function Subjects() {

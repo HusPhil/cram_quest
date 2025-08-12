@@ -1,6 +1,5 @@
 import { lazy, memo, Suspense, useEffect } from 'react';
 import { PAGE_TITLES, PageTitle } from '../screens/SubjectScreen/SubjectScreen';
-import Tabs from '../../../components/Tabs';
 import QuestsPageSkeleton from '../../../components/Skeletons/QuestPageSkeleton';
 
 const LearningPage = lazy(

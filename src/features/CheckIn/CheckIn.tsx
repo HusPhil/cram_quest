@@ -1,7 +1,6 @@
 import useScreenResize from '../../hooks/useScreenResize';
 import PlayerCard from './components/PlayerCard/PlayerCard';
 import WeeklyRecord from './components/WeeklyRecord.tsx/WeeklyRecord';
-import RpgCard from '../../components/RpgCard';
 import {
 	ParsedPlayerAvatar,
 	parsePlayerAvatar,
@@ -18,44 +17,6 @@ import PerfectWeeklyChecInRewardModal from './modal/PerfectWeeklyChecInRewardMod
 import { WeeklyCheckInRead } from '../../services/api/schema/weekly_check_in_schema';
 import WeeklyRecordSkeleton from '../../components/Skeletons/WeeklyRecordSkeleton';
 import PlayerCardSkeleton from '../../components/Skeletons/PlayerCardSkeleton';
-
-const mockWeeklyCheckInRecord = [
-	{
-		day: 'Monday',
-		date: '2025-04-01',
-		checkIn: true,
-	},
-	{
-		day: 'Tuesday',
-		date: '2025-04-02',
-		checkIn: true,
-	},
-	{
-		day: 'Wednesday',
-		date: '2025-04-03',
-		checkIn: true,
-	},
-	{
-		day: 'Thursday',
-		date: '2025-04-04',
-		checkIn: false,
-	},
-	{
-		day: 'Friday',
-		date: '2025-04-05',
-		checkIn: true,
-	},
-	{
-		day: 'Saturday',
-		date: '2025-04-06',
-		checkIn: false,
-	},
-	{
-		day: 'Sunday',
-		date: '2025-04-07',
-		checkIn: true,
-	},
-];
 
 export default function CheckIn() {
 	const { currentScreenSize } = useScreenResize();

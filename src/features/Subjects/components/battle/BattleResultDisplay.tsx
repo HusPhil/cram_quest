@@ -8,7 +8,6 @@ import { TbSwords } from 'react-icons/tb';
 import { getRandomChoice } from '../../../../utils/getRandomChoice.ts';
 import { BossBattleEndRead } from '../../../../services/api/schema/boss_battle_status_schema.ts';
 import BossBattleResultStats from './BossBattleResultStats.tsx';
-import { RewardItemRead } from '../../../../services/api/schema/reward_schema.ts';
 import ItemRewardDisplay from '../../../../components/ItemRewardDisplay.tsx';
 
 interface SpriteProps {

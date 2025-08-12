@@ -14,10 +14,11 @@ export default function ItemRewardDisplay({
 		rewardItem.equipped_image_url
 	);
 
-	const {
-		getAnimationParams: getPlayerAnimation,
-		setCurrentAction: setPlayerCurrentAction,
-	} = useCharacterAnimation('player', playerClass, playerSkin as PlayerSkin);
+	const { getAnimationParams: getPlayerAnimation } = useCharacterAnimation(
+		'player',
+		playerClass,
+		playerSkin as PlayerSkin
+	);
 
 	return (
 		<div className="flex flex-col items-center w-full">
