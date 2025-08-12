@@ -51,7 +51,6 @@ export default function Sidebar() {
 	const prevPath = usePrevious(location.pathname);
 
 	useEffect(() => {
-		console.log('prevPath: ', prevPath);
 		if (prevPath != null && prevPath !== location.pathname) {
 			setIsMobileOpen(false);
 			setIsCollapsed(true);

@@ -41,7 +41,5 @@ export const getResumableBattleSession =
 			throw new Error('Failed to get resumable battle session');
 		}
 
-		console.log('getResumableBattleSession response: ', response.data);
-
 		return response.data;
 	};

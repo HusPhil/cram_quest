@@ -75,7 +75,6 @@ export default function CheckIn() {
 		for (const day of daysInWeek) {
 			if (!latestWeeklyCheckIn[day].is_checked) {
 				isPerfectCheckIn = false;
-				console.log(day);
 				break;
 			}
 		}

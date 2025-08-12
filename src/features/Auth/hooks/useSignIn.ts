@@ -8,17 +8,8 @@ export const useSignIn = () => {
 
 	return useMutation({
 		mutationFn: signIn,
-		onSuccess(data, variables, context) {
-			console.log('data: ', data);
-			console.log('variables: ', variables);
-			console.log('context: ', context);
-
+		onSuccess() {
 			navigate('/home');
-		},
-		onError(error, variables, context) {
-			console.log('error: ', error);
-			console.log('variables: ', variables);
-			console.log('context: ', context);
 		},
 	});
 };

@@ -79,7 +79,6 @@ function SkinsGrid() {
 
 	const handleEquipSkin = (skinUrl: string) => {
 		if (!currentProfileId) {
-			console.error('No profile ID found');
 			return;
 		}
 
@@ -92,8 +91,7 @@ function SkinsGrid() {
 						toastId: 'equip-skin-success',
 					});
 				},
-				onError: (error: any) => {
-					console.error('Failed to equip skin:', error);
+				onError: () => {
 					toast.error('Failed to equip skin');
 				},
 			}
@@ -102,7 +100,6 @@ function SkinsGrid() {
 
 	const handleUnequipSkin = () => {
 		if (!currentProfileId) {
-			console.error('No profile ID found');
 			return;
 		}
 
@@ -115,8 +112,7 @@ function SkinsGrid() {
 						toastId: 'unequipped-skin-success',
 					});
 				},
-				onError: (error: any) => {
-					console.error('Failed to unequipped skin:', error);
+				onError: () => {
 					toast.error('Failed to unequipped skin');
 				},
 			}

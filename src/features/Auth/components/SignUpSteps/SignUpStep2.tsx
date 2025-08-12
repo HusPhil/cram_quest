@@ -36,7 +36,6 @@ export default function SignUpStep2({
 	};
 
 	const handleGoBack = () => {
-		console.log('go back');
 		setSignUpStep(1);
 	};
 

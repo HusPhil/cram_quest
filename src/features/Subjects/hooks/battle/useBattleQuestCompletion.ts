@@ -57,8 +57,6 @@ export const useBattleQuestCompletion = ({
 			{ battleSessionId: battleSessionId! },
 			{
 				onSuccess: (data) => {
-					console.log('Battle session ended successfully', data);
-
 					if (data.status !== 'defeat') {
 						setBattleResult('victory');
 					}

@@ -70,10 +70,6 @@ const SpriteSheet: React.FC<SpriteSheetProps> = ({
 			drawFrame(0);
 		};
 
-		img.onerror = () => {
-			console.warn('Failed to load sprite image:', img.src);
-		};
-
 		return () => {
 			img.onload = null;
 			img.onerror = null;

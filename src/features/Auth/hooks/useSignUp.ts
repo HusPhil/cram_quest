@@ -14,9 +14,6 @@ const useSignUp = () => {
 			setCurrentUserId(data.user_id);
 			navigate('/home');
 		},
-		onError(error) {
-			console.error('error: ', error);
-		},
 	});
 };
 
