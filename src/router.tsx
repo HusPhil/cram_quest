@@ -21,7 +21,7 @@ const Subjects = lazy(() => import('./features/Subjects/Subjects'));
 
 const AppRouter = () => {
 	return (
-		<BrowserRouter basename="cramquest">
+		<BrowserRouter>
 			<Suspense fallback={<Loading />}>
 				<Routes>
 					{/* Public auth route without layout */}

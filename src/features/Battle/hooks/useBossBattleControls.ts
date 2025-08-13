@@ -134,7 +134,7 @@ export function useBossBattleControls({
 						: 'playerAttackMissScene',
 					onLastStepIndex: success
 						? () => {
-								handlePlayerAttack(playerAtkDamage + 200);
+								handlePlayerAttack(playerAtkDamage);
 								writeToBattleLog(
 									isCriticalHit ? 'Critical hit' : 'Nice hit',
 									isCriticalHit ? 'success' : 'info'

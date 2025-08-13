@@ -33,7 +33,7 @@ const SkinsGridItem = ({
 		>
 			<div className="flex-1 flex justify-center p-2">
 				<img
-					src={`/cramquest/assets/images/items/skins/${skin.item.image_url}`}
+					src={`/assets/images/items/skins/${skin.item.image_url}`}
 					alt={skin.item.name}
 					className={`hover:drop-shadow-2xl transition-all duration-300  w-[120px] rounded-full aspect-square object-cover  [image-rendering:pixelated] 
                                 ${config.dropShadow}`} // Add the glowClass here

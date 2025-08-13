@@ -75,11 +75,13 @@ const SubjectList = ({
 	return (
 		<div className="flex-1 my-4 relative">
 			{subjects.length <= 0 ? (
-				<EmptyListNote
-					message="Begin your journey,"
-					hint="add a new subject now!"
-					className="text-xl"
-				/>
+				<div className="h-full w-full flex items-center justify-center">
+					<EmptyListNote
+						message="Begin your journey,"
+						hint="add a new subject now!"
+						className="text-xl"
+					/>
+				</div>
 			) : (
 				<div
 					className="absolute inset-0 overflow-y-auto overscroll-behavior-y-contain

@@ -154,7 +154,7 @@ export const playerSkinOverrides: PlayerSkinOverridesMap = {
 	},
 };
 
-const baseEnemySrcPath = '/cramquest/assets/images/enemies/';
+const baseEnemySrcPath = '/assets/images/enemies/';
 
 // Asset paths
 export const enemyAssets = {
@@ -169,7 +169,7 @@ export const enemyAssets = {
 	pig: baseEnemySrcPath + 'pig.png',
 };
 
-const basePlayerSrcPath = '/cramquest/assets/images/player/skins/';
+const basePlayerSrcPath = '/assets/images/player/skins/';
 const defaultSkinPath = 'default/';
 const knightSkinPath = 'knight/';
 const armoredKnightSkinPath = 'armored_knight/';
