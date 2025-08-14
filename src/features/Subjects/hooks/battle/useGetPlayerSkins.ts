@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
 import { getPlayerSkins } from '../../../../services/api/crud/player_crud';
+import { toast } from '../../../../lib/toastify/charLimitedToast';
 
 export const useGetPlayerSkins = (playerId?: number) => {
 	const playerSkinsQuery = useQuery({
@@ -11,7 +11,7 @@ export const useGetPlayerSkins = (playerId?: number) => {
 	});
 
 	if (playerSkinsQuery.isError)
-		toast.error('Failed to load player skins', {
+		toast.error('Player skins not found', {
 			toastId: 'load-player-skins-error',
 		});
 

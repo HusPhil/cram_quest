@@ -1,18 +1,18 @@
 import { useMutation } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
 import { axiosInstance } from '../../../../lib/axios/axiosInstance';
 import { getBaseMaterialEndRoute } from '../../../../services/api/routes/subject_routes';
+import { toast } from '../../../../lib/toastify/charLimitedToast';
 
 export const useDeleteMaterial = () => {
 	return useMutation({
 		mutationFn: createMaterial,
 		onSuccess() {
-			toast.success('Deleted successfully', {
+			toast.success('Material deleted successfully', {
 				toastId: 'material-delete-success',
 			});
 		},
 		onError(error) {
-			toast.error('Failed to delete subject material: ' + error.message, {
+			toast.error('Operation failed: ' + error.message, {
 				toastId: 'material-delete-error',
 			});
 		},

@@ -7,7 +7,5 @@ export const useGetSubjectQuests = (subject_id: number) => {
 		queryFn: () => getSubjectQuests({ subject_id }),
 	});
 
-	console.log('subjectQuestsQuery', subjectQuestsQuery);
-
 	return subjectQuestsQuery;
 };

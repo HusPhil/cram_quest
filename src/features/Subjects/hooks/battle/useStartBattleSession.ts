@@ -14,7 +14,6 @@ const startBattleSession = async ({
 }: {
 	startBattleSession: BattleSessionCreate;
 }) => {
-	console.log('startBattleSession: ', startBattleSession);
 	const response = await axiosInstance.post(
 		baseBattleSessionEndRoute,
 		startBattleSession,

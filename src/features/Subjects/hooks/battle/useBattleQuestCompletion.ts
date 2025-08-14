@@ -3,7 +3,7 @@ import { useBattleEngineStore } from '../../../Battle/stores/battleEngineStore';
 import { useBattleSetupStore } from '../../../Battle/stores/battleSetupStore';
 import { useSyncTaskTimings } from '../task/useSyncTaskTimings';
 import { useEndBattleSession } from './useEndBattleSession';
-import { toast } from 'react-toastify';
+import { toast } from '../../../../lib/toastify/charLimitedToast';
 
 interface BattleQuestCompletionProps {
 	battleResult: 'defeat' | 'victory' | null;
@@ -45,7 +45,7 @@ export const useBattleQuestCompletion = ({
 			setPlayerActionRef?.current?.('idle');
 			clearTimings();
 		} catch (err) {
-			toast.error('Failed to sync task timings', {
+			toast.error('Syncing tasks failed', {
 				toastId: 'sync-task-timings-error',
 			});
 		}
@@ -58,12 +58,16 @@ export const useBattleQuestCompletion = ({
 			{
 				onSuccess: (data) => {
 					if (data.status !== 'defeat') {
+						toast.success('Congratulations!', {
+							toastId: 'end-battle-session',
+						});
 						setBattleResult('victory');
+					} else {
+						toast.info('Better luck next time…', {
+							toastId: 'end-battle-session',
+						});
+						setBattleResult('defeat');
 					}
-
-					toast.success('Battle session ended successfully', {
-						toastId: 'end-battle-session',
-					});
 				},
 			}
 		);

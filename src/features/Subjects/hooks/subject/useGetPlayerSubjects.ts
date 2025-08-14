@@ -8,7 +8,5 @@ export const useGetPlayerSubjects = (player_id: number | undefined) => {
 		enabled: player_id != null,
 	});
 
-	console.log('subjectQuery: ', subjectQuery);
-
 	return subjectQuery;
 };

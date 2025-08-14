@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
 import {
 	BattleSessionRead,
 	BattleSessionResume,
@@ -7,6 +6,7 @@ import {
 import { fetcher } from '../../../../services/api/fetcher';
 import { getResumeBattleSessionEndRoute } from '../../../../services/api/routes/battle_session';
 import { QuestRead } from '../../../../services/api/schema/quest_schema';
+import { toast } from '../../../../lib/toastify/charLimitedToast';
 
 export const useGetResumableBattleSession = (
 	handleOpenResumeScreen: (
@@ -20,8 +20,8 @@ export const useGetResumableBattleSession = (
 	});
 
 	if (resumableBattleSessionQuery.isError) {
-		toast.error('Failed to load player skins', {
-			toastId: 'load-player-skins-error',
+		toast.error('Resuming battle failed', {
+			toastId: 'resume-battle-error',
 		});
 	} else if (resumableBattleSessionQuery.data?.is_resumable) {
 		handleOpenResumeScreen(

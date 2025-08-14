@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useBattleSetupStore } from '../../../../../Battle/stores/battleSetupStore';
 import BattleSetupStepInput from '../../../../components/battle/BattleSetupStepInput';
-import { toast } from 'react-toastify';
+import { toast } from '../../../../../../lib/toastify/charLimitedToast';
 
 export default function WriteSteps() {
 	const selectedQuest = useBattleSetupStore((state) => state.selectedQuest);
@@ -18,7 +18,7 @@ export default function WriteSteps() {
 
 	const handleAddStep = () => {
 		if (questSteps.length >= 15) {
-			toast.warn('Oops, keep things simple for now.', {
+			toast.warn("Let's keep things simple", {
 				toastId: 'max-steps-reached',
 			});
 			return;
@@ -40,11 +40,6 @@ export default function WriteSteps() {
 			handleAddStep();
 		}
 	}, []);
-
-	// useEffect(() => {
-	// 	console.log('refs questSteps', inputRefs.current);
-	// 	console.log('effect questSteps', questSteps);
-	// }, [questSteps]);
 
 	return (
 		<div className="space-y-4 max-h-80 overflow-auto scrollbar-thin scrollbar-accent">

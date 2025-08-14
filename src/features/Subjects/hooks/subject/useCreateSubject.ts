@@ -1,25 +1,21 @@
 import { useMutation } from '@tanstack/react-query';
 import { SubjectCreate } from '../../../../services/api/schema/subject_schema';
-import { toast } from 'react-toastify';
 import { axiosInstance } from '../../../../lib/axios/axiosInstance';
 import { getCreateSubjectEndRoute } from '../../../../services/api/routes/subject_routes';
+import { toast } from '../../../../lib/toastify/charLimitedToast';
 
 export const useCreateSubject = () => {
 	return useMutation({
 		mutationFn: createSubject,
-		onSuccess(data, variables, context) {
-			console.log('data: ', data);
-			console.log('variables: ', variables);
-			console.log('context: ', context);
-			toast.success('Subject created successfully');
+		onSuccess() {
+			toast.success('Subject created successfully', {
+				toastId: 'subject-create-success',
+			});
 		},
-		onError(error, variables, context) {
-			// alert('An ERROR OCCURED: ' + error.response.data.detail);
-			toast.error('An ERROR OCCURED: ' + error.message);
-			// console.log("errorMessage: ", error.response.data.detail);
-			console.log('error: ', error);
-			console.log('variables: ', variables);
-			console.log('context: ', context);
+		onError(error) {
+			toast.error('Operation failed: ' + error.message, {
+				toastId: 'subject-create-error',
+			});
 		},
 	});
 };

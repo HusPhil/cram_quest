@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
 import { getLatestBossBattleStatus } from '../../../../services/api/crud/boss_battle_status_crud';
+import { toast } from '../../../../lib/toastify/charLimitedToast';
 
 export const useGetLatestBossBattleStatus = (playerId?: number) => {
 	const latestBossBattleStatus = useQuery({
@@ -10,8 +10,8 @@ export const useGetLatestBossBattleStatus = (playerId?: number) => {
 	});
 
 	if (latestBossBattleStatus.isError)
-		toast.error('Failed to load boss battle status', {
-			toastId: 'latest-boss_battle_status-error',
+		toast.error('Boss status not found', {
+			toastId: 'latest-boss-battle-status-error',
 		});
 
 	return latestBossBattleStatus;

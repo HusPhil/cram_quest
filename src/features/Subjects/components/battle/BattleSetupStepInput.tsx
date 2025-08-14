@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { TbTrash } from 'react-icons/tb';
-import { toast } from 'react-toastify';
+import { toast } from '../../../../lib/toastify/charLimitedToast';
 
 interface BattleSetupStepInputProps {
 	id: string;
@@ -39,7 +39,7 @@ export default function BattleSetupStepInput({
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.value.length > 150) {
-			toast.warn('Oops, keep things simple for now.', {
+			toast.warn("Let's keep things simple", {
 				toastId: 'step-description-too-long',
 			});
 			return;

@@ -4,11 +4,11 @@ import StarRating from '../components/ui/StarRating';
 import DeleteWithConfirm from '../components/ui/DeleteWithConfirm';
 import { useQueryClient } from '@tanstack/react-query';
 import { useDeleteSubject } from '../hooks/subject/useDeleteSubject';
-import { toast } from 'react-toastify';
 import { useUpdateSubject } from '../hooks/subject/useUpdateSubject';
 import { useSubjectStore_UI } from '../stores/subjectStore_UI';
 import { SubjectRead } from '../../../services/api/schema/subject_schema';
 import { FaSave } from 'react-icons/fa';
+import { toast } from '../../../lib/toastify/charLimitedToast';
 
 interface EditSubjectModalProps {
 	subject?: SubjectRead;
@@ -76,7 +76,9 @@ const UpdateSubjectSection = ({
 					queryClient.invalidateQueries({
 						queryKey: ['players', subject.player_id, 'subjects'],
 					});
-					toast.success('Subject updated successfully');
+					toast.success('Subject updated successfully', {
+						toastId: 'subject-update-success',
+					});
 				},
 				onSettled() {
 					handleCloseModal();
@@ -92,7 +94,9 @@ const UpdateSubjectSection = ({
 			await queryClient.invalidateQueries({
 				queryKey: SUBJECTS_QUERY_KEY,
 			});
-			toast.success('Quest deleted successfully');
+			toast.success('Quest deleted successfully', {
+				toastId: 'quest-delete-success',
+			});
 			handleCloseModal();
 		}
 	};

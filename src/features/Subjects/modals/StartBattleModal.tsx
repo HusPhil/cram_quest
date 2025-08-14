@@ -91,13 +91,6 @@ export default function StartBattleModal({
 		}
 	}, [initialStepNumber]);
 
-	const handleStartBattle = () => {
-		console.log(
-			'start battle with steps: ' + isBattleActive,
-			useBattleSetupStore.getState().getCleanedQuestSteps()
-		);
-	};
-
 	const handleCleanupBattlefield = async () => {
 		await queryClient.invalidateQueries({
 			queryKey: ['subjects', subjectId, 'quests'],
@@ -146,7 +139,6 @@ export default function StartBattleModal({
 						<CurrentStepComponent
 							selectedQuest={selectedQuest || undefined}
 							subjectQuests={subjectQuests}
-							onStartBattle={handleStartBattle}
 						/>
 					</div>
 

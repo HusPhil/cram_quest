@@ -1,13 +1,15 @@
 import { useMutation } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
 import { axiosInstance } from '../../../../lib/axios/axiosInstance';
 import { getBaseSubjectWithIdEndRoute } from '../../../../services/api/routes/subject_routes';
+import { toast } from '../../../../lib/toastify/charLimitedToast';
 
 export const useDeleteSubject = () => {
 	return useMutation({
 		mutationFn: deleteSubject,
 		onError(error) {
-			toast.error('Failed to delete subject: ' + error.message);
+			toast.error('Operation failed: ' + error.message, {
+				toastId: 'subject-delete-error',
+			});
 		},
 	});
 };

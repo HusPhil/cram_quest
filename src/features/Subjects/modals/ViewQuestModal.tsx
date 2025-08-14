@@ -8,8 +8,6 @@ import DeleteWithConfirm from '../components/ui/DeleteWithConfirm';
 
 import { useQueryClient } from '@tanstack/react-query';
 
-import { toast } from 'react-toastify';
-
 import { useSubjectStore_UI } from '../stores/subjectStore_UI';
 
 import {
@@ -22,6 +20,7 @@ import { useUpdateQuest } from '../hooks/quest/useUpdateQuest';
 import { TbSwords } from 'react-icons/tb';
 import { useBattleSetupStore } from '../../Battle/stores/battleSetupStore';
 import { FaSave } from 'react-icons/fa';
+import { toast } from '../../../lib/toastify/charLimitedToast';
 
 interface ViewQuestModalProps {
 	quest?: QuestRead;
@@ -91,7 +90,9 @@ const UpdateQuestSection = ({
 					queryClient.invalidateQueries({
 						queryKey: SUBJECT_QUESTS_QUERY_KEY,
 					});
-					toast.success('Quest updated successfully');
+					toast.success('Quest updated successfully', {
+						toastId: 'quest-update-success',
+					});
 				},
 				onSettled() {
 					handleCloseModal();
@@ -125,7 +126,9 @@ const UpdateQuestSection = ({
 					queryClient.invalidateQueries({
 						queryKey: SUBJECT_QUESTS_QUERY_KEY,
 					});
-					toast.success('Quest deleted successfully!'); // delete for now
+					toast.success('Quest deleted successfully!', {
+						toastId: 'quest-deleted-success',
+					}); // delete (actually archive) for now
 				},
 				onSettled() {
 					handleCloseModal();

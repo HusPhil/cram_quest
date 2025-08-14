@@ -44,8 +44,6 @@ export default function AddNewQuestModal({ subjectId }: AddNewQuestModalProps) {
 			status: 'todo' as QuestStatus,
 		};
 
-		console.log('questCreate', questCreate);
-
 		await createQuestMutate.mutateAsync(
 			{
 				questCreate: questCreate,

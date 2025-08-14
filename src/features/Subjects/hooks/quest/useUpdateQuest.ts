@@ -16,7 +16,6 @@ const updateQuest = async ({
 	questId: number;
 	questUpdate: QuestUpdate;
 }) => {
-	console.log('questUpdate: ', questUpdate);
 	const response = await axiosInstance.patch(
 		getBaseQuestWithIdEndRoute(questId),
 		questUpdate,

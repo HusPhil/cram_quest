@@ -121,9 +121,13 @@ export const TimingBar = ({
 				disabled ? 'opacity-50' : ''
 			}`}
 		>
-			<small className="text-white text-xs mb-4 text-center opacity-75">
-				Click <span className="text-accent">READY</span> when the bar is
-				in the green zone!
+			<small
+				className={`text-white text-xs mb-4 text-center opacity-75 ${
+					disabled ? 'hidden' : ''
+				}`}
+			>
+				Click <span className="text-accent uppercase">ready</span> to
+				attack or defend
 			</small>
 			<div
 				ref={barRef} // Attach the ref here

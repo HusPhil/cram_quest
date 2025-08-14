@@ -36,7 +36,6 @@ export default function AddNewMaterialModal({
 
 	useEffect(() => {
 		if (codeNameRef.current) {
-			console.log('subjectId:', subjectId);
 			codeNameRef.current.focus();
 		}
 	}, [activeModal]);
@@ -64,10 +63,6 @@ export default function AddNewMaterialModal({
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		const formData = new FormData(formRef?.current!);
-
-		console.log('Title:', formData.get('newMaterialTitle'));
-		console.log('Link:', formData.get('materialLink'));
-		console.log('Type:', selectedType);
 
 		const materialCreate = {
 			title: formData.get('newMaterialTitle') as string,

@@ -81,10 +81,6 @@ export default function EditMaterialModal({
 		e.preventDefault();
 		const formData = new FormData(formRef?.current!);
 
-		console.log('Title:', formData.get('newMaterialTitle'));
-		console.log('Link:', formData.get('materialLink'));
-		console.log('Type:', selectedType);
-
 		const materialUpdate = {
 			title: formData.get('newMaterialTitle') as string,
 			link: formData.get('materialLink') as string,

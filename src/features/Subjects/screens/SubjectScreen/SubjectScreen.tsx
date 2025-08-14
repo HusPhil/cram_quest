@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, useState } from 'react';
 import { SubjectScreenHeader } from '../../components/SubjectScreenHeader';
 import SubjectScreenBody from '../../components/SubjectScreenBody';
 import SubjectScreenFooter from '../../components/SubjectScreenFooter';
@@ -49,12 +49,6 @@ export function SubjectScreen({
 
 		return activeTab === PAGE_TITLES.LEARNING;
 	};
-
-	useEffect(() => {
-		if (activeModalObject) {
-			console.log('activeModalObject: ', activeModalObject);
-		}
-	}, [activeModalObject]);
 
 	return (
 		<>

@@ -8,7 +8,5 @@ export const useGetMaterials = (subject_id: number) => {
 		enabled: subject_id != null,
 	});
 
-	console.log('subjectQuery: ', subjectQuery);
-
 	return subjectQuery;
 };

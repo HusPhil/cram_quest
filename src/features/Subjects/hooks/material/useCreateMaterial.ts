@@ -1,19 +1,21 @@
 import { useMutation } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
 import { axiosInstance } from '../../../../lib/axios/axiosInstance';
 import { MaterialCreate } from '../../../../services/api/schema/material_schema';
 import { getMaterialEndRoute } from '../../../../services/api/routes/subject_routes';
+import { toast } from '../../../../lib/toastify/charLimitedToast';
 
 export const useCreateMaterial = () => {
 	return useMutation({
 		mutationFn: createMaterial,
-		onSuccess(data, variables, context) {
-			toast.success('Subject material created successfully');
-			console.log('api res:', data, variables, context);
+		onSuccess() {
+			toast.success('Material created successfully', {
+				toastId: 'material-create-success',
+			});
 		},
-		onError(error, variables, context) {
-			toast.error('Failed to create subject material: ' + error.message);
-			console.log('error:', error, variables, context);
+		onError(error) {
+			toast.error('Operation failed: ' + error.message, {
+				toastId: 'material-create-error',
+			});
 		},
 	});
 };

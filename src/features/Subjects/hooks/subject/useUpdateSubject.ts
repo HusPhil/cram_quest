@@ -16,7 +16,6 @@ const updateSubject = async ({
 	subjectId: number;
 	subjectUpdate: SubjectUpdate;
 }) => {
-	console.log('subjectUpdate: ', subjectUpdate);
 	const response = await axiosInstance.patch(
 		getBaseSubjectWithIdEndRoute(subjectId),
 		subjectUpdate,

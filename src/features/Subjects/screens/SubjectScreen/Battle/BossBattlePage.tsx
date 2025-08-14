@@ -7,12 +7,12 @@ import { useUserPlayerStore } from '../../../../Auth/stores/userPlayerStore/user
 import FloatingMessage, {
 	FloatingMessageData,
 } from '../../../components/ui/FloatingMessage';
-import { toast } from 'react-toastify';
 import BattleResultDisplay from '../../../components/battle/BattleResultDisplay';
 import { useBattleEngineStore } from '../../../../Battle/stores/battleEngineStore';
 import BossBattleInformation from '../../../components/battle/BossBattleInformation';
 import { useEndBossBattle } from '../../../hooks/battle/useEndBossBattleSession';
 import { useStartBossBattleSession } from '../../../hooks/battle/useStartBossBattleSession';
+import { toast } from '../../../../../lib/toastify/charLimitedToast';
 
 interface BossBattlePageProps {
 	battleCleanup: () => void;
@@ -100,11 +100,12 @@ export default function BossBattlePage({ battleCleanup }: BossBattlePageProps) {
 	useEffect(() => {
 		if (!isBattleActive || battleResult || !bossBattleId) return;
 		if (playerHealth <= 0 || enemyHealth <= 0) {
+			const isVictory = playerHealth > 0 && enemyHealth <= 0;
 			endBossBattleMutate.mutate(
 				{
 					bossBattleEndInfo: {
 						id: bossBattleId,
-						victory: playerHealth > 0 && enemyHealth <= 0,
+						victory: isVictory,
 						total_rounds: turnCount,
 						player_health: playerHealth,
 						enemy_health: enemyHealth,
@@ -113,7 +114,15 @@ export default function BossBattlePage({ battleCleanup }: BossBattlePageProps) {
 				},
 				{
 					onSuccess: () => {
-						toast.success('Battle ended successfully!');
+						if (isVictory) {
+							toast.success('Congratulations!', {
+								toastId: 'boss-battle-end-victory',
+							});
+						} else {
+							toast.info('Better luck next time…', {
+								toastId: 'boss-battle-end-defeat',
+							});
+						}
 					},
 				}
 			);
@@ -139,15 +148,17 @@ export default function BossBattlePage({ battleCleanup }: BossBattlePageProps) {
 				</>
 			) : isBattleActive ? (
 				<div className="w-full flex flex-col items-center">
-					<div className="flex justify-between w-full 	">
+					<div className="flex justify-between w-full ">
 						<HealthBar
 							health={playerHealth}
 							maxHealth={playerMaxHealth}
 							label={currentPlayerUsername ?? 'You'}
-							iconSize={20}
+							iconSize={18}
 						/>
-						<div className="flex flex-col justify-center items-center flex-1">
-							<p>ROUND {turnCount}</p>
+						<div className="flex flex-col justify-center items-center flex-1 shrink-0">
+							<p className="text-sm md:text-base">
+								ROUND {turnCount}
+							</p>
 							<div className="relative w-full h-10  my-4  flex items-center justify-center overflow-hidden">
 								<FloatingMessage
 									messageData={floatingMessageData}
@@ -158,7 +169,7 @@ export default function BossBattlePage({ battleCleanup }: BossBattlePageProps) {
 							className="flex flex-col items-end"
 							health={enemyHealth}
 							maxHealth={enemyMaxHealth}
-							iconSize={20}
+							iconSize={18}
 							label={enemyName ?? 'Enemy'}
 						/>
 					</div>

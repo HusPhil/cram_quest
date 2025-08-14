@@ -1,19 +1,19 @@
 import { useMutation } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
 import { axiosInstance } from '../../../../lib/axios/axiosInstance';
 import { MaterialUpdate } from '../../../../services/api/schema/material_schema';
 import { getBaseMaterialEndRoute } from '../../../../services/api/routes/subject_routes';
+import { toast } from '../../../../lib/toastify/charLimitedToast';
 
 export const useUpdateMaterial = () => {
 	return useMutation({
 		mutationFn: updateMaterial,
 		onSuccess() {
-			toast.success('Updated successfully', {
+			toast.success('Material updated successfully', {
 				toastId: 'material-update-success',
 			});
 		},
 		onError(error) {
-			toast.error('Failed to create subject material: ' + error.message, {
+			toast.error('Operation failed: ' + error.message, {
 				toastId: 'material-update-error',
 			});
 		},

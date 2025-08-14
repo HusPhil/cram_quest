@@ -1,14 +1,13 @@
 import { useCallback, useState } from 'react';
 import { StepComponentProps } from '../../../../modals/StartBattleModal';
 import { useBattleSetupStore } from '../../../../../Battle/stores/battleSetupStore';
-import { toast } from 'react-toastify';
 import debounce from 'just-debounce-it';
 import { useStartBattleSession } from '../../../../hooks/battle/useStartBattleSession';
 import { useAuthInformationStore } from '../../../../../Auth/stores/authInformationStore';
 import { BattleSessionRead } from '../../../../../../services/api/schema/battle_session_schema';
+import { toast } from '../../../../../../lib/toastify/charLimitedToast';
 
 const MAX_BATTLE_DURATION_MINS = 60 * 2;
-// const MIN_BATTLE_DURATION_MINS = Math.floor(60 * 0.5);
 const MIN_BATTLE_DURATION_MINS = 3;
 
 export default function StartBattle({
@@ -51,7 +50,7 @@ export default function StartBattle({
 		if (getCleanedQuestSteps().length > 0) {
 			if (battleDuration > MAX_BATTLE_DURATION_MINS) {
 				toast.error(
-					`Battle duration cannot exceed ${MAX_BATTLE_DURATION_MINS} minutes`,
+					`Duration cannot exceed ${MAX_BATTLE_DURATION_MINS} minutes`,
 					{
 						toastId: 'max-battle-duration',
 					}
@@ -61,7 +60,7 @@ export default function StartBattle({
 
 			if (battleDuration < MIN_BATTLE_DURATION_MINS) {
 				toast.error(
-					`Battle duration cannot be less than ${MIN_BATTLE_DURATION_MINS} minutes`,
+					`Duration cannot be less than ${MIN_BATTLE_DURATION_MINS} minutes`,
 					{
 						toastId: 'min-battle-duration',
 					}
@@ -71,7 +70,7 @@ export default function StartBattle({
 
 			if (battleDuration > MAX_BATTLE_DURATION_MINS) {
 				toast.error(
-					`Battle duration cannot be more than ${MAX_BATTLE_DURATION_MINS} minutes`,
+					`Duration cannot exceed ${MAX_BATTLE_DURATION_MINS} minutes`,
 					{
 						toastId: 'max-battle-duration',
 					}
@@ -84,12 +83,12 @@ export default function StartBattle({
 				!selectedQuest?.subject_id ||
 				!selectedQuest?.id
 			) {
-				toast.error('Something is wrong with the quest you selected!', {
+				toast.error('Invalid quest selected', {
 					toastId: 'invalid-selected-quest',
 				});
-				console.log('selectedQuest', selectedQuest);
 				return;
 			}
+			onStartBattle?.();
 
 			startBattleMutate.mutate(
 				{
@@ -116,16 +115,15 @@ export default function StartBattle({
 						setIsBattleActive(true);
 						setGlobalBattleDuration(durationMins);
 						setBattleSessionId(newBattleSession.id);
-						onStartBattle?.();
 						toast.success(
-							`Battle started for ${battleDuration} minutes!`,
+							`Session started: ${battleDuration} minutes!`,
 							{
 								toastId: 'start-battle-success',
 							}
 						);
 					},
 					onError: () => {
-						toast.error('Failed to start the battle', {
+						toast.error('Battle failed to start', {
 							toastId: 'start-battle-error',
 						});
 					},
@@ -134,7 +132,6 @@ export default function StartBattle({
 			return;
 		}
 
-		console.log('Please plan your approach before starting the battle.');
 		toast.error('Plan your approach first', {
 			toastId: 'setup-battle-zero-steps',
 		});

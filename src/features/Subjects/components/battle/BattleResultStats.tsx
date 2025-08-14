@@ -17,34 +17,40 @@ export default function BattleResultStats({
 	// TODO: fix the display to show the correct values
 
 	return (
-		<div className="w-full flex justify-between gap-3">
-			<div className="flex flex-col justify-center items-center p-2  mx-3  border-success rounded-md">
-				<div className="flex justify-center items-center gap-1">
+		<div className="w-full flex justify-between md:gap-3 ">
+			<div className="flex gap-3 flex-col justify-center items-center border-success rounded-md">
+				<div className="flex justify-center items-center gap-1 text-center">
 					<TbBolt color={iconColor} />
-					<p className={`text-sm ${textColor}`}>Total XP</p>
+					<p className={`text-xs md:text-sm ${textColor}`}>
+						Total XP
+					</p>
 				</div>
-				<p className="">{base_xp + bonus_xp}</p>
+				<p className="text-center">{base_xp + bonus_xp}</p>
 			</div>
-			<div className="flex flex-1 flex-col justify-center items-center space-y-1 bg-success/5 p-3 rounded-md">
-				<p className="text-sm">EXPERIENCE GAINED</p>
+			<div className="flex flex-1 flex-col justify-center mx-3 items-center space-y-2 bg-success/5 p-3 rounded-md">
+				<p className="text-xs md:text-sm text-center">
+					EXPERIENCE GAINED
+				</p>
 				<div className="space-y-3 flex flex-col justify-center items-center">
-					<div className="flex items-center gap-3">
-						<p className={`text-4xl font-bold ${textColor}`}>
+					<div className="flex items-center gap-1 md:gap-3">
+						<p
+							className={`text-3xl md:text-4xl font-bold ${textColor}`}
+						>
 							+{base_xp}
 						</p>
-						<p className="text-2xl text-accent animate-pulse">
+						<p className="text-xl md:text-2xl text-accent animate-pulse">
 							+{bonus_xp}
 						</p>
 					</div>
 				</div>
 			</div>
-			<div className="flex flex-col justify-center items-center p-2 gap-1  mx-3 border-success rounded-md">
-				<div className="flex justify-center items-center gap-1">
+			<div className="flex gap-3 flex-col justify-center items-center border-success rounded-md">
+				<div className="flex justify-center items-center gap-1 text-center">
 					<TbFlame color={iconColor} />
-					<p className={`text-sm ${textColor}`}>Streak</p>
+					<p className={`text-xs md:text-sm ${textColor}`}>Streak</p>
 				</div>
 				{result === 'victory' ? (
-					<p className="text-success">{`${streak_count} ${
+					<p className="text-success text-center">{`${streak_count} ${
 						streak_count > 1 ? 'wins' : 'win'
 					}`}</p>
 				) : (

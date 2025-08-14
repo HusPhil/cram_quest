@@ -1,13 +1,15 @@
 import { useMutation } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
 import { axiosInstance } from '../../../../lib/axios/axiosInstance';
 import { getBaseQuestWithIdEndRoute } from '../../../../services/api/routes/quest_routes';
+import { toast } from '../../../../lib/toastify/charLimitedToast';
 
 export const useDeleteQuest = () => {
 	return useMutation({
 		mutationFn: deleteQuest,
 		onError(error) {
-			toast.error('Failed to delete quest: ' + error.message);
+			toast.error('Operation failed: ' + error.message, {
+				toastId: 'quest-delete-error',
+			});
 		},
 	});
 };
