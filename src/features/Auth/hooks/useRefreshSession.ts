@@ -1,10 +1,10 @@
 // src/hooks/useRefreshSession.ts
 import { useQuery } from '@tanstack/react-query';
-import { toast } from 'react-toastify'; // or your toast library
 import {
 	refreshSession,
 	updateStoresFromRefreshData,
 } from '../../../lib/axios/token';
+import { toast } from '../../../lib/toastify/charLimitedToast';
 
 interface UseRefreshSessionOptions {
 	staleTime?: number;
@@ -20,6 +20,7 @@ export function useRefreshSession(options: UseRefreshSessionOptions = {}) {
 	const refreshSessionQuery = useQuery({
 		queryKey: ['refreshSession'],
 		queryFn: refreshSession,
+		staleTime: 5 * 60 * 1000,
 		refetchOnWindowFocus,
 		retry,
 		enabled,

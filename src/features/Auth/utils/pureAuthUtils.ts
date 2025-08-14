@@ -1,4 +1,6 @@
-import { toast } from 'react-toastify';
+import { isAxiosError } from 'axios';
+import { limitChars } from '../../../utils/limitCharacters';
+import { toast } from '../../../lib/toastify/charLimitedToast';
 
 // ✅ Pure helper — safe to keep outside
 export const passwordsMatch = (password: string, confirmPassword: string) =>
@@ -8,10 +10,15 @@ export const hasRequiredFields = (fields: string[]) =>
 	fields.every((val) => val.trim().length > 0);
 
 export const showError = (message: string, id: string) => {
-	toast.error(message, { toastId: id });
+	toast.error(limitChars(message), { toastId: id });
 };
 
-export const handleMutationError = (err: any) => {
+export const handleMutationError = (err: Error) => {
+	if (!isAxiosError(err)) {
+		toast.error('An error occured', { toastId: 'sign-up-error-generic' });
+		return;
+	}
+
 	const details = err?.response?.data?.detail;
 
 	if (Array.isArray(details)) {
@@ -27,6 +34,6 @@ export const handleMutationError = (err: any) => {
 	} else if (details) {
 		showError(details, 'sign-up-error-generic');
 	} else {
-		showError('Failed to sign up: ' + err.message, 'sign-up-error-generic');
+		showError(err.message, 'sign-up-error-generic');
 	}
 };

@@ -1,7 +1,8 @@
 import { useRef } from 'react';
 import { useSignIn } from '../hooks/useSignIn';
-import { toast } from 'react-toastify';
 import InputFieldWithRef from '../../../components/InputFieldWithRef';
+import { isAxiosError } from 'axios';
+import { toast } from '../../../lib/toastify/charLimitedToast';
 
 export default function SignInForm() {
 	const usernameRef = useRef<HTMLInputElement>(null);
@@ -18,14 +19,17 @@ export default function SignInForm() {
 		mutate(
 			{ username, password },
 			{
-				onError: (err: Error) => {
-					toast.error('Failed to authenticate user: ' + err.message, {
-						toastId: 'authenticate-user-error',
-					});
+				onError: (error: Error) => {
+					if (isAxiosError(error)) {
+						console.log(error);
+						toast.error(error.response?.data?.detail, {
+							toastId: 'sign-in-user-error',
+						});
+					}
 				},
 				onSuccess: () => {
 					toast.success('Login success!', {
-						toastId: 'authenticate-user-success',
+						toastId: 'sign-in-user-success',
 					});
 				},
 			}

@@ -2,7 +2,6 @@ import { useRef, useState } from 'react';
 import useSignUp from '../hooks/useSignUp';
 import SignUpStep1 from './SignUpSteps/SignUpStep1';
 import SignUpStep2 from './SignUpSteps/SignUpStep2';
-import { toast } from 'react-toastify';
 import { useAuthStore_UI } from '../stores/authStore_UI';
 import {
 	passwordsMatch,
@@ -10,6 +9,7 @@ import {
 	hasRequiredFields,
 	handleMutationError,
 } from '../utils/pureAuthUtils';
+import { toast } from '../../../lib/toastify/charLimitedToast';
 
 export default function SignUpForm() {
 	const signUpMutate = useSignUp();
