@@ -1,9 +1,9 @@
 // src/lib/axios/token.ts
-import { toast } from 'react-toastify';
 import { useAuthInformationStore } from '../../features/Auth/stores/authInformationStore';
 import { useUserPlayerStore } from '../../features/Auth/stores/userPlayerStore/userPlayerStore';
 import { BASE_URL } from '../../services/api/api';
 import { RefreshTokenResponse } from '../../services/api/schema/auth_schema';
+import { toast } from '../toastify/charLimitedToast';
 import { axiosInstance } from './axiosInstance';
 
 // Pure API function - no side effects
@@ -27,7 +27,6 @@ export async function refreshSession(): Promise<RefreshTokenResponse> {
 
 		return await response.json();
 	} catch (error) {
-		console.error('[catch] Failed to refresh token', error);
 		throw error;
 	}
 }

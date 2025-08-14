@@ -14,8 +14,6 @@ export const getPlayerSubjects = async (
 ): Promise<SubjectRead[]> => {
 	const response = await fetcher(getPlayerSubjectsEndRoute(playerId));
 
-	console.log('GetSubects: ', response.headers);
-
 	if (response.status !== 200) {
 		throw new Error('Failed to fetch subjects');
 	}
@@ -27,8 +25,6 @@ export const getPlayerProfile = async (
 	playerId: number
 ): Promise<ProfileRead> => {
 	const response = await fetcher(getPlayerProfileEndRoute(playerId));
-
-	console.log('PLayer Profile: ', response);
 
 	if (response.status !== 200) {
 		throw new Error('Failed to fetch subjects');
@@ -48,8 +44,6 @@ export const getPlayerBossAvailabilityCounter = async (
 		throw new Error('Failed to fetch boss availability counter');
 	}
 
-	console.log('getPlayerBossAvailabilityCounter response: ', response.data);
-
 	return response.data;
 };
 
@@ -61,8 +55,6 @@ export const getPlayerSkins = async (
 	if (response.status !== 200) {
 		throw new Error('Failed to player skins');
 	}
-
-	console.log('getPlayerSkins response: ', response.data);
 
 	return response.data;
 };

@@ -16,11 +16,6 @@ export const getLatestBossBattleStatus = async (
 		throw new Error('Failed to fetch latest boss battle status');
 	}
 
-	console.log(
-		'getPlayerLatestBossBattleStatusEndRoute response: ',
-		response.data
-	);
-
 	return response.data;
 };
 
@@ -34,11 +29,6 @@ export const getStartBossBattleStatus = async (
 	if (response.status !== 200) {
 		throw new Error('Failed to fetch latest boss battle status');
 	}
-
-	console.log(
-		'getPlayerLatestBossBattleStatusEndRoute response: ',
-		response.data
-	);
 
 	return response.data;
 };

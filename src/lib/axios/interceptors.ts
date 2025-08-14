@@ -25,7 +25,6 @@ axiosInstance.interceptors.response.use(
 		if (error.response?.status !== 401 || originalRequest._retry) {
 			return Promise.reject(error);
 		}
-		console.error('error: ', error);
 		originalRequest._retry = true;
 
 		if (isRefreshing) {

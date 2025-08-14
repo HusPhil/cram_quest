@@ -30,14 +30,14 @@ const navItems = [
 		icon: <TbShirt className="w-[1.55rem] h-[1.55rem]" />,
 	},
 	{
-		path: '/about',
+		path: '/home/about',
 		label: 'About',
 		icon: <TbHelpHexagon className="w-[1.55rem] h-[1.55rem]" />,
 	},
 ];
 
 const signOutNavItem = {
-	path: '/signOut',
+	path: 'home/signOut',
 	label: 'Sign Out',
 	icon: <TbLogout className="w-5 h-5" />,
 };

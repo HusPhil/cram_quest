@@ -19,7 +19,6 @@ export async function refreshToken() {
 
 		return response.data.access_token;
 	} catch (error) {
-		console.error('Failed to refresh token', error);
 		throw error;
 	}
 }
@@ -30,10 +29,6 @@ export const signUp = async ({
 	password,
 	avatar_url,
 }: SignUpRequest) => {
-	console.log('username: ', username);
-	console.log('email: ', email);
-	console.log('avatar_url: ', avatar_url);
-	console.log('password: ', password);
 	const { data: response } = await axiosInstance.post(
 		signUpEndRoute,
 		{

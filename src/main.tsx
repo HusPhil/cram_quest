@@ -5,6 +5,7 @@ import App from './App.tsx';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { FloatingScreenProvider } from './context/FloatingScreenContext.tsx';
 import { ToastContainer } from 'react-toastify';
+
 import 'react-loading-skeleton/dist/skeleton.css';
 
 const queryClient = new QueryClient();
@@ -18,7 +19,7 @@ createRoot(document.getElementById('root')!).render(
 					position="bottom-left"
 					closeOnClick
 					theme="dark"
-					className="toastify-container"
+					className="toastify-container lett"
 				/>
 			</FloatingScreenProvider>
 		</QueryClientProvider>

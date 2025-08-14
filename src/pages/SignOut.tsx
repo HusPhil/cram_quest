@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import useSignOut from '../features/Auth/hooks/useSignOut';
 import SignOutModal from '../features/Auth/modals/SignOutModal';
-import { toast } from 'react-toastify';
 import { useQueryClient } from '@tanstack/react-query';
+import { toast } from '../lib/toastify/charLimitedToast';
 
 export default function SignOut() {
 	const signOutMutate = useSignOut();
@@ -12,7 +12,9 @@ export default function SignOut() {
 		queryClient.clear();
 		await signOutMutate.mutateAsync();
 		navigate('/auth');
-		toast.success('Sign out success!', { toastId: 'sign-out-success' });
+		toast.success('Signed out successfully', {
+			toastId: 'sign-out-success',
+		});
 	};
 
 	return (

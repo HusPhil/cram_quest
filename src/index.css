@@ -52,6 +52,8 @@ body {
 
 .toastify-container .Toastify__toast {
   font-family: 'Pixelify Sans', sans-serif;
+  max-lines: 2;
+  text-overflow: ellipsis;
 }
 
 

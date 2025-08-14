@@ -17,8 +17,6 @@ export const getLatestCheckIn = async (
 		throw new Error('Failed to fetch latest weekly check in');
 	}
 
-	console.log('getLatestCheckIn response: ', response.data);
-
 	return response.data;
 };
 
@@ -34,11 +32,6 @@ export const getPerfectWeeklyCheckInReward = async (
 			'Failed to fetch getPerfectWeeklyCheckInRewardEndRoute'
 		);
 	}
-
-	console.log(
-		'getPerfectWeeklyCheckInRewardEndRoute response: ',
-		response.data
-	);
 
 	return response.data;
 };

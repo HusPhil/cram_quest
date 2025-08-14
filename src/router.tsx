@@ -54,13 +54,10 @@ const AppRouter = () => {
 								<Route path="check-in" element={<CheckIn />} />
 								<Route path="subjects" element={<Subjects />} />
 								<Route path="skins" element={<Skins />} />
+								<Route path="about" element={<About />} />
+								<Route path="signOut" element={<SignOut />} />
 							</Route>
 						</Route>
-						{/* Skins page */}
-
-						{/* About page */}
-						<Route path="/about" element={<About />} />
-						<Route path="/signOut" element={<SignOut />} />
 
 						{/* Catch-all redirect */}
 						<Route
