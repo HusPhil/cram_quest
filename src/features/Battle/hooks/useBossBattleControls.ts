@@ -3,7 +3,6 @@ import { useBattleEngineStore } from '../stores/battleEngineStore';
 
 import { playerAttackScene } from '../battleEngine/scenes/playerAttack/playerAttackScene';
 import { chainScenes } from '../utils/chainScenes';
-import { toast } from 'react-toastify';
 import { accuracyCalculator } from '../utils/accuracyCalculator';
 import { playerAttackMissScene } from '../battleEngine/scenes/playerAttackMiss/playerMissScene';
 import { enemyAttackScene } from '../battleEngine/scenes/enemyAttack/enemyAttackScene';
@@ -62,7 +61,6 @@ export function useBossBattleControls({
 		const accuracyBonus = accuracyPercentage / 10;
 
 		if (success) {
-			toast('success');
 			maxBase = 12;
 			minBase = 8;
 			baseDamageRoll =
