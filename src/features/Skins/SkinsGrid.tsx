@@ -2,11 +2,11 @@ import { useGetPlayerSkins } from '../Subjects/hooks/battle/useGetPlayerSkins';
 import { useUserPlayerStore } from '../Auth/stores/userPlayerStore/userPlayerStore';
 import { PlayerInventoryItemRead } from '../../services/api/schema/player_inventory_item_schema';
 import { useEquipPlayerSkin } from '../Subjects/hooks/battle/useEquipPlayerSkin';
-import { toast } from 'react-toastify';
 import { rarityConfig } from '../../data/configs';
 import { useUnequipPlayerSkin } from '../Subjects/hooks/battle/useUnequipPlayerSkin';
 import SkinsGridSkeleton from '../../components/Skeletons/SkinsGridSkeleton';
 import EmptyListNote from '../../components/EmptyListNote';
+import { toast } from '../../lib/toastify/charLimitedToast';
 
 interface SkinsGridItemProps {
 	skin: PlayerInventoryItemRead;
@@ -87,12 +87,14 @@ function SkinsGrid() {
 			{
 				onSuccess: () => {
 					setCurrentPlayerSkinUrl(skinUrl);
-					toast.success('Skin equipped successfully', {
+					toast.success('Equipped successfully', {
 						toastId: 'equip-skin-success',
 					});
 				},
 				onError: () => {
-					toast.error('Failed to equip skin');
+					toast.error('Equipping skin failed', {
+						toastId: 'equip-skin-error',
+					});
 				},
 			}
 		);
@@ -113,7 +115,9 @@ function SkinsGrid() {
 					});
 				},
 				onError: () => {
-					toast.error('Failed to unequipped skin');
+					toast.error('Unequipping skin failed', {
+						toastId: 'unequipped-skin-error',
+					});
 				},
 			}
 		);
