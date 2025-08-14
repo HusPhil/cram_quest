@@ -9,7 +9,6 @@ import { useUserPlayerStore } from '../Auth/stores/userPlayerStore/userPlayerSto
 import { useShallow } from 'zustand/shallow';
 import { useGetLatestCheckIn } from './hooks/useGetLatestCheckIn';
 import { useCheckIn } from './hooks/useCheckIn';
-import { toast } from 'react-toastify';
 import { PlayerSkin } from '../Battle/configs/spritesheetConfig';
 import { useGetPerfectWeeklyChechInReward } from './hooks/useGetPerfectWeeklyChechInReward';
 import { useState } from 'react';
@@ -17,6 +16,7 @@ import PerfectWeeklyChecInRewardModal from './modal/PerfectWeeklyChecInRewardMod
 import { WeeklyCheckInRead } from '../../services/api/schema/weekly_check_in_schema';
 import WeeklyRecordSkeleton from '../../components/Skeletons/WeeklyRecordSkeleton';
 import PlayerCardSkeleton from '../../components/Skeletons/PlayerCardSkeleton';
+import { toast } from '../../lib/toastify/charLimitedToast';
 
 export default function CheckIn() {
 	const { currentScreenSize } = useScreenResize();

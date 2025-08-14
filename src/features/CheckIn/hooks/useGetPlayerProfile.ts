@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getPlayerProfile } from '../../../services/api/crud/player_crud';
-import { toast } from 'react-toastify';
+import { toast } from '../../../lib/toastify/charLimitedToast';
 
 export const useGetPlayerProfile = (playerId: number | undefined) => {
 	const profileQuery = useQuery({
@@ -10,20 +10,9 @@ export const useGetPlayerProfile = (playerId: number | undefined) => {
 	});
 
 	if (profileQuery.isError)
-		toast.error('Failed to load player profile', {
+		toast.error('Player profile not found', {
 			toastId: 'player-profile-error',
 		});
-
-	// if (profileQuery.data) {
-	// 	const setCurrentPlayerProfile =
-	// 		useUserPlayerStore.getState().setPlayerProfile;
-	// 	setCurrentPlayerProfile(
-	// 		profileQuery.data.id!,
-	// 		profileQuery.data.avatar_url!,
-	// 		profileQuery.data.bio!,
-	// 		profileQuery.data.mood!
-	// 	);
-	// }
 
 	return profileQuery;
 };

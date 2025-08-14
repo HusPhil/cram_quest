@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { getUser } from '../../../services/api/crud/user_crud';
-import { toast } from 'react-toastify';
 import { useAuthInformationStore } from '../../Auth/stores/authInformationStore';
 import { useUserPlayerStore } from '../../Auth/stores/userPlayerStore/userPlayerStore';
+import { toast } from '../../../lib/toastify/charLimitedToast';
 
 export const useGetUser = (userId: number) => {
 	const userQuery = useQuery({
@@ -10,10 +10,12 @@ export const useGetUser = (userId: number) => {
 		queryFn: () => getUser(userId),
 	});
 
-	if (userQuery.isError)
-		toast.error('Failed to load user', {
+	if (userQuery.isError) {
+		toast.error('User not found', {
 			toastId: 'user-error',
 		});
+	}
+
 	const setCurrentUserId = useAuthInformationStore.getState().setUserId;
 
 	if (userQuery.data?.id) {

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getUserPlayer } from '../../../services/api/crud/user_crud';
-import { toast } from 'react-toastify';
 import { useAuthInformationStore } from '../../Auth/stores/authInformationStore';
+import { toast } from '../../../lib/toastify/charLimitedToast';
 
 export const useGetUserPlayer = (userId: number) => {
 	const playerQuery = useQuery({
@@ -10,7 +10,7 @@ export const useGetUserPlayer = (userId: number) => {
 	});
 
 	if (playerQuery.isError) {
-		toast.error('Failed to load player', {
+		toast.error('Player not found', {
 			toastId: 'user-player-error',
 		});
 	}

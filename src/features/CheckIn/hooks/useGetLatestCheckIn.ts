@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
 import { getLatestCheckIn } from '../../../services/api/crud/weekly_check_in_crud';
+import { toast } from '../../../lib/toastify/charLimitedToast';
 
 export const useGetLatestCheckIn = (playerId?: number) => {
 	const latestCheckInQuery = useQuery({
@@ -10,8 +10,8 @@ export const useGetLatestCheckIn = (playerId?: number) => {
 	});
 
 	if (latestCheckInQuery.isError)
-		toast.error('Failed to load latest weekly check in', {
-			toastId: 'latest-weekly_check_in-error',
+		toast.error('Weekly check in not found', {
+			toastId: 'latest-weekly-check-in-error',
 		});
 
 	return latestCheckInQuery;
