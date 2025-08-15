@@ -13,6 +13,7 @@ const MIN_BATTLE_DURATION_MINS = 3;
 export default function StartBattle({
 	selectedQuest,
 	onStartBattle,
+	startBattleMutateFn,
 }: StepComponentProps) {
 	const [battleDuration, setBattleDuration] = useState<number>(
 		MIN_BATTLE_DURATION_MINS
@@ -43,8 +44,6 @@ export default function StartBattle({
 	const setIsBattleActive = useBattleSetupStore(
 		(state) => state.setIsBattleActive
 	);
-
-	const startBattleMutate = useStartBattleSession();
 
 	const handleStartBattle = () => {
 		if (getCleanedQuestSteps().length > 0) {
@@ -89,8 +88,10 @@ export default function StartBattle({
 				return;
 			}
 			onStartBattle?.();
+			const battleStartRequestTime = new Date();
 
-			startBattleMutate.mutate(
+			setIsValidating(true);
+			startBattleMutateFn?.(
 				{
 					startBattleSession: {
 						duration_mins: battleDuration,
@@ -103,11 +104,23 @@ export default function StartBattle({
 				{
 					onSuccess: (newBattleSession: BattleSessionRead) => {
 						const nowDateTime = new Date();
+
+						const ellapsedTime =
+							battleStartRequestTime.getTime() -
+							nowDateTime.getTime();
+
+						const serverStartTime = new Date(
+							newBattleSession.start_time!
+						);
+
+						const startDateTimeWithOffset =
+							serverStartTime.getTime() - ellapsedTime;
+
 						const endDateTime = new Date(
 							newBattleSession.end_time!
 						);
 						const timeDiffMilisecs =
-							endDateTime.getTime() - nowDateTime.getTime();
+							endDateTime.getTime() - startDateTimeWithOffset;
 
 						const durationMins = timeDiffMilisecs / (1000 * 60);
 						// Pass the duration to the parent component
@@ -126,6 +139,9 @@ export default function StartBattle({
 						toast.error('Battle failed to start', {
 							toastId: 'start-battle-error',
 						});
+					},
+					onSettled: () => {
+						setIsValidating(false);
 					},
 				}
 			);
@@ -254,7 +270,7 @@ export default function StartBattle({
 			</div>
 
 			<button
-				disabled={isValidating || startBattleMutate.isPending}
+				disabled={isValidating}
 				onClick={handleStartBattle}
 				className="px-6 py-3 bg-accent disabled:opacity-50 rounded-md hover:bg-accent/90 mt-4 text-background"
 			>

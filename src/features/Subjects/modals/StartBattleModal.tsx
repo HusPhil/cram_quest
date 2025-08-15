@@ -9,13 +9,27 @@ import StartBattle from '../screens/SubjectScreen/Battle/SetupBattleSteps/StartB
 import BattlePage from '../screens/SubjectScreen/Battle/BattlePage';
 import { useBattleEngineStore } from '../../Battle/stores/battleEngineStore';
 import { useSubjectStore_UI } from '../stores/subjectStore_UI';
-import { useQueryClient } from '@tanstack/react-query';
+import {
+	UseMutateFunction,
+	UseMutationResult,
+	useQueryClient,
+} from '@tanstack/react-query';
 import BossBattlePage from '../screens/SubjectScreen/Battle/BossBattlePage';
+import { useStartBattleSession } from '../hooks/battle/useStartBattleSession';
+import { BattleSessionCreate } from '../../../services/api/schema/battle_session_schema';
 
 export interface StepComponentProps {
 	subjectQuests: QuestRead[];
 	selectedQuest?: QuestRead;
 	onStartBattle?: () => void;
+	startBattleMutateFn?: UseMutateFunction<
+		any,
+		Error,
+		{
+			startBattleSession: BattleSessionCreate;
+		},
+		unknown
+	>;
 }
 
 export interface SetupBattleStep {
@@ -56,6 +70,10 @@ export default function StartBattleModal({
 	isBossBattle,
 }: StartBattleModalProps) {
 	const [currentStep, setCurrentStep] = useState(0);
+	const {
+		mutate: startBattleMutateFn,
+		isPending: isStartBattleMutatePending,
+	} = useStartBattleSession();
 	const CurrentStepComponent = steps[currentStep].component;
 
 	// Battle setup store usage
@@ -122,7 +140,7 @@ export default function StartBattleModal({
 		<Modal
 			isOpen={isBattleActive || activeModal === 'StartBattleModal'}
 			title={getStartBattleModalTitle(isBattleActive)}
-			lock={isBattleActive}
+			lock={isBattleActive || isStartBattleMutatePending}
 			disabledEsc={currentStep === steps.length - 1}
 			onClose={closeActiveModal}
 			customHeader={isBattleActive ? <></> : undefined}
@@ -131,7 +149,13 @@ export default function StartBattleModal({
 			{isBossBattle ? (
 				<BossBattlePage battleCleanup={handleCleanupBattlefield} />
 			) : !isBattleActive ? (
-				<>
+				<div
+					className={`${
+						isStartBattleMutatePending
+							? 'pointer-events-none opacity-50 cursor-not-allowed'
+							: ''
+					}`}
+				>
 					<StepProgress currentStep={currentStep} steps={steps} />
 
 					{/* Step Content */}
@@ -139,6 +163,7 @@ export default function StartBattleModal({
 						<CurrentStepComponent
 							selectedQuest={selectedQuest || undefined}
 							subjectQuests={subjectQuests}
+							startBattleMutateFn={startBattleMutateFn}
 						/>
 					</div>
 
@@ -147,7 +172,7 @@ export default function StartBattleModal({
 						currentStep={currentStep}
 						setCurrentStep={setCurrentStep}
 					/>
-				</>
+				</div>
 			) : (
 				<BattlePage
 					battleCleanup={handleCleanupBattlefield}
