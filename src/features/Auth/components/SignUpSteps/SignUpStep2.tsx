@@ -111,7 +111,7 @@ export default function SignUpStep2({
 					<button
 						type="submit"
 						onClick={handleSubmit}
-						className="w-full bg-accent/90 hover:bg-accent text-white py-3 
+						className="w-full bg-accent/90 hover:bg-accent text-background py-3 
                                      rounded-lg font-bold transition-all relative group 
                                      overflow-hidden transform hover:scale-[1.02]"
 					>

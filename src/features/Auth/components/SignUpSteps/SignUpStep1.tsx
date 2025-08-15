@@ -80,7 +80,7 @@ export default function SignUpStep1({
 			<button
 				type="button"
 				onClick={handleNextPage}
-				className="w-full bg-accent/90 hover:bg-accent text-white py-3 rounded-lg font-bold transition-colors relative group overflow-hidden"
+				className="w-full bg-accent/90 hover:bg-accent text-background py-3 rounded-lg font-bold transition-colors relative group overflow-hidden"
 			>
 				<span className="relative z-10">Create Character</span>
 				<div className="absolute inset-0 bg-gradient-to-r from-accent via-accent/80 to-accent opacity-0 group-hover:opacity-100 transition-opacity" />
