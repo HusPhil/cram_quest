@@ -9,11 +9,7 @@ import StartBattle from '../screens/SubjectScreen/Battle/SetupBattleSteps/StartB
 import BattlePage from '../screens/SubjectScreen/Battle/BattlePage';
 import { useBattleEngineStore } from '../../Battle/stores/battleEngineStore';
 import { useSubjectStore_UI } from '../stores/subjectStore_UI';
-import {
-	UseMutateFunction,
-	UseMutationResult,
-	useQueryClient,
-} from '@tanstack/react-query';
+import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 import BossBattlePage from '../screens/SubjectScreen/Battle/BossBattlePage';
 import { useStartBattleSession } from '../hooks/battle/useStartBattleSession';
 import { BattleSessionCreate } from '../../../services/api/schema/battle_session_schema';

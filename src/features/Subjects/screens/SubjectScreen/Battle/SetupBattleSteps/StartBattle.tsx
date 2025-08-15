@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react';
 import { StepComponentProps } from '../../../../modals/StartBattleModal';
 import { useBattleSetupStore } from '../../../../../Battle/stores/battleSetupStore';
 import debounce from 'just-debounce-it';
-import { useStartBattleSession } from '../../../../hooks/battle/useStartBattleSession';
 import { useAuthInformationStore } from '../../../../../Auth/stores/authInformationStore';
 import { BattleSessionRead } from '../../../../../../services/api/schema/battle_session_schema';
 import { toast } from '../../../../../../lib/toastify/charLimitedToast';
