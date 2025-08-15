@@ -27,6 +27,7 @@ const SubjectList = ({
 	const setBattleActive = useBattleSetupStore(
 		(state) => state.setIsBattleActive
 	);
+	const isBattleActive = useBattleSetupStore((state) => state.isBattleActive);
 	const setSelectedQuest = useBattleSetupStore((state) => state.selectQuest);
 	const setGeneratedTasks = useBattleSetupStore(
 		(state) => state.setGeneratedTasks
@@ -81,7 +82,7 @@ const SubjectList = ({
 		setActiveModal('StartBattleModal');
 	};
 
-	useGetResumableBattleSession(handleOpenResumeScreen);
+	useGetResumableBattleSession(handleOpenResumeScreen, isBattleActive);
 
 	return (
 		<div className="flex-1 my-4 relative">

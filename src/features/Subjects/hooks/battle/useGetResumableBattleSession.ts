@@ -13,11 +13,13 @@ export const useGetResumableBattleSession = (
 		currentTime: string,
 		sessionData?: BattleSessionRead,
 		questData?: QuestRead
-	) => void
+	) => void,
+	isBattleActive: boolean
 ) => {
 	const resumableBattleSessionQuery = useQuery({
 		queryKey: ['study_sessions', 'resume'],
 		queryFn: getResumableBattleSession,
+		enabled: !isBattleActive,
 	});
 
 	if (resumableBattleSessionQuery.isError) {
