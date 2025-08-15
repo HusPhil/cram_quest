@@ -15,7 +15,7 @@ export default function BossBattleResultStats({
 
 	return (
 		<div className="w-full flex justify-between md:gap-3 ">
-			<div className="flex gap-3 flex-col justify-center items-center border-success rounded-md">
+			<div className="flex gap-3 flex-col justify-center items-center md:mx-3 order-success rounded-md">
 				<div className="flex justify-center items-center gap-1 text-center">
 					<TbBolt color={iconColor} />
 					<p className={`text-xs md:text-sm ${textColor}`}>Base XP</p>
@@ -39,7 +39,7 @@ export default function BossBattleResultStats({
 					</div>
 				</div>
 			</div>
-			<div className="flex gap-3 flex-col justify-center items-center  border-success rounded-md">
+			<div className="flex gap-3 flex-col justify-center items-center md:mx-3 border-success rounded-md">
 				<div className="flex justify-center items-center gap-1 text-center">
 					<TbFlame color={iconColor} />
 					<p className={`text-xs md:text-sm ${textColor}`}>
