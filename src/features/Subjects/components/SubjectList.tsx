@@ -36,11 +36,14 @@ const SubjectList = ({
 	);
 	const setBattleDuration = useBattleSetupStore((state) => state.setDuration);
 
+	const battleResumeRequestTime = new Date();
+
 	const handleOpenResumeScreen = (
+		currentTime?: string,
 		sessionData?: BattleSessionRead,
 		questData?: QuestRead
 	) => {
-		if (!sessionData || !questData) return;
+		if (!sessionData || !questData || !currentTime) return;
 
 		const subjectWithResumableQuest = subjects.find(
 			(subject) => subject.id === sessionData.subject_id
@@ -52,10 +55,18 @@ const SubjectList = ({
 		setGeneratedTasks(sessionData.tasks!);
 		setBattleSessionId(sessionData.id);
 
-		const currentDateTime = new Date();
+		const nowDateTime = new Date();
+
+		const ellapsedTime =
+			battleResumeRequestTime.getTime() - nowDateTime.getTime();
+
+		const serverStartTime = new Date(currentTime!);
+		const startDateTimeWithOffset =
+			serverStartTime.getTime() - ellapsedTime;
+
 		const endDateTime = new Date(sessionData.end_time!);
 		const timeDiffMilisecs =
-			endDateTime.getTime() - currentDateTime.getTime();
+			endDateTime.getTime() - startDateTimeWithOffset;
 
 		const durationMins = timeDiffMilisecs / (1000 * 60);
 

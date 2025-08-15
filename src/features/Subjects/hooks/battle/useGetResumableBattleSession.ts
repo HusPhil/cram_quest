@@ -10,6 +10,7 @@ import { toast } from '../../../../lib/toastify/charLimitedToast';
 
 export const useGetResumableBattleSession = (
 	handleOpenResumeScreen: (
+		currentTime: string,
 		sessionData?: BattleSessionRead,
 		questData?: QuestRead
 	) => void
@@ -25,6 +26,7 @@ export const useGetResumableBattleSession = (
 		});
 	} else if (resumableBattleSessionQuery.data?.is_resumable) {
 		handleOpenResumeScreen(
+			resumableBattleSessionQuery.data?.current_time!,
 			resumableBattleSessionQuery.data?.session_data!,
 			resumableBattleSessionQuery.data?.quest_data!
 		);

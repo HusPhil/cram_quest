@@ -38,6 +38,7 @@ export interface BattleSessionCreate {
 
 export interface BattleSessionResume {
 	is_resumable: boolean;
+	current_time: string | null;
 	session_data: BattleSessionRead | null;
 	quest_data: QuestRead | null;
 }
