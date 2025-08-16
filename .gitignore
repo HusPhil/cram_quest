@@ -25,3 +25,6 @@ subject_struct.png
 *.sw?
 .prettierrc
 peoject_docs_PM.md
+
+
+.env

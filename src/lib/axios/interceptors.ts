@@ -6,6 +6,9 @@ import { refreshSession, setAuthHeader } from './token';
 let isRefreshing = false;
 let failedQueue: any[] = [];
 
+const API_KEY_HEADER_NAME = import.meta.env.API_KEY_HEADER_NAME;
+const API_KEY = import.meta.env.API_KEY;
+
 const processQueue = (error: any, token: string | null = null) => {
 	failedQueue.forEach((prom) => {
 		if (token) {
@@ -33,6 +36,7 @@ axiosInstance.interceptors.response.use(
 				failedQueue.push({
 					resolve: (token: string) => {
 						originalRequest.headers.Authorization = `Bearer ${token}`;
+						originalRequest.headers[API_KEY_HEADER_NAME] = API_KEY;
 						resolve(axiosInstance(originalRequest));
 					},
 					reject: (err: any) => reject(err),
@@ -47,6 +51,7 @@ axiosInstance.interceptors.response.use(
 
 			setAuthHeader(newToken); // update axiosInstance default
 			originalRequest.headers.Authorization = `Bearer ${newToken}`; // update the retry request
+			originalRequest.headers[API_KEY_HEADER_NAME] = API_KEY;
 
 			processQueue(null, newToken);
 			return axiosInstance(originalRequest); // retry with new token
