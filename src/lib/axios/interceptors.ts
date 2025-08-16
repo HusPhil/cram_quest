@@ -6,8 +6,8 @@ import { refreshSession, setAuthHeader } from './token';
 let isRefreshing = false;
 let failedQueue: any[] = [];
 
-const API_KEY_HEADER_NAME = import.meta.env.API_KEY_HEADER_NAME;
-const API_KEY = import.meta.env.API_KEY;
+const API_KEY = import.meta.env.VITE_API_KEY;
+const API_KEY_HEADER_NAME = import.meta.env.VITE_API_KEY_HEADER_NAME;
 
 const processQueue = (error: any, token: string | null = null) => {
 	failedQueue.forEach((prom) => {

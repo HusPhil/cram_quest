@@ -3,11 +3,14 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write   # 👈 gives Actions permission to push to gh-pages
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -20,14 +23,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build with secret
+      - name: Build with secrets
         run: npm run build
         env:
-          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_API_KEY_HEADER_NAME: ${{ secrets.VITE_API_KEY_HEADER_NAME }}
+          VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
+          VITE_API_URL: ${{ secrets.VITE_API_URL }} # keep your API base URL too
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-          cname: cramquest.husphil.space
+          cname: cramquest.husphil.space   
