@@ -27,7 +27,7 @@ export default function SignUpForm() {
 		e.preventDefault();
 
 		const username = usernameRef.current?.value || '';
-		const email = emailRef.current?.value || '';
+		const email = emailRef.current?.value || 'user@example.com'; // disabled for now
 		const password = passwordRef.current?.value || '';
 		const confirmPassword = confirmPasswordRef.current?.value || '';
 		const avatarUrl = avatarUrlRef.current?.value || '';
@@ -67,7 +67,7 @@ export default function SignUpForm() {
 	};
 
 	const handleNextStep = () => {
-		const email = emailRef.current?.value || '';
+		const email = emailRef.current?.value || 'user@example.com'; //disabled for now
 		const password = passwordRef.current?.value || '';
 		const confirmPassword = confirmPasswordRef.current?.value || '';
 
@@ -105,6 +105,7 @@ export default function SignUpForm() {
 				}`}
 			>
 				<SignUpStep2
+					isLoading={signUpMutate.isPending}
 					setSignUpStep={setSignUpStep}
 					avatarUrlRef={avatarUrlRef}
 					usernameRef={usernameRef}

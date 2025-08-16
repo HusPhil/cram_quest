@@ -20,15 +20,6 @@ export default function SignUpStep1({
 
 	return (
 		<>
-			<InputFieldWithRef
-				label="Email"
-				id="email"
-				placeholder="cramwarrior@example.com"
-				wrapperClassName="space-y-1"
-				ref={emailRef}
-				required
-			/>
-
 			<div className="space-y-1  w-full">
 				<div className="flex flex-1 items-center">
 					<InputFieldWithRef

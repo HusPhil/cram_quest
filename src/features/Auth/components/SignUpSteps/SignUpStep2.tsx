@@ -12,6 +12,7 @@ interface SignUpStep2Props {
 	usernameRef: RefObject<HTMLInputElement | null>;
 	setSignUpStep: (step: number) => void;
 	handleSubmit: (e: React.FormEvent) => void;
+	isLoading: boolean;
 }
 
 export default function SignUpStep2({
@@ -19,6 +20,7 @@ export default function SignUpStep2({
 	usernameRef,
 	avatarUrlRef,
 	handleSubmit,
+	isLoading,
 }: SignUpStep2Props) {
 	const [selectedSkin, setSelectedSkin] = useState<PlayerSkin>('default_1');
 	const defaultClass: PlayerClass = 'default';
@@ -111,8 +113,10 @@ export default function SignUpStep2({
 					<button
 						type="submit"
 						onClick={handleSubmit}
+						disabled={isLoading}
 						className="w-full bg-accent/90 hover:bg-accent text-background py-3 
                                      rounded-lg font-bold transition-all relative group 
+									 disabled:opacity-50 disabled:cursor-not-allowed
                                      overflow-hidden transform hover:scale-[1.02]"
 					>
 						<span className="relative z-10">Begin Adventure</span>

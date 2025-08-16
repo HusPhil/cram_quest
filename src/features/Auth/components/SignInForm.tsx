@@ -61,7 +61,7 @@ export default function SignInForm() {
 				type="submit"
 				disabled={isPending}
 				className={`w-full py-3 rounded-lg font-bold transition-colors relative group overflow-hidden
-					bg-accent/90 text-white hover:bg-accent
+					bg-accent/90 text-background hover:bg-accent
 					${isPending ? 'animate-pulse' : ''}
 					disabled:bg-accent/30 disabled:hover:bg-accent/30
 					disabled:text-white/70 disabled:cursor-not-allowed`}
