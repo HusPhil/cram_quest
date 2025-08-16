@@ -3,11 +3,9 @@
 // export const BASE_URL = 'http://REDACTED_IP';
 // export const BASE_URL = 'http://REDACTED_IP';
 
-import axios from 'axios';
-
 // export const BASE_URL = 'https://cram-quest-api.vercel.app';
-export const BASE_URL = 'http://REDACTED_IP';
-// export const BASE_URL = 'https://cramquestapi.husphil.space';
+// export const BASE_URL = 'http://REDACTED_IP';
+export const BASE_URL = 'https://cramquestapi.husphil.space';
 // export const BASE_URL = 'http://REDACTED_HOST';
 // export const BASE_URL = 'http://REDACTED_IP';
 // export const BASE_URL = 'http://REDACTED_IP';

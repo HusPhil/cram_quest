@@ -10,7 +10,6 @@ interface SignUpStep1Props {
 }
 
 export default function SignUpStep1({
-	emailRef,
 	passwordRef,
 	confirmPasswordRef,
 	handleNextPage,
