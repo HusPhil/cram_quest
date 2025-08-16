@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy:
@@ -23,12 +23,21 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Debug env vars
+        run: |
+          echo "API_URL=$VITE_API_URL"
+          echo "API_KEY_HEADER_NAME=$VITE_API_KEY_HEADER_NAME"
+        env:
+          VITE_API_KEY_HEADER_NAME: ${{ secrets.VITE_API_KEY_HEADER_NAME }}
+          VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+
       - name: Build with secrets
         run: npm run build
         env:
           VITE_API_KEY_HEADER_NAME: ${{ secrets.VITE_API_KEY_HEADER_NAME }}
           VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
-          VITE_API_URL: ${{ secrets.VITE_API_URL }} # keep your API base URL too
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
