@@ -23,6 +23,7 @@ export default function SignUpStep1({
 				<div className="flex flex-1 items-center">
 					<InputFieldWithRef
 						label="Email"
+						id="email-test"
 						placeholder="warrior@gmail.com"
 						type={showPassword ? 'email' : 'password'}
 						wrapperClassName="space-y-1 w-full"
