@@ -25,7 +25,7 @@ export default function SignUpStep1({
 						label="Email"
 						id="email-test"
 						placeholder="warrior@gmail.com"
-						type={showPassword ? 'email' : 'password'}
+						type="email"
 						wrapperClassName="space-y-1 w-full"
 						required
 					/>
