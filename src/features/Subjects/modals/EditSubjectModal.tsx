@@ -94,8 +94,8 @@ const UpdateSubjectSection = ({
 			await queryClient.invalidateQueries({
 				queryKey: SUBJECTS_QUERY_KEY,
 			});
-			toast.success('Quest deleted successfully', {
-				toastId: 'quest-delete-success',
+			toast.success('Subject deleted successfully', {
+				toastId: 'subject-delete-success',
 			});
 			handleCloseModal();
 		}
