@@ -6,7 +6,7 @@ export default defineConfig({
 	plugins: [react()],
 	base: '/',
 	server: {
-		allowedHosts: ['REDACTED_HOST'],
+		allowedHosts: true,
 		host: true, // or 'REDACTED_IP'
 		port: 5173,
 	},

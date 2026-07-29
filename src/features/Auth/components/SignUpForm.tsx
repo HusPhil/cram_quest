@@ -27,7 +27,7 @@ export default function SignUpForm() {
 		e.preventDefault();
 
 		const username = usernameRef.current?.value || '';
-		const email = emailRef.current?.value || 'user@example.com'; // disabled for now
+		const email = emailRef.current?.value || '';
 		const password = passwordRef.current?.value || '';
 		const confirmPassword = confirmPasswordRef.current?.value || '';
 		const avatarUrl = avatarUrlRef.current?.value || '';
@@ -67,12 +67,12 @@ export default function SignUpForm() {
 	};
 
 	const handleNextStep = () => {
-		const email = emailRef.current?.value || 'user@example.com'; //disabled for now
+		const username = usernameRef.current?.value || '';
 		const password = passwordRef.current?.value || '';
 		const confirmPassword = confirmPasswordRef.current?.value || '';
 
-		if (!hasRequiredFields([email, password])) {
-			showError('Email and password are required!', 'invalid-inputs');
+		if (!hasRequiredFields([username, password])) {
+			showError('Username and password are required!', 'invalid-inputs');
 			return;
 		}
 
@@ -92,7 +92,7 @@ export default function SignUpForm() {
 				}`}
 			>
 				<SignUpStep1
-					emailRef={emailRef}
+					usernameRef={usernameRef}
 					passwordRef={passwordRef}
 					confirmPasswordRef={confirmPasswordRef}
 					handleNextPage={handleNextStep}
@@ -108,7 +108,6 @@ export default function SignUpForm() {
 					isLoading={signUpMutate.isPending}
 					setSignUpStep={setSignUpStep}
 					avatarUrlRef={avatarUrlRef}
-					usernameRef={usernameRef}
 					handleSubmit={handleSubmit}
 				/>
 			</div>

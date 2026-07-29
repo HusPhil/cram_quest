@@ -21,8 +21,7 @@ export default function SignInForm() {
 			{
 				onError: (error: Error) => {
 					if (isAxiosError(error)) {
-						console.log(error);
-						toast.error(error.response?.data?.detail, {
+					toast.error(error.response?.data?.detail, {
 							toastId: 'sign-in-user-error',
 						});
 					}

@@ -1,17 +1,1 @@
-// export const BASE_URL = "https://cramquestapi-production.up.railway.app";
-// export const BASE_URL = 'http://REDACTED_HOST';
-// export const BASE_URL = 'http://REDACTED_IP';
-// export const BASE_URL = 'http://REDACTED_IP';
-
-// export const BASE_URL = 'https://cram-quest-api.vercel.app';
-// export const BASE_URL = 'http://REDACTED_IP';
-export const BASE_URL = 'https://cramquestapi.husphil.space';
-// export const BASE_URL = 'http://REDACTED_HOST';
-// export const BASE_URL = 'http://REDACTED_IP';
-// export const BASE_URL = 'http://REDACTED_IP';
-// export const BASE_URL = 'http://REDACTED_IP';
-// export const BASE_URL = 'http://REDACTED_IP';
-// export const BASE_URL = 'http://REDACTED_IP';
-// export const BASE_URL = 'http://REDACTED_IP';
-//export const BASE_URL = 'http://REDACTED_IP';
-// export const BASE_URL = 'http://REDACTED_IP';
+export const BASE_URL = import.meta.env.VITE_API_URL as string;

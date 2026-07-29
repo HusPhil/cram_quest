@@ -1,6 +1,7 @@
 // src/lib/axios/interceptors.ts
 import { axiosInstance } from './axiosInstance';
 import { refreshSession, setAuthHeader } from './token';
+import { globalNavigate } from '../navigate';
 
 // Add interceptors to handle token refresh on 401 errors
 let isRefreshing = false;
@@ -59,7 +60,7 @@ axiosInstance.interceptors.response.use(
 			const error = refreshError as Error;
 
 			if (error.message.toLowerCase().includes('session expired')) {
-				window.location.href = 'cramquest/auth/'; // or your login route
+				globalNavigate('/auth');
 				return;
 			}
 

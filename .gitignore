@@ -24,7 +24,7 @@ subject_struct.png
 *.sln
 *.sw?
 .prettierrc
-peoject_docs_PM.md
+project_docs_PM.md
 
 
 .env

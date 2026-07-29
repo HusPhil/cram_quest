@@ -1,54 +1,79 @@
-# React + TypeScript + Vite
+# CramQuest: Gamify your Tasks!
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Turn your study sessions into RPG battles. Create subjects, manage quests, fight through your to-do list, and level up your character — all while getting things done.
 
-Currently, two official plugins are available:
+![CramQuest Thumbnail](public/assets/images/docs/thumbnail.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+### Subjects & Quests
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Organize your study material into subjects and break them down into actionable quests. Each subject has its own set of tasks and learning materials.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+| Subjects | Quests |
+|:--------:|:------:|
+| ![Subjects](public/assets/images/docs/subjects.png) | ![Quests](public/assets/images/docs/quests.png) |
+
+### Battle & Boss Battles
+
+Start a battle session for a subject, set a timer, and work through your quests. Complete enough sessions to face a boss in a turn-based RPG battle.
+
+| Battle Session | Boss Battle |
+|:--------------:|:-----------:|
+| ![Battle](public/assets/images/docs/battle.png) | ![Boss Battle](public/assets/images/docs/boss%20battle.png) |
+
+### Rewards & Progression
+
+Earn XP, level up, unlock titles, and collect skins to customize your avatar.
+
+| Rewards | Skins |
+|:-------:|:-----:|
+| ![Congratulations](public/assets/images/docs/congrats.png) | ![Skins](public/assets/images/docs/skines.png) |
+
+## Tech Stack
+
+- **Framework:** React 19 + TypeScript
+- **Bundler:** Vite 6
+- **Styling:** Tailwind CSS 3
+- **State Management:** Zustand 5
+- **Server State:** TanStack Query 5
+- **Routing:** React Router 7
+- **HTTP Client:** Axios
+- **Notifications:** React Toastify
+
+## Getting Started
+
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Build for production
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+npm run build
 ```
+
+### Environment variables
+
+Create a `.env` file in the project root:
+
+```env
+VITE_API_URL=https://your-api-url.com
+VITE_API_KEY_HEADER_NAME=your-header-name
+VITE_API_KEY=your-api-key
+```
+
+## Deployment
+
+Built-in GitHub Pages deployment:
+
+```bash
+npm run deploy
+```
+
+The live site is available at [husphil.github.io/cramquest](https://husphil.github.io/cramquest).
+
+## License
+
+MIT

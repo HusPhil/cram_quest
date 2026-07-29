@@ -25,7 +25,7 @@ export default function About() {
 				<p className="mb-6 leading-relaxed text-sm md:text-base">
 					Connect with us at{' '}
 					<a
-						href="mailto:mymail.com"
+						href="mailto:your-email@example.com"
 						className="font-semibold text-accent transition-colors hover:text-white"
 					>
 						cramquest0705@gmail.com

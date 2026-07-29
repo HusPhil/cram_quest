@@ -9,7 +9,6 @@ import {
 
 interface SignUpStep2Props {
 	avatarUrlRef: RefObject<HTMLInputElement | null>;
-	usernameRef: RefObject<HTMLInputElement | null>;
 	setSignUpStep: (step: number) => void;
 	handleSubmit: (e: React.FormEvent) => void;
 	isLoading: boolean;
@@ -17,7 +16,6 @@ interface SignUpStep2Props {
 
 export default function SignUpStep2({
 	setSignUpStep,
-	usernameRef,
 	avatarUrlRef,
 	handleSubmit,
 	isLoading,
@@ -87,24 +85,6 @@ export default function SignUpStep2({
 						name="selectedSkin"
 						ref={avatarUrlRef}
 						value={`${defaultClass}/${selectedSkin}.png`}
-					/>
-				</div>
-
-				{/* Username Input */}
-				<div className="w-full space-y-2">
-					<label className="text-sm text-text/70 flex items-center gap-2">
-						<span className="w-1 h-1 bg-accent/50 rounded-full" />
-						Username
-					</label>
-					<input
-						type="text"
-						ref={usernameRef}
-						placeholder="Enter your hero's name"
-						className="w-full px-4 py-3 rounded-lg bg-background/50 border 
-									 transition-colors text-sm
-                                     placeholder:text-text/30 focus:outline-none 
-									 border-accent/30
-                                     focus:border-accent/60"
 					/>
 				</div>
 

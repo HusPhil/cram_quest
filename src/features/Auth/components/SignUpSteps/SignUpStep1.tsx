@@ -3,13 +3,14 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import InputFieldWithRef from '../../../../components/InputFieldWithRef';
 
 interface SignUpStep1Props {
-	emailRef: RefObject<HTMLInputElement | null>;
+	usernameRef: RefObject<HTMLInputElement | null>;
 	passwordRef: RefObject<HTMLInputElement | null>;
 	confirmPasswordRef: RefObject<HTMLInputElement | null>;
 	handleNextPage: (e: React.FormEvent) => void;
 }
 
 export default function SignUpStep1({
+	usernameRef,
 	passwordRef,
 	confirmPasswordRef,
 	handleNextPage,
@@ -22,11 +23,12 @@ export default function SignUpStep1({
 			<div className="space-y-1  w-full">
 				<div className="flex flex-1 items-center">
 					<InputFieldWithRef
-						label="Email"
-						id="email-test"
-						placeholder="warrior@gmail.com"
-						type="email"
+						label="Username"
+						id="username"
+						placeholder="CramWarrior"
+						type="text"
 						wrapperClassName="space-y-1 w-full"
+						ref={usernameRef}
 						required
 					/>
 				</div>

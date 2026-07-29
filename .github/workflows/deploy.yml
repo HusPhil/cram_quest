@@ -23,17 +23,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # ✅ Step 1: Check if GitHub Secrets are passed correctly
-      - name: Debug raw secrets (masked by GitHub)
-        run: |
-          echo "VITE_API_URL is: $VITE_API_URL"
-          echo "VITE_API_KEY_HEADER_NAME is: $VITE_API_KEY_HEADER_NAME"
-        env:
-          VITE_API_KEY_HEADER_NAME: ${{ secrets.VITE_API_KEY_HEADER_NAME }}
-          VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
-          VITE_API_URL: ${{ secrets.VITE_API_URL }}
-
-      # ✅ Step 2: Build with secrets
       - name: Build with secrets
         run: npm run build
         env:
@@ -41,18 +30,9 @@ jobs:
           VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
 
-      # ✅ Step 3: Verify secrets inside the built app
-      # Look inside dist files to see if API URL is embedded
-      - name: Check build output for API URL
-        run: |
-          echo "Checking if API URL is in the build..."
-          grep -R "cramquest" dist || echo "❌ API URL not found in build!"
-          grep -R "API_KEY_HEADER_NAME" dist || echo "⚠️ API KEY HEADER NAME not found"
-
-      # ✅ Step 4: Deploy
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-          cname: cramquest.husphil.space
+          # cname: your-custom-domain.com
