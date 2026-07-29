@@ -6,7 +6,7 @@ interface AppIconProps {
 const AppIcon: React.FC<AppIconProps> = ({ onClick, className = "" }) => {
   return (
     <div onClick={onClick} className={`cursor-pointer ${className}`}>
-      🔥 {/* Replace with an actual RPG icon */}
+      🔥
     </div>
   );
 };

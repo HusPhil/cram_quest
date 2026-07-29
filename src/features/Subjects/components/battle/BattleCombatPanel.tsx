@@ -68,7 +68,6 @@ export default function BattleCombatPanel({
 					text: '#1f2937',
 				}}
 			>
-				{/* <TbSword className="w-5 h-5 mr-2" color={colors.secondary} /> */}
 				KILL THIS TASK
 			</PixelButton>
 		</div>

@@ -222,13 +222,6 @@ export default function StartBattle({
 			<h3 className="text-lg font-medium">Ready to start your battle?</h3>
 			<p>You've selected your quest and planned your approach.</p>
 
-			{/* {selectedQuest && (
-				<div className="mt-4 p-3 bg-accent/10 rounded-md text-left">
-					<h4 className="font-medium">QuestID: {selectedQuest.id}</h4>
-					<p className="text-sm">{selectedQuest.description}</p>
-				</div>
-			)} */}
-
 			<div className="mt-4 space-y-2">
 				<label
 					htmlFor="battle-duration"

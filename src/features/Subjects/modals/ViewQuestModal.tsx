@@ -66,7 +66,6 @@ const UpdateQuestSection = ({
 
 	const queryClient = useQueryClient();
 
-	// const deleteQuestMutate = useDeleteQuest();
 	const updateQuestMutate = useUpdateQuest();
 
 	const setActiveModal = useSubjectStore_UI((state) => state.setActiveModal);
@@ -100,18 +99,6 @@ const UpdateQuestSection = ({
 			}
 		);
 	};
-
-	// const handleDeleteConfirmed = async () => {
-	// 	await deleteQuestMutate.mutateAsync({ questId: quest.id });
-
-	// 	if (!deleteQuestMutate.isError) {
-	// 		await queryClient.invalidateQueries({
-	// 			queryKey: SUBJECT_QUESTS_QUERY_KEY,
-	// 		});
-	// 		toast.success('Quest deleted successfully');
-	// 		handleCloseModal();
-	// 	}
-	// };
 
 	const handleArchiveQuest = async () => {
 		updateQuestMutate.mutate(
@@ -283,17 +270,6 @@ const UpdateQuestSection = ({
 						confirmClassName="text-sm"
 						label="Delete"
 					/>
-					{/* <button
-						type="button"
-						onClick={handleArchiveQuest}
-						className="px-4 py-2 bg-gray-600/20 hover:bg-gray-600/30 text-gray-400
-                                   border border-gray-500 rounded-lg font-rpg text-sm
-                                   transition-all duration-200 focus:outline-none flex items-center gap-2
-                                   focus:ring-offset-background active:scale-95 hover:scale-100"
-					>
-						<FaArchive className="w-4 h-4" />
-						<span className="hidden sm:inline">Archive</span>{' '}
-					</button> */}
 					<button
 						type="submit"
 						className="px-4 py-2 bg-accent/20 hover:bg-accent/30 text-accent

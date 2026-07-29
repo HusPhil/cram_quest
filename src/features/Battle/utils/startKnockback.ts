@@ -30,7 +30,6 @@ const startKnockback = ({
 		const progress = Math.min(elapsed / duration, 1);
 		const eased = easeOutQuad(progress);
 
-		// const newPos = fromX - (toX - fromX) * eased;
 		const newPos = fromX + (toX - fromX) * eased;
 		setX(newPos);
 

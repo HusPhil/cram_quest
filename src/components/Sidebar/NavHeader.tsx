@@ -21,7 +21,6 @@ export default function NavHeader({
 		>
 			{/* Desktop Collapse Toggle */}
 			<div className="flex gap-2 items-center justify-center">
-				{/* {!isCollapsed && <TbSwords className="w-6 h-6 text-accent" />} */}
 				<h1
 					className={`
 					font-bold text-xl bg-gradient-to-r from-amber-200 to-amber-400 

@@ -95,7 +95,6 @@ const Modal = ({
 										</svg>
 									</button>
 								</div>
-								{/* <hr className="bg-accent/25 border-none h-[0.5px] mb-3" /> */}
 							</>
 						)}
 
