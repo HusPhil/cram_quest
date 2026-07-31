@@ -33,7 +33,7 @@ function BossBattleInformation({
 		if (
 			!playerLatestBossBattleStatus.data ||
 			playerLatestBossBattleStatus.isError ||
-			playerLatestBossBattleStatus.isLoading
+			playerLatestBossBattleStatus.isFetching
 		)
 			return false;
 
@@ -55,7 +55,7 @@ function BossBattleInformation({
 		}
 	}, [playerLatestBossBattleStatus]);
 
-	if (playerLatestBossBattleStatus.isLoading) {
+	if (playerLatestBossBattleStatus.isFetching) {
 		return <BossStatusLoader />;
 	}
 

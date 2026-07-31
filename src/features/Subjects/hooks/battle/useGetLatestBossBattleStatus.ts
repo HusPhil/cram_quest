@@ -4,7 +4,8 @@ import { getLatestBossBattleStatus } from "../../../../services/api/crud/boss_ba
 export const useGetLatestBossBattleStatus = (playerId?: number) => {
   const latestBossBattleStatus = useQuery({
     queryKey: ["boss_battle_status", "player", playerId, "latest"],
-    refetchOnMount: true,
+    staleTime: 0,
+    refetchOnMount: "always",
     queryFn: () => getLatestBossBattleStatus(playerId!),
     enabled: !!playerId,
   });
