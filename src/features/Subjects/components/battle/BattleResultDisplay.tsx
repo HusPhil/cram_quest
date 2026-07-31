@@ -9,6 +9,7 @@ import { getRandomChoice } from "../../../../utils/getRandomChoice.ts";
 import { BossBattleEndRead } from "../../../../services/api/schema/boss_battle_status_schema.ts";
 import BossBattleResultStats from "./BossBattleResultStats.tsx";
 import ItemRewardDisplay from "../../../../components/ItemRewardDisplay.tsx";
+import BattleCalculatingLoader from "./BattleCalculatingLoader.tsx";
 
 interface SpriteProps {
   characterAsset: string;
@@ -123,11 +124,7 @@ const BattleResultDisplay: React.FC<BattleResultDisplayProps> = ({
           <BattleResultButton result={result} onClick={battleCleanup} />
         </>
       ) : (
-        <>
-          <p className="mt-3 opacity-50 text-white animate-pulse">
-            Calculating results..
-          </p>
-        </>
+        <BattleCalculatingLoader />
       )}
     </div>
   );
