@@ -1,17 +1,13 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useRefreshSession } from '../features/Auth/hooks/useRefreshSession';
-import Loading from '../components/Loading';
 
 const RejectAuth = () => {
-	const { isPending, isError, isLoading, data } = useRefreshSession();
-
-	// While checking → null or loading spinner
-	if (isPending || isLoading) return <Loading />;
+	const { data } = useRefreshSession();
 
 	// If session *is valid* → navigate away
-	if (!isError && data) return <Navigate to="/check-in" replace />;
+	if (data) return <Navigate to="/home/check-in" replace />;
 
-	// If session *is invalid* → allow children to render
+	// Otherwise render the auth page immediately (no loading flash on refetch)
 	return <Outlet />;
 };
 
