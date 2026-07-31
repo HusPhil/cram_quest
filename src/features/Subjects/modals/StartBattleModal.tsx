@@ -109,6 +109,9 @@ export default function StartBattleModal({
 		await queryClient.invalidateQueries({
 			queryKey: ['subjects', subjectId, 'quests'],
 		});
+		await queryClient.invalidateQueries({
+			queryKey: ['study_sessions', 'resume'],
+		});
 		setCurrentStep(0);
 		resetBattleSetup();
 		resetBattleEngine();
