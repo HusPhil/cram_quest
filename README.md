@@ -2,6 +2,8 @@
 
 Turn your study sessions into RPG battles. Create subjects, manage quests, fight through your to-do list, and level up your character — all while getting things done.
 
+Now live at [husphil.github.io/cramquest](https://husphil.github.io/cramquest)
+
 ![CramQuest Thumbnail](public/assets/images/docs/thumbnail.png)
 
 ## Features
@@ -72,8 +74,4 @@ Built-in GitHub Pages deployment:
 npm run deploy
 ```
 
-The live site is available at [husphil.github.io/cramquest](https://husphil.github.io/cramquest).
 
-## License
-
-MIT
