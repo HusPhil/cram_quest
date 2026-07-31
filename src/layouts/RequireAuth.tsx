@@ -2,7 +2,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useRefreshSession } from '../features/Auth/hooks/useRefreshSession';
 
 const RequireAuth = () => {
-	const { isLoading, isError } = useRefreshSession();
+	const { data, isLoading } = useRefreshSession();
 
 	// Still checking session
 	if (isLoading)
@@ -14,8 +14,8 @@ const RequireAuth = () => {
 			</div>
 		); // Or a <Loading /> spinner
 
-	// If refresh failed → not authenticated → redirect to /auth
-	if (isError) return <Navigate to="/auth" replace />;
+	// No session data → not authenticated → redirect to /auth
+	if (!data) return <Navigate to="/auth" replace />;
 
 	// If refresh succeeded → authenticated → render protected routes
 	return <Outlet />;

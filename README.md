@@ -65,6 +65,6 @@ VITE_API_URL=https://your-api-url.com
 VITE_API_KEY_HEADER_NAME=your-header-name
 VITE_API_KEY=your-api-key
 ```
-
+To setup the backend, refer to: [https://github.com/HusPhil/cramquest_api](https://https://github.com/HusPhil/cramquest_api)
 
 
