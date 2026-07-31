@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import BattleArena from "../../../components/battle/BattleArena";
 import { QuestRead } from "../../../../../services/api/schema/quest_schema";
 import { useTaskBattleFlow } from "../../../hooks/battle/useTaskBattleFlow";
@@ -41,16 +41,25 @@ export default function BattlePage({
   );
 
   // Memoize derived values
-	const completedTasksCount = completedTasks.length;
-	const totalTasksCount = generatedTasks.length;
-	const isAllTasksCompleted =
-		totalTasksCount > 0 &&
-		completedTasksCount === totalTasksCount;
+  const completedTasksCount = completedTasks.length;
+  const totalTasksCount = generatedTasks.length;
+  const isAllTasksCompleted =
+    totalTasksCount > 0 && completedTasksCount === totalTasksCount;
   const currentTask = generatedTasks[currentTaskIndex];
 
-  return (
-    <div className="flex items-center flex-col">
-      {!isAllTasksCompleted ? (
+  const showResult = endBattleSessionMutate.isSuccess && battleResult;
+  const showCalculating =
+    endBattleSessionMutate.isPending || endBattleSessionMutate.isIdle;
+
+  useEffect(() => {
+    if (isAllTasksCompleted && !showResult && !showCalculating) {
+      battleCleanup();
+    }
+  }, [isAllTasksCompleted, showResult, showCalculating, battleCleanup]);
+
+  if (!isAllTasksCompleted) {
+    return (
+      <div className="flex items-center flex-col">
         <BattleCombatPanel
           currentQuest={currentQuest}
           currentTask={currentTask}
@@ -61,21 +70,30 @@ export default function BattlePage({
           isCustomSceneActive={isCustomSceneActive}
           handleKillEnemy={handleKillEnemy}
         />
-      ) : endBattleSessionMutate.isSuccess && battleResult ? (
-        <>
-          <BattleResultDisplay
-            sprite={getPlayerAnimation()}
-            result={battleResult}
-            battleCleanup={battleCleanup}
-            battleSessionResult={endBattleSessionMutate.data}
-            endError={endBattleSessionMutate.isError}
-          />
-        </>
-      ) : (
-        endBattleSessionMutate.isPending && (
-          <BattleCalculatingLoader sprite={getPlayerAnimation()} />
-        )
-      )}
-    </div>
-  );
+      </div>
+    );
+  }
+
+  if (showResult) {
+    return (
+      <div className="flex items-center flex-col">
+        <BattleResultDisplay
+          sprite={getPlayerAnimation()}
+          result={battleResult}
+          battleCleanup={battleCleanup}
+          battleSessionResult={endBattleSessionMutate.data}
+        />
+      </div>
+    );
+  }
+
+  if (showCalculating) {
+    return (
+      <div className="flex items-center flex-col">
+        <BattleCalculatingLoader sprite={getPlayerAnimation()} />
+      </div>
+    );
+  }
+
+  return null;
 }
