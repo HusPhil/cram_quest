@@ -146,6 +146,7 @@ export default function BossBattlePage({ battleCleanup }: BossBattlePageProps) {
 					<BattleResultDisplay
 						bossBattle
 						battleSessionResult={endBossBattleMutate.data}
+						endError={endBossBattleMutate.isError}
 						result={battleResult}
 						sprite={getPlayerAnimation()}
 						battleCleanup={handleBossBattleCleanup}

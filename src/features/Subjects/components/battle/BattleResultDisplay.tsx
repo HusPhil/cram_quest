@@ -24,6 +24,7 @@ interface BattleResultDisplayProps {
   battleCleanup: () => void;
   battleSessionResult?: BattleSessionEnd | BossBattleEndRead;
   bossBattle?: boolean;
+  endError?: boolean;
 }
 
 const epicBossMessages = [
@@ -45,6 +46,7 @@ const BattleResultDisplay: React.FC<BattleResultDisplayProps> = ({
   battleCleanup,
   bossBattle,
   battleSessionResult,
+  endError,
 }) => {
   // Pick icon & colors based on result
   const isVictory = result === "victory";
@@ -121,6 +123,13 @@ const BattleResultDisplay: React.FC<BattleResultDisplayProps> = ({
               {getRandomChoice(epicBossMessages, "", true)}
             </p>
           )}
+          <BattleResultButton result={result} onClick={battleCleanup} />
+        </>
+      ) : endError ? (
+        <>
+          <p className="mt-5 p-1 px-5 text-center text-sm rounded-md text-danger animate-pulse bg-danger/10">
+            Couldn't sync battle results. Check your connection, then continue.
+          </p>
           <BattleResultButton result={result} onClick={battleCleanup} />
         </>
       ) : (

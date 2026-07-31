@@ -68,6 +68,7 @@ export default function BattlePage({
 						result={battleResult}
 						battleCleanup={battleCleanup}
 						battleSessionResult={endBattleSessionMutate.data}
+						endError={endBattleSessionMutate.isError}
 					/>
 				</>
 			) : (
