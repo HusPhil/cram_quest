@@ -3,6 +3,7 @@ import PixelButton from '../../../../components/PixelButton';
 import { useUserPlayerStore } from '../../../Auth/stores/userPlayerStore/userPlayerStore';
 import { useGetBossAvailabilityCounter } from '../../hooks/battle/useGetBossAvailabilityCounter';
 import { useGetLatestBossBattleStatus } from '../../hooks/battle/useGetLatestBossBattleStatus';
+import BossStatusLoader from './BossStatusLoader';
 
 // Assuming a max availability for visual representation, let's say 3
 const MAX_BOSS_AVAILABILITY = 3;
@@ -53,6 +54,23 @@ function BossBattleInformation({
 			setBossBattleId(playerLatestBossBattleStatus.data.id);
 		}
 	}, [playerLatestBossBattleStatus]);
+
+	if (playerLatestBossBattleStatus.isLoading) {
+		return <BossStatusLoader />;
+	}
+
+	if (playerLatestBossBattleStatus.isError) {
+		return (
+			<div className="w-full flex flex-col items-center gap-2">
+				<p className="text-danger font-bold uppercase animate-pulse">
+					Boss status unavailable
+				</p>
+				<p className="text-gray-400 text-sm">
+					The boss is silent… try again shortly.
+				</p>
+			</div>
+		);
+	}
 
 	return (
 		<div>
