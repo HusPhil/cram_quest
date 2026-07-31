@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useBattleEngineStore } from '../../../Battle/stores/battleEngineStore';
 import { useBattleSetupStore } from '../../../Battle/stores/battleSetupStore';
 import { useSyncTaskTimings } from '../task/useSyncTaskTimings';
@@ -30,6 +30,12 @@ export const useBattleQuestCompletion = ({
 		(state) => state.setPlayerActionRef
 	);
 
+	const endBattleTriggeredRef = useRef(false);
+
+	useEffect(() => {
+		endBattleTriggeredRef.current = false;
+	}, [battleSessionId]);
+
 	const getPlayerAnimation = useBattleEngineStore(
 		(state) => state.getPlayerAnimation
 	);
@@ -51,7 +57,10 @@ export const useBattleQuestCompletion = ({
 		}
 	}, [battleResult]);
 
-	const handleEndBattleSession = async () => {
+	const handleEndBattleSession = useCallback(async () => {
+		if (endBattleTriggeredRef.current) return;
+		endBattleTriggeredRef.current = true;
+
 		await handleSyncTaskTimings();
 		endBattleSessionMutate.mutate(
 			{ battleSessionId: battleSessionId! },
@@ -77,7 +86,7 @@ export const useBattleQuestCompletion = ({
 				},
 			}
 		);
-	};
+	}, [handleSyncTaskTimings, battleSessionId, endBattleSessionMutate, setBattleResult]);
 
 	return {
 		battleSessionId,

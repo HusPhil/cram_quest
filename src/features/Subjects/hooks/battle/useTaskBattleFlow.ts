@@ -13,7 +13,6 @@ export const useTaskBattleFlow = () => {
 		saveEndTime,
 		clearTimings,
 		getAllTimings,
-		getNumberOfStoredCompletedTasks,
 	} = useTaskTimingsStorage();
 	const generatedTasks = useBattleSetupStore((state) => state.generatedTasks);
 	const battleResult = useBattleSetupStore((state) => state.battleResult);
@@ -22,11 +21,7 @@ export const useTaskBattleFlow = () => {
 	);
 
 	const { completedTasks, currentTaskIndex, handleCompleteTask } =
-		useBattleTaskProgress(
-			generatedTasks,
-			getAllTimings,
-			getNumberOfStoredCompletedTasks
-		);
+		useBattleTaskProgress(generatedTasks, getAllTimings);
 
 	const {
 		getNewEnemyRef,
@@ -64,6 +59,16 @@ export const useTaskBattleFlow = () => {
 			saveStartTime(firstTask);
 		}
 	}, [generatedTasks]);
+
+	const isAllTasksCompleted =
+		generatedTasks.length > 0 &&
+		completedTasks.length === generatedTasks.length;
+
+	useEffect(() => {
+		if (isAllTasksCompleted && !battleResult) {
+			handleEndBattleSession();
+		}
+	}, [isAllTasksCompleted, battleResult, handleEndBattleSession]);
 
 	return {
 		generatedTasks,

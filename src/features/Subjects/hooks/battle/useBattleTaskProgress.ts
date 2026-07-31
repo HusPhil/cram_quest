@@ -4,8 +4,7 @@ import { TaskTimingsStore } from '../task/useTaskTimingsStorage';
 
 export const useBattleTaskProgress = (
 	generatedTasks: TaskRead[],
-	getAllTimings: () => TaskTimingsStore,
-	getNumberOfStoredCompletedTasks: () => number
+	getAllTimings: () => TaskTimingsStore
 ) => {
 	const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
 
@@ -22,11 +21,13 @@ export const useBattleTaskProgress = (
 	);
 
 	useEffect(() => {
-		const savedTasks = Object.values(getAllTimings());
-		const completedTasks = savedTasks.filter((task) => task.end_time);
-		setCompletedTasks(completedTasks as TaskRead[]);
+		const timings = getAllTimings();
+		const completedTasks = generatedTasks.filter(
+			(task) => timings[task.id]?.end_time
+		);
+		setCompletedTasks(completedTasks);
 		setCurrentTaskIndex(completedTasks.length);
-	}, [getNumberOfStoredCompletedTasks]);
+	}, [generatedTasks, getAllTimings]);
 
 	return { completedTasks, currentTaskIndex, handleCompleteTask };
 };

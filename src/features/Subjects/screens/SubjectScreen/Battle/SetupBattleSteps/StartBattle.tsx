@@ -5,6 +5,7 @@ import debounce from 'just-debounce-it';
 import { useAuthInformationStore } from '../../../../../Auth/stores/authInformationStore';
 import { BattleSessionRead } from '../../../../../../services/api/schema/battle_session_schema';
 import { toast } from '../../../../../../lib/toastify/charLimitedToast';
+import { useTaskTimingsStorage } from '../../../../hooks/task/useTaskTimingsStorage';
 
 const MAX_BATTLE_DURATION_MINS = 60 * 2;
 const MIN_BATTLE_DURATION_MINS = 3;
@@ -43,6 +44,8 @@ export default function StartBattle({
 	const setIsBattleActive = useBattleSetupStore(
 		(state) => state.setIsBattleActive
 	);
+
+	const clearTimings = useTaskTimingsStorage().clearTimings;
 
 	const handleStartBattle = () => {
 		if (getCleanedQuestSteps().length > 0) {
@@ -101,8 +104,10 @@ export default function StartBattle({
 					},
 				},
 				{
-					onSuccess: (newBattleSession: BattleSessionRead) => {
-						const nowDateTime = new Date();
+				onSuccess: (newBattleSession: BattleSessionRead) => {
+					const nowDateTime = new Date();
+
+					clearTimings();
 
 						const ellapsedTime =
 							battleStartRequestTime.getTime() -
