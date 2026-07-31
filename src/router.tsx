@@ -1,9 +1,16 @@
-import { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { lazy, Suspense, useEffect } from 'react';
+import {
+	BrowserRouter,
+	Routes,
+	Route,
+	Navigate,
+	useNavigate,
+} from 'react-router-dom';
 import Loading from './components/Loading';
 import MainLayout from './layouts/MainLayout';
 import SignOut from './pages/SignOut';
 import HomeSkeleton from './components/Skeletons/HomeSkeleton';
+import { setGlobalNavigate } from './lib/navigate';
 
 //Route Protector
 const RejectAuth = lazy(() => import('./layouts/RejectAuth'));
@@ -19,9 +26,20 @@ const Home = lazy(() => import('./pages/Home'));
 const CheckIn = lazy(() => import('./features/CheckIn/CheckIn'));
 const Subjects = lazy(() => import('./features/Subjects/Subjects'));
 
+const NavigationSetter = () => {
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		setGlobalNavigate(navigate);
+	}, [navigate]);
+
+	return null;
+};
+
 const AppRouter = () => {
 	return (
 		<BrowserRouter>
+			<NavigationSetter />
 			<Suspense fallback={<Loading />}>
 				<Routes>
 					{/* Public auth route without layout */}
