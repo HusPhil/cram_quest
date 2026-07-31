@@ -5,5 +5,5 @@ export const getBaseQuestEndRoute = () => {
 };
 
 export const getBaseQuestWithIdEndRoute = (questId: number) => {
-	return `${baseQuesttRoute}/${questId}/`;
+	return `${baseQuesttRoute}/${questId}`;
 };

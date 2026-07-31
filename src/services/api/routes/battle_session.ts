@@ -1,4 +1,5 @@
 export const baseBattleSessionEndRoute = '/study_sessions';
+export const createBattleSessionEndRoute = `${baseBattleSessionEndRoute}/`;
 export const getEndBattleSessionEndRoute = (battleSessionId: number) =>
 	`${baseBattleSessionEndRoute}/${battleSessionId}/end`;
 

@@ -4,6 +4,7 @@ import { QuestRead } from '../../../../../services/api/schema/quest_schema';
 import { useTaskBattleFlow } from '../../../hooks/battle/useTaskBattleFlow';
 import BattleResultDisplay from '../../../components/battle/BattleResultDisplay';
 import BattleCombatPanel from '../../../components/battle/BattleCombatPanel';
+import BattleCleanupLoader from '../../../components/battle/BattleCleanupLoader';
 
 interface BattlePageProps {
 	battleCleanup: () => void;
@@ -60,17 +61,17 @@ export default function BattlePage({
 					isCustomSceneActive={isCustomSceneActive}
 					handleKillEnemy={handleKillEnemy}
 				/>
+			) : battleResult ? (
+				<>
+					<BattleResultDisplay
+						sprite={getPlayerAnimation()}
+						result={battleResult}
+						battleCleanup={battleCleanup}
+						battleSessionResult={endBattleSessionMutate.data}
+					/>
+				</>
 			) : (
-				battleResult && (
-					<>
-						<BattleResultDisplay
-							sprite={getPlayerAnimation()}
-							result={battleResult}
-							battleCleanup={battleCleanup}
-							battleSessionResult={endBattleSessionMutate.data}
-						/>
-					</>
-				)
+				<BattleCleanupLoader />
 			)}
 		</div>
 	);

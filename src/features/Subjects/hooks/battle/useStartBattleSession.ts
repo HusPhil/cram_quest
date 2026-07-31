@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { axiosInstance } from '../../../../lib/axios/axiosInstance';
-import { baseBattleSessionEndRoute } from '../../../../services/api/routes/battle_session';
+import { createBattleSessionEndRoute } from '../../../../services/api/routes/battle_session';
 import { BattleSessionCreate } from '../../../../services/api/schema/battle_session_schema';
 
 export const useStartBattleSession = () => {
@@ -15,7 +15,7 @@ const startBattleSession = async ({
 	startBattleSession: BattleSessionCreate;
 }) => {
 	const response = await axiosInstance.post(
-		baseBattleSessionEndRoute,
+		createBattleSessionEndRoute,
 		startBattleSession,
 		{ withCredentials: true }
 	);
