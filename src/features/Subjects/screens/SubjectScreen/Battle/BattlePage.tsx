@@ -4,7 +4,7 @@ import { QuestRead } from '../../../../../services/api/schema/quest_schema';
 import { useTaskBattleFlow } from '../../../hooks/battle/useTaskBattleFlow';
 import BattleResultDisplay from '../../../components/battle/BattleResultDisplay';
 import BattleCombatPanel from '../../../components/battle/BattleCombatPanel';
-import BattleCleanupLoader from '../../../components/battle/BattleCleanupLoader';
+import BattleCalculatingLoader from '../../../components/battle/BattleCalculatingLoader';
 
 interface BattlePageProps {
 	battleCleanup: () => void;
@@ -71,7 +71,7 @@ export default function BattlePage({
 					/>
 				</>
 			) : (
-				<BattleCleanupLoader />
+				<BattleCalculatingLoader sprite={getPlayerAnimation()} />
 			)}
 		</div>
 	);
