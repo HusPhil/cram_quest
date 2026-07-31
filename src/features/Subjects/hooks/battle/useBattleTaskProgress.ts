@@ -1,10 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
 import { TaskRead } from '../../../../services/api/schema/task_schema';
-import { TaskTimingsStore } from '../task/useTaskTimingsStorage';
+import {
+	TaskTimingsOutbox,
+	TaskTimingsStore,
+} from '../task/useTaskTimingsStorage';
 
 export const useBattleTaskProgress = (
 	generatedTasks: TaskRead[],
-	getAllTimings: () => TaskTimingsStore
+	getAllTimings: () => TaskTimingsStore,
+	getOutbox: () => TaskTimingsOutbox
 ) => {
 	const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
 
@@ -22,12 +26,16 @@ export const useBattleTaskProgress = (
 
 	useEffect(() => {
 		const timings = getAllTimings();
-		const completedTasks = generatedTasks.filter(
-			(task) => timings[task.id]?.end_time
-		);
+		const outbox = getOutbox();
+		const completedTasks = generatedTasks.filter((task) => {
+			const serverEnded = !!task.end_time;
+			const localEnded = !!timings[task.id]?.end_time;
+			const queuedEnded = !!outbox[task.id]?.end_time;
+			return serverEnded || localEnded || queuedEnded;
+		});
 		setCompletedTasks(completedTasks);
 		setCurrentTaskIndex(completedTasks.length);
-	}, [generatedTasks, getAllTimings]);
+	}, [generatedTasks, getAllTimings, getOutbox]);
 
 	return { completedTasks, currentTaskIndex, handleCompleteTask };
 };

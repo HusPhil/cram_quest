@@ -1,11 +1,12 @@
 import { useTaskTimingsStorage } from '../task/useTaskTimingsStorage';
+import { useTaskTimingSync } from '../task/useTaskTimingSync';
 import { useBattleSetupStore } from '../../../Battle/stores/battleSetupStore';
 import { useBattleEngineStore } from '../../../Battle/stores/battleEngineStore';
 import { useBattleTaskProgress } from './useBattleTaskProgress';
 import { useBattleEngineControllers } from './useBattleEngineControllers';
 import { useBattleKillEnemyHandler } from './useBattleKillEnemyHandler';
 import { useBattleQuestCompletion } from './useBattleQuestCompletion';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 export const useTaskBattleFlow = () => {
 	const {
@@ -13,7 +14,9 @@ export const useTaskBattleFlow = () => {
 		saveEndTime,
 		clearTimings,
 		getAllTimings,
+		getOutbox,
 	} = useTaskTimingsStorage();
+	const { syncPendingTask } = useTaskTimingSync();
 	const generatedTasks = useBattleSetupStore((state) => state.generatedTasks);
 	const battleResult = useBattleSetupStore((state) => state.battleResult);
 	const isCustomSceneActive = useBattleEngineStore(
@@ -21,7 +24,23 @@ export const useTaskBattleFlow = () => {
 	);
 
 	const { completedTasks, currentTaskIndex, handleCompleteTask } =
-		useBattleTaskProgress(generatedTasks, getAllTimings);
+		useBattleTaskProgress(generatedTasks, getAllTimings, getOutbox);
+
+	const handleSaveStartTime = useCallback(
+		(task: Parameters<typeof saveStartTime>[0]) => {
+			saveStartTime(task);
+			syncPendingTask(task.id);
+		},
+		[saveStartTime, syncPendingTask]
+	);
+
+	const handleSaveEndTime = useCallback(
+		(task: Parameters<typeof saveEndTime>[0]) => {
+			saveEndTime(task);
+			syncPendingTask(task.id);
+		},
+		[saveEndTime, syncPendingTask]
+	);
 
 	const {
 		getNewEnemyRef,
@@ -45,8 +64,8 @@ export const useTaskBattleFlow = () => {
 		handleEndBattleSession,
 		generatedTasks,
 		currentTaskIndex,
-		saveEndTime,
-		saveStartTime,
+		saveEndTime: handleSaveEndTime,
+		saveStartTime: handleSaveStartTime,
 		queueCustomSceneRef,
 		getNewEnemyRef,
 		handleCompleteTask,
@@ -54,11 +73,15 @@ export const useTaskBattleFlow = () => {
 
 	useEffect(() => {
 		const savedTasks = Object.values(getAllTimings());
-		if (generatedTasks.length > 0 && savedTasks.length === 0) {
-			const firstTask = generatedTasks[0];
-			saveStartTime(firstTask);
+		const firstTask = generatedTasks[0];
+		if (
+			generatedTasks.length > 0 &&
+			savedTasks.length === 0 &&
+			!firstTask.start_time
+		) {
+			handleSaveStartTime(firstTask);
 		}
-	}, [generatedTasks]);
+	}, [generatedTasks, getAllTimings, handleSaveStartTime]);
 
 	const isAllTasksCompleted =
 		generatedTasks.length > 0 &&

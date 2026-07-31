@@ -9,7 +9,15 @@ interface TaskTiming {
 
 export type TaskTimingsStore = Record<number, TaskTiming>;
 
+interface TaskTimingOutboxEntry {
+	start_time?: string; // ISO string
+	end_time?: string; // ISO string
+}
+
+export type TaskTimingsOutbox = Record<number, TaskTimingOutboxEntry>;
+
 const STORAGE_KEY = 'task_timings';
+const OUTBOX_KEY = 'task_timings_outbox';
 
 export const useTaskTimingsStorage = () => {
 	const getStoredTimings = useCallback((): TaskTimingsStore => {
@@ -17,13 +25,32 @@ export const useTaskTimingsStorage = () => {
 		return raw ? JSON.parse(raw) : {};
 	}, []);
 
-	const getNumberOfStoredCompletedTasks = useCallback((): number => {
-		const allTasks = Object.values(getStoredTimings());
-
-		const completedTasks = allTasks.filter((task) => task.end_time);
-
-		return completedTasks.length;
+	const getOutbox = useCallback((): TaskTimingsOutbox => {
+		const raw = localStorage.getItem(OUTBOX_KEY);
+		return raw ? JSON.parse(raw) : {};
 	}, []);
+
+	const addToOutbox = useCallback(
+		(taskId: number, patch: TaskTimingOutboxEntry) => {
+			const current = getOutbox();
+			current[taskId] = {
+				...current[taskId],
+				...patch,
+			};
+			localStorage.setItem(OUTBOX_KEY, JSON.stringify(current));
+		},
+		[getOutbox]
+	);
+
+	const removeFromOutbox = useCallback(
+		(taskId: number) => {
+			const current = getOutbox();
+			if (!current[taskId]) return;
+			delete current[taskId];
+			localStorage.setItem(OUTBOX_KEY, JSON.stringify(current));
+		},
+		[getOutbox]
+	);
 
 	const saveStartTime = useCallback(
 		(task: TaskRead) => {
@@ -35,8 +62,9 @@ export const useTaskTimingsStorage = () => {
 				description: task.description,
 			};
 			localStorage.setItem(STORAGE_KEY, JSON.stringify(current));
+			addToOutbox(taskId, { start_time: current[taskId].start_time! });
 		},
-		[getStoredTimings]
+		[getStoredTimings, addToOutbox]
 	);
 
 	const saveEndTime = useCallback(
@@ -54,8 +82,9 @@ export const useTaskTimingsStorage = () => {
 				};
 				localStorage.setItem(STORAGE_KEY, JSON.stringify(current));
 			}
+			addToOutbox(taskId, { end_time: current[taskId].end_time! });
 		},
-		[getStoredTimings]
+		[getStoredTimings, addToOutbox]
 	);
 
 	const getAllTimings = useCallback((): TaskTimingsStore => {
@@ -64,13 +93,15 @@ export const useTaskTimingsStorage = () => {
 
 	const clearTimings = useCallback(() => {
 		localStorage.removeItem(STORAGE_KEY);
+		localStorage.removeItem(OUTBOX_KEY);
 	}, []);
 
 	return {
 		saveStartTime,
 		saveEndTime,
 		getAllTimings,
-		getNumberOfStoredCompletedTasks,
+		getOutbox,
+		removeFromOutbox,
 		clearTimings,
 	};
 };
