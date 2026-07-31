@@ -1,11 +1,9 @@
-import { BASE_URL } from '../api';
-
-const baseQuesttRoute = 'quests';
+const baseQuesttRoute = '/quests';
 
 export const getBaseQuestEndRoute = () => {
-	return `${BASE_URL}/${baseQuesttRoute}/`;
+	return `${baseQuesttRoute}/`;
 };
 
 export const getBaseQuestWithIdEndRoute = (questId: number) => {
-	return `${BASE_URL}/${baseQuesttRoute}/${questId}/`;
+	return `${baseQuesttRoute}/${questId}/`;
 };

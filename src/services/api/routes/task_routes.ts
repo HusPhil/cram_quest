@@ -1,13 +1,11 @@
-import { BASE_URL } from '../api';
-
-const baseTaskRoute = 'tasks';
+const baseTaskRoute = '/tasks';
 
 export const getStartTaskEndRoute = (taskId: number) => {
-	return `${BASE_URL}/${baseTaskRoute}/${taskId}/start`;
+	return `${baseTaskRoute}/${taskId}/start`;
 };
 
 export const getEndTaskEndRoute = (taskId: number) => {
-	return `${BASE_URL}/${baseTaskRoute}/${taskId}/end`;
+	return `${baseTaskRoute}/${taskId}/end`;
 };
 
-export const syncTaskTimingsEndRoute = `${BASE_URL}/${baseTaskRoute}/sync_task_timings`;
+export const syncTaskTimingsEndRoute = `${baseTaskRoute}/sync_task_timings`;

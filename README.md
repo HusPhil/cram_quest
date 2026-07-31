@@ -66,12 +66,5 @@ VITE_API_KEY_HEADER_NAME=your-header-name
 VITE_API_KEY=your-api-key
 ```
 
-## Deployment
-
-Built-in GitHub Pages deployment:
-
-```bash
-npm run deploy
-```
 
 

@@ -1,15 +1,13 @@
-import { BASE_URL } from '../api';
-
-const basePlayerRoute = 'players';
+const basePlayerRoute = '/players';
 
 export const getPlayerSubjectsEndRoute = (playerId: number) => {
-	return `${BASE_URL}/${basePlayerRoute}/${playerId}/subjects`;
+	return `${basePlayerRoute}/${playerId}/subjects`;
 };
 
 export const getPlayerProfileEndRoute = (playerId: number) => {
-	return `${BASE_URL}/${basePlayerRoute}/${playerId}/profile`;
+	return `${basePlayerRoute}/${playerId}/profile`;
 };
 
 export const getPlayerBossAvailabilityCounterEndRoute = (playerId: number) => {
-	return `${BASE_URL}/${basePlayerRoute}/${playerId}/boss_availability_counter`;
+	return `${basePlayerRoute}/${playerId}/boss_availability_counter`;
 };

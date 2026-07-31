@@ -1,26 +1,24 @@
-import { BASE_URL } from '../api';
-
-const baseSubjectRoute = 'subjects';
+const baseSubjectRoute = '/subjects';
 
 export const getBaseSubjectWithIdEndRoute = (subject_id: number) => {
-	return `${BASE_URL}/${baseSubjectRoute}/${subject_id}`;
+	return `${baseSubjectRoute}/${subject_id}`;
 };
 
 export const getSubjectQuestsEndRoute = (subject_id: number) => {
-	return `${BASE_URL}/${baseSubjectRoute}/${subject_id}/quests`;
+	return `${baseSubjectRoute}/${subject_id}/quests`;
 };
 
 export const getCreateSubjectEndRoute = (playerId: number) => {
-	return `${BASE_URL}/${baseSubjectRoute}/?player_id=${playerId}`;
+	return `${baseSubjectRoute}/?player_id=${playerId}`;
 };
 
 export const getMaterialEndRoute = (subject_id: number) => {
-	return `${BASE_URL}/${baseSubjectRoute}/${subject_id}/materials`;
+	return `${baseSubjectRoute}/${subject_id}/materials`;
 };
 
 export const getBaseMaterialEndRoute = (
 	subject_id: number,
 	materialId: number
 ) => {
-	return `${BASE_URL}/${baseSubjectRoute}/${subject_id}/materials/${materialId}`;
+	return `${baseSubjectRoute}/${subject_id}/materials/${materialId}`;
 };
