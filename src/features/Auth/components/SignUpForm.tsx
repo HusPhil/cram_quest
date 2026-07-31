@@ -18,7 +18,6 @@ export default function SignUpForm() {
 	const setActiveTab = useAuthStore_UI((state) => state.setActiveTab);
 
 	const usernameRef = useRef<HTMLInputElement>(null);
-	const emailRef = useRef<HTMLInputElement>(null);
 	const passwordRef = useRef<HTMLInputElement>(null);
 	const confirmPasswordRef = useRef<HTMLInputElement>(null);
 	const avatarUrlRef = useRef<HTMLInputElement>(null);
@@ -27,7 +26,6 @@ export default function SignUpForm() {
 		e.preventDefault();
 
 		const username = usernameRef.current?.value || '';
-		const email = emailRef.current?.value || '';
 		const password = passwordRef.current?.value || '';
 		const confirmPassword = confirmPasswordRef.current?.value || '';
 		const avatarUrl = avatarUrlRef.current?.value || '';
@@ -42,7 +40,7 @@ export default function SignUpForm() {
 			return;
 		}
 
-		if (!hasRequiredFields([username, email, password, avatarUrl])) {
+		if (!hasRequiredFields([username, password, avatarUrl])) {
 			showError('Please fill in all required fields.', 'invalid-inputs');
 			return;
 		}
@@ -50,7 +48,7 @@ export default function SignUpForm() {
 		signUpMutate.mutate(
 			{
 				username: username.trim(),
-				email: email.trim(),
+				email: 'user@example.com',
 				password: password,
 				avatar_url: avatarUrl.trim(),
 			},
