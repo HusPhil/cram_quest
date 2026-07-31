@@ -272,13 +272,15 @@ const UpdateQuestSection = ({
 					/>
 					<button
 						type="submit"
+						disabled={updateQuestMutate.isPending}
 						className="px-4 py-2 bg-accent/20 hover:bg-accent/30 text-accent
                                    border border-accent rounded-lg font-rpg text-sm 
                                    transition-all duration-200 focus:outline-none flex items-center gap-2
-                                   focus:ring-offset-background active:scale-95 hover:scale-100"
+                                   focus:ring-offset-background active:scale-95 hover:scale-100
+                                   disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100"
 					>
 						<FaSave className="w-4 h-4" />
-						<p>Save</p>
+						<p>{updateQuestMutate.isPending ? 'Saving…' : 'Save'}</p>
 					</button>
 				</div>
 

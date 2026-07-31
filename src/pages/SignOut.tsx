@@ -19,7 +19,10 @@ export default function SignOut() {
 
 	return (
 		<div className="flex h-full w-full  justify-center items-center">
-			<SignOutModal handleSignOut={handleSignOut} />
+			<SignOutModal
+				handleSignOut={handleSignOut}
+				isSigningOut={signOutMutate.isPending}
+			/>
 		</div>
 	);
 }

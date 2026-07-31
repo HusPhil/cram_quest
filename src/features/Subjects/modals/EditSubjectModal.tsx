@@ -107,14 +107,16 @@ const UpdateSubjectSection = ({
 		}
 	}, []);
 
-	return (
-		<form
-			ref={formRef}
-			onSubmit={handleSubmit}
-			className={`space-y-4 ${
-				isDeleting ? 'pointer-events-none opacity-50' : ''
-			}`}
-		>
+		return (
+			<form
+				ref={formRef}
+				onSubmit={handleSubmit}
+				className={`space-y-4 ${
+					isDeleting || updateSubjectMutate.isPending
+						? 'pointer-events-none opacity-50'
+						: ''
+				}`}
+			>
 			<div className="space-y-2">
 				<label
 					htmlFor="subjectName"
@@ -182,14 +184,15 @@ const UpdateSubjectSection = ({
 				/>
 				<button
 					type="submit"
-					onClick={handleSubmit}
+					disabled={updateSubjectMutate.isPending}
 					className="px-4 py-2 bg-accent/20 hover:bg-accent/30 text-accent
 												   border border-accent rounded-lg font-rpg text-sm items-center
 												   transition-all duration-200 focus:outline-none flex gap-2
-												   focus:ring-offset-background active:scale-95 hover:scale-100"
+												   focus:ring-offset-background active:scale-95 hover:scale-100
+												   disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100"
 				>
 					<FaSave className="w-4 h-4" />
-					Save
+					{updateSubjectMutate.isPending ? 'Saving…' : 'Save'}
 				</button>
 			</div>
 		</form>

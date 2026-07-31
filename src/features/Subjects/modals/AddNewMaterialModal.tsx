@@ -181,13 +181,17 @@ export default function AddNewMaterialModal({
 				<div className="flex justify-end pt-4">
 					<button
 						type="submit"
+						disabled={createMaterialMutate.isPending}
 						className="px-4 py-2 bg-accent/20 hover:bg-accent/30 text-accent 
                         border border-accent rounded-lg font-rpg text-sm
                         transition-all duration-200 focus:outline-none
                          focus:ring-offset-background
-                        active:scale-95 hover:scale-100"
+                        active:scale-95 hover:scale-100
+                        disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100"
 					>
-						Add New Material
+						{createMaterialMutate.isPending
+							? 'Adding…'
+							: 'Add New Material'}
 					</button>
 				</div>
 			</form>

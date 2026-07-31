@@ -9,10 +9,12 @@ const MAX_BOSS_AVAILABILITY = 3;
 
 function BossBattleInformation({
 	isBattleStartDisabled,
+	isBattleStartLoading,
 	setBossBattleId,
 	handleStartBossBattle,
 }: {
 	isBattleStartDisabled: boolean;
+	isBattleStartLoading: boolean;
 	handleStartBossBattle: () => void;
 	setBossBattleId: (id: number) => void;
 }) {
@@ -109,7 +111,11 @@ function BossBattleInformation({
 						}}
 						onClick={handleStartBossBattle}
 					>
-						<p className="uppercase">Ready to Conquer</p>
+						<p className="uppercase">
+							{isBattleStartLoading
+								? 'Starting…'
+								: 'Ready to Conquer'}
+						</p>
 					</PixelButton>
 				</>
 			)}

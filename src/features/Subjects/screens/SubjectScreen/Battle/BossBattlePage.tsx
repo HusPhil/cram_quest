@@ -124,6 +124,11 @@ export default function BossBattlePage({ battleCleanup }: BossBattlePageProps) {
 							});
 						}
 					},
+					onError: () => {
+						toast.error('Ending boss battle failed', {
+							toastId: 'boss-battle-end-error',
+						});
+					},
 				}
 			);
 		}
@@ -189,6 +194,7 @@ export default function BossBattlePage({ battleCleanup }: BossBattlePageProps) {
 						!bossBattleId ||
 						startBossBattleMutate.isPending
 					}
+					isBattleStartLoading={startBossBattleMutate.isPending}
 					handleStartBossBattle={handleStartBossBattle}
 				/>
 			)}

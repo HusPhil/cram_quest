@@ -11,6 +11,7 @@ import { toast } from '../../lib/toastify/charLimitedToast';
 interface SkinsGridItemProps {
 	skin: PlayerInventoryItemRead;
 	currentSkin: string | null;
+	isPending: boolean;
 	handleEquip?: (skinUrl: string) => void;
 	handleUnequipSkin?: () => void;
 }
@@ -20,6 +21,7 @@ const SkinsGridItem = ({
 	handleEquip,
 	handleUnequipSkin,
 	currentSkin,
+	isPending,
 }: SkinsGridItemProps) => {
 	const config = rarityConfig[skin.item.rarity];
 
@@ -48,6 +50,7 @@ const SkinsGridItem = ({
 					{skin.item.name.replace(/_/g, ' ')}
 				</p>
 				<button
+					disabled={isPending}
 					onClick={() => {
 						if (isEquipped) {
 							handleUnequipSkin?.();
@@ -56,9 +59,18 @@ const SkinsGridItem = ({
 						}
 					}}
 					className={`w-full bg-accent text-secondary text-sm py-1 rounded font-rpg
-                                 hover:opacity-75 transition-colors duration-200 disabled:cursor-not-allowed`}
+                                 hover:opacity-75 transition-colors duration-200
+                                 disabled:cursor-not-allowed disabled:opacity-50 disabled:animate-pulse`}
 				>
-					<p>{isEquipped ? 'Unequip' : 'Equip'}</p>
+					<p>
+						{isPending
+							? isEquipped
+								? 'Unequipping…'
+								: 'Equipping…'
+							: isEquipped
+								? 'Unequip'
+								: 'Equip'}
+					</p>
 				</button>
 			</div>
 		</div>
@@ -123,6 +135,9 @@ function SkinsGrid() {
 		);
 	};
 
+	const isSkinMutationPending =
+		equipSkinMutate.isPending || unequipSkinMutate.isPending;
+
 	return (
 		<div className="flex flex-1 flex-col">
 			{player_skins.isLoading ? (
@@ -143,6 +158,9 @@ function SkinsGrid() {
 												skin={skin}
 												currentSkin={
 													currentPlayerSkinUrl
+												}
+												isPending={
+													isSkinMutationPending
 												}
 												handleUnequipSkin={
 													handleUnequipSkin

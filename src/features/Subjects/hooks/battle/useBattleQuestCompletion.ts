@@ -69,6 +69,12 @@ export const useBattleQuestCompletion = ({
 						setBattleResult('defeat');
 					}
 				},
+				onError: () => {
+					toast.error('Ending battle session failed', {
+						toastId: 'end-battle-session-error',
+					});
+					setBattleResult('defeat');
+				},
 			}
 		);
 	};

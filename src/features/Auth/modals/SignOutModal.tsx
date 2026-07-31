@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom';
 
 export default function SignOutModal({
 	handleSignOut,
+	isSigningOut,
 }: {
 	handleSignOut: () => void;
+	isSigningOut: boolean;
 }) {
 	const navigate = useNavigate();
 	return (
@@ -21,25 +23,27 @@ export default function SignOutModal({
 			<div className="flex justify-end w-full pt-4 gap-x-2">
 				<button
 					type="button"
+					disabled={isSigningOut}
 					onClick={() => navigate(-1)}
 					className="px-4 py-2 bg-background/20 hover:bg-background/30  
                                          border border-white/50 rounded-lg text-white text-sm
                                          transition-all duration-200 focus:outline-none
                                          focus:ring-offset-background
-                                         active:scale-95 "
+                                         active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
 				>
 					Cancel
 				</button>
 				<button
 					type="button"
+					disabled={isSigningOut}
 					onClick={handleSignOut}
 					className="px-4 py-2 bg-danger/20 hover:bg-danger/30 text-danger 
                                          border border-danger rounded-lg font-rpg text-sm
                                          transition-all duration-200 focus:outline-none
                                          focus:ring-offset-background
-                                         active:scale-95 "
+                                         active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
 				>
-					Sign out
+					{isSigningOut ? 'Signing out…' : 'Sign out'}
 				</button>
 			</div>
 		</Modal>

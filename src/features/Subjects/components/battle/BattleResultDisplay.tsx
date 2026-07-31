@@ -134,7 +134,7 @@ const BattleResultDisplay: React.FC<BattleResultDisplayProps> = ({
 				</>
 			) : (
 				<>
-					<p className="mt-3 opacity-50 text-white">
+					<p className="mt-3 opacity-50 text-white animate-pulse">
 						Calculating results..
 					</p>
 				</>
