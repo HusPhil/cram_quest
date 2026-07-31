@@ -57,6 +57,20 @@ body {
 }
 
 
+/* Top navigation progress bar (YouTube-style) */
+@keyframes topbar-progress {
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(300%);
+	}
+}
+
+.animate-topbar-progress {
+	animation: topbar-progress 1s linear infinite;
+}
+
 /* for scrolling animations */
 @keyframes appear {
   from {

@@ -1,30 +1,41 @@
-import { lazy, Suspense, useEffect } from 'react';
+import { ComponentType, useEffect } from 'react';
 import {
-	BrowserRouter,
-	Routes,
-	Route,
+	createBrowserRouter,
+	createRoutesFromElements,
 	Navigate,
+	Outlet,
+	Route,
+	RouterProvider,
 	useNavigate,
 } from 'react-router-dom';
 import Loading from './components/Loading';
+import TopProgressBar from './components/TopProgressBar';
 import MainLayout from './layouts/MainLayout';
 import SignOut from './pages/SignOut';
-import HomeSkeleton from './components/Skeletons/HomeSkeleton';
 import { setGlobalNavigate } from './lib/navigate';
+import {
+	checkInLoader,
+	rejectAuthLoader,
+	requireAuthLoader,
+	skinsLoader,
+	subjectsLoader,
+} from './loaders';
 
-//Route Protector
-const RejectAuth = lazy(() => import('./layouts/RejectAuth'));
-const RequireAuth = lazy(() => import('./layouts/RequireAuth'));
+const lazyRoute =
+	(importer: () => Promise<{ default: ComponentType }>) =>
+	async () => {
+		const mod = await importer();
+		return { Component: mod.default };
+	};
 
-// Pages
-const Authentication = lazy(() => import('./pages/Authentication'));
-const Skins = lazy(() => import('./pages/Skins'));
-const About = lazy(() => import('./pages/About'));
-const Home = lazy(() => import('./pages/Home'));
-
-// Tabs (children of Home)
-const CheckIn = lazy(() => import('./features/CheckIn/CheckIn'));
-const Subjects = lazy(() => import('./features/Subjects/Subjects'));
+const RejectAuth = lazyRoute(() => import('./layouts/RejectAuth'));
+const RequireAuth = lazyRoute(() => import('./layouts/RequireAuth'));
+const Authentication = lazyRoute(() => import('./pages/Authentication'));
+const Skins = lazyRoute(() => import('./pages/Skins'));
+const About = lazyRoute(() => import('./pages/About'));
+const Home = lazyRoute(() => import('./pages/Home'));
+const CheckIn = lazyRoute(() => import('./features/CheckIn/CheckIn'));
+const Subjects = lazyRoute(() => import('./features/Subjects/Subjects'));
 
 const NavigationSetter = () => {
 	const navigate = useNavigate();
@@ -36,57 +47,49 @@ const NavigationSetter = () => {
 	return null;
 };
 
-const AppRouter = () => {
-	return (
-		<BrowserRouter>
-			<NavigationSetter />
-			<Suspense fallback={<Loading />}>
-				<Routes>
-					{/* Public auth route without layout */}
-					<Route element={<RejectAuth />}>
-						<Route path="/auth" element={<Authentication />} />
+const RootLayout = () => (
+	<>
+		<TopProgressBar />
+		<NavigationSetter />
+		<Outlet />
+	</>
+);
+
+const router = createBrowserRouter(
+	createRoutesFromElements(
+		<Route element={<RootLayout />} hydrateFallbackElement={<Loading />}>
+			{/* Public auth route */}
+			<Route path="/auth" loader={rejectAuthLoader} lazy={RejectAuth}>
+				<Route index lazy={Authentication} />
+			</Route>
+
+			{/* All routes under MainLayout */}
+			<Route element={<MainLayout />}>
+				{/* Redirect root to home */}
+				<Route path="/" element={<Navigate to="/home" replace />} />
+
+				{/* Protected routes */}
+				<Route loader={requireAuthLoader} lazy={RequireAuth}>
+					<Route path="/home" lazy={Home}>
+						<Route index element={<Navigate to="check-in" replace />} />
+						<Route path="check-in" loader={checkInLoader} lazy={CheckIn} />
+						<Route path="subjects" loader={subjectsLoader} lazy={Subjects} />
+						<Route path="skins" loader={skinsLoader} lazy={Skins} />
+						<Route path="about" lazy={About} />
+						<Route path="signOut" element={<SignOut />} />
 					</Route>
+				</Route>
 
-					{/* All routes under MainLayout */}
-					<Route element={<MainLayout />}>
-						{/* Redirect root to home */}
-						<Route
-							path="/"
-							element={<Navigate to="/home" replace />}
-						/>
+				{/* Catch-all redirect */}
+				<Route
+					path="*"
+					element={<Navigate to="/home/check-in" replace />}
+				/>
+			</Route>
+		</Route>
+	)
+);
 
-						{/* Home with nested tabs */}
-						<Route element={<RequireAuth />}>
-							<Route
-								path="/home"
-								element={
-									<Suspense fallback={<HomeSkeleton />}>
-										<Home />
-									</Suspense>
-								}
-							>
-								<Route
-									index
-									element={<Navigate to="check-in" replace />}
-								/>
-								<Route path="check-in" element={<CheckIn />} />
-								<Route path="subjects" element={<Subjects />} />
-								<Route path="skins" element={<Skins />} />
-								<Route path="about" element={<About />} />
-								<Route path="signOut" element={<SignOut />} />
-							</Route>
-						</Route>
-
-						{/* Catch-all redirect */}
-						<Route
-							path="*"
-							element={<Navigate to="/home/check-in" replace />}
-						/>
-					</Route>
-				</Routes>
-			</Suspense>
-		</BrowserRouter>
-	);
-};
+const AppRouter = () => <RouterProvider router={router} />;
 
 export default AppRouter;
